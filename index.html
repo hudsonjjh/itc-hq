@@ -180,40 +180,81 @@ details.pbsec>summary .chips{display:flex;gap:5px;flex-wrap:wrap}
 .searchwrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--steel);fill:none;stroke-width:2;stroke-linecap:round}
 .nohits{display:none;color:var(--steel);font-size:12.5px;padding:14px 4px}
 
-/* home: today strip */
-.todaystrip{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
-.todaystrip::-webkit-scrollbar{display:none}
-.stage{flex:none;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px;
-  display:flex;flex-direction:column;gap:2px;cursor:pointer;min-width:104px}
-.stage .n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);font-weight:700}
-.stage .t{color:#fff;font-weight:600;font-size:12.5px}
-.stage .d{color:var(--steel);font-size:10.5px}
-.stage:active{border-color:var(--amber)}
+/* home: build a short flow */
+.bs-box{background:rgba(19,25,38,.45);border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin:6px 0 4px}
+.bs-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px}
+.bs-head .tag{font-family:'JetBrains Mono',monospace;color:var(--amber);font-weight:700;font-size:13.5px;letter-spacing:.05em}
+.bs-head .angle{color:var(--dim);font-size:12px;flex:1;min-width:0}
+.bs-steps{display:flex;gap:6px;overflow-x:auto;padding:0 0 10px;scrollbar-width:none}
+.bs-steps::-webkit-scrollbar{display:none}
+.bs-step{flex:none;display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:999px;
+  padding:8px 13px;min-height:36px;font-family:Poppins,sans-serif;font-size:11px;font-weight:600;color:var(--dim);cursor:pointer}
+.bs-step .n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--steel);font-weight:700}
+.bs-step.now{border-color:var(--amber);color:#fff}
+.bs-step.now .n{color:var(--amber)}
+.bs-step.done{border-color:rgba(111,207,143,.45);color:var(--green)}
+.bs-step.done .n{color:var(--green)}
+.bs-step.lock{opacity:.4;cursor:default}
+.bs-note{color:var(--dim);font-size:12.5px;line-height:1.6;margin:8px 0}
+.bs-note.miss{color:#F2C48D}
+.bs-note a{color:var(--amber)}
+.bs-paste{width:100%;min-height:170px;background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:9px;
+  padding:12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.5;resize:vertical;outline:none;margin-top:8px}
+.bs-paste:focus{border-color:var(--amber)}
+.bs-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+.bs-row>button{flex:1;min-width:130px;min-height:38px}
+.bs-parsed{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:4px 12px 10px;margin-top:8px}
+.bs-secline{display:flex;gap:10px;align-items:baseline;font-size:12.5px;padding:8px 0;border-bottom:1px solid var(--line)}
+.bs-secline:last-of-type{border-bottom:none}
+.bs-secline .nm{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--dim);min-width:112px}
+.bs-secline.ok .val{color:var(--green)}
+.bs-secline.miss .val{color:var(--red)}
+.bs-pre{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 12px;color:#C9D2DE;
+  font-size:12px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.claim{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 12px;margin:8px 0}
+.claim .txt{color:var(--txt);font-size:12.5px;line-height:1.55;word-break:break-word}
+.claim.cut .txt{color:var(--steel);text-decoration:line-through}
+.claim .acts{display:flex;gap:8px;margin-top:10px}
+.claim .acts button{flex:1;min-height:38px;background:transparent;border:1px solid var(--line);border-radius:7px;
+  color:var(--dim);font-family:Poppins,sans-serif;font-weight:600;font-size:11px;cursor:pointer;padding:8px 6px}
+.claim.added{border-color:rgba(111,207,143,.5)}
+.claim.cut{border-color:rgba(232,96,76,.45)}
+.claim .acts .on-add{background:var(--green);border-color:var(--green);color:#14100A}
+.claim .acts .on-cut{background:var(--red);border-color:var(--red);color:#fff}
+.gateline{font-family:'JetBrains Mono',monospace;color:var(--dim);font-size:11.5px;margin:8px 0 2px}
+button.amber:disabled{opacity:.4;cursor:default}
+.histitem{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin:7px 0}
+.histitem .body{flex:1;min-width:0}
+.histitem .tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--txt);font-weight:700;word-break:break-word}
+.histitem .meta{color:var(--steel);font-size:10.5px;font-family:'JetBrains Mono',monospace;margin-top:2px}
+.histitem .btns{display:flex;gap:6px;align-items:center;flex:none}
+.ghost.sm{padding:7px 11px;font-size:10.5px}
 
 .quickrow{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
 .quickrow .copybtn{flex:1;min-width:150px;padding:12px}
 
-/* corrections inbox */
-.corrform{display:flex;flex-direction:column;gap:8px;margin:8px 0}
-.corrform .r{display:flex;gap:8px}
-.corrform input,.corrform textarea{background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:7px;
-  padding:10px 11px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;resize:vertical}
-.corrform input:focus,.corrform textarea:focus{border-color:var(--amber)}
-.corrform input{flex:1;min-width:0}
-.corritem{display:flex;gap:11px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);
+/* home: bank correction log + shared jot form */
+.logform{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.logform .r{display:flex;gap:8px}
+.logform input{flex:1;min-width:0;background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:7px;
+  padding:10px 11px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none}
+.logform input:focus{border-color:var(--amber)}
+.loggroup{margin:12px 0}
+.loghead{display:flex;align-items:center;gap:10px;margin:0 0 4px}
+.loghead .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700;letter-spacing:.08em;flex:1}
+.logitem{display:flex;gap:11px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);
   border-radius:9px;padding:11px 12px;margin:7px 0}
-.corritem .box{width:20px;height:20px;border:1.5px solid var(--steel);border-radius:5px;flex:none;margin-top:2px;cursor:pointer;
+.logitem .box{width:20px;height:20px;border:1.5px solid var(--steel);border-radius:5px;flex:none;margin-top:2px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;font-size:13px;color:#14100A;font-weight:800}
-.corritem.done{border-color:rgba(111,207,143,.4)}
-.corritem.done .box{background:var(--green);border-color:var(--green)}
-.corritem.done .box::after{content:"✓"}
-.corritem .body{flex:1;min-width:0}
-.corritem .tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--amber);font-weight:700;letter-spacing:.06em}
-.corritem .txt{color:var(--txt);font-size:13px;line-height:1.5;word-break:break-word}
-.corritem.done .txt{color:var(--steel);text-decoration:line-through}
-.corritem .ts{color:var(--steel);font-size:10px;font-family:'JetBrains Mono',monospace;margin-top:2px}
-.corritem .del{background:none;border:none;color:var(--steel);font-size:17px;cursor:pointer;padding:2px 6px;flex:none}
-.corritem .del:hover{color:var(--red)}
+.logitem.done{border-color:rgba(111,207,143,.4)}
+.logitem.done .box{background:var(--green);border-color:var(--green)}
+.logitem.done .box::after{content:"✓"}
+.logitem .body{flex:1;min-width:0}
+.logitem .txt{color:var(--txt);font-size:13px;line-height:1.5;word-break:break-word}
+.logitem.done .txt{color:var(--steel);text-decoration:line-through}
+.logitem .ts{color:var(--steel);font-size:10px;font-family:'JetBrains Mono',monospace;margin-top:2px}
+.logitem .del,.histitem .del{background:none;border:none;color:var(--steel);font-size:17px;cursor:pointer;padding:2px 6px;flex:none}
+.logitem .del:hover,.histitem .del:hover{color:var(--red)}
 .emptymsg{color:var(--steel);font-size:12.5px;padding:6px 2px}
 
 /* cards view */
@@ -322,14 +363,8 @@ input[type=file]{display:none}
 
   <div class="note" id="setupnote" style="display:none"><b>One-time install:</b> open this page in Chrome (Android) or Safari (iPhone), then use the browser menu and pick <b>Add to Home Screen</b>. It installs like an app, works offline after the first load, and updates itself when a new version is published. <a href="#" id="dismissSetup">Got it, hide this</a></div>
 
-  <div class="kick">Today's Short · the per-video path</div>
-  <div class="todaystrip">
-    <div class="stage" data-go="pb:s4"><span class="n">04</span><span class="t">Package</span><span class="d">script + specs</span></div>
-    <div class="stage" data-go="pb:s5"><span class="n">05</span><span class="t">QC</span><span class="d">green light</span></div>
-    <div class="stage" data-go="pb:s6"><span class="n">06</span><span class="t">Voiceover</span><span class="d">record it</span></div>
-    <div class="stage" data-go="cards"><span class="n">07</span><span class="t">Cards</span><span class="d">Cards tab</span></div>
-    <div class="stage" data-go="pb:s8"><span class="n">08</span><span class="t">Hand off</span><span class="d">file + tracker</span></div>
-  </div>
+  <div class="kick">Build a Short · one at a time</div>
+  <div id="bsWrap"></div>
 
   <div class="kick">Quick copy · the two daily prompts</div>
   <div class="quickrow">
@@ -338,25 +373,37 @@ input[type=file]{display:none}
   </div>
   <p class="lead" style="font-size:12px;margin-top:2px">Copies with the card machine format attached. Flip to the Claude app, paste, fill the marked slots.</p>
 
-  <div class="kick">Corrections inbox</div>
-  <p class="lead" style="font-size:12.5px">A commenter caught something, or QC flagged a line? Log it here against the bank tag. Standing rule: <b>fix the bank first</b>. Check items off once they are written into the bank file.</p>
-  <div class="corrform">
-    <div class="r">
-      <input id="corrTag" placeholder="BANK TAG · e.g. 73IDI" maxlength="24" style="max-width:170px">
-      <input id="corrNote" placeholder="the correction, one line">
-    </div>
-    <div class="r"><button class="amber" id="corrAdd" style="flex:1">Log correction</button></div>
-  </div>
-  <div id="corrList"></div>
-
   <div class="kick">This app</div>
   <div class="card">
     <div class="k">Version</div>
     <h4 id="verline"></h4>
-    <p>One file, four tools: the Claude-only Playbook v3, the Card Generator, Case Writer, and this dashboard. Checklists, drafts, and the inbox save to this device. To change anything, hand the file (or the GitHub repo) back to Claude and describe the change.</p>
+    <p>One file, four tools: the Claude-only Playbook v3, the Card Generator, Case Writer, and this dashboard. Shorts, checklists, drafts, and the correction log save to this device. To change anything, hand the file (or the GitHub repo) back to Claude and describe the change.</p>
+    <div class="bs-row">
+      <button class="ghost" id="backupBtn">Back up data</button>
+      <button class="ghost" id="restoreBtn">Restore backup</button>
+    </div>
+    <p style="font-size:11px;color:var(--steel)">Backup downloads everything this device has saved (Shorts, drafts, the writer doc, QC state, the correction log) as one JSON file. Restore loads that file back in and overwrites what is here.</p>
   </div>
+  <input type="file" id="restoreInput" accept=".json,application/json">
+
+  <details class="pbsec" id="banklogSec">
+    <summary><span class="sn">·</span><span class="st">Bank correction log</span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <p class="lead" style="font-size:12.5px">Not part of the daily flow. When QC or a commenter surfaces a bank problem, jot it here against the bank tag. Standing rule: <b>fix the bank first</b>. Before the next audit of that platform, hit <b>Copy for re-audit</b> and paste the notes into the audit chat so the fix lands in the bank. Check a note off once it is written into the bank file.</p>
+      <div class="logform">
+        <div class="r">
+          <input id="blTag" placeholder="BANK TAG · e.g. 73IDI" maxlength="24" style="max-width:170px">
+          <input id="blNote" placeholder="the correction, one line">
+        </div>
+        <div class="r"><button class="amber" id="blAdd" style="flex:1">Log it</button></div>
+      </div>
+      <div id="blList"></div>
+    </div>
+  </details>
+
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v3.3</b> · Home rebuilt around Build a Short: one Short at a time moves through Package, Review claims, Script, Cards, Filed. The whole Claude package pastes in once and splits into script, new claims, card specs, and comment vulnerabilities, then routes to the Writer and Cards tabs. NEW CLAIMS is now a hard gate: every claim must be confirmed into the bank or cut from the script before cards or filing. The corrections inbox became a per-tag bank correction log with Copy for re-audit; old inbox entries migrated over automatically. The topic tag set at the start carries through the prompt, the Writer doc name, the card file tag, and the correction log. Added backup and restore of all app data.</p>
       <p><b>v3.1</b> · Removed the Hudson/Partner mode. The playbook now reads as one full process for whoever is running it. Role chips and hand-off wording cleaned up throughout.</p>
       <p><b>v3.0</b> · Merged the Playbook, Card Generator, and Case Writer into one installable app. Workflow moved to Claude-only: Step 1 bank build now runs in Claude with web search, Step 2 audit runs in a fresh Claude chat outside the Project. Added the corrections inbox, playbook search, persistent Hudson/Partner mode, card share sheet, and on-device autosave. Fonts embedded so cards render identically offline.</p>
     </div>
@@ -571,6 +618,7 @@ Ranges written as "1994 to 1997".</pre>
       </div>
       <h3>Save it</h3>
       <ul>
+        <li><b>The fast path:</b> paste Claude's whole reply into <b>Build a Short</b> on the Home tab. It splits the package and routes the script and card specs automatically.</li>
         <li>Copy the SCRIPT into its own text file: <code>ITC_TOPIC_SCRIPT.txt</code>. The Writer tab works for this.</li>
         <li>Copy the CARD SPECS into <code>ITC_TOPIC_CARDSPECS.txt</code>, or paste them straight into the Cards tab, which keeps a draft.</li>
         <li>Keep NEW CLAIMS and COMMENT VULNERABILITIES together in the chat or a scratch file. They ride along to Step 5.</li>
@@ -1038,12 +1086,13 @@ footer: INSIDE THE CASE · AUTO</pre>
 /* ================================================================
    ITC HQ · single-file app
    Sections: [SHELL] tabs+mode  [STORE] localStorage  [COPY] clipboard
-   [PLAYBOOK] slots/search/QC  [HOME] today strip, quick copy, inbox
+   [PLAYBOOK] slots/search/QC  [HOME] build-a-short flow, quick copy,
+   bank correction log, backup/restore
    [CARDS] parser+renderer+export+share  [WRITER] editor
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v3.1';
+const APP_VERSION = 'v3.3';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1164,17 +1213,13 @@ document.getElementById('qcreset').addEventListener('click', ()=>{
   qcItems.forEach(it=>it.classList.remove('done')); updateQC(); saveQC();
 });
 
-/* ---------------- [HOME] today strip navigation ---------------- */
-document.querySelectorAll('.stage').forEach(st=>{
-  st.addEventListener('click', ()=>{
-    const go = st.dataset.go;
-    if(go==='cards'){ showView('cards'); return; }
-    const secId = 'pb-' + go.split(':')[1];
-    showView('playbook');
-    const sec = document.getElementById(secId);
-    if(sec){ sec.open = true; setTimeout(()=>sec.scrollIntoView({behavior:'smooth', block:'start'}), 60); }
-  });
-});
+/* ---------------- [HOME] shared helpers ---------------- */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function goPlaybook(secId){
+  showView('playbook');
+  const sec = document.getElementById(secId);
+  if(sec){ sec.open = true; setTimeout(()=>sec.scrollIntoView({behavior:'smooth', block:'start'}), 60); }
+}
 
 /* ---------------- [HOME] quick copy ---------------- */
 document.getElementById('qcopy4').addEventListener('click', function(){
@@ -1184,43 +1229,507 @@ document.getElementById('qcopy6').addEventListener('click', function(){
   copyText(document.getElementById('p6').textContent, this);
 });
 
-/* ---------------- [HOME] corrections inbox ---------------- */
-const corrList = document.getElementById('corrList');
-function renderCorr(){
-  const items = store.get('corrections', []);
-  corrList.innerHTML = '';
-  if(!items.length){ corrList.innerHTML = '<div class="emptymsg">Nothing logged. That is a good day.</div>'; return; }
-  items.forEach(it=>{
-    const el = document.createElement('div');
-    el.className = 'corritem' + (it.done? ' done':'');
-    const d = new Date(it.ts);
-    el.innerHTML = '<div class="box" role="button" aria-label="Mark applied"></div>'+
-      '<div class="body"><div class="tag"></div><div class="txt"></div>'+
-      '<div class="ts">'+ d.toLocaleDateString() +'</div></div>'+
-      '<button class="del" aria-label="Delete">×</button>';
-    el.querySelector('.tag').textContent = it.tag || 'GENERAL';
-    el.querySelector('.txt').textContent = it.note;
-    el.querySelector('.box').addEventListener('click', ()=>{
-      it.done = !it.done; store.set('corrections', items); renderCorr();
+/* ---------------- [HOME] bank correction log ---------------- */
+/* one-time migration: old corrections-inbox items move into the log, keyed by tag.
+   itc_corrections is only removed after its entries are saved under itc_banklog. */
+(function migrateCorrections(){
+  const old = store.get('corrections', null);
+  if(old === null) return;
+  const log = store.get('banklog', {});
+  (Array.isArray(old)? old : []).forEach((it,i)=>{
+    const tag = (it.tag || 'GENERAL').toUpperCase();
+    if(!log[tag]) log[tag] = [];
+    log[tag].push({ id: it.id || (Date.now()+i), note: String(it.note||''), done: !!it.done, ts: it.ts || Date.now() });
+  });
+  store.set('banklog', log);
+  try{ localStorage.removeItem('itc_corrections'); }catch(e){}
+})();
+
+const blList = document.getElementById('blList');
+function renderBanklog(){
+  const log = store.get('banklog', {});
+  blList.innerHTML = '';
+  const tags = Object.keys(log).filter(t=>Array.isArray(log[t]) && log[t].length).sort();
+  if(!tags.length){ blList.innerHTML = '<div class="emptymsg">Nothing logged. That is a good day.</div>'; return; }
+  tags.forEach(tag=>{
+    const wrap = document.createElement('div');
+    wrap.className = 'loggroup';
+    const head = document.createElement('div');
+    head.className = 'loghead';
+    head.innerHTML = '<span class="tag"></span><button class="ghost sm">Copy for re-audit</button>';
+    head.querySelector('.tag').textContent = tag;
+    head.querySelector('button').addEventListener('click', function(){
+      const open = log[tag].filter(n=>!n.done);
+      const src = open.length? open : log[tag];
+      copyText('BANK CORRECTIONS TO APPLY · '+tag+'\n'+src.map(n=>'- '+n.note).join('\n'), this);
     });
-    el.querySelector('.del').addEventListener('click', ()=>{
-      if(!confirm('Delete this correction?')) return;
-      store.set('corrections', items.filter(x=>x.id!==it.id)); renderCorr();
+    wrap.appendChild(head);
+    log[tag].forEach(n=>{
+      const el = document.createElement('div');
+      el.className = 'logitem' + (n.done? ' done':'');
+      el.innerHTML = '<div class="box" role="button" aria-label="Mark written into the bank"></div>'+
+        '<div class="body"><div class="txt"></div><div class="ts">'+ new Date(n.ts).toLocaleDateString() +'</div></div>'+
+        '<button class="del" aria-label="Delete">×</button>';
+      el.querySelector('.txt').textContent = n.note;
+      el.querySelector('.box').addEventListener('click', ()=>{
+        n.done = !n.done; store.set('banklog', log); renderBanklog();
+      });
+      el.querySelector('.del').addEventListener('click', ()=>{
+        if(!confirm('Delete this note?')) return;
+        log[tag] = log[tag].filter(x=>x.id!==n.id);
+        if(!log[tag].length) delete log[tag];
+        store.set('banklog', log); renderBanklog();
+      });
+      wrap.appendChild(el);
     });
-    corrList.appendChild(el);
+    blList.appendChild(wrap);
   });
 }
-document.getElementById('corrAdd').addEventListener('click', ()=>{
-  const tag = document.getElementById('corrTag').value.trim().toUpperCase();
-  const note = document.getElementById('corrNote').value.trim();
+document.getElementById('blAdd').addEventListener('click', ()=>{
+  const noteIn = document.getElementById('blNote');
+  const tag = (document.getElementById('blTag').value.trim() || 'GENERAL').toUpperCase();
+  const note = noteIn.value.trim();
   if(!note) return;
-  const items = store.get('corrections', []);
-  items.unshift({ id: Date.now(), tag, note, done:false, ts: Date.now() });
-  store.set('corrections', items);
-  document.getElementById('corrNote').value='';
-  renderCorr();
+  const log = store.get('banklog', {});
+  if(!log[tag]) log[tag] = [];
+  log[tag].unshift({ id: Date.now(), note, done:false, ts: Date.now() });
+  store.set('banklog', log);
+  noteIn.value = '';
+  renderBanklog();
 });
-renderCorr();
+renderBanklog();
+
+/* ---------------- [HOME] build a short: the guided per-video flow ----------------
+   itc_shorts = { active: short|null, history: [short] }
+   short = { id, tag, angle, status, created, updated, sections, claims,
+             claimsNone, claimsMissing, parsed? }
+   status walks package -> claims -> script -> cards -> filed. The NEW CLAIMS
+   gate is enforced in bsAdvance and bsFile: nothing moves past claims until
+   every claim is added-to-bank or cut. */
+const BS_STAGES = [
+  { key:'package', label:'Package' },
+  { key:'claims',  label:'Review claims' },
+  { key:'script',  label:'Script' },
+  { key:'cards',   label:'Cards' },
+  { key:'filed',   label:'Filed' }
+];
+const bsWrap = document.getElementById('bsWrap');
+let bsView = null;        /* a completed stage being revisited, null = current */
+let bsHistOpen = false;
+
+function bsState(){ const st = store.get('shorts', null); return (st && typeof st==='object' && 'history' in st)? st : { active:null, history:[] }; }
+function bsSave(st){ store.set('shorts', st); }
+function bsStageIdx(key){ return BS_STAGES.findIndex(s=>s.key===key); }
+function bsLabel(key){ const s = BS_STAGES[bsStageIdx(key)]; return s? s.label : key; }
+function bsEl(html){ const d = document.createElement('div'); d.innerHTML = html; return d.firstElementChild; }
+
+function bsClaimsResolved(s){
+  if(s.claimsNone) return true;
+  if(!s.claims || !s.claims.length) return false;
+  return s.claims.every(c=>c.state==='added' || c.state==='cut');
+}
+function bsAdvance(st, to){
+  const s = st.active; if(!s) return;
+  if(bsStageIdx(to) > bsStageIdx('claims') && !bsClaimsResolved(s)){
+    alert('The NEW CLAIMS gate is not cleared. Every claim needs "Confirmed · added to bank" or "Cut from script" first.');
+    return;
+  }
+  s.status = to; s.updated = Date.now();
+  bsView = null; bsSave(st); renderShort();
+}
+function bsFile(st){
+  const s = st.active; if(!s) return;
+  if(!bsClaimsResolved(s)){
+    alert('The NEW CLAIMS gate is not cleared. Every claim needs "Confirmed · added to bank" or "Cut from script" first.');
+    return;
+  }
+  s.status = 'filed'; s.updated = Date.now();
+  st.history.unshift(s); st.history = st.history.slice(0,20); st.active = null;
+  bsView = null; bsSave(st); renderShort();
+}
+
+function bsPrompt4(s){
+  const pre = document.getElementById('p4').cloneNode(true);
+  pre.querySelectorAll('.slot').forEach(sp=>{
+    if(sp.dataset.for==='topic') sp.textContent = s.tag;
+    if(sp.dataset.for==='angle' && s.angle) sp.textContent = s.angle;
+  });
+  return pre.textContent + CARD_SNIPPET;
+}
+
+function bsParsePackage(text){
+  const lines = text.split(/\r?\n/);
+  const marks = [];
+  lines.forEach((ln, i)=>{
+    const clean = ln.replace(/[*_#`]/g,'').trim();
+    const m = clean.match(/^(?:\d+\s*[.):]\s*)?(SCRIPT|NEW CLAIMS|CARD SPECS|COMMENT VULNERABILITIES)\s*[:.]?\s*(.*)$/i);
+    if(!m) return;
+    const name = m[1].toUpperCase();
+    if(m[2] && m[2].length > 60) return;            /* prose mentioning the word, not a header */
+    if(marks.some(k=>k.name===name)) return;        /* keep the first occurrence */
+    marks.push({ name, line:i, rest:(m[2]||'').trim() });
+  });
+  const out = {};
+  marks.forEach((mk, j)=>{
+    const end = (j+1 < marks.length)? marks[j+1].line : lines.length;
+    const body = lines.slice(mk.line+1, end).join('\n').trim();
+    out[mk.name] = ((mk.rest? mk.rest+'\n' : '') + body).trim();
+  });
+  return out;
+}
+function bsParseClaims(text){
+  if(!text || !text.trim()) return { none:false, claims:[] };
+  const flat = text.trim().replace(/^[-*•·]\s*/,'');
+  if(/^(none|no new claims)\b/i.test(flat)) return { none:true, claims:[] };
+  const items = [];
+  text.split(/\r?\n/).forEach(ln=>{
+    const t = ln.trim(); if(!t) return;
+    if(/^[-*•·]\s+/.test(t) || /^\d+\s*[.)]\s+/.test(t) || !items.length){
+      items.push(t.replace(/^[-*•·]\s+/,'').replace(/^\d+\s*[.)]\s+/,''));
+    } else {
+      items[items.length-1] += ' ' + t;
+    }
+  });
+  return { none:false, claims: items.map(t=>({ text:t, state:'' })) };
+}
+
+function bsRoute(st){
+  const s = st.active; if(!s || !s.parsed) return;
+  const sec = s.parsed;
+  s.sections = sec;
+  /* NEW CLAIMS feed the gate */
+  const cl = bsParseClaims(sec['NEW CLAIMS']);
+  s.claimsNone = cl.none;
+  s.claims = cl.claims;
+  s.claimsMissing = !(sec['NEW CLAIMS'] && sec['NEW CLAIMS'].trim());
+  /* SCRIPT into a Writer doc named after the tag; the doc that was there is stashed */
+  if(sec['SCRIPT']){
+    const page = document.getElementById('page'), dn = document.getElementById('docname');
+    if(page.innerText.trim() && dn.value.trim() && dn.value.trim() !== s.tag){
+      const stash = store.get('writer_stash', []);
+      stash.unshift({ name: dn.value, html: page.innerHTML, ts: Date.now() });
+      store.set('writer_stash', stash.slice(0,10));
+    }
+    dn.value = s.tag;
+    page.innerHTML = sec['SCRIPT'].split(/\r?\n/).map(l=>'<p>'+(l.trim()===''? '<br>' : esc(l))+'</p>').join('');
+    page.dispatchEvent(new Event('input'));
+  }
+  /* CARD SPECS into the Cards tab, tag carried through */
+  if(sec['CARD SPECS']){
+    specEl.value = sec['CARD SPECS'];
+    specEl.dispatchEvent(new Event('input'));
+  }
+  tagEl.value = s.tag;
+  tagEl.dispatchEvent(new Event('input'));
+  delete s.parsed;
+  s.status = s.claimsNone? 'script' : 'claims';
+  s.updated = Date.now();
+  bsView = null; bsSave(st); renderShort();
+}
+
+function bsStepper(st, s){
+  const cur = bsStageIdx(s.status);
+  const wrap = bsEl('<div class="bs-steps"></div>');
+  BS_STAGES.forEach((stg, i)=>{
+    const b = bsEl('<button type="button" class="bs-step"><span class="n"></span><span class="t"></span></button>');
+    b.querySelector('.n').textContent = String(i+1).padStart(2,'0');
+    b.querySelector('.t').textContent = stg.label;
+    if(i < cur){
+      b.classList.add('done');
+      b.addEventListener('click', ()=>{ bsView = stg.key; renderShort(); });
+    } else if(i === cur){
+      b.classList.add('now');
+      b.addEventListener('click', ()=>{ bsView = null; renderShort(); });
+    } else {
+      b.classList.add('lock');   /* the gate: no jumping ahead */
+    }
+    wrap.appendChild(b);
+  });
+  return wrap;
+}
+
+function bsParseSummary(st, s){
+  const box = bsEl('<div class="bs-parsed"></div>');
+  const rows = [
+    ['SCRIPT', t=> ((t.trim().match(/\S+/g)||[]).length) + ' words'],
+    ['NEW CLAIMS', t=>{ const c = bsParseClaims(t); return c.none? 'none, all claims from bank' : c.claims.length + (c.claims.length===1? ' claim to review' : ' claims to review'); }],
+    ['CARD SPECS', t=>{ const n = (t.match(/^\s*===/mg)||[]).length; return n? n + ' cards' : 'captured'; }],
+    ['COMMENT VULNERABILITIES', ()=> 'captured, shows at the Script stage']
+  ];
+  const missing = [];
+  rows.forEach(pair=>{
+    const name = pair[0], fmt = pair[1];
+    const t = s.parsed[name];
+    const line = bsEl('<div class="bs-secline"><span class="nm"></span><span class="val"></span></div>');
+    line.querySelector('.nm').textContent = name;
+    if(t && t.trim()){ line.classList.add('ok'); line.querySelector('.val').textContent = fmt(t); }
+    else { line.classList.add('miss'); line.querySelector('.val').textContent = 'NOT FOUND'; missing.push(name); }
+    box.appendChild(line);
+  });
+  if(missing.length){
+    box.appendChild(bsEl('<p class="bs-note miss">Missing: '+esc(missing.join(', '))+'. Route what was found, or paste again. A missing NEW CLAIMS keeps the claims gate closed until you confirm there are none.</p>'));
+  }
+  const row = bsEl('<div class="bs-row"></div>');
+  const go = bsEl('<button type="button" class="amber">Looks right · route it</button>');
+  go.addEventListener('click', ()=>bsRoute(st));
+  const re = bsEl('<button type="button" class="ghost">Paste again</button>');
+  re.addEventListener('click', ()=>{ delete s.parsed; bsSave(st); renderShort(); });
+  row.appendChild(go); row.appendChild(re);
+  box.appendChild(row);
+  return box;
+}
+
+function bsPanelPackage(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  if(s.parsed){
+    p.appendChild(bsEl('<p class="bs-note">Here is what the paste split into. Confirm before it routes to the Writer and Cards tabs.</p>'));
+    p.appendChild(bsParseSummary(st, s));
+    return p;
+  }
+  p.appendChild(bsEl('<p class="bs-note">Run Prompt 4 in a chat inside the ITC Project, then paste the whole reply below in one go. Topic and angle are already filled in on the prompt.</p>'));
+  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 4 · topic and angle filled in</button>');
+  copyBtn.addEventListener('click', function(){ copyText(bsPrompt4(s), this); });
+  p.appendChild(copyBtn);
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the entire Claude reply here. It splits into SCRIPT, NEW CLAIMS, CARD SPECS, and COMMENT VULNERABILITIES on its headers."></textarea>');
+  p.appendChild(ta);
+  const row = bsEl('<div class="bs-row"></div>');
+  const parseBtn = bsEl('<button type="button" class="amber">Split the package</button>');
+  parseBtn.addEventListener('click', ()=>{
+    if(!ta.value.trim()){ alert('Paste the package first.'); return; }
+    const parsed = bsParsePackage(ta.value);
+    if(!Object.keys(parsed).length){
+      alert('No section headers found. The paste needs the SCRIPT, NEW CLAIMS, CARD SPECS, and COMMENT VULNERABILITIES headers from Prompt 4.');
+      return;
+    }
+    s.parsed = parsed; s.updated = Date.now();
+    bsSave(st); renderShort();
+  });
+  row.appendChild(parseBtn);
+  p.appendChild(row);
+  return p;
+}
+
+function bsClaimRow(st, s, c){
+  const el = bsEl('<div class="claim"><div class="txt"></div><div class="acts">'+
+    '<button type="button" class="a-add">Confirmed · added to bank</button>'+
+    '<button type="button" class="a-cut">Cut from script</button></div></div>');
+  el.querySelector('.txt').textContent = c.text;
+  if(c.state==='added'){ el.classList.add('added'); el.querySelector('.a-add').classList.add('on-add'); }
+  if(c.state==='cut'){ el.classList.add('cut'); el.querySelector('.a-cut').classList.add('on-cut'); }
+  el.querySelector('.a-add').addEventListener('click', ()=>{
+    c.state = (c.state==='added')? '' : 'added'; s.updated = Date.now(); bsSave(st); renderShort();
+  });
+  el.querySelector('.a-cut').addEventListener('click', ()=>{
+    c.state = (c.state==='cut')? '' : 'cut'; s.updated = Date.now(); bsSave(st); renderShort();
+  });
+  return el;
+}
+
+function bsPanelClaims(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  if(s.claimsNone){
+    p.appendChild(bsEl('<div class="done-banner">NEW CLAIMS · None, all claims from bank. The gate passed automatically.</div>'));
+    if(s.status==='claims'){
+      const row = bsEl('<div class="bs-row"></div>');
+      const b = bsEl('<button type="button" class="amber">Continue to Script</button>');
+      b.addEventListener('click', ()=>bsAdvance(st,'script'));
+      row.appendChild(b); p.appendChild(row);
+    }
+    return p;
+  }
+  if(s.claimsMissing){
+    p.appendChild(bsEl('<p class="bs-note miss">The package had no NEW CLAIMS section, so the gate stays closed. Paste the package again, or confirm there are no new claims.</p>'));
+    const row = bsEl('<div class="bs-row"></div>');
+    const back = bsEl('<button type="button" class="ghost">Back to Package</button>');
+    back.addEventListener('click', ()=>{ s.status='package'; s.updated=Date.now(); bsView=null; bsSave(st); renderShort(); });
+    const none = bsEl('<button type="button" class="amber">No new claims · pass the gate</button>');
+    none.addEventListener('click', ()=>{ s.claimsNone = true; s.claimsMissing = false; bsAdvance(st,'script'); });
+    row.appendChild(back); row.appendChild(none); p.appendChild(row);
+    return p;
+  }
+  p.appendChild(bsEl('<p class="bs-note">The only place unaudited facts can enter. Each claim gets one of two endings: confirmed by you and written into the bank file, or cut from the script. Nothing moves to Cards until every claim is resolved.</p>'));
+  const done = s.claims.filter(c=>c.state).length;
+  p.appendChild(bsEl('<div class="gateline">'+done+' / '+s.claims.length+' resolved</div>'));
+  s.claims.forEach(c=>p.appendChild(bsClaimRow(st, s, c)));
+  if(s.status==='claims'){
+    const row = bsEl('<div class="bs-row"></div>');
+    const b = bsEl('<button type="button" class="amber">Claims cleared · continue</button>');
+    b.disabled = !bsClaimsResolved(s);
+    b.addEventListener('click', ()=>bsAdvance(st,'script'));
+    row.appendChild(b); p.appendChild(row);
+    p.appendChild(bsEl('<p class="bs-note">Confirmed claims must actually be written into the bank file. If one cannot be done right now, jot it in the bank correction log below.</p>'));
+  }
+  return p;
+}
+
+function bsPanelScript(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  const note = bsEl('<p class="bs-note"></p>');
+  note.textContent = 'The script is in the Writer tab as "'+s.tag+'". Read it out loud once. If a line does not sound like the channel, fix the line, not the system.';
+  p.appendChild(note);
+  const row1 = bsEl('<div class="bs-row"></div>');
+  const w = bsEl('<button type="button" class="ghost">Open in Writer</button>');
+  w.addEventListener('click', ()=>showView('writer'));
+  const qc = bsEl('<button type="button" class="ghost">Open the QC pass</button>');
+  qc.addEventListener('click', ()=>goPlaybook('pb-s5'));
+  row1.appendChild(w); row1.appendChild(qc); p.appendChild(row1);
+  const vul = s.sections && s.sections['COMMENT VULNERABILITIES'];
+  if(vul){
+    p.appendChild(bsEl('<div class="kick" style="margin-top:14px">Comment vulnerabilities · pin, change, or leave on purpose</div>'));
+    const pre = bsEl('<div class="bs-pre"></div>');
+    pre.textContent = vul;
+    p.appendChild(pre);
+  }
+  if(s.status==='script'){
+    const row = bsEl('<div class="bs-row"></div>');
+    const ok = bsEl('<button type="button" class="amber">Script approved · on to Cards</button>');
+    ok.addEventListener('click', ()=>bsAdvance(st,'cards'));
+    row.appendChild(ok); p.appendChild(row);
+  }
+  return p;
+}
+
+function bsPanelCards(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  const note = bsEl('<p class="bs-note"></p>');
+  note.textContent = 'Card specs are loaded in the Cards tab with file tag "'+s.tag+'". Render, clear any warnings, export, then record the voiceover and hand off.';
+  p.appendChild(note);
+  const row1 = bsEl('<div class="bs-row"></div>');
+  const c = bsEl('<button type="button" class="ghost">Open Cards tab</button>');
+  c.addEventListener('click', ()=>showView('cards'));
+  const vo = bsEl('<button type="button" class="ghost">Voiceover + hand off steps</button>');
+  vo.addEventListener('click', ()=>goPlaybook('pb-s6'));
+  row1.appendChild(c); row1.appendChild(vo); p.appendChild(row1);
+  if(s.status==='cards'){
+    const row = bsEl('<div class="bs-row"></div>');
+    const b = bsEl('<button type="button" class="amber">Done · mark this Short Filed</button>');
+    b.addEventListener('click', ()=>bsFile(st));
+    row.appendChild(b); p.appendChild(row);
+  }
+  return p;
+}
+
+function bsStartPanel(st){
+  const box = bsEl('<div class="bs-box"></div>');
+  box.appendChild(bsEl('<p class="bs-note">One Short at a time, the same path every time: Package, Review claims, Script, Cards, Filed. Set the topic tag once; it names the prompt, the Writer doc, the card files, and the bank log entries.</p>'));
+  const form = bsEl('<div class="logform"><div class="r">'+
+    '<input class="i-tag" placeholder="TOPIC TAG · e.g. BW4407" maxlength="24" style="max-width:170px">'+
+    '<input class="i-angle" placeholder="ANGLE · the one line hook"></div>'+
+    '<div class="r"><button type="button" class="amber i-start" style="flex:1">Start this Short</button></div></div>');
+  form.querySelector('.i-start').addEventListener('click', ()=>{
+    const tag = form.querySelector('.i-tag').value.trim().toUpperCase().replace(/\s+/g,'_');
+    const angle = form.querySelector('.i-angle').value.trim();
+    if(!tag){ alert('Set a topic tag first. It carries through the whole package.'); return; }
+    st.active = { id:Date.now(), tag, angle, status:'package', created:Date.now(), updated:Date.now(),
+      sections:{}, claims:[], claimsNone:false, claimsMissing:false };
+    bsView = null; bsSave(st); renderShort();
+  });
+  box.appendChild(form);
+  return box;
+}
+
+function bsHistory(st){
+  const det = bsEl('<details class="pbsec"><summary><span class="sn">·</span><span class="st">Shorts · switch or review</span><span class="arrow">›</span></summary><div class="secbody"></div></details>');
+  det.open = bsHistOpen;
+  det.addEventListener('toggle', ()=>{ bsHistOpen = det.open; });
+  const body = det.querySelector('.secbody');
+  if(st.active){
+    const park = bsEl('<button type="button" class="ghost" style="width:100%;margin:10px 0 4px;min-height:38px">Park this Short and start another</button>');
+    park.addEventListener('click', ()=>{
+      st.history.unshift(st.active); st.history = st.history.slice(0,20); st.active = null;
+      bsView = null; bsSave(st); renderShort();
+    });
+    body.appendChild(park);
+  }
+  if(!st.history.length){
+    body.appendChild(bsEl('<div class="emptymsg">No other Shorts yet.</div>'));
+    return det;
+  }
+  st.history.forEach(h=>{
+    const el = bsEl('<div class="histitem"><div class="body"><div class="tag"></div><div class="meta"></div></div><span class="btns"></span></div>');
+    el.querySelector('.tag').textContent = h.tag + (h.angle? ' · '+h.angle : '');
+    el.querySelector('.meta').textContent = (h.status==='filed'? 'FILED' : 'IN PROGRESS · '+bsLabel(h.status).toUpperCase()) +
+      ' · ' + new Date(h.updated).toLocaleDateString();
+    const btns = el.querySelector('.btns');
+    if(h.status!=='filed'){
+      const r = bsEl('<button type="button" class="ghost sm">Resume</button>');
+      r.addEventListener('click', ()=>{
+        st.history = st.history.filter(x=>x.id!==h.id);
+        if(st.active) st.history.unshift(st.active);
+        st.active = h; bsView = null; bsSave(st); renderShort();
+      });
+      btns.appendChild(r);
+    }
+    const d = bsEl('<button type="button" class="del" aria-label="Delete">×</button>');
+    d.addEventListener('click', ()=>{
+      if(!confirm('Delete this Short from the list? The Writer doc and card drafts are not touched.')) return;
+      st.history = st.history.filter(x=>x.id!==h.id); bsSave(st); renderShort();
+    });
+    btns.appendChild(d);
+    body.appendChild(el);
+  });
+  return det;
+}
+
+function renderShort(){
+  const st = bsState();
+  bsWrap.innerHTML = '';
+  const blTag = document.getElementById('blTag');
+  if(st.active && blTag && !blTag.value) blTag.value = st.active.tag;
+  if(!st.active){
+    bsWrap.appendChild(bsStartPanel(st));
+  } else {
+    const s = st.active;
+    const box = bsEl('<div class="bs-box"></div>');
+    const head = bsEl('<div class="bs-head"><span class="tag"></span><span class="angle"></span></div>');
+    head.querySelector('.tag').textContent = s.tag;
+    head.querySelector('.angle').textContent = s.angle || '';
+    box.appendChild(head);
+    box.appendChild(bsStepper(st, s));
+    const viewKey = (bsView && bsStageIdx(bsView) < bsStageIdx(s.status))? bsView : s.status;
+    if(viewKey !== s.status){
+      const back = bsEl('<p class="bs-note">Reviewing the '+esc(bsLabel(viewKey))+' stage. <a href="#" class="bk">Back to the current stage</a></p>');
+      back.querySelector('.bk').addEventListener('click', e=>{ e.preventDefault(); bsView = null; renderShort(); });
+      box.appendChild(back);
+    }
+    const panels = { package:bsPanelPackage, claims:bsPanelClaims, script:bsPanelScript, cards:bsPanelCards };
+    box.appendChild((panels[viewKey] || bsPanelPackage)(st, s));
+    bsWrap.appendChild(box);
+  }
+  bsWrap.appendChild(bsHistory(st));
+}
+renderShort();
+
+/* ---------------- [HOME] backup and restore, every itc_ key ---------------- */
+document.getElementById('backupBtn').addEventListener('click', ()=>{
+  const data = {};
+  for(let i=0; i<localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.indexOf('itc_')===0) data[k] = localStorage.getItem(k);
+  }
+  const payload = JSON.stringify({ app:'ITC HQ', version:APP_VERSION, exported:new Date().toISOString(), data }, null, 1);
+  const d = new Date();
+  const stamp = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+  saveBlob(new Blob([payload], {type:'application/json'}), 'ITC_HQ_backup_'+stamp+'.json');
+});
+const restoreInput = document.getElementById('restoreInput');
+document.getElementById('restoreBtn').addEventListener('click', ()=>restoreInput.click());
+restoreInput.addEventListener('change', ()=>{
+  const f = restoreInput.files[0]; restoreInput.value = '';
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    let obj = null;
+    try{ obj = JSON.parse(e.target.result); }catch(err){}
+    if(!obj || !obj.data || typeof obj.data !== 'object'){ alert('That does not look like an ITC HQ backup file.'); return; }
+    const keys = Object.keys(obj.data).filter(k=>k.indexOf('itc_')===0);
+    if(!keys.length){ alert('No ITC HQ data found in that file.'); return; }
+    if(!confirm('Restore '+keys.length+' saved items from '+(obj.exported? obj.exported.slice(0,10) : 'this backup')+'? What is on this device now gets overwritten.')) return;
+    keys.forEach(k=>{ try{ localStorage.setItem(k, obj.data[k]); }catch(err){} });
+    location.reload();
+  };
+  reader.readAsText(f);
+});
 
 /* ================================================================
    [CARDS] parser + canvas renderer (ported from Card Generator v1.1)
