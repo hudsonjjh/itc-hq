@@ -1,7 +1,7 @@
 /* ITC HQ service worker
    Bump CACHE_VERSION whenever index.html changes so installed phones
    pick up the new build on next launch. */
-const CACHE_VERSION = 'itc-hq-v3.3';
+const CACHE_VERSION = 'itc-hq-v3.4';
 const PRECACHE = [
   './',
   './index.html',

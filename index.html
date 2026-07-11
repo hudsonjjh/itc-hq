@@ -346,6 +346,29 @@ select.tsel{height:36px;background:var(--ink);color:#D6DAE0;border:1px solid var
 .wr-statusbar b{color:#C9CED5;font-weight:600}
 input[type=file]{display:none}
 .footerbar{color:var(--steel);font-size:9.5px;letter-spacing:.22em;padding:16px 20px 8px;text-align:center}
+/* ============ DESKTOP · applies at 1000px and up only, phones untouched ============ */
+@media(min-width:1000px){
+  :root{--rail-w:92px}
+  body{padding-left:var(--rail-w);padding-bottom:0}
+  /* tab bar becomes a left rail */
+  .tabbar{top:0;bottom:0;right:auto;left:0;width:var(--rail-w);height:auto;flex-direction:column;
+    justify-content:flex-start;gap:4px;padding:64px 0 0;border-top:none;border-right:1px solid var(--line)}
+  .tabbar button{flex:0 0 auto;width:100%;padding:14px 0;gap:5px}
+  .tabbar button:hover{color:#C9CED5}
+  .tabbar button.on:hover{color:var(--amber)}
+  .footerbar{padding-bottom:20px}
+  /* wider working column */
+  .view{max-width:980px;padding:20px 36px 56px}
+  .writerview{max-width:none}
+  /* cards: editor left, live preview right, reference below the editor */
+  .cardsview{max-width:1320px;grid-template-columns:minmax(430px,1fr) 430px;column-gap:32px;
+    grid-template-areas:"edit preview" "help preview";align-items:start}
+  .cardsview.on{display:grid}
+  .c-edit{grid-area:edit}
+  .c-help{grid-area:help}
+  .c-preview{grid-area:preview;position:sticky;top:72px}
+  .cardsview textarea{min-height:380px}
+}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -403,6 +426,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v3.4</b> · Desktop layout. On screens 1000px and wider the tab bar becomes a left rail, the working column widens, and the Cards tab goes side by side: spec editor on the left, live card preview pinned on the right, reference below. Phone layout is untouched.</p>
       <p><b>v3.3</b> · Home rebuilt around Build a Short: one Short at a time moves through Package, Review claims, Script, Cards, Filed. The whole Claude package pastes in once and splits into script, new claims, card specs, and comment vulnerabilities, then routes to the Writer and Cards tabs. NEW CLAIMS is now a hard gate: every claim must be confirmed into the bank or cut from the script before cards or filing. The corrections inbox became a per-tag bank correction log with Copy for re-audit; old inbox entries migrated over automatically. The topic tag set at the start carries through the prompt, the Writer doc name, the card file tag, and the correction log. Added backup and restore of all app data.</p>
       <p><b>v3.1</b> · Removed the Hudson/Partner mode. The playbook now reads as one full process for whoever is running it. Role chips and hand-off wording cleaned up throughout.</p>
       <p><b>v3.0</b> · Merged the Playbook, Card Generator, and Case Writer into one installable app. Workflow moved to Claude-only: Step 1 bank build now runs in Claude with web search, Step 2 audit runs in a fresh Claude chat outside the Project. Added the corrections inbox, playbook search, persistent Hudson/Partner mode, card share sheet, and on-device autosave. Fonts embedded so cards render identically offline.</p>
@@ -893,12 +917,15 @@ ranges as "1994 to 1997".</pre>
 
 <!-- ================================================================ CARDS -->
 <section class="view cardsview" id="view-cards">
+  <div class="c-edit">
   <label class="small">Card specs · one block per card, separated by === CARD lines · drafts save on this phone</label>
   <textarea id="spec" spellcheck="false"></textarea>
   <div class="row">
     <button class="amber" id="render">Render</button>
     <input type="text" id="tag" value="ITC_TOPIC" aria-label="File tag">
   </div>
+  </div>
+  <div class="c-preview">
   <div class="pager">
     <button class="ghost" id="prev">‹ Prev</button>
     <div class="pg" id="pg">– / –</div>
@@ -912,7 +939,8 @@ ranges as "1994 to 1997".</pre>
     <button class="ghost" id="dlall">Export all</button>
   </div>
   <p class="lead" style="font-size:11.5px;margin-top:2px">Share opens the phone's share sheet, so a card can go straight to Google Drive or a message. Save PNG drops it in Downloads.</p>
-
+  </div>
+  <div class="c-help">
   <details>
     <summary>Legend · every card type &amp; option</summary>
     <div class="legend">
@@ -980,6 +1008,7 @@ highlight: Optional callout box text at the bottom of the card.
 footer: INSIDE THE CASE · AUTO</pre>
     <div class="row"><button class="ghost" id="copysnip">Copy prompt snippet</button></div>
   </details>
+  </div>
 </section>
 
 <!-- ================================================================ WRITER -->
@@ -1092,7 +1121,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v3.3';
+const APP_VERSION = 'v3.4';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
