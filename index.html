@@ -233,7 +233,7 @@ button.amber:disabled{opacity:.4;cursor:default}
 .quickrow{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
 .quickrow .copybtn{flex:1;min-width:150px;padding:12px}
 
-/* home: bank correction log + shared jot form */
+/* home: correction log + shared jot form */
 .logform{display:flex;flex-direction:column;gap:8px;margin:8px 0}
 .logform .r{display:flex;gap:8px}
 .logform input{flex:1;min-width:0;background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:7px;
@@ -389,12 +389,12 @@ input[type=file]{display:none}
   <div class="kick">Build a Short · one at a time</div>
   <div id="bsWrap"></div>
 
-  <div class="kick">Quick copy · the two daily prompts</div>
+  <div class="kick">Quick copy · outside the flow</div>
   <div class="quickrow">
-    <button class="copybtn" id="qcopy4">Prompt 4 · Short package</button>
-    <button class="copybtn" id="qcopy6">Prompt 6 · Social packaging</button>
+    <button class="copybtn" id="qcopy1">Prompt 1 · Topic research</button>
+    <button class="copybtn" id="qcopy5">Prompt 5 · Social packaging</button>
   </div>
-  <p class="lead" style="font-size:12px;margin-top:2px">Copies with the card machine format attached. Flip to the Claude app, paste, fill the marked slots.</p>
+  <p class="lead" style="font-size:12px;margin-top:2px">For one-off use. The Build a Short flow above copies each stage's prompt with everything filled in.</p>
 
   <div class="kick">This app</div>
   <div class="card">
@@ -410,12 +410,12 @@ input[type=file]{display:none}
   <input type="file" id="restoreInput" accept=".json,application/json">
 
   <details class="pbsec" id="banklogSec">
-    <summary><span class="sn">·</span><span class="st">Bank correction log</span><span class="arrow">›</span></summary>
+    <summary><span class="sn">·</span><span class="st">Correction log</span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <p class="lead" style="font-size:12.5px">Not part of the daily flow. When QC or a commenter surfaces a bank problem, jot it here against the bank tag. Standing rule: <b>fix the bank first</b>. Before the next audit of that platform, hit <b>Copy for re-audit</b> and paste the notes into the audit chat so the fix lands in the bank. Check a note off once it is written into the bank file.</p>
+      <p class="lead" style="font-size:12.5px">Not part of the daily flow. When QC or a commenter surfaces a real problem, jot it here against the topic tag. Standing rule: <b>own it in public</b>, in the description corrections block or the pinned comment. Before any future Short that touches the topic, hit <b>Copy corrections</b> and paste the notes into the research chat so the fix rides along. Check a note off once it is published and handled.</p>
       <div class="logform">
         <div class="r">
-          <input id="blTag" placeholder="BANK TAG · e.g. 73IDI" maxlength="24" style="max-width:170px">
+          <input id="blTag" placeholder="TOPIC TAG · e.g. BW4407" maxlength="24" style="max-width:170px">
           <input id="blNote" placeholder="the correction, one line">
         </div>
         <div class="r"><button class="amber" id="blAdd" style="flex:1">Log it</button></div>
@@ -426,6 +426,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v3.6</b> · The playbook is now one topic per session, research to finished Short. The per-platform fact bank is gone: each Short gets its own fact sheet, researched in the Project with web search (Prompt 1), audited cold in a fresh chat outside it (Prompt 2), then packaged from LOCKED facts only (Prompt 3). Build a Short gained Research and Audit stages that carry the fact sheet into each prompt automatically. Steps renumbered 1 to 7, the correction log now points at public corrections instead of bank fixes, and the fact sheet archives with each Short as ITC_TOPIC_FACTS.txt. Old in-progress Shorts resume where they were.</p>
       <p><b>v3.5</b> · Prompt 4's card section now speaks the generator's exact machine format: real card types only (spec, timeline, table), full syntax rules, and a worked example covering every type, so specs paste into the Cards tab with zero edits. Dropped the invented "comparison" and "myth bust" types and the wrong footer. Added a load-time self-test that flags the prompt and parser drifting apart. No visual changes.</p>
       <p><b>v3.4</b> · Desktop layout. On screens 1000px and wider the tab bar becomes a left rail, the working column widens, and the Cards tab goes side by side: spec editor on the left, live card preview pinned on the right, reference below. Phone layout is untouched.</p>
       <p><b>v3.3</b> · Home rebuilt around Build a Short: one Short at a time moves through Package, Review claims, Script, Cards, Filed. The whole Claude package pastes in once and splits into script, new claims, card specs, and comment vulnerabilities, then routes to the Writer and Cards tabs. NEW CLAIMS is now a hard gate: every claim must be confirmed into the bank or cut from the script before cards or filing. The corrections inbox became a per-tag bank correction log with Copy for re-audit; old inbox entries migrated over automatically. The topic tag set at the start carries through the prompt, the Writer doc name, the card file tag, and the correction log. Added backup and restore of all app data.</p>
@@ -447,26 +448,24 @@ input[type=file]{display:none}
   <details class="pbsec" id="pb-start" open>
     <summary><span class="sn">·</span><span class="st">The system</span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <h2 style="margin-top:14px">Research a platform once. Publish from it all week.</h2>
-      <p class="lead">The old per-video research loop is gone. Every platform gets one verified fact bank, audited once and trusted after. Corrections stick, and every Short after the first gets faster. Everything runs on Claude now: one Project, one model, two kinds of chat.</p>
-      <h3>What you are making</h3>
-      <div class="card"><div class="k">The asset · once per platform</div><h4>The fact bank</h4><p>One master verified facts file per platform. Audited once, trusted after, updated forever.</p></div>
-      <div class="card"><div class="k">Per video</div><h4>The package</h4><p>Script, new claims list, card specs, and comment vulnerabilities, generated in one pass from the bank.</p></div>
-      <div class="card"><div class="k">Per video</div><h4>The media</h4><p>The voiceover recording and the finished info cards, built from the package.</p></div>
+      <h2 style="margin-top:14px">One topic in. One finished Short out.</h2>
+      <p class="lead">One session, one Short, start to finish. Pick the exact topic, research just that topic with web search, audit the facts cold in a fresh chat, then script and build from LOCKED facts only. No warehouse of facts to maintain, no picking scripts out of a pile. Everything runs on Claude: one Project, one model, two kinds of chat.</p>
+      <h3>What you are making, every session</h3>
+      <div class="card"><div class="k">Step 1 and 2</div><h4>The fact sheet</h4><p>A tiered, sourced fact sheet for this one topic, audited cold before anything is scripted. It gets archived with the Short.</p></div>
+      <div class="card"><div class="k">Step 3</div><h4>The package</h4><p>Script, new claims list, card specs, and comment vulnerabilities, generated in one pass from the audited sheet.</p></div>
+      <div class="card"><div class="k">Steps 4 to 7</div><h4>The media</h4><p>The voiceover recording and the finished info cards, built from the package.</p></div>
       <h3>The whole process at a glance</h3>
       <div class="pipeline">
-        <div class="lbl">Per platform · once</div>
-        <div class="row"><span class="pnode"><span class="pn">1</span> Build bank</span><span class="parrow">›</span><span class="pnode"><span class="pn">2</span> Audit bank</span><span class="parrow">›</span><span class="pnode"><span class="pn">3</span> Mine angles</span></div>
-        <div class="lbl">Per video</div>
-        <div class="row"><span class="pnode"><span class="pn">4</span> Package</span><span class="parrow">›</span><span class="pnode"><span class="pn">5</span> QC</span><span class="parrow">›</span><span class="pnode"><span class="pn">6</span> Voiceover</span><span class="parrow">›</span><span class="pnode"><span class="pn">7</span> Cards</span><span class="parrow">›</span><span class="pnode"><span class="pn">8</span> Hand off</span></div>
+        <div class="lbl">One session · one Short</div>
+        <div class="row"><span class="pnode"><span class="pn">1</span> Research</span><span class="parrow">›</span><span class="pnode"><span class="pn">2</span> Audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">3</span> Package</span><span class="parrow">›</span><span class="pnode"><span class="pn">4</span> QC</span><span class="parrow">›</span><span class="pnode"><span class="pn">5</span> Voiceover</span><span class="parrow">›</span><span class="pnode"><span class="pn">6</span> Cards</span><span class="parrow">›</span><span class="pnode"><span class="pn">7</span> File it</span></div>
       </div>
       <h3>Do this once, before anything</h3>
       <ul>
         <li>Set up the shared Google Drive folder. Use the exact structure in the <b>Drive and tracker</b> section. Both of you work out of it, nothing lives in random folders anymore.</li>
         <li>Save the sample card images into <code>PLAYBOOK/</code>. They are the style lock for cards.</li>
         <li>Open the tracker (<code>ITC_TRACKER</code>, lives in the Drive root). Every Short is one row. If it is not in the tracker, it does not exist.</li>
-        <li><b>Set up the Claude Project.</b> Make a Project called Inside The Case and paste the portable instructions block (bottom of this playbook) into its project instructions. Steps 1, 3, and 4 run in chats inside that Project, pre-loaded with the system. Turn web search on for bank builds.</li>
-        <li><b>The one exception:</b> Step 2, the audit, runs in a fresh chat OUTSIDE the Project. The auditor should meet the bank cold, with no shared context and no instructions telling it what the bank is supposed to look like.</li>
+        <li><b>Set up the Claude Project.</b> Make a Project called Inside The Case and paste the portable instructions block (bottom of this playbook) into its project instructions. Steps 1 and 3 run in chats inside that Project, pre-loaded with the system. Web search on for research.</li>
+        <li><b>The one exception:</b> Step 2, the audit, runs in a fresh chat OUTSIDE the Project. The auditor should meet the fact sheet cold, with no shared context and no instructions telling it what the sheet is supposed to look like.</li>
       </ul>
     </div>
   </details>
@@ -479,139 +478,121 @@ input[type=file]{display:none}
         <div class="rule"><div class="rn">Every fact tiered</div><div class="rd"><b>Locked</b> = confirmed by a factory or OEM grade source. <b>Likely</b> = strong but single or secondary source. <b>Unverified</b> = lore, forum only, or could not confirm.</div></div>
         <div class="rule"><div class="rn">Locked only</div><div class="rd">Only Locked facts get stated as fact in scripts and put on cards. Likely and Unverified stay off screen. They can live in a pinned comment, never on a card.</div></div>
         <div class="rule"><div class="rn">Source order</div><div class="rd">Factory brochures and OEM or owner manuals first. Credible archives second. Forums last, as a lead only, never as proof.</div></div>
-        <div class="rule"><div class="rn">House style</div><div class="rd">No em dashes in any script or card copy. Visual styling elements like timeline connectors are the only exception. No emojis. Write ranges as "1994 to 1997". Never skip the audit on a new bank.</div></div>
+        <div class="rule"><div class="rn">House style</div><div class="rd">No em dashes in any script or card copy. Visual styling elements like timeline connectors are the only exception. No emojis. Write ranges as "1994 to 1997". Never skip the audit pass on a fact sheet.</div></div>
       </div>
     </div>
   </details>
 
   <details class="pbsec" id="pb-s1" data-owner="hudson">
-    <summary><span class="sn">01</span><span class="st">Build the fact bank</span><span class="chips"><span class="chip tool">Claude · web search on</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">01</span><span class="st">Research the topic</span><span class="chips"><span class="chip tool">Claude · in the Project · web search on</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">Part 1 · Per platform · Run once</div>
-      <p class="lead">This is the part that replaces per-video research. Run it once per platform, and every Short on that platform feeds off it, this week and every week after.</p>
-      <p>Open a new chat <b>inside the ITC Project</b> with web search on. Fill the two fields below, hit copy, paste, send. You are harvesting, not concluding. It is fine if this comes back huge, big is the point. If the reply cuts off early, say <b>"continue"</b>.</p>
+      <div class="kick">One session · one Short</div>
+      <p class="lead">Pick the exact topic first. The research covers that topic and nothing else: enough verified facts to carry one Short, not a platform encyclopedia.</p>
+      <p>Open a new chat <b>inside the ITC Project</b> with web search on. Fill the topic (and the angle if you already have one), hit copy, paste, send. If the reply cuts off early, say <b>"continue"</b>.</p>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 1 <span>·</span> Bank build</div><div class="spacer"></div><button class="copybtn" data-copy="p1">Copy prompt</button></div>
+        <div class="phead"><div class="pt">Prompt 1 <span>·</span> Topic research</div><div class="spacer"></div><button class="copybtn" data-copy="p1">Copy prompt</button></div>
         <div class="fillins">
-          <div class="f"><label>Platform</label><input data-slot="plat" placeholder="e.g. 7.3 IDI, 1988 to 1994, factory turbo and NA"></div>
-          <div class="f"><label>Sub-topics to cover</label><input data-slot="subs" placeholder="e.g. year changes, injection system, turbo internals, cavitation, common failures, myths"></div>
+          <div class="f"><label>Topic</label><input data-slot="topic" placeholder="the exact part or comparison. e.g. BW4407 transfer case"></div>
+          <div class="f"><label>Angle</label><input data-slot="angle" placeholder="the one line hook, or leave blank to get options"></div>
         </div>
-        <pre id="p1">Inside The Case fact bank build.
-Platform: <span class="slot" data-for="plat">[FILL IN. e.g. 7.3 IDI, 1988 to 1994, factory turbo and NA]</span>
-Sub-topics to cover: <span class="slot" data-for="subs">[FILL IN. e.g. year changes, injection system, turbo internals, cavitation, common failures, myths]</span>
+        <pre id="p1">Inside The Case topic research. One topic, one Short.
 
-Use web search throughout this task. Every LOCKED or LIKELY claim must
+TOPIC: <span class="slot" data-for="topic">[FILL IN. the exact part or comparison. e.g. BW4407 transfer case]</span>
+ANGLE: <span class="slot" data-for="angle">[FILL IN, or write "none yet" to get options]</span>
+
+Use web search throughout this task. Every LOCKED or LIKELY fact must
 trace to a source you actually found and can name, not to memory.
-Search in multiple passes, one sub-topic at a time, before writing the
-final output. Depth beats speed.
+Search in multiple passes before writing the final output. Depth
+beats speed, but stay on this one topic.
 
-Build a master verified facts table for this platform. This bank will
-feed multiple video scripts, so be exhaustive, not narrative.
+Build a fact sheet for this topic: enough verified material to carry
+one Short of about 1:45, plus the surrounding truth a sharp commenter
+would check.
 
-For every claim give: the claim, the named source, and a confidence
-tier.
+For every fact give: the fact, the named source, and a tier.
 LOCKED = primary or factory grade source.
 LIKELY = strong evidence but single source or secondary.
 UNVERIFIED = lore, forum only, or could not confirm.
 
-Source hierarchy: factory brochures, OEM service and owner manuals, and
-material from Ford, GM, Cummins, International, Navistar, Bosch,
+Source hierarchy: factory brochures, OEM service and owner manuals,
+and material from Ford, GM, Cummins, International, Navistar, Bosch,
 BorgWarner, and Dana. Credible archives second. Forums are leads,
 never proof.
 
-Output plain text under these headers: PLATFORM SPECS, YEAR BY YEAR
-CHANGES, VARIANTS, FAILURE POINTS, MYTHS (each labeled TRUE, OVERSTATED,
-or FALSE with a one line reason), OPEN QUESTIONS.
+Output plain text under these headers: FACT SHEET (one fact per line
+with tier and source), MYTHS (each labeled TRUE, OVERSTATED, or FALSE
+with a one line reason), OPEN QUESTIONS, and ANGLES (2 or 3 one line
+hooks, only if no angle was given above).
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 If something cannot be confirmed, say so plainly instead of guessing.</pre>
       </div>
       <h3>Check before you move on</h3>
       <ul>
-        <li>Every claim has a tier, and Locked or Likely claims name a real source, not "general knowledge".</li>
-        <li>The big ones (years, horsepower, torque, injection, pump, turbo) are covered for every variant.</li>
-        <li>Myths section exists and is separated from facts.</li>
+        <li>Every fact has a tier, and Locked or Likely facts name a real source, not "general knowledge".</li>
+        <li>The big ones (years, horsepower, torque, injection, pump, turbo) are covered as far as the topic touches them.</li>
+        <li>Myths are separated from facts.</li>
       </ul>
-      <div class="callout">If a section is thin, reply <b>"search harder on [section]"</b> before moving on. Save the output as a text file, but do <b>not</b> put it in <code>BANKS/</code> yet. It is not trusted until Step 2.</div>
+      <div class="callout">If the sheet is thin, reply <b>"search harder on [x]"</b> before moving on. The sheet is not trusted until Step 2 audits it.</div>
     </div>
   </details>
 
   <details class="pbsec" id="pb-s2" data-owner="hudson">
-    <summary><span class="sn">02</span><span class="st">Audit the bank</span><span class="chips"><span class="chip tool">Claude · fresh chat, outside the Project</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">02</span><span class="st">Audit the fact sheet</span><span class="chips"><span class="chip tool">Claude · fresh chat, outside the Project</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">Part 1 · Per platform · Run once</div>
-      <p class="lead">A fresh Claude chat with none of Step 1 in its context grades the bank. Same model is fine: independence comes from the clean context and from checking sources, not from using a different AI. Start this chat OUTSIDE the ITC Project so the auditor meets the bank cold, with web search on.</p>
+      <div class="kick">One session · one Short</div>
+      <p class="lead">A fresh Claude chat with none of Step 1 in its context grades the sheet. Same model is fine: independence comes from the clean context and from checking sources, not from using a different AI. Start this chat OUTSIDE the ITC Project so the auditor meets the sheet cold, with web search on. One topic makes this a ten minute step.</p>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 2 <span>·</span> Bank audit</div><div class="spacer"></div><button class="copybtn" data-copy="p2">Copy prompt</button></div>
-        <pre id="p2">You are auditing a fact bank for an automotive channel that lives on
-accuracy. You had no part in building it. Do not rewrite it.
+        <div class="phead"><div class="pt">Prompt 2 <span>·</span> Fact sheet audit</div><div class="spacer"></div><button class="copybtn" data-copy="p2">Copy prompt</button></div>
+        <pre id="p2">You are auditing a fact sheet for one automotive YouTube Short, from a
+channel that lives on accuracy. You had no part in building it. Do not
+rewrite it beyond what fails.
 
 Verify against sources, not memory. Use web search to check any LOCKED
-claim you cannot independently confirm from a primary or factory grade
-source. If you cannot find a source that supports a LOCKED claim,
-that claim fails.
+fact you cannot independently confirm from a primary or factory grade
+source. If you cannot find a source that supports a LOCKED fact, that
+fact fails.
 
-For each LOCKED claim, verify it deserves LOCKED. Report ONLY:
-- claims that are wrong,
-- claims tiered too high,
+For each LOCKED fact, verify it deserves LOCKED. Report ONLY:
+- facts that are wrong,
+- facts tiered too high,
 - anything important that is missing.
-If a claim survives, stay silent about it.
+If a fact survives, stay silent about it.
 
-End with a corrected version of any lines that failed, in the same
-format as the bank, so they can be pasted straight in.
+End with the FULL corrected fact sheet in the same format, tiers
+updated, so it can be used directly as the final version.
 
-BANK: [PASTE THE FULL BANK FROM STEP 1 HERE]</pre>
+FACT SHEET: [PASTE THE FACT SHEET FROM STEP 1]</pre>
       </div>
       <h3>Then, the mechanic's eyes pass</h3>
       <ul>
         <li>Read the audit report. Apply your own judgment on every flagged line. <b>You outrank the AI, both times.</b></li>
-        <li>Paste corrected lines into the bank file. Demote anything you are not sure of. Your call is final.</li>
-        <li>Save it as <code>FACTBANK_TAG.txt</code> in <code>BANKS/</code> (example: <code>FACTBANK_73IDI.txt</code>). It is now a trusted asset.</li>
+        <li>Demote anything you are not sure of. Your call is final. The corrected sheet is now the only version that exists.</li>
+        <li>It gets archived with the Short later as <code>ITC_TOPIC_FACTS.txt</code>, so every published claim stays traceable.</li>
       </ul>
-      <div class="callout"><b>The standing rule from here on:</b> when a script error or a sharp commenter surfaces a correction, fix the BANK FILE first, then the script. Log it in the corrections inbox on the Home tab if you are away from the desk. Corrections go into the bank or they did not happen.</div>
+      <div class="callout"><b>The standing rule from here on:</b> when a script error or a sharp commenter surfaces a correction, own it in public (the description corrections block or the pinned comment) and log it in the correction log on the Home tab against the topic tag. A future Short that touches the topic starts from the fix, not the mistake.</div>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-s3" data-owner="hudson">
-    <summary><span class="sn">03</span><span class="st">Mine the angles</span><span class="chips"><span class="chip tool">Same chat as Step 2</span></span><span class="arrow">›</span></summary>
+  <details class="pbsec" id="pb-s3">
+    <summary><span class="sn">03</span><span class="st">Build the Short package</span><span class="chips"><span class="chip tool">Claude · in the Project</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">Part 1 · Per platform · Run once</div>
-      <p class="lead">Two minutes. This turns the bank into a week of tracker rows.</p>
+      <div class="kick">One session · one Short</div>
+      <p class="lead">Everything from here runs off the audited fact sheet. No new research happens in this part. One prompt, one pass: the script, the list of any new claims, the card specs, and the comment vulnerabilities.</p>
+      <p>Open a chat inside the ITC Project. Fill the two fields, copy, paste into Claude, then paste the audited fact sheet where marked. The Build a Short flow on the Home tab does the pasting for you.</p>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 3 <span>·</span> Angle miner</div><div class="spacer"></div><button class="copybtn" data-copy="p3">Copy prompt</button></div>
-        <pre id="p3">From this fact bank, list 6 to 8 distinct Short angles. For each give:
-- the one line hook,
-- the mechanical truth it turns on,
-- which card types fit (spec grid, timeline, comparison, myth bust),
-- which LOCKED facts it uses.
-Rank by how likely a truck audience is to stop scrolling.
-Flag any two angles that would feel samey if published the same week.
-
-BANK: [PASTE THE BANK, or skip this line if it is already in the chat]</pre>
-      </div>
-      <div class="done-banner">BANK DONE · The platform is banked. Add the angles you like to the tracker as Idea rows.</div>
-    </div>
-  </details>
-
-  <details class="pbsec" id="pb-s4">
-    <summary><span class="sn">04</span><span class="st">Build the Short package</span><span class="chips"><span class="chip tool">Claude · in the Project</span></span><span class="arrow">›</span></summary>
-    <div class="secbody">
-      <div class="kick">Part 2 · Per video</div>
-      <p class="lead">Everything from here runs off a trusted bank. No research happens in this part. One prompt, one pass: the script, the list of any new claims, the card specs, and the comment vulnerabilities.</p>
-      <p>Open a chat inside the ITC Project. Fill the two fields, copy, paste into Claude, then paste the relevant bank sections where marked. You do not always need the whole bank if the topic only touches part of it.</p>
-      <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 4 <span>·</span> Short package</div><div class="spacer"></div><button class="copybtn" data-copy="p4">Copy prompt</button></div>
+        <div class="phead"><div class="pt">Prompt 3 <span>·</span> Short package</div><div class="spacer"></div><button class="copybtn" data-copy="p3">Copy prompt</button></div>
         <div class="fillins">
           <div class="f"><label>Topic</label><input data-slot="topic" placeholder="the exact part or comparison. e.g. BW4407 transfer case"></div>
-          <div class="f"><label>Angle</label><input data-slot="angle" placeholder="the one line hook from the angle list"></div>
+          <div class="f"><label>Angle</label><input data-slot="angle" placeholder="the one line hook"></div>
         </div>
-        <pre id="p4">Inside The Case Short package. Build everything from the fact bank
-below. Use LOCKED facts only. LIKELY and UNVERIFIED stay off the script
-and off the cards.
+        <pre id="p3">Inside The Case Short package. Build everything from the audited fact
+sheet below. Use LOCKED facts only. LIKELY and UNVERIFIED stay off the
+script and off the cards.
 
 TOPIC: <span class="slot" data-for="topic">[FILL IN. the exact part or comparison. e.g. BW4407 transfer case]</span>
-ANGLE: <span class="slot" data-for="angle">[FILL IN. the one line hook from the angle list]</span>
-BANK: [PASTE THE BANK OR THE RELEVANT SECTIONS]
+ANGLE: <span class="slot" data-for="angle">[FILL IN. the one line hook]</span>
+FACT SHEET: [PASTE THE AUDITED FACT SHEET FROM STEP 2]
 
 OUTPUT, IN THIS ORDER:
 
@@ -622,8 +603,8 @@ mechanical truth, one strong retention beat, payoff, sign-off
 Runtime target about 1:45. Recordable for voiceover. Strong first line.
 
 2. NEW CLAIMS. List every factual claim in the script that is NOT in
-the bank, each with a tier and source. If there are none, write
-"None, all claims from bank."
+the fact sheet, each with a tier and source. If there are none, write
+"None, all claims from the fact sheet."
 
 3. CARD SPECS. 3 to 5 vertical cards written directly in the Card
 Generator machine format, ready to paste with zero edits. One block
@@ -650,19 +631,19 @@ copy. No emojis. Ranges written as "1994 to 1997".</pre>
         <li><b>The fast path:</b> paste Claude's whole reply into <b>Build a Short</b> on the Home tab. It splits the package and routes the script and card specs automatically.</li>
         <li>Copy the SCRIPT into its own text file: <code>ITC_TOPIC_SCRIPT.txt</code>. The Writer tab works for this.</li>
         <li>Copy the CARD SPECS into <code>ITC_TOPIC_CARDSPECS.txt</code>, or paste them straight into the Cards tab, which keeps a draft.</li>
-        <li>Keep NEW CLAIMS and COMMENT VULNERABILITIES together in the chat or a scratch file. They ride along to Step 5.</li>
+        <li>Keep NEW CLAIMS and COMMENT VULNERABILITIES together in the chat or a scratch file. They ride along to Step 4.</li>
       </ul>
-      <div class="note"><b>Run Step 5 next, before anything gets recorded.</b> The package is not approved until the QC pass green-lights it.</div>
+      <div class="note"><b>Run Step 4 next, before anything gets recorded.</b> The package is not approved until the QC pass green-lights it.</div>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-s5" data-owner="hudson">
-    <summary><span class="sn">05</span><span class="st">The QC pass</span><span class="chips"><span class="chip tool">15 to 20 minutes</span></span><span class="arrow">›</span></summary>
+  <details class="pbsec" id="pb-s4" data-owner="hudson">
+    <summary><span class="sn">04</span><span class="st">The QC pass</span><span class="chips"><span class="chip tool">15 to 20 minutes</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">Part 2 · Per video</div>
+      <div class="kick">One session · one Short</div>
       <p class="lead">This replaces the old correction slog. It is short because the facts were verified upstream, so you are checking two things, not auditing a whole script.</p>
       <ul>
-        <li><b>Read NEW CLAIMS carefully.</b> This is the only place fresh, unaudited facts can enter. Anything Unverified gets cut from the script or confirmed by you before it stays. Anything you confirm goes INTO the bank file.</li>
+        <li><b>Read NEW CLAIMS carefully.</b> This is the only place fresh, unaudited facts can enter. Anything Unverified gets cut from the script or confirmed by you, with a source you actually checked, before it stays.</li>
         <li><b>Skim the script for voice and flow.</b> Read it out loud once. If a line does not sound like the channel, fix the line, not the system.</li>
         <li><b>Glance at COMMENT VULNERABILITIES.</b> Decide now: pin a comment, change a line, or leave it on purpose.</li>
       </ul>
@@ -670,10 +651,10 @@ copy. No emojis. Ranges written as "1994 to 1997".</pre>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-s6">
-    <summary><span class="sn">06</span><span class="st">Record the voiceover</span><span class="chips"><span class="chip tool">No AI, just you</span></span><span class="arrow">›</span></summary>
+  <details class="pbsec" id="pb-s5">
+    <summary><span class="sn">05</span><span class="st">Record the voiceover</span><span class="chips"><span class="chip tool">No AI, just you</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">Part 2 · Per video</div>
+      <div class="kick">One session · one Short</div>
       <p class="lead">Read the approved script out loud and record it. Clean audio drops straight into the edit.</p>
       <ul>
         <li>Read it aloud once or twice first to get comfortable and catch any tongue-twister lines.</li>
@@ -689,23 +670,23 @@ copy. No emojis. Ranges written as "1994 to 1997".</pre>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-s7">
-    <summary><span class="sn">07</span><span class="st">Build the info cards</span><span class="arrow">›</span></summary>
+  <details class="pbsec" id="pb-s6">
+    <summary><span class="sn">06</span><span class="st">Build the info cards</span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">Part 2 · Per video</div>
-      <p class="lead">The card specs from Step 4 already say exactly what goes on each card, so this step is pure styling. Two ways to run it.</p>
+      <div class="kick">One session · one Short</div>
+      <p class="lead">The card specs from Step 3 already say exactly what goes on each card, so this step is pure styling. Two ways to run it.</p>
       <h3>Path A · The Cards tab (preferred)</h3>
       <ul>
         <li>Open the <b>Cards tab</b> in this app. It runs locally, no credits, no drift, and it keeps a draft of whatever you paste.</li>
-        <li>Paste the CARD SPECS block from Step 4 into the box and hit <b>Render</b>.</li>
+        <li>Paste the CARD SPECS block from Step 3 into the box and hit <b>Render</b>.</li>
         <li>Check every card against the warning box. It auto-flags em dashes, emojis, hyphenated ranges, and overflow.</li>
         <li>Set the file tag (e.g. <code>ITC_BW4407</code>), then <b>Share</b> each card straight to Drive, or export PNGs.</li>
       </ul>
       <h3>Path B · Chat fallback · attach samples first</h3>
       <p>If the tool is unavailable, build cards in a Claude chat. Attach the sample card images from <code>PLAYBOOK/</code> first, <b>every single time</b>. They are the style lock. If you forget them, the cards come out wrong.</p>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 5 <span>·</span> Cards</div><div class="spacer"></div><button class="copybtn" data-copy="p5">Copy prompt</button></div>
-        <pre id="p5">I am giving you finished card specs and sample images of our channel
+        <div class="phead"><div class="pt">Prompt 4 <span>·</span> Cards</div><div class="spacer"></div><button class="copybtn" data-copy="p4">Copy prompt</button></div>
+        <pre id="p4">I am giving you finished card specs and sample images of our channel
 data card style. Build each card exactly as specified, vertical,
 1080 by 1920, matching the attached samples in layout, color, and tone.
 
@@ -716,9 +697,9 @@ Build only what the specs say. Do not add facts, do not drop lines.
 Match the attached style exactly: near black background, amber accent
 (#FF8C16), heavy Poppins headline, a small uppercase kicker, a page
 counter like 02 / 05 top right, monospace values, steel blue labels,
-and the "INSIDE THE CASE . AUTO" footer.
-Card types as specified: spec grid, editorial myth bust with a
-highlight box at the bottom, two panel comparison, and timeline.
+and the "INSIDE THE CASE · AUTO" footer.
+Card types as specified: spec grid, timeline, and table. A highlight
+box pinned to the bottom appears wherever the spec lists one.
 Headline is 1 to 3 words. Labels are short. Values are real. No filler.
 No em dashes in any card copy. Visual connectors and dividers are
 styling and are fine. No emojis. Ranges written as "1994 to 1997".</pre>
@@ -726,20 +707,21 @@ styling and are fine. No emojis. Ranges written as "1994 to 1997".</pre>
       <h3>Save both parts</h3>
       <ul>
         <li>The card images, one each: <code>ITC_TOPIC_CARD_01.png</code>, <code>_02.png</code> and so on.</li>
-        <li>The card specs file is already saved from Step 4. If a card changed during styling, update the specs file to match. It is what cards get rebuilt from.</li>
+        <li>The card specs file is already saved from Step 3. If a card changed during styling, update the specs file to match. It is what cards get rebuilt from.</li>
       </ul>
       <div class="done-banner">DELIVERABLE 3 DONE · Cards and specs are saved.</div>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-s8">
-    <summary><span class="sn">08</span><span class="st">File it and publish</span><span class="arrow">›</span></summary>
+  <details class="pbsec" id="pb-s7">
+    <summary><span class="sn">07</span><span class="st">File it and publish</span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">Part 2 · Per video</div>
+      <div class="kick">One session · one Short</div>
       <p class="lead">Everything for one Short lives in one topic folder inside <code>SHORTS/</code>, named the same way every time. Swap TOPIC for a short tag like BW4407 or 4L80E.</p>
       <table>
         <tr><th>What</th><th>Name</th></tr>
         <tr><td>folder</td><td><code>SHORTS/ITC_TOPIC/</code></td></tr>
+        <tr><td>facts</td><td><code>ITC_TOPIC_FACTS.txt</code> · the audited fact sheet</td></tr>
         <tr><td>script</td><td><code>ITC_TOPIC_SCRIPT.txt</code></td></tr>
         <tr><td>voice</td><td><code>ITC_TOPIC_VO.m4a</code></td></tr>
         <tr><td>cards</td><td><code>ITC_TOPIC_CARD_01.png</code>, <code>ITC_TOPIC_CARD_02.png</code> ...</td></tr>
@@ -756,21 +738,20 @@ styling and are fine. No emojis. Ranges written as "1994 to 1997".</pre>
       <p class="lead">One shared Google Drive folder, one tracker. Boring on purpose, so it actually gets maintained.</p>
       <div class="tree"><span class="k">Inside The Case/</span>
   ITC_TRACKER        <span class="c">the tracker spreadsheet, one row per Short</span>
-  <span class="k">BANKS/</span>             <span class="c">FACTBANK_73IDI.txt, FACTBANK_59CUMMINS.txt ...</span>
   <span class="k">PLAYBOOK/</span>          <span class="c">this app's file, the sample card images</span>
   <span class="k">SHORTS/</span>            <span class="c">ITC_BW4407/, ITC_4L80E/ ... one folder per Short</span></div>
+      <p>The audited fact sheet lives inside each Short's own folder as <code>ITC_TOPIC_FACTS.txt</code>, so every published claim stays traceable without a separate archive to maintain.</p>
       <p>The tracker has exactly seven columns. Do not add more, extra columns are how trackers die.</p>
       <table>
         <tr><th>Column</th><th>What goes in it</th></tr>
         <tr><td>Tag</td><td>The short topic tag, same one used in file names. BW4407, 4L80E.</td></tr>
         <tr><td>Topic</td><td>The exact part or comparison in plain words.</td></tr>
-        <tr><td>Angle</td><td>The one line hook, straight from the angle miner.</td></tr>
-        <tr><td>Status</td><td>Idea, Banked, Scripted, VO done, Edited, Published. Pick from the dropdown.</td></tr>
-        <tr><td>Bank used</td><td>Which fact bank fed it. If this is blank, the Short should not be in production.</td></tr>
+        <tr><td>Angle</td><td>The one line hook. Yours, or picked from Prompt 1's ANGLES options.</td></tr>
+        <tr><td>Status</td><td>Idea, Researched, Scripted, VO done, Edited, Published. Pick from the dropdown.</td></tr>
+        <tr><td>Facts audited</td><td>The date the Step 2 audit ran. If this is blank, the Short should not be in production.</td></tr>
         <tr><td>Publish date</td><td>Target or actual. One glance shows the week.</td></tr>
         <tr><td>Notes</td><td>Corrections, pinned comment decisions, anything future you needs.</td></tr>
       </table>
-      <p>A second sheet in the tracker lists the banks themselves: tag, platform, status (Draft, Audited, Trusted), and last updated date, so you always know which banks are safe to script from.</p>
     </div>
   </details>
 
@@ -778,14 +759,14 @@ styling and are fine. No emojis. Ranges written as "1994 to 1997".</pre>
     <summary><span class="sn">·</span><span class="st">The weekly rhythm</span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">How a week runs</div>
-      <p class="lead">Target: one Short a day, six days a week, two long form videos. Here is the shape that gets there without research eating every day.</p>
+      <p class="lead">Target: one Short a day, six days a week, two long form videos. One session takes a Short from nothing to filed.</p>
       <table>
         <tr><th>When</th><th>What happens</th></tr>
-        <tr><td>Sunday</td><td>Bank session. Build or extend one fact bank (Steps 1 to 3), roughly the cost of one old research session. Approve 4 to 6 angles into the tracker. This is the only research of the week.</td></tr>
-        <tr><td>Mon to Sat</td><td>One Short package per day (Steps 4 and 5), 20 to 30 minutes each since the facts are pre-verified. Edit and publish daily as usual.</td></tr>
+        <tr><td>Each Short</td><td>One sitting, start to finish: research the topic (20 to 30 minutes), audit it cold (about 10), package and QC (about 20). The Build a Short flow on the Home tab walks the stages in order.</td></tr>
+        <tr><td>Sunday</td><td>Topic session. Pick and rough-rank the week's 6 topics into the tracker as Idea rows, so weekday sessions start with zero deciding.</td></tr>
         <tr><td>Twice a week</td><td>Record voiceovers in batches of 2 to 3 approved scripts. Batching recordings keeps room tone consistent and saves setup time.</td></tr>
-        <tr><td>Long form</td><td>The did-you-know long form pulls from the same bank with a longer runtime target and more beats. The teardown long form is footage led and needs no script from this system.</td></tr>
-        <tr><td>Always</td><td>Any correction that surfaces, from QC or from comments, goes into the bank file the same day. Log it in the corrections inbox if you are out. The bank is the single source of truth.</td></tr>
+        <tr><td>Long form</td><td>The did-you-know long form runs the same pipeline with a bigger research pass and a longer runtime target. The teardown long form is footage led and needs no script from this system.</td></tr>
+        <tr><td>Always</td><td>Any correction that surfaces, from QC or from comments, gets owned in public the same day (description corrections block or pinned comment) and logged in the correction log against the topic tag.</td></tr>
       </table>
     </div>
   </details>
@@ -798,7 +779,7 @@ styling and are fine. No emojis. Ranges written as "1994 to 1997".</pre>
       <div class="qcbar"><div class="prog" id="qcprog">0 / 7 cleared</div><button class="ghost" id="qcreset">Reset</button></div>
       <div class="checklist" id="qclist">
         <div class="checkitem"><div class="box"></div><div class="cn">01</div><div class="ct">The script uses Locked facts only. NEW CLAIMS was read and everything Unverified was cut or confirmed.</div></div>
-        <div class="checkitem"><div class="box"></div><div class="cn">02</div><div class="ct">Any confirmed new fact or correction was written back into the bank file.</div></div>
+        <div class="checkitem"><div class="box"></div><div class="cn">02</div><div class="ct">Any correction that surfaced was logged in the correction log and is covered in the description or pinned comment.</div></div>
         <div class="checkitem"><div class="box"></div><div class="cn">03</div><div class="ct">The voiceover plays clean, every word audible, no background hum.</div></div>
         <div class="checkitem"><div class="box"></div><div class="cn">04</div><div class="ct">Card images match the samples. Near black, amber accent, Poppins headline, mono values, the footer.</div></div>
         <div class="checkitem"><div class="box"></div><div class="cn">05</div><div class="ct">Card specs file matches the final card images, one spec per card.</div></div>
@@ -814,8 +795,8 @@ styling and are fine. No emojis. Ranges written as "1994 to 1997".</pre>
       <div class="kick">Only when publishing</div>
       <p class="lead">After the edit is exported, one prompt returns titles, descriptions with a corrections block, thumbnail text, tags, a Reel caption, and a pinned comment.</p>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 6 <span>·</span> Social packaging</div><div class="spacer"></div><button class="copybtn" data-copy="p6">Copy prompt</button></div>
-        <pre id="p6">ROLE
+        <div class="phead"><div class="pt">Prompt 5 <span>·</span> Social packaging</div><div class="spacer"></div><button class="copybtn" data-copy="p5">Copy prompt</button></div>
+        <pre id="p5">ROLE
 You are the social packaging partner for Inside The Case Auto, an
 automotive channel that lives on accuracy. I will give you the finished
 script and its package notes for one Short. Turn them into a copy ready
@@ -888,13 +869,14 @@ never proof. When building or checking facts, use web search and name
 the source. If something cannot be confirmed, say so plainly instead
 of guessing.
 
-WORKFLOW. The channel runs on fact banks: one master verified facts
-file per platform, independently audited once in a separate fresh chat,
-then trusted and reused. When given a bank, build from it and do not
-re-research LOCKED claims. Any factual claim you introduce that is not
-in the bank must be listed separately under the header NEW CLAIMS with
-a tier and source, so it can be reviewed by a human before anything is
-recorded.
+WORKFLOW. One topic per session, research to finished Short. Each
+Short gets its own fact sheet: researched with web search inside the
+Project, then independently audited in a separate fresh chat before
+anything is scripted. When given an audited fact sheet, build from it
+and do not re-research LOCKED facts. Any factual claim you introduce
+that is not in the fact sheet must be listed separately under the
+header NEW CLAIMS with a tier and source, so it can be reviewed by a
+human before anything is recorded.
 
 SCRIPT SHAPE. Hook, setup, mechanical truth, one strong retention beat,
 payoff, sign-off ("Inside The Case." or "Thanks for watching, Inside
@@ -902,19 +884,21 @@ The Case."). Runtime about 1:45 for a Short. Recordable for voiceover.
 Strong first line. Voice: direct, mechanical, short sentences, a little
 personality, no hype, no filler.
 
-CARDS. 3 to 5 vertical cards per Short, delivered as plain text specs:
-card number and type (spec grid, timeline, comparison, or myth bust
-with highlight box), kicker, headline of 1 to 3 words, subhead, labels
-and values in order, highlight box text if any, and the footer
-"INSIDE THE CASE . AUTO". Card visual brand: near black background,
-amber accent #FF8C16, Poppins headlines, steel blue labels, monospace
-values.
+CARDS. 3 to 5 vertical cards per Short, delivered in the Card
+Generator machine format: one block per card starting "=== CARD 01",
+then type (exactly spec, timeline, or table, no other types exist),
+accent (amber, red, green, or blue), kicker, headline of 1 to 3 words,
+subhead, rows, and an optional highlight callout. Rows: spec
+"LABEL | value", timeline "YEAR | event", table "COL | COL | COL" with
+the first row as headers. Leave counter and footer out, the generator
+fills them. Card visual brand: near black background, amber accent
+#FF8C16, Poppins headlines, steel blue labels, monospace values.
 
 STYLE. No em dashes in any script or card copy. Visual styling elements
 like timeline connectors are the only exception. No emojis. Write
 ranges as "1994 to 1997".</pre>
       </div>
-      <div class="callout"><b>One line to remember:</b> fix the bank, not just the script, and the system gets smarter with every video. Inside The Case · Auto.</div>
+      <div class="callout"><b>One line to remember:</b> one topic, audited cold, scripted from LOCKED facts only, corrections owned in public. Inside The Case · Auto.</div>
     </div>
   </details>
 
@@ -1121,12 +1105,12 @@ footer: INSIDE THE CASE · AUTO</pre>
    ITC HQ · single-file app
    Sections: [SHELL] tabs+mode  [STORE] localStorage  [COPY] clipboard
    [PLAYBOOK] slots/search/QC  [HOME] build-a-short flow, quick copy,
-   bank correction log, backup/restore
+   correction log, backup/restore
    [CARDS] parser+renderer+export+share  [WRITER] editor
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v3.5';
+const APP_VERSION = 'v3.6';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1258,7 +1242,7 @@ ${CARD_EXAMPLE}`;
 
 function promptText(id){
   let text = document.getElementById(id).textContent;
-  if(id==='p4' && document.getElementById('inclSnip').checked) text += CARD_SNIPPET;
+  if(id==='p3' && document.getElementById('inclSnip').checked) text += CARD_SNIPPET;
   return text;
 }
 document.querySelectorAll('.copybtn[data-copy]').forEach(btn=>{
@@ -1306,14 +1290,14 @@ function goPlaybook(secId){
 }
 
 /* ---------------- [HOME] quick copy ---------------- */
-document.getElementById('qcopy4').addEventListener('click', function(){
-  copyText(document.getElementById('p4').textContent + CARD_SNIPPET, this);
+document.getElementById('qcopy1').addEventListener('click', function(){
+  copyText(document.getElementById('p1').textContent, this);
 });
-document.getElementById('qcopy6').addEventListener('click', function(){
-  copyText(document.getElementById('p6').textContent, this);
+document.getElementById('qcopy5').addEventListener('click', function(){
+  copyText(document.getElementById('p5').textContent, this);
 });
 
-/* ---------------- [HOME] bank correction log ---------------- */
+/* ---------------- [HOME] correction log (stored under itc_banklog) ---------------- */
 /* one-time migration: old corrections-inbox items move into the log, keyed by tag.
    itc_corrections is only removed after its entries are saved under itc_banklog. */
 (function migrateCorrections(){
@@ -1340,18 +1324,18 @@ function renderBanklog(){
     wrap.className = 'loggroup';
     const head = document.createElement('div');
     head.className = 'loghead';
-    head.innerHTML = '<span class="tag"></span><button class="ghost sm">Copy for re-audit</button>';
+    head.innerHTML = '<span class="tag"></span><button class="ghost sm">Copy corrections</button>';
     head.querySelector('.tag').textContent = tag;
     head.querySelector('button').addEventListener('click', function(){
       const open = log[tag].filter(n=>!n.done);
       const src = open.length? open : log[tag];
-      copyText('BANK CORRECTIONS TO APPLY · '+tag+'\n'+src.map(n=>'- '+n.note).join('\n'), this);
+      copyText('CORRECTIONS ON RECORD · '+tag+'\n'+src.map(n=>'- '+n.note).join('\n'), this);
     });
     wrap.appendChild(head);
     log[tag].forEach(n=>{
       const el = document.createElement('div');
       el.className = 'logitem' + (n.done? ' done':'');
-      el.innerHTML = '<div class="box" role="button" aria-label="Mark written into the bank"></div>'+
+      el.innerHTML = '<div class="box" role="button" aria-label="Mark handled"></div>'+
         '<div class="body"><div class="txt"></div><div class="ts">'+ new Date(n.ts).toLocaleDateString() +'</div></div>'+
         '<button class="del" aria-label="Delete">×</button>';
       el.querySelector('.txt').textContent = n.note;
@@ -1385,17 +1369,21 @@ renderBanklog();
 
 /* ---------------- [HOME] build a short: the guided per-video flow ----------------
    itc_shorts = { active: short|null, history: [short] }
-   short = { id, tag, angle, status, created, updated, sections, claims,
-             claimsNone, claimsMissing, parsed? }
-   status walks package -> claims -> script -> cards -> filed. The NEW CLAIMS
-   gate is enforced in bsAdvance and bsFile: nothing moves past claims until
-   every claim is added-to-bank or cut. */
+   short = { id, tag, angle, status, created, updated, facts, factsFinal,
+             sections, claims, claimsNone, claimsMissing, parsed? }
+   status walks research -> audit -> package -> claims -> script -> cards
+   -> filed. facts holds the Step 1 sheet, factsFinal the audited version
+   that feeds the package prompt. The NEW CLAIMS gate is enforced in
+   bsAdvance and bsFile: nothing moves past claims until every claim is
+   confirmed or cut. Shorts saved before v3.6 resume at their old stage. */
 const BS_STAGES = [
-  { key:'package', label:'Package' },
-  { key:'claims',  label:'Review claims' },
-  { key:'script',  label:'Script' },
-  { key:'cards',   label:'Cards' },
-  { key:'filed',   label:'Filed' }
+  { key:'research', label:'Research' },
+  { key:'audit',    label:'Audit' },
+  { key:'package',  label:'Package' },
+  { key:'claims',   label:'Review claims' },
+  { key:'script',   label:'Script' },
+  { key:'cards',    label:'Cards' },
+  { key:'filed',    label:'Filed' }
 ];
 const bsWrap = document.getElementById('bsWrap');
 let bsView = null;        /* a completed stage being revisited, null = current */
@@ -1415,7 +1403,7 @@ function bsClaimsResolved(s){
 function bsAdvance(st, to){
   const s = st.active; if(!s) return;
   if(bsStageIdx(to) > bsStageIdx('claims') && !bsClaimsResolved(s)){
-    alert('The NEW CLAIMS gate is not cleared. Every claim needs "Confirmed · added to bank" or "Cut from script" first.');
+    alert('The NEW CLAIMS gate is not cleared. Every claim needs "Confirmed · source checked" or "Cut from script" first.');
     return;
   }
   s.status = to; s.updated = Date.now();
@@ -1424,7 +1412,7 @@ function bsAdvance(st, to){
 function bsFile(st){
   const s = st.active; if(!s) return;
   if(!bsClaimsResolved(s)){
-    alert('The NEW CLAIMS gate is not cleared. Every claim needs "Confirmed · added to bank" or "Cut from script" first.');
+    alert('The NEW CLAIMS gate is not cleared. Every claim needs "Confirmed · source checked" or "Cut from script" first.');
     return;
   }
   s.status = 'filed'; s.updated = Date.now();
@@ -1432,13 +1420,23 @@ function bsFile(st){
   bsView = null; bsSave(st); renderShort();
 }
 
-function bsPrompt4(s){
-  const pre = document.getElementById('p4').cloneNode(true);
+function bsFillSlots(preId, s){
+  const pre = document.getElementById(preId).cloneNode(true);
   pre.querySelectorAll('.slot').forEach(sp=>{
     if(sp.dataset.for==='topic') sp.textContent = s.tag;
-    if(sp.dataset.for==='angle' && s.angle) sp.textContent = s.angle;
+    if(sp.dataset.for==='angle') sp.textContent = s.angle || 'none yet';
   });
-  return pre.textContent + CARD_SNIPPET;
+  return pre.textContent;
+}
+function bsPrompt1(s){ return bsFillSlots('p1', s); }
+function bsPrompt2(s){
+  return document.getElementById('p2').textContent
+    .replace('[PASTE THE FACT SHEET FROM STEP 1]', '\n' + (s.facts || ''));
+}
+function bsPrompt3(s){
+  return bsFillSlots('p3', s)
+    .replace('[PASTE THE AUDITED FACT SHEET FROM STEP 2]', '\n' + (s.factsFinal || ''))
+    + CARD_SNIPPET;
 }
 
 function bsParsePackage(text){
@@ -1536,7 +1534,7 @@ function bsParseSummary(st, s){
   const box = bsEl('<div class="bs-parsed"></div>');
   const rows = [
     ['SCRIPT', t=> ((t.trim().match(/\S+/g)||[]).length) + ' words'],
-    ['NEW CLAIMS', t=>{ const c = bsParseClaims(t); return c.none? 'none, all claims from bank' : c.claims.length + (c.claims.length===1? ' claim to review' : ' claims to review'); }],
+    ['NEW CLAIMS', t=>{ const c = bsParseClaims(t); return c.none? 'none, all from the fact sheet' : c.claims.length + (c.claims.length===1? ' claim to review' : ' claims to review'); }],
     ['CARD SPECS', t=>{ const n = (t.match(/^\s*===/mg)||[]).length; return n? n + ' cards' : 'captured'; }],
     ['COMMENT VULNERABILITIES', ()=> 'captured, shows at the Script stage']
   ];
@@ -1563,6 +1561,57 @@ function bsParseSummary(st, s){
   return box;
 }
 
+function bsPanelResearch(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note">Run Prompt 1 in a chat <b>inside the ITC Project</b>, web search on. Topic and angle are already filled in. Then paste the fact sheet it returns below.</p>'));
+  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 1 · topic and angle filled in</button>');
+  copyBtn.addEventListener('click', function(){ copyText(bsPrompt1(s), this); });
+  p.appendChild(copyBtn);
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the whole fact sheet reply here: FACT SHEET, MYTHS, OPEN QUESTIONS, and ANGLES if it offered them."></textarea>');
+  ta.value = s.facts || '';
+  p.appendChild(ta);
+  const row = bsEl('<div class="bs-row"></div>');
+  const go = bsEl('<button type="button" class="amber">Sheet captured · on to the audit</button>');
+  go.addEventListener('click', ()=>{
+    if(!ta.value.trim()){ alert('Paste the fact sheet first.'); return; }
+    s.facts = ta.value.trim(); s.updated = Date.now();
+    if(bsStageIdx(s.status) <= bsStageIdx('research')){ s.status = 'audit'; }
+    bsView = null; bsSave(st); renderShort();
+  });
+  row.appendChild(go); p.appendChild(row);
+  return p;
+}
+
+function bsPanelAudit(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note">Open a fresh chat <b>OUTSIDE the Project</b>, web search on. The copy below already carries the fact sheet. Paste the audited sheet the chat returns, after your own judgment pass. You outrank the AI, both times.</p>'));
+  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 2 · fact sheet attached</button>');
+  copyBtn.addEventListener('click', function(){ copyText(bsPrompt2(s), this); });
+  p.appendChild(copyBtn);
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the corrected final fact sheet here. This exact text feeds the package prompt."></textarea>');
+  ta.value = s.factsFinal || '';
+  p.appendChild(ta);
+  const row = bsEl('<div class="bs-row"></div>');
+  const go = bsEl('<button type="button" class="amber">Audited · on to the package</button>');
+  go.addEventListener('click', ()=>{
+    if(!ta.value.trim()){ alert('Paste the audited fact sheet first. If the audit changed nothing, use the button below.'); return; }
+    s.factsFinal = ta.value.trim(); s.updated = Date.now();
+    if(bsStageIdx(s.status) <= bsStageIdx('audit')){ s.status = 'package'; }
+    bsView = null; bsSave(st); renderShort();
+  });
+  row.appendChild(go); p.appendChild(row);
+  const asIs = bsEl('<p class="bs-note">Audit came back clean, nothing to change? <a href="#" class="asis">Use the Step 1 sheet as the final version</a>.</p>');
+  asIs.querySelector('.asis').addEventListener('click', e=>{
+    e.preventDefault();
+    if(!s.facts){ alert('There is no Step 1 sheet captured yet.'); return; }
+    s.factsFinal = s.facts; s.updated = Date.now();
+    if(bsStageIdx(s.status) <= bsStageIdx('audit')){ s.status = 'package'; }
+    bsView = null; bsSave(st); renderShort();
+  });
+  p.appendChild(asIs);
+  return p;
+}
+
 function bsPanelPackage(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   if(s.parsed){
@@ -1570,9 +1619,9 @@ function bsPanelPackage(st, s){
     p.appendChild(bsParseSummary(st, s));
     return p;
   }
-  p.appendChild(bsEl('<p class="bs-note">Run Prompt 4 in a chat inside the ITC Project, then paste the whole reply below in one go. Topic and angle are already filled in on the prompt.</p>'));
-  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 4 · topic and angle filled in</button>');
-  copyBtn.addEventListener('click', function(){ copyText(bsPrompt4(s), this); });
+  p.appendChild(bsEl('<p class="bs-note">Run Prompt 3 in a chat inside the ITC Project, then paste the whole reply below in one go. Topic, angle, and the audited fact sheet are already filled in.</p>'));
+  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 3 · topic, angle, and fact sheet filled in</button>');
+  copyBtn.addEventListener('click', function(){ copyText(bsPrompt3(s), this); });
   p.appendChild(copyBtn);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the entire Claude reply here. It splits into SCRIPT, NEW CLAIMS, CARD SPECS, and COMMENT VULNERABILITIES on its headers."></textarea>');
   p.appendChild(ta);
@@ -1582,7 +1631,7 @@ function bsPanelPackage(st, s){
     if(!ta.value.trim()){ alert('Paste the package first.'); return; }
     const parsed = bsParsePackage(ta.value);
     if(!Object.keys(parsed).length){
-      alert('No section headers found. The paste needs the SCRIPT, NEW CLAIMS, CARD SPECS, and COMMENT VULNERABILITIES headers from Prompt 4.');
+      alert('No section headers found. The paste needs the SCRIPT, NEW CLAIMS, CARD SPECS, and COMMENT VULNERABILITIES headers from Prompt 3.');
       return;
     }
     s.parsed = parsed; s.updated = Date.now();
@@ -1595,7 +1644,7 @@ function bsPanelPackage(st, s){
 
 function bsClaimRow(st, s, c){
   const el = bsEl('<div class="claim"><div class="txt"></div><div class="acts">'+
-    '<button type="button" class="a-add">Confirmed · added to bank</button>'+
+    '<button type="button" class="a-add">Confirmed · source checked</button>'+
     '<button type="button" class="a-cut">Cut from script</button></div></div>');
   el.querySelector('.txt').textContent = c.text;
   if(c.state==='added'){ el.classList.add('added'); el.querySelector('.a-add').classList.add('on-add'); }
@@ -1612,7 +1661,7 @@ function bsClaimRow(st, s, c){
 function bsPanelClaims(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   if(s.claimsNone){
-    p.appendChild(bsEl('<div class="done-banner">NEW CLAIMS · None, all claims from bank. The gate passed automatically.</div>'));
+    p.appendChild(bsEl('<div class="done-banner">NEW CLAIMS · None, all claims from the fact sheet. The gate passed automatically.</div>'));
     if(s.status==='claims'){
       const row = bsEl('<div class="bs-row"></div>');
       const b = bsEl('<button type="button" class="amber">Continue to Script</button>');
@@ -1631,7 +1680,7 @@ function bsPanelClaims(st, s){
     row.appendChild(back); row.appendChild(none); p.appendChild(row);
     return p;
   }
-  p.appendChild(bsEl('<p class="bs-note">The only place unaudited facts can enter. Each claim gets one of two endings: confirmed by you and written into the bank file, or cut from the script. Nothing moves to Cards until every claim is resolved.</p>'));
+  p.appendChild(bsEl('<p class="bs-note">The only place unaudited facts can enter. Each claim gets one of two endings: confirmed by you against a source you actually checked, or cut from the script. Nothing moves to Cards until every claim is resolved.</p>'));
   const done = s.claims.filter(c=>c.state).length;
   p.appendChild(bsEl('<div class="gateline">'+done+' / '+s.claims.length+' resolved</div>'));
   s.claims.forEach(c=>p.appendChild(bsClaimRow(st, s, c)));
@@ -1641,7 +1690,7 @@ function bsPanelClaims(st, s){
     b.disabled = !bsClaimsResolved(s);
     b.addEventListener('click', ()=>bsAdvance(st,'script'));
     row.appendChild(b); p.appendChild(row);
-    p.appendChild(bsEl('<p class="bs-note">Confirmed claims must actually be written into the bank file. If one cannot be done right now, jot it in the bank correction log below.</p>'));
+    p.appendChild(bsEl('<p class="bs-note">Confirmed means you actually checked a source, not that it sounds right. Anything that needs a public correction later goes in the correction log below.</p>'));
   }
   return p;
 }
@@ -1655,7 +1704,7 @@ function bsPanelScript(st, s){
   const w = bsEl('<button type="button" class="ghost">Open in Writer</button>');
   w.addEventListener('click', ()=>showView('writer'));
   const qc = bsEl('<button type="button" class="ghost">Open the QC pass</button>');
-  qc.addEventListener('click', ()=>goPlaybook('pb-s5'));
+  qc.addEventListener('click', ()=>goPlaybook('pb-s4'));
   row1.appendChild(w); row1.appendChild(qc); p.appendChild(row1);
   const vul = s.sections && s.sections['COMMENT VULNERABILITIES'];
   if(vul){
@@ -1682,7 +1731,7 @@ function bsPanelCards(st, s){
   const c = bsEl('<button type="button" class="ghost">Open Cards tab</button>');
   c.addEventListener('click', ()=>showView('cards'));
   const vo = bsEl('<button type="button" class="ghost">Voiceover + hand off steps</button>');
-  vo.addEventListener('click', ()=>goPlaybook('pb-s6'));
+  vo.addEventListener('click', ()=>goPlaybook('pb-s5'));
   row1.appendChild(c); row1.appendChild(vo); p.appendChild(row1);
   if(s.status==='cards'){
     const row = bsEl('<div class="bs-row"></div>');
@@ -1695,7 +1744,7 @@ function bsPanelCards(st, s){
 
 function bsStartPanel(st){
   const box = bsEl('<div class="bs-box"></div>');
-  box.appendChild(bsEl('<p class="bs-note">One Short at a time, the same path every time: Package, Review claims, Script, Cards, Filed. Set the topic tag once; it names the prompt, the Writer doc, the card files, and the bank log entries.</p>'));
+  box.appendChild(bsEl('<p class="bs-note">One topic in, one finished Short out, the same path every time: Research, Audit, Package, Review claims, Script, Cards, Filed. Set the topic tag once; it names the prompts, the Writer doc, the card files, and the correction log entries.</p>'));
   const form = bsEl('<div class="logform"><div class="r">'+
     '<input class="i-tag" placeholder="TOPIC TAG · e.g. BW4407" maxlength="24" style="max-width:170px">'+
     '<input class="i-angle" placeholder="ANGLE · the one line hook"></div>'+
@@ -1704,8 +1753,8 @@ function bsStartPanel(st){
     const tag = form.querySelector('.i-tag').value.trim().toUpperCase().replace(/\s+/g,'_');
     const angle = form.querySelector('.i-angle').value.trim();
     if(!tag){ alert('Set a topic tag first. It carries through the whole package.'); return; }
-    st.active = { id:Date.now(), tag, angle, status:'package', created:Date.now(), updated:Date.now(),
-      sections:{}, claims:[], claimsNone:false, claimsMissing:false };
+    st.active = { id:Date.now(), tag, angle, status:'research', created:Date.now(), updated:Date.now(),
+      facts:'', factsFinal:'', sections:{}, claims:[], claimsNone:false, claimsMissing:false };
     bsView = null; bsSave(st); renderShort();
   });
   box.appendChild(form);
@@ -1776,8 +1825,9 @@ function renderShort(){
       back.querySelector('.bk').addEventListener('click', e=>{ e.preventDefault(); bsView = null; renderShort(); });
       box.appendChild(back);
     }
-    const panels = { package:bsPanelPackage, claims:bsPanelClaims, script:bsPanelScript, cards:bsPanelCards };
-    box.appendChild((panels[viewKey] || bsPanelPackage)(st, s));
+    const panels = { research:bsPanelResearch, audit:bsPanelAudit, package:bsPanelPackage,
+      claims:bsPanelClaims, script:bsPanelScript, cards:bsPanelCards };
+    box.appendChild((panels[viewKey] || bsPanelResearch)(st, s));
     bsWrap.appendChild(box);
   }
   bsWrap.appendChild(bsHistory(st));
@@ -2111,10 +2161,12 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     if(c.length!==1 || c[0].type!==t || !RENDERERS[c[0].type])
       fails.push('parser or renderer no longer accepts type "'+t+'"');
   });
-  const p4txt = document.getElementById('p4').textContent;
+  const p3txt = document.getElementById('p3').textContent;
+  const porttxt = document.getElementById('pport').textContent;
   CARD_TYPES.forEach(t=>{
-    if(!p4txt.includes(t)) fails.push('Prompt 4 no longer names card type "'+t+'"');
+    if(!p3txt.includes(t)) fails.push('Prompt 3 no longer names card type "'+t+'"');
     if(!CARD_SNIPPET.includes(t)) fails.push('CARD_SNIPPET no longer names card type "'+t+'"');
+    if(!porttxt.includes(t)) fails.push('the portable instructions no longer name card type "'+t+'"');
   });
   const demo = parseSpecs(CARD_EXAMPLE);
   if(demo.length!==CARD_TYPES.length || CARD_TYPES.some(t=>!demo.find(c=>c.type===t)))

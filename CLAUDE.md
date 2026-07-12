@@ -37,9 +37,11 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is Claude-only: bank builds use Claude with web search
-  inside the ITC Project; the bank audit uses a fresh Claude chat
-  outside the Project. Do not reintroduce other AI tools into the copy.
+- The workflow is Claude-only and one topic per session: topic research
+  uses Claude with web search inside the ITC Project; the fact-sheet
+  audit uses a fresh Claude chat outside the Project. Do not
+  reintroduce other AI tools, or the old per-platform fact-bank
+  workflow, into the copy.
 
 ## Card renderer
 
