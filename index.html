@@ -426,6 +426,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v3.5</b> · Prompt 4's card section now speaks the generator's exact machine format: real card types only (spec, timeline, table), full syntax rules, and a worked example covering every type, so specs paste into the Cards tab with zero edits. Dropped the invented "comparison" and "myth bust" types and the wrong footer. Added a load-time self-test that flags the prompt and parser drifting apart. No visual changes.</p>
       <p><b>v3.4</b> · Desktop layout. On screens 1000px and wider the tab bar becomes a left rail, the working column widens, and the Cards tab goes side by side: spec editor on the left, live card preview pinned on the right, reference below. Phone layout is untouched.</p>
       <p><b>v3.3</b> · Home rebuilt around Build a Short: one Short at a time moves through Package, Review claims, Script, Cards, Filed. The whole Claude package pastes in once and splits into script, new claims, card specs, and comment vulnerabilities, then routes to the Writer and Cards tabs. NEW CLAIMS is now a hard gate: every claim must be confirmed into the bank or cut from the script before cards or filing. The corrections inbox became a per-tag bank correction log with Copy for re-audit; old inbox entries migrated over automatically. The topic tag set at the start carries through the prompt, the Writer doc name, the card file tag, and the correction log. Added backup and restore of all app data.</p>
       <p><b>v3.1</b> · Removed the Hudson/Partner mode. The playbook now reads as one full process for whoever is running it. Role chips and hand-off wording cleaned up throughout.</p>
@@ -624,17 +625,21 @@ Runtime target about 1:45. Recordable for voiceover. Strong first line.
 the bank, each with a tier and source. If there are none, write
 "None, all claims from bank."
 
-3. CARD SPECS. 3 to 5 vertical cards as plain text specs. For each:
-card number and type (spec grid, timeline, comparison, or myth bust
-with highlight box), kicker, headline of 1 to 3 words, subhead, every
-label and value in order, highlight box text if any, and the footer
-"INSIDE THE CASE . AUTO".
+3. CARD SPECS. 3 to 5 vertical cards written directly in the Card
+Generator machine format, ready to paste with zero edits. One block
+per card, each starting with a "=== CARD 01" line, then key lines:
+type (exactly spec, timeline, or table, no other types exist),
+accent (amber, red, green, or blue), kicker, headline (1 to 3
+words), subhead, rows, and an optional highlight callout. Rows:
+spec "LABEL | value", timeline "YEAR | event", table
+"COL | COL | COL" with the first row as headers. Leave counter and
+footer out, the generator fills them in.
 
 4. COMMENT VULNERABILITIES. What a knowledgeable commenter could
 dispute, so it can be pinned, changed, or left alone on purpose.
 
-STYLE: no em dashes anywhere in script or card copy. No emojis.
-Ranges written as "1994 to 1997".</pre>
+STYLE: no em dashes and no en dashes anywhere in script or card
+copy. No emojis. Ranges written as "1994 to 1997".</pre>
         <div class="pfoot">
           <input type="checkbox" id="inclSnip" checked>
           <label for="inclSnip" style="cursor:pointer">Append the Card Generator machine format so the specs paste straight into the Cards tab (recommended)</label>
@@ -1121,7 +1126,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v3.4';
+const APP_VERSION = 'v3.5';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1182,24 +1187,74 @@ document.querySelectorAll('.fillins input').forEach(inp=>{
   });
 })();
 
-/* ---------------- [PLAYBOOK] card snippet appended to prompt 4 ---------------- */
+/* ---------------- [PLAYBOOK] card snippet appended to prompt 4 ----------------
+   CARD_TYPES mirrors the parser: it must equal the keys of RENDERERS in the
+   [CARDS] section. The load-time self-test fails loudly if they drift. */
+const CARD_TYPES = ['spec','timeline','table'];
+const CARD_EXAMPLE = `=== CARD 01
+type: spec
+accent: amber
+kicker: 5.9 CUMMINS · BLOCK ID
+headline: THE STORM BLOCK
+subhead: late '97 to 2002
+rows:
+WHAT STORM MEANS | Straight Thread O-Ring Metric
+MAIN-CAP BOLTS | *14 mm to 12 mm*
+> smaller, not stronger
+PORTS | metric O-ring, not pipe thread
+highlight: Not stronger, just different. High-HP builders still chase the early 14 mm blocks.
+
+=== CARD 02
+type: timeline
+accent: blue
+kicker: 5.9 CUMMINS · CHANGEOVER
+headline: WHEN IT SWITCHED
+subhead: one running change
+rows:
+1994 | P-pumped 12-valve era begins
+1998 | 24-valve ISB replaces it mid-year
+2002 | last of the STORM blocks
+
+=== CARD 03
+type: table
+accent: green
+kicker: 5.9 CUMMINS · QUICK ID
+headline: TELL THEM APART
+subhead: three checks at the block
+rows:
+CHECK | EARLY | LATE
+MAINS | 14 mm | 12 mm
+TURBO DRAIN | one | two
+PORTS | pipe thread | O-ring`;
 const CARD_SNIPPET = `
 
-Output the CARD SPECS in exactly this machine format, one block per
-card, no other commentary between blocks:
-=== CARD 01
-type: spec | timeline | table
-accent: amber | red | green | blue
-kicker: PLATFORM · TOPIC
-headline: 1 TO 3 WORDS
-subhead: short line
-rows:
-spec rows as "LABEL | value", timeline rows as "YEAR | event",
-table rows as "COL | COL | COL" with the first row as headers.
-Use "> text" for a smaller sub-line under a row. Wrap a value in
-*asterisks* to color it in the accent.
-highlight: optional bottom callout, one line, plain text
-No em dashes. No emojis. Ranges written as "1994 to 1997".`;
+Output the CARD SPECS in exactly the machine format below, ready to
+paste into the generator with zero edits. One block per card. No
+commentary before the first block, between blocks, or after the last.
+
+FORMAT RULES:
+- Every card starts with a "=== CARD 01" line.
+- type must be exactly ${CARD_TYPES.join(', ')} (lowercase). No
+  other types exist. Anything else silently renders as spec.
+- accent: amber, red, green, or blue. A hex like #FF8C16 also works.
+- Key lines: kicker (PLATFORM · TOPIC), headline (1 to 3 words),
+  subhead (short accent line), rows, highlight (optional callout
+  pinned to the card bottom).
+- Leave counter out (cards auto-number) and footer out (defaults to
+  "INSIDE THE CASE · AUTO").
+- Rows by type: spec "LABEL | value", timeline "YEAR | event",
+  table "COL | COL | COL" with the first row as the headers.
+- "> text" under a spec row draws a smaller sub-line. Spec rows only.
+- *asterisks* color that text in the accent. Spec values and spec
+  sub-lines only.
+- spec and timeline shrink to fit. table does not, so keep tables to
+  about 5 rows and 3 columns or the card overflows.
+- No em dashes, no en dashes, no emojis. Ranges written as
+  "1994 to 1997".
+
+WORKED EXAMPLE, every type once:
+
+${CARD_EXAMPLE}`;
 
 function promptText(id){
   let text = document.getElementById(id).textContent;
@@ -1765,6 +1820,9 @@ restoreInput.addEventListener('change', ()=>{
    ================================================================ */
 const ACCENTS = { amber:"#FF8C16", red:"#E8604C", green:"#6FCF8F", blue:"#7EA6D9" };
 const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer"];
+/* one renderer per accepted card type; unknown types fall back to spec.
+   The self-test checks these keys against CARD_TYPES in the prompt. */
+const RENDERERS = { spec: renderSpec, timeline: renderTimeline, table: renderTable };
 
 function parseSpecs(text){
   const cards = [];
@@ -1860,9 +1918,7 @@ function renderCard(ctx,c){
     hlLines = wrap(ctx,c.highlight,font(36,400,false,0),796);
     hlTop = 1738 - (hlLines.length*50+66);
   }
-  if(c.type==="timeline") renderTimeline(ctx,c,cy,accent,hlTop);
-  else if(c.type==="table") renderTable(ctx,c,cy,accent,hlTop);
-  else renderSpec(ctx,c,cy,accent,hlTop);
+  (RENDERERS[c.type] || RENDERERS.spec)(ctx,c,cy,accent,hlTop);
   if(c.highlight){
     const hlH = hlLines.length*50+66;
     ctx.strokeStyle=accent; ctx.lineWidth=2; ctx.fillStyle="#161C26";
@@ -2040,6 +2096,42 @@ document.getElementById("share1").addEventListener('click', async function(){
   }
 });
 document.getElementById("copysnip").addEventListener('click', function(){ copyText(CARD_SNIPPET.trim(), this); });
+
+/* ---------------- [CARDS] self-test: prompt vs parser drift guard ----------------
+   Runs once at load. Fails loudly (console + Home banner) if the card types
+   documented in Prompt 4 / CARD_SNIPPET ever drift from what the parser and
+   renderers actually accept, or if the worked example stops parsing clean. */
+(function selfTest(){
+  const fails = [];
+  const rendererTypes = Object.keys(RENDERERS).sort().join(',');
+  if(rendererTypes !== [...CARD_TYPES].sort().join(','))
+    fails.push('CARD_TYPES ['+CARD_TYPES+'] does not match the renderers ['+rendererTypes+']');
+  CARD_TYPES.forEach(t=>{
+    const c = parseSpecs('=== CARD 01\ntype: '+t+'\nheadline: X\nrows:\nA | B');
+    if(c.length!==1 || c[0].type!==t || !RENDERERS[c[0].type])
+      fails.push('parser or renderer no longer accepts type "'+t+'"');
+  });
+  const p4txt = document.getElementById('p4').textContent;
+  CARD_TYPES.forEach(t=>{
+    if(!p4txt.includes(t)) fails.push('Prompt 4 no longer names card type "'+t+'"');
+    if(!CARD_SNIPPET.includes(t)) fails.push('CARD_SNIPPET no longer names card type "'+t+'"');
+  });
+  const demo = parseSpecs(CARD_EXAMPLE);
+  if(demo.length!==CARD_TYPES.length || CARD_TYPES.some(t=>!demo.find(c=>c.type===t)))
+    fails.push('the worked example no longer covers every card type exactly once');
+  demo.forEach(c=>{ if(c.warnings.length) fails.push('the worked example trips house rules: '+c.warnings.join(' ')); });
+  const canary = parseSpecs('=== CARD 01\nheadline: X\nrows:\nYEARS | 1994—1997');
+  if(!canary.length || !canary[0].warnings.length)
+    fails.push('the house-rule dash warning stopped firing');
+  if(fails.length){
+    console.error('ITC HQ self-test FAILED:\n- '+fails.join('\n- '));
+    const n = document.createElement('div');
+    n.className = 'note';
+    n.innerHTML = '<b>Self-test failed:</b> the card prompt and the card generator have drifted apart. Cards may not render from Prompt 4 output. Open the browser console for details, then hand this file to Claude.';
+    const home = document.getElementById('view-home');
+    home.insertBefore(n, home.firstChild);
+  }
+})();
 
 /* restore card draft, or load the demo */
 const DEMO_SPECS = `=== CARD 01
