@@ -426,6 +426,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v3.7</b> · The Writer now pastes as plain text. Pasting a script from a dark-themed app used to drag its monospace font and dark backgrounds into the page. Formatted documents still come in through Open. To clean a document that was already pasted with baggage: select all, then the Tx button.</p>
       <p><b>v3.6</b> · The playbook is now one topic per session, research to finished Short. The per-platform fact bank is gone: each Short gets its own fact sheet, researched in the Project with web search (Prompt 1), audited cold in a fresh chat outside it (Prompt 2), then packaged from LOCKED facts only (Prompt 3). Build a Short gained Research and Audit stages that carry the fact sheet into each prompt automatically. Steps renumbered 1 to 7, the correction log now points at public corrections instead of bank fixes, and the fact sheet archives with each Short as ITC_TOPIC_FACTS.txt. Old in-progress Shorts resume where they were.</p>
       <p><b>v3.5</b> · Prompt 4's card section now speaks the generator's exact machine format: real card types only (spec, timeline, table), full syntax rules, and a worked example covering every type, so specs paste into the Cards tab with zero edits. Dropped the invented "comparison" and "myth bust" types and the wrong footer. Added a load-time self-test that flags the prompt and parser drifting apart. No visual changes.</p>
       <p><b>v3.4</b> · Desktop layout. On screens 1000px and wider the tab bar becomes a left rail, the working column widens, and the Cards tab goes side by side: spec editor on the left, live card preview pinned on the right, reference below. Phone layout is untouched.</p>
@@ -1110,7 +1111,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v3.6';
+const APP_VERSION = 'v3.7';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -2234,16 +2235,44 @@ tagEl.value = store.get('cardtag', 'ITC_TOPIC');
   page.addEventListener('input', ()=>{ setDirty(true); updateCounts(); autosave(); });
   docname.addEventListener('input', autosave);
 
+  /* paste as plain text, always. Pasting from dark-themed apps (Claude,
+     code views) otherwise drags monospace fonts and dark backgrounds
+     into the page. Formatted documents come in through Open instead. */
+  page.addEventListener('paste', e=>{
+    const cd = e.clipboardData || window.clipboardData;
+    if(!cd) return;                       /* no API here: let the browser paste */
+    const text = cd.getData('text/plain');
+    if(!text) return;                     /* image or empty: default behavior */
+    e.preventDefault();
+    document.execCommand('insertText', false, text);
+    setDirty(true); updateCounts(); autosave();
+  });
+
   /* restore */
   const saved = store.get('writer_html', null);
   if(saved){ page.innerHTML = saved; docname.value = store.get('writer_name','Untitled script'); }
   updateCounts();
 
   /* toolbar */
+  /* removeFormat alone leaves block-level inline styles (backgrounds,
+     line heights) behind, so Tx also strips style attributes and font
+     tags from everything the selection touches. */
+  function stripSelectionStyles(){
+    const sel = window.getSelection();
+    if(!sel.rangeCount || sel.isCollapsed || !page.contains(sel.anchorNode)) return;
+    const range = sel.getRangeAt(0);
+    page.querySelectorAll('[style],font').forEach(el=>{
+      if(!range.intersectsNode(el)) return;
+      if(el.tagName==='FONT') el.replaceWith(...el.childNodes);
+      else el.removeAttribute('style');
+    });
+    page.normalize();
+  }
   document.querySelectorAll('#view-writer .tbtn[data-cmd]').forEach(btn=>{
     btn.addEventListener('mousedown', e=>e.preventDefault());
     btn.addEventListener('click', ()=>{
       document.execCommand(btn.dataset.cmd,false,null);
+      if(btn.dataset.cmd==='removeFormat') stripSelectionStyles();
       page.focus(); refreshToggles(); setDirty(true); updateCounts(); autosave();
     });
   });
