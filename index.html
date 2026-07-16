@@ -426,6 +426,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v3.8</b> · Prompt 4 rebuilt. It was still the old chat fallback that asked Claude to draw card images from attached samples. It now asks the chat that already has the facts to write card specs in the generator's machine format, with the full format reference and worked example attached to every copy, so the reply pastes into the Cards tab with zero edits. Prompt 4 joined the load-time drift self-test.</p>
       <p><b>v3.7</b> · The Writer now pastes as plain text. Pasting a script from a dark-themed app used to drag its monospace font and dark backgrounds into the page. Formatted documents still come in through Open. To clean a document that was already pasted with baggage: select all, then the Tx button.</p>
       <p><b>v3.6</b> · The playbook is now one topic per session, research to finished Short. The per-platform fact bank is gone: each Short gets its own fact sheet, researched in the Project with web search (Prompt 1), audited cold in a fresh chat outside it (Prompt 2), then packaged from LOCKED facts only (Prompt 3). Build a Short gained Research and Audit stages that carry the fact sheet into each prompt automatically. Steps renumbered 1 to 7, the correction log now points at public corrections instead of bank fixes, and the fact sheet archives with each Short as ITC_TOPIC_FACTS.txt. Old in-progress Shorts resume where they were.</p>
       <p><b>v3.5</b> · Prompt 4's card section now speaks the generator's exact machine format: real card types only (spec, timeline, table), full syntax rules, and a worked example covering every type, so specs paste into the Cards tab with zero edits. Dropped the invented "comparison" and "myth bust" types and the wrong footer. Added a load-time self-test that flags the prompt and parser drifting apart. No visual changes.</p>
@@ -683,27 +684,22 @@ copy. No emojis. Ranges written as "1994 to 1997".</pre>
         <li>Check every card against the warning box. It auto-flags em dashes, emojis, hyphenated ranges, and overflow.</li>
         <li>Set the file tag (e.g. <code>ITC_BW4407</code>), then <b>Share</b> each card straight to Drive, or export PNGs.</li>
       </ul>
-      <h3>Path B · Chat fallback · attach samples first</h3>
-      <p>If the tool is unavailable, build cards in a Claude chat. Attach the sample card images from <code>PLAYBOOK/</code> first, <b>every single time</b>. They are the style lock. If you forget them, the cards come out wrong.</p>
+      <h3>Path B · No specs yet? Have Claude write them</h3>
+      <p>If a Short needs cards without a full package pass, ask the chat that already has the facts (the research chat works) to write the specs. The copy button attaches the generator's full machine format reference and a worked example, so the reply pastes into the Cards tab with zero edits.</p>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 4 <span>·</span> Cards</div><div class="spacer"></div><button class="copybtn" data-copy="p4">Copy prompt</button></div>
-        <pre id="p4">I am giving you finished card specs and sample images of our channel
-data card style. Build each card exactly as specified, vertical,
-1080 by 1920, matching the attached samples in layout, color, and tone.
+        <div class="phead"><div class="pt">Prompt 4 <span>·</span> Card specs</div><div class="spacer"></div><button class="copybtn" data-copy="p4">Copy prompt</button></div>
+        <pre id="p4">Write the info card specs for this Short in the ITC HQ Card Generator
+machine format described below, ready to paste into the generator with
+zero edits. Do not describe or draw the cards. Output only the card
+blocks, no commentary before, between, or after them.
 
-CARD SPECS: [PASTE THE CARD SPECS FROM THE SHORT PACKAGE]
+Work from the script and audited facts already in this chat. If they
+are not here: FACTS: [PASTE THE FACT SHEET OR SCRIPT]
 
-RULES
-Build only what the specs say. Do not add facts, do not drop lines.
-Match the attached style exactly: near black background, amber accent
-(#FF8C16), heavy Poppins headline, a small uppercase kicker, a page
-counter like 02 / 05 top right, monospace values, steel blue labels,
-and the "INSIDE THE CASE · AUTO" footer.
-Card types as specified: spec grid, timeline, and table. A highlight
-box pinned to the bottom appears wherever the spec lists one.
-Headline is 1 to 3 words. Labels are short. Values are real. No filler.
-No em dashes in any card copy. Visual connectors and dividers are
-styling and are fine. No emojis. Ranges written as "1994 to 1997".</pre>
+3 to 5 vertical cards, LOCKED facts only. Pick the card type that fits
+each beat: spec for label and value pairs, timeline for dated events,
+table for side by side comparisons. Lead with the strongest mechanical
+truth. One idea per card.</pre>
       </div>
       <h3>Save both parts</h3>
       <ul>
@@ -1111,7 +1107,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v3.7';
+const APP_VERSION = 'v3.8';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1244,6 +1240,7 @@ ${CARD_EXAMPLE}`;
 function promptText(id){
   let text = document.getElementById(id).textContent;
   if(id==='p3' && document.getElementById('inclSnip').checked) text += CARD_SNIPPET;
+  if(id==='p4') text += CARD_SNIPPET;   /* card specs prompt always carries the format */
   return text;
 }
 document.querySelectorAll('.copybtn[data-copy]').forEach(btn=>{
@@ -2163,9 +2160,11 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
       fails.push('parser or renderer no longer accepts type "'+t+'"');
   });
   const p3txt = document.getElementById('p3').textContent;
+  const p4txt = document.getElementById('p4').textContent;
   const porttxt = document.getElementById('pport').textContent;
   CARD_TYPES.forEach(t=>{
     if(!p3txt.includes(t)) fails.push('Prompt 3 no longer names card type "'+t+'"');
+    if(!p4txt.includes(t)) fails.push('Prompt 4 no longer names card type "'+t+'"');
     if(!CARD_SNIPPET.includes(t)) fails.push('CARD_SNIPPET no longer names card type "'+t+'"');
     if(!porttxt.includes(t)) fails.push('the portable instructions no longer name card type "'+t+'"');
   });
