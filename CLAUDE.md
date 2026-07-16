@@ -37,16 +37,22 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is Claude-only and one topic per session: topic research
-  uses Claude with web search inside the ITC Project; the fact-sheet
-  audit uses a fresh Claude chat outside the Project. Do not
-  reintroduce other AI tools, or the old per-platform fact-bank
-  workflow, into the copy.
+- The workflow is one topic per session and runs on both Claude
+  (Opus/Fable) and ChatGPT: topic research in an AI workspace (Claude
+  Project or ChatGPT Project) with web search; the fact-sheet audit in
+  a fresh chat outside any workspace, ideally a different model than
+  the one that researched. Keep all prompt copy model-agnostic; do not
+  write Claude-only instructions, and do not reintroduce the old
+  per-platform fact-bank workflow.
 
 ## Card renderer
 
-The canvas renderer (parseSpecs/renderCard and friends) is a stable port
-of the standalone Card Generator v1.1. It draws true 1080x1920 PNGs.
-Changes to its layout constants change every card the channel exports,
-so treat visual edits there as high-risk and describe the effect before
-making them.
+The canvas renderer (parseSpecs/renderCard and friends) began as a port
+of the standalone Card Generator v1.1 and was extended in v4.0 with the
+compare card type, the source credit line, kicker tick, and spec row
+separators. It draws true 1080x1920 PNGs. Changes to its layout
+constants change every card the channel exports, so treat visual edits
+there as high-risk and describe the effect before making them. The
+accepted card types live in CARD_TYPES/RENDERERS and are guarded by the
+load-time self-test; keep prompts, worked example, and renderers in
+sync through those constants.

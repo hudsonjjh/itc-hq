@@ -426,6 +426,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v4.0</b> · The multi-AI and deep-cards release. Playbook prompts audited and rewritten model-agnostic: Claude (Opus or Fable) and ChatGPT both run every step, with the audit recommended in a different model than the research. Prompt 1 now demands precise source names and exact figures, harvests 8 to 12 CARD DATA points denser than the script can cover, and attaches the sheet as a PDF for the archive. Cards leveled up: new compare card type (two panel versus with center divider), optional source credit line above the footer, brand tick on the kicker, hairline separators between spec rows, and prompts that treat cards as the deep layer for viewers who pause to read. New Share package button sends every card PNG plus the script, card specs, and audited fact sheet to Drive in one share. CLAUDE.md and the drift self-test updated to match.</p>
       <p><b>v3.9</b> · Fixed the spec-card collision where dense cards (four rows with sub-lines plus a highlight) drew their last lines under the highlight box. The card generator now measures spec content with the exact same wrapping code that paints it, auto-fits in steps from full size down to 80 percent, and if a card still cannot fit, it warns and refuses to export instead of saving a broken PNG. Same fonts, colors, and 1080x1920 output.</p>
       <p><b>v3.8</b> · Prompt 4 rebuilt. It was still the old chat fallback that asked Claude to draw card images from attached samples. It now asks the chat that already has the facts to write card specs in the generator's machine format, with the full format reference and worked example attached to every copy, so the reply pastes into the Cards tab with zero edits. Prompt 4 joined the load-time drift self-test.</p>
       <p><b>v3.7</b> · The Writer now pastes as plain text. Pasting a script from a dark-themed app used to drag its monospace font and dark backgrounds into the page. Formatted documents still come in through Open. To clean a document that was already pasted with baggage: select all, then the Tx button.</p>
@@ -452,7 +453,7 @@ input[type=file]{display:none}
     <summary><span class="sn">·</span><span class="st">The system</span><span class="arrow">›</span></summary>
     <div class="secbody">
       <h2 style="margin-top:14px">One topic in. One finished Short out.</h2>
-      <p class="lead">One session, one Short, start to finish. Pick the exact topic, research just that topic with web search, audit the facts cold in a fresh chat, then script and build from LOCKED facts only. No warehouse of facts to maintain, no picking scripts out of a pile. Everything runs on Claude: one Project, one model, two kinds of chat.</p>
+      <p class="lead">One session, one Short, start to finish. Pick the exact topic, research just that topic with web search, audit the facts cold in a fresh chat, then script and build from LOCKED facts only. No warehouse of facts to maintain, no picking scripts out of a pile. Runs on whichever AI you point at it: Claude (Opus or Fable) and ChatGPT both work, and the audit is strongest when a different model than the one that researched runs it.</p>
       <h3>What you are making, every session</h3>
       <div class="card"><div class="k">Step 1 and 2</div><h4>The fact sheet</h4><p>A tiered, sourced fact sheet for this one topic, audited cold before anything is scripted. It gets archived with the Short.</p></div>
       <div class="card"><div class="k">Step 3</div><h4>The package</h4><p>Script, new claims list, card specs, and comment vulnerabilities, generated in one pass from the audited sheet.</p></div>
@@ -467,8 +468,8 @@ input[type=file]{display:none}
         <li>Set up the shared Google Drive folder. Use the exact structure in the <b>Drive and tracker</b> section. Both of you work out of it, nothing lives in random folders anymore.</li>
         <li>Save the sample card images into <code>PLAYBOOK/</code>. They are the style lock for cards.</li>
         <li>Open the tracker (<code>ITC_TRACKER</code>, lives in the Drive root). Every Short is one row. If it is not in the tracker, it does not exist.</li>
-        <li><b>Set up the Claude Project.</b> Make a Project called Inside The Case and paste the portable instructions block (bottom of this playbook) into its project instructions. Steps 1 and 3 run in chats inside that Project, pre-loaded with the system. Web search on for research.</li>
-        <li><b>The one exception:</b> Step 2, the audit, runs in a fresh chat OUTSIDE the Project. The auditor should meet the fact sheet cold, with no shared context and no instructions telling it what the sheet is supposed to look like.</li>
+        <li><b>Set up the AI workspaces.</b> Make a Claude Project called Inside The Case, and if you research in ChatGPT too, a ChatGPT Project (or custom GPT) with the same setup. Paste the portable instructions block (bottom of this playbook) into each workspace's instructions. Steps 1 and 3 run in chats inside a workspace, pre-loaded with the system. Web search on for research.</li>
+        <li><b>The one exception:</b> Step 2, the audit, runs in a fresh chat OUTSIDE any workspace, and ideally in a different model than the one that researched (research in Claude, audit in ChatGPT, or the reverse). The auditor should meet the fact sheet cold, with no shared context and no instructions telling it what the sheet is supposed to look like.</li>
       </ul>
     </div>
   </details>
@@ -487,11 +488,11 @@ input[type=file]{display:none}
   </details>
 
   <details class="pbsec" id="pb-s1" data-owner="hudson">
-    <summary><span class="sn">01</span><span class="st">Research the topic</span><span class="chips"><span class="chip tool">Claude · in the Project · web search on</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">01</span><span class="st">Research the topic</span><span class="chips"><span class="chip tool">Research AI · web search on</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">One session · one Short</div>
       <p class="lead">Pick the exact topic first. The research covers that topic and nothing else: enough verified facts to carry one Short, not a platform encyclopedia.</p>
-      <p>Open a new chat <b>inside the ITC Project</b> with web search on. Fill the topic (and the angle if you already have one), hit copy, paste, send. If the reply cuts off early, say <b>"continue"</b>.</p>
+      <p>Open a new chat <b>inside your research workspace</b> (the Claude Project or the ChatGPT Project) with web search on. Fill the topic (and the angle if you already have one), hit copy, paste, send. If the reply cuts off early, say <b>"continue"</b>. The reply ends with a PDF of the sheet for archiving; the plain text is what moves to the audit.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt 1 <span>·</span> Topic research</div><div class="spacer"></div><button class="copybtn" data-copy="p1">Copy prompt</button></div>
         <div class="fillins">
@@ -516,16 +517,30 @@ For every fact give: the fact, the named source, and a tier.
 LOCKED = primary or factory grade source.
 LIKELY = strong evidence but single source or secondary.
 UNVERIFIED = lore, forum only, or could not confirm.
+Name sources precisely: document title and year, not "various forums".
+Keep figures exact with units. Never round when the source gives a
+precise number.
 
 Source hierarchy: factory brochures, OEM service and owner manuals,
 and material from Ford, GM, Cummins, International, Navistar, Bosch,
 BorgWarner, and Dana. Credible archives second. Forums are leads,
 never proof.
 
-Output plain text under these headers: FACT SHEET (one fact per line
-with tier and source), MYTHS (each labeled TRUE, OVERSTATED, or FALSE
-with a one line reason), OPEN QUESTIONS, and ANGLES (2 or 3 one line
-hooks, only if no angle was given above).
+Output plain text under these headers:
+FACT SHEET: one fact per line with tier and source.
+CARD DATA: 8 to 12 of the most card-worthy technical data points as
+"LABEL | value" lines, each with tier and source after it. Go deeper
+than a script can: dimensions, tolerances, casting or part numbers,
+dates, production figures. This feeds the on-screen info cards, which
+carry detail the voiceover has no time for.
+MYTHS: each labeled TRUE, OVERSTATED, or FALSE with a one line reason.
+OPEN QUESTIONS: what could not be confirmed.
+ANGLES: 2 or 3 one line hooks, only if no angle was given above.
+
+After the plain text reply, if you can create files, also attach this
+complete output as a PDF named ITC_TOPIC_FACTS.pdf (swap TOPIC for a
+short tag) for archiving and editing. The plain text in the chat stays
+the working copy. If you cannot create files, just skip this.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 If something cannot be confirmed, say so plainly instead of guessing.</pre>
@@ -541,20 +556,26 @@ If something cannot be confirmed, say so plainly instead of guessing.</pre>
   </details>
 
   <details class="pbsec" id="pb-s2" data-owner="hudson">
-    <summary><span class="sn">02</span><span class="st">Audit the fact sheet</span><span class="chips"><span class="chip tool">Claude · fresh chat, outside the Project</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">02</span><span class="st">Audit the fact sheet</span><span class="chips"><span class="chip tool">Fresh chat · different model if you can</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">One session · one Short</div>
-      <p class="lead">A fresh Claude chat with none of Step 1 in its context grades the sheet. Same model is fine: independence comes from the clean context and from checking sources, not from using a different AI. Start this chat OUTSIDE the ITC Project so the auditor meets the sheet cold, with web search on. One topic makes this a ten minute step.</p>
+      <p class="lead">A fresh chat with none of Step 1 in its context grades the sheet, web search on, OUTSIDE any workspace so the auditor meets it cold. Best practice now that you run more than one AI: audit in a <b>different model</b> than the one that researched (Claude researched it, GPT audits it, or the reverse). Clean context catches sloppy sourcing; a different vendor's model also catches the first model's blind spots. One topic makes this a ten minute step.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt 2 <span>·</span> Fact sheet audit</div><div class="spacer"></div><button class="copybtn" data-copy="p2">Copy prompt</button></div>
         <pre id="p2">You are auditing a fact sheet for one automotive YouTube Short, from a
-channel that lives on accuracy. You had no part in building it. Do not
-rewrite it beyond what fails.
+channel that lives on accuracy. You had no part in building it, and
+you may be a different AI than the one that did. Good: audit it cold.
+Do not rewrite it beyond what fails.
 
 Verify against sources, not memory. Use web search to check any LOCKED
 fact you cannot independently confirm from a primary or factory grade
 source. If you cannot find a source that supports a LOCKED fact, that
 fact fails.
+
+Check every figure in FACT SHEET and CARD DATA digit by digit against
+the source: years, displacements, dimensions, pressures, part numbers.
+A number that is close but not exact fails. The CARD DATA lines go on
+screen verbatim, so they get the strictest pass.
 
 For each LOCKED fact, verify it deserves LOCKED. Report ONLY:
 - facts that are wrong,
@@ -562,8 +583,9 @@ For each LOCKED fact, verify it deserves LOCKED. Report ONLY:
 - anything important that is missing.
 If a fact survives, stay silent about it.
 
-End with the FULL corrected fact sheet in the same format, tiers
-updated, so it can be used directly as the final version.
+End with the FULL corrected output in the same format and headers,
+tiers updated, CARD DATA included, so it can be used directly as the
+final version.
 
 FACT SHEET: [PASTE THE FACT SHEET FROM STEP 1]</pre>
       </div>
@@ -578,11 +600,11 @@ FACT SHEET: [PASTE THE FACT SHEET FROM STEP 1]</pre>
   </details>
 
   <details class="pbsec" id="pb-s3">
-    <summary><span class="sn">03</span><span class="st">Build the Short package</span><span class="chips"><span class="chip tool">Claude · in the Project</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">03</span><span class="st">Build the Short package</span><span class="chips"><span class="chip tool">Research AI · in the workspace</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">One session · one Short</div>
       <p class="lead">Everything from here runs off the audited fact sheet. No new research happens in this part. One prompt, one pass: the script, the list of any new claims, the card specs, and the comment vulnerabilities.</p>
-      <p>Open a chat inside the ITC Project. Fill the two fields, copy, paste into Claude, then paste the audited fact sheet where marked. The Build a Short flow on the Home tab does the pasting for you.</p>
+      <p>Open a chat inside a workspace with the standing instructions, either AI. Fill the two fields, copy, paste, then paste the audited fact sheet where marked. The Build a Short flow on the Home tab does the pasting for you.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt 3 <span>·</span> Short package</div><div class="spacer"></div><button class="copybtn" data-copy="p3">Copy prompt</button></div>
         <div class="fillins">
@@ -610,14 +632,19 @@ the fact sheet, each with a tier and source. If there are none, write
 "None, all claims from the fact sheet."
 
 3. CARD SPECS. 3 to 5 vertical cards written directly in the Card
-Generator machine format, ready to paste with zero edits. One block
-per card, each starting with a "=== CARD 01" line, then key lines:
-type (exactly spec, timeline, or table, no other types exist),
+Generator machine format, ready to paste with zero edits. Cards are
+the deep layer: the script has under two minutes, so load the cards
+with LOCKED technical detail the voiceover has no time for, pulling
+from the fact sheet's CARD DATA lines first. One block per card,
+each starting with a "=== CARD 01" line, then key lines: type
+(exactly spec, timeline, table, or compare, no other types exist),
 accent (amber, red, green, or blue), kicker, headline (1 to 3
-words), subhead, rows, and an optional highlight callout. Rows:
-spec "LABEL | value", timeline "YEAR | event", table
-"COL | COL | COL" with the first row as headers. Leave counter and
-footer out, the generator fills them in.
+words), subhead, rows, an optional highlight callout, and a source
+credit line whenever a card leans on one source. Rows: spec
+"LABEL | value", timeline "YEAR | event", table "COL | COL | COL"
+with the first row as headers, compare "LABEL | left | right" with
+the first row naming the two panels. Leave counter and footer out,
+the generator fills them in.
 
 4. COMMENT VULNERABILITIES. What a knowledgeable commenter could
 dispute, so it can be pinned, changed, or left alone on purpose.
@@ -697,10 +724,12 @@ blocks, no commentary before, between, or after them.
 Work from the script and audited facts already in this chat. If they
 are not here: FACTS: [PASTE THE FACT SHEET OR SCRIPT]
 
-3 to 5 vertical cards, LOCKED facts only. Pick the card type that fits
-each beat: spec for label and value pairs, timeline for dated events,
-table for side by side comparisons. Lead with the strongest mechanical
-truth. One idea per card.</pre>
+3 to 5 vertical cards, LOCKED facts only. Cards are the deep layer:
+pack in technical detail the script has no time for. Pick the card
+type that fits each beat: spec for label and value pairs, timeline
+for dated events, table for multi-column grids, compare for two
+panel versus matchups. Add a source line to every card you can.
+Lead with the strongest mechanical truth. One idea per card.</pre>
       </div>
       <h3>Save both parts</h3>
       <ul>
@@ -845,14 +874,16 @@ block clearly so each one drops straight into its platform.</pre>
     <summary><span class="sn">·</span><span class="st">Portable instructions</span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">The system in one block</div>
-      <p class="lead">This is the block that lives in the ITC Project's instructions, so every chat inside the Project already knows the system. It also works as the system prompt for the local Case assistant, or pasted at the top of any one-off chat. The numbered prompts on this page run the same on top of it.</p>
+      <p class="lead">This is the block that lives in the workspace instructions: the Claude Project, and the ChatGPT Project or custom GPT if you research there too. Same block in both, so every chat already knows the system whichever AI it is. It also works pasted at the top of any one-off chat. The numbered prompts on this page run the same on top of it.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Standing project instructions</div><div class="spacer"></div><button class="copybtn" data-copy="pport">Copy block</button></div>
         <pre id="pport">INSIDE THE CASE AUTO · STANDING PROJECT INSTRUCTIONS
 
 You are the research, scripting, and packaging collaborator for Inside
 The Case Auto, a YouTube and Facebook channel covering engine and
-drivetrain history with a focus on classic Ford trucks.
+drivetrain history with a focus on classic Ford trucks. These
+instructions apply the same whether you are Claude, ChatGPT, or any
+other assistant.
 
 TIERS. Every factual claim carries a confidence tier. LOCKED = confirmed
 by a primary or factory grade source. LIKELY = strong evidence but a
@@ -868,8 +899,9 @@ the source. If something cannot be confirmed, say so plainly instead
 of guessing.
 
 WORKFLOW. One topic per session, research to finished Short. Each
-Short gets its own fact sheet: researched with web search inside the
-Project, then independently audited in a separate fresh chat before
+Short gets its own fact sheet: researched with web search in the
+workspace, then independently audited in a separate fresh chat,
+ideally by a different model than the one that researched, before
 anything is scripted. When given an audited fact sheet, build from it
 and do not re-research LOCKED facts. Any factual claim you introduce
 that is not in the fact sheet must be listed separately under the
@@ -884,12 +916,15 @@ personality, no hype, no filler.
 
 CARDS. 3 to 5 vertical cards per Short, delivered in the Card
 Generator machine format: one block per card starting "=== CARD 01",
-then type (exactly spec, timeline, or table, no other types exist),
-accent (amber, red, green, or blue), kicker, headline of 1 to 3 words,
-subhead, rows, and an optional highlight callout. Rows: spec
-"LABEL | value", timeline "YEAR | event", table "COL | COL | COL" with
-the first row as headers. Leave counter and footer out, the generator
-fills them. Card visual brand: near black background, amber accent
+then type (exactly spec, timeline, table, or compare, no other types
+exist), accent (amber, red, green, or blue), kicker, headline of 1 to
+3 words, subhead, rows, an optional highlight callout, and an optional
+source credit line. Rows: spec "LABEL | value", timeline
+"YEAR | event", table "COL | COL | COL" with the first row as headers,
+compare "LABEL | left | right" with the first row naming the two
+panels. Leave counter and footer out, the generator fills them. Cards
+are the deep layer: they carry LOCKED technical detail the script has
+no time for. Card visual brand: near black background, amber accent
 #FF8C16, Poppins headlines, steel blue labels, monospace values.
 
 STYLE. No em dashes in any script or card copy. Visual styling elements
@@ -926,6 +961,10 @@ ranges as "1994 to 1997".</pre>
     <button class="ghost" id="dlall">Export all</button>
   </div>
   <p class="lead" style="font-size:11.5px;margin-top:2px">Share opens the phone's share sheet, so a card can go straight to Google Drive or a message. Save PNG drops it in Downloads.</p>
+  <div class="row">
+    <button class="amber" id="sharePack" style="flex:1">Share package · cards + script + facts</button>
+  </div>
+  <p class="lead" style="font-size:11.5px;margin-top:2px">One share for the whole Short: every card PNG, the Writer script, the card specs, and the audited fact sheet, all named by the file tag so they land as one set. Pick the Drive folder in the share sheet. No share sheet here? It downloads them instead.</p>
   </div>
   <div class="c-help">
   <details>
@@ -936,6 +975,7 @@ ranges as "1994 to 1997".</pre>
         <div class="item"><code>spec</code><div class="d"><b>Label + value grid.</b> Rows read <code>LABEL | value</code>. Bullet dot on each. Values wrap, take <code>*accent*</code> coloring, and can stack <code>&gt;</code> sub-lines. Auto-shrinks to fit.</div></div>
         <div class="item"><code>timeline</code><div class="d"><b>Year + event.</b> Rows read <code>YEAR | event</code>. Dots down a connecting line. Auto-shrinks to fit.</div></div>
         <div class="item"><code>table</code><div class="d"><b>Multi-column grid.</b> First row is the header. Rows read <code>COL | COL | COL</code>. The third column auto-colors in the accent. Does not shrink, so it warns if content overflows.</div></div>
+        <div class="item"><code>compare</code><div class="d"><b>Two panel versus.</b> Rows read <code>LABEL | left | right</code>. The first row names the two panels, e.g. <code>SPEC | CHEVY 350 | FORD 351W</code>. Center divider, VS mark, auto-shrinks to fit.</div></div>
       </div>
       <div class="div"></div>
       <div class="grp">
@@ -955,6 +995,7 @@ ranges as "1994 to 1997".</pre>
         <div class="item"><code>counter</code><div class="d">Page count e.g. <b>02 / 05</b>. Leave it out to auto-number.</div></div>
         <div class="item"><code>rows:</code><div class="d">Starts the rows block. Every line under it is a row until the next key.</div></div>
         <div class="item"><code>highlight</code><div class="d">Callout box pinned to the bottom of the card.</div></div>
+        <div class="item"><code>source</code><div class="d">Optional credit line above the footer, e.g. <b>SOURCE · FORD DIMENSION CHART</b>.</div></div>
         <div class="item"><code>footer</code><div class="d">Defaults to <b>INSIDE THE CASE · AUTO</b>.</div></div>
       </div>
       <div class="div"></div>
@@ -991,7 +1032,9 @@ LABEL | *value in accent color*   <span class="k">wrap in asterisks for accent</
 > smaller sub-line under a value  <span class="k">optional continuation</span>
 1984 | event text                 <span class="k">timeline: year then event</span>
 YEARS | PUMP | MAINS | NOTE       <span class="k">table: first row is headers</span>
+SPEC | CHEVY 350 | FORD 351W      <span class="k">compare: first row names the panels</span>
 highlight: Optional callout box text at the bottom of the card.
+source: Ford dimension chart      <span class="k">optional credit above the footer</span>
 footer: INSIDE THE CASE · AUTO</pre>
     <div class="row"><button class="ghost" id="copysnip">Copy prompt snippet</button></div>
   </details>
@@ -1108,7 +1151,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v3.9';
+const APP_VERSION = 'v4.0';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1172,7 +1215,7 @@ document.querySelectorAll('.fillins input').forEach(inp=>{
 /* ---------------- [PLAYBOOK] card snippet appended to prompt 4 ----------------
    CARD_TYPES mirrors the parser: it must equal the keys of RENDERERS in the
    [CARDS] section. The load-time self-test fails loudly if they drift. */
-const CARD_TYPES = ['spec','timeline','table'];
+const CARD_TYPES = ['spec','timeline','table','compare'];
 const CARD_EXAMPLE = `=== CARD 01
 type: spec
 accent: amber
@@ -1207,12 +1250,31 @@ rows:
 CHECK | EARLY | LATE
 MAINS | 14 mm | 12 mm
 TURBO DRAIN | one | two
-PORTS | pipe thread | O-ring`;
+PORTS | pipe thread | O-ring
+
+=== CARD 04
+type: compare
+accent: red
+kicker: 350 VS 351W · DIMENSIONS
+headline: TWO CUBIC INCHES
+subhead: the whole argument
+rows:
+SPEC | CHEVY 350 | FORD 351W
+DISPLACEMENT | 349.85 ci | 351.86 ci
+BORE | 4.000 in | 4.000 in
+STROKE | 3.480 in | 3.500 in
+BORE CENTERS | 4.400 in | 4.380 in
+source: Ford and GM dimension charts`;
 const CARD_SNIPPET = `
 
 Output the CARD SPECS in exactly the machine format below, ready to
 paste into the generator with zero edits. One block per card. No
 commentary before the first block, between blocks, or after the last.
+
+CONTENT INTENT: cards are the deep layer. The script has under two
+minutes; the cards are where the technical detail lives for viewers
+who pause to read. Pack them with real, LOCKED data (exact figures,
+units, part-level specifics), not restatements of the script.
 
 FORMAT RULES:
 - Every card starts with a "=== CARD 01" line.
@@ -1221,16 +1283,20 @@ FORMAT RULES:
 - accent: amber, red, green, or blue. A hex like #FF8C16 also works.
 - Key lines: kicker (PLATFORM · TOPIC), headline (1 to 3 words),
   subhead (short accent line), rows, highlight (optional callout
-  pinned to the card bottom).
+  pinned to the card bottom), source (optional credit line above the
+  footer, e.g. "Ford dimension chart", strongly encouraged).
 - Leave counter out (cards auto-number) and footer out (defaults to
   "INSIDE THE CASE · AUTO").
 - Rows by type: spec "LABEL | value", timeline "YEAR | event",
-  table "COL | COL | COL" with the first row as the headers.
+  table "COL | COL | COL" with the first row as the headers,
+  compare "LABEL | left | right" with the first row naming the two
+  panels (e.g. "SPEC | CHEVY 350 | FORD 351W").
 - "> text" under a spec row draws a smaller sub-line. Spec rows only.
 - *asterisks* color that text in the accent. Spec values and spec
   sub-lines only.
-- spec and timeline shrink to fit. table does not, so keep tables to
-  about 5 rows and 3 columns or the card overflows.
+- spec, timeline, and compare shrink to fit: up to about 8 plain spec
+  rows, 5 spec rows with sub-lines, or 6 compare rows. table does not
+  shrink, so keep tables to about 5 rows and 3 columns.
 - No em dashes, no en dashes, no emojis. Ranges written as
   "1994 to 1997".
 
@@ -1562,7 +1628,7 @@ function bsParseSummary(st, s){
 
 function bsPanelResearch(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note">Run Prompt 1 in a chat <b>inside the ITC Project</b>, web search on. Topic and angle are already filled in. Then paste the fact sheet it returns below.</p>'));
+  p.appendChild(bsEl('<p class="bs-note">Run Prompt 1 in a chat <b>inside your research workspace</b> (Claude Project or ChatGPT Project), web search on. Topic and angle are already filled in. Then paste the plain text fact sheet it returns below; the PDF it attaches is for your archive.</p>'));
   const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 1 · topic and angle filled in</button>');
   copyBtn.addEventListener('click', function(){ copyText(bsPrompt1(s), this); });
   p.appendChild(copyBtn);
@@ -1583,7 +1649,7 @@ function bsPanelResearch(st, s){
 
 function bsPanelAudit(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note">Open a fresh chat <b>OUTSIDE the Project</b>, web search on. The copy below already carries the fact sheet. Paste the audited sheet the chat returns, after your own judgment pass. You outrank the AI, both times.</p>'));
+  p.appendChild(bsEl('<p class="bs-note">Open a fresh chat <b>outside any workspace</b>, web search on, ideally in a <b>different model</b> than the one that researched. The copy below already carries the fact sheet. Paste the audited sheet the chat returns, after your own judgment pass. You outrank the AI, all of them.</p>'));
   const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 2 · fact sheet attached</button>');
   copyBtn.addEventListener('click', function(){ copyText(bsPrompt2(s), this); });
   p.appendChild(copyBtn);
@@ -1618,7 +1684,7 @@ function bsPanelPackage(st, s){
     p.appendChild(bsParseSummary(st, s));
     return p;
   }
-  p.appendChild(bsEl('<p class="bs-note">Run Prompt 3 in a chat inside the ITC Project, then paste the whole reply below in one go. Topic, angle, and the audited fact sheet are already filled in.</p>'));
+  p.appendChild(bsEl('<p class="bs-note">Run Prompt 3 in a chat inside a workspace, either AI, then paste the whole reply below in one go. Topic, angle, and the audited fact sheet are already filled in.</p>'));
   const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 3 · topic, angle, and fact sheet filled in</button>');
   copyBtn.addEventListener('click', function(){ copyText(bsPrompt3(s), this); });
   p.appendChild(copyBtn);
@@ -1733,6 +1799,10 @@ function bsPanelCards(st, s){
   vo.addEventListener('click', ()=>goPlaybook('pb-s5'));
   row1.appendChild(c); row1.appendChild(vo); p.appendChild(row1);
   if(s.status==='cards'){
+    const row0 = bsEl('<div class="bs-row"></div>');
+    const sp = bsEl('<button type="button" class="ghost">Share the whole package</button>');
+    sp.addEventListener('click', ()=>{ showView('cards'); document.getElementById('sharePack').click(); });
+    row0.appendChild(sp); p.appendChild(row0);
     const row = bsEl('<div class="bs-row"></div>');
     const b = bsEl('<button type="button" class="amber">Done · mark this Short Filed</button>');
     b.addEventListener('click', ()=>bsFile(st));
@@ -1868,17 +1938,17 @@ restoreInput.addEventListener('change', ()=>{
    [CARDS] parser + canvas renderer (ported from Card Generator v1.1)
    ================================================================ */
 const ACCENTS = { amber:"#FF8C16", red:"#E8604C", green:"#6FCF8F", blue:"#7EA6D9" };
-const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer"];
+const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer","source"];
 /* one renderer per accepted card type; unknown types fall back to spec.
    The self-test checks these keys against CARD_TYPES in the prompt. */
-const RENDERERS = { spec: renderSpec, timeline: renderTimeline, table: renderTable };
+const RENDERERS = { spec: renderSpec, timeline: renderTimeline, table: renderTable, compare: renderCompare };
 
 function parseSpecs(text){
   const cards = [];
   const blocks = text.split(/^\s*===.*$/m).map(b=>b.trim()).filter(Boolean);
   for(const block of blocks){
     const c = { type:"spec", accent:"amber", kicker:"", counter:"", headline:"",
-                subhead:"", rows:[], highlight:"", footer:"INSIDE THE CASE · AUTO", warnings:[] };
+                subhead:"", rows:[], highlight:"", footer:"INSIDE THE CASE · AUTO", source:"", warnings:[] };
     let inRows = false;
     for(const raw of block.split(/\r?\n/)){
       const line = raw.trimEnd();
@@ -1894,7 +1964,7 @@ function parseSpecs(text){
         }
       }
     }
-    const allText = [c.kicker,c.headline,c.subhead,c.highlight,
+    const allText = [c.kicker,c.headline,c.subhead,c.highlight,c.source,
                      ...c.rows.flatMap(r=>[...r.cells,...r.subs])].join(" ");
     if(/[\u2014\u2013]/.test(allText)) c.warnings.push("Em or en dash found in card copy. House rule: none in copy, visual styling only.");
     if(/(\d{4})\s*[-\u2013\u2014]\s*('?\d{2,4})/.test(allText)) c.warnings.push("Hyphenated range found. House rule: write ranges as \"1994 to 1997\".");
@@ -1950,8 +2020,10 @@ function renderCard(ctx,c){
   bg(ctx);
   ctx.textAlign="left"; ctx.textBaseline="alphabetic";
   ctx.fillStyle=accent; rr(ctx,84,178,7,1580,3.5); ctx.fill();
+  /* brand tick ahead of the kicker, echoes the app header */
+  rr(ctx,MX,205,14,14,3); ctx.fill();
   setF(ctx,font(27,600,false,7)); ctx.fillStyle=accent;
-  ctx.fillText(c.kicker.toUpperCase(), MX, 224);
+  ctx.fillText(c.kicker.toUpperCase(), MX+32, 224);
   setF(ctx,font(30,700,true,2)); ctx.fillStyle="#8FA3BC"; ctx.textAlign="right";
   ctx.fillText(c.counter, RX, 224); ctx.textAlign="left";
   const hf=font(100,800,false,0);
@@ -1977,6 +2049,10 @@ function renderCard(ctx,c){
     setF(ctx,font(36,400,false,0)); ctx.fillStyle="#E4E9F0";
     let ty=hlTop+56;
     for(const ln of hlLines){ ctx.fillText(ln,MX+16,ty); ty+=50; }
+  }
+  if(c.source){
+    setF(ctx,font(23,600,true,2)); ctx.fillStyle=C_LABEL;
+    ctx.fillText("SOURCE · "+c.source.toUpperCase(), MX, 1788);
   }
   setF(ctx,font(26,600,false,6)); ctx.fillStyle=C_STEEL;
   ctx.fillText(c.footer.toUpperCase(), MX, 1836);
@@ -2009,6 +2085,9 @@ function renderSpec(ctx,c,cy0,accent,limit){
   let cy=0;
   for(const r of c.rows){
     const label=(r.cells[0]||"").toUpperCase(), val=r.cells[1]||"";
+    /* hairline between rows keeps dense cards readable */
+    if(cy>0){ ctx.strokeStyle=C_LINEC; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(0,cy-44); ctx.lineTo(maxW,cy-44); ctx.stroke(); }
     ctx.fillStyle=accent; rr(ctx,0,cy-22,10,10,2); ctx.fill();
     setF(ctx,font(27,600,false,4)); ctx.fillStyle=C_LABEL;
     ctx.fillText(label,28,cy);
@@ -2055,6 +2134,54 @@ function renderTimeline(ctx,c,cy0,accent,limit){
     prevDotY=dotY;
     cy+=Math.max(1,lines.length)*50+66;
   }
+  ctx.restore();
+}
+/* compare: two panels side by side. rows[0] names the panels
+   (LABEL | LEFT | RIGHT), body rows are label + two values. */
+function compareHeight(ctx,c,txtW){
+  let h=118;
+  for(const r of c.rows.slice(1)){
+    const l = wrap(ctx, r.cells[1]||"", font(38,400,true,0), txtW).length;
+    const rt = wrap(ctx, r.cells[2]||"", font(38,400,true,0), txtW).length;
+    h += 46 + Math.max(l,rt)*50 + 58;
+  }
+  return h;
+}
+function renderCompare(ctx,c,cy0,accent,limit){
+  if(c.rows.length<2) return;
+  const avail=limit-cy0+30;
+  const header=c.rows[0].cells, body=c.rows.slice(1);
+  let s=FIT_STEPS[FIT_STEPS.length-1], fitted=false;
+  for(const t of FIT_STEPS){
+    const panelW=(((RX-MX)/t)-90)/2;
+    if(compareHeight(ctx,c,panelW-20)*t<=avail){ s=t; fitted=true; break; }
+  }
+  if(!fitted) warnOverflow();
+  const localW=(RX-MX)/s, panelW=(localW-90)/2;
+  const leftCX=panelW/2, rightCX=localW-panelW/2, midX=localW/2;
+  ctx.save(); ctx.translate(MX,cy0); ctx.scale(s,s);
+  ctx.textAlign="center";
+  setF(ctx,font(34,700,true,1)); ctx.fillStyle="#EEF2F7";
+  ctx.fillText((header[1]||"").toUpperCase(), leftCX, 34);
+  ctx.fillText((header[2]||"").toUpperCase(), rightCX, 34);
+  setF(ctx,font(27,700,true,2)); ctx.fillStyle=accent;
+  ctx.fillText("VS", midX, 34);
+  ctx.strokeStyle=C_LINEC; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(0,64); ctx.lineTo(localW,64); ctx.stroke();
+  let cy=118;
+  for(const r of body){
+    setF(ctx,font(26,600,false,4)); ctx.fillStyle=C_LABEL;
+    ctx.fillText((r.cells[0]||"").toUpperCase(), midX, cy);
+    cy+=46;
+    setF(ctx,font(38,400,true,0));
+    const lLines=wrap(ctx,r.cells[1]||"",font(38,400,true,0),panelW-20);
+    const rLines=wrap(ctx,r.cells[2]||"",font(38,400,true,0),panelW-20);
+    ctx.fillStyle=C_TXT;
+    let ly=cy; for(const ln of lLines){ ctx.fillText(ln,leftCX,ly); ly+=50; }
+    let ry=cy; for(const ln of rLines){ ctx.fillText(ln,rightCX,ry); ry+=50; }
+    cy+=Math.max(lLines.length,rLines.length)*50+58;
+  }
+  ctx.beginPath(); ctx.moveTo(midX,88); ctx.lineTo(midX,cy-58); ctx.stroke();
   ctx.restore();
 }
 function renderTable(ctx,c,cy,accent,limit){
@@ -2148,6 +2275,34 @@ document.getElementById("dlall").addEventListener('click', async ()=>{
     if(overflow){ skipped.push(i+1); continue; }
     saveBlob(await canvasBlob(off), fname(i)); await new Promise(r=>setTimeout(r,350)); }
   if(skipped.length) alert('Card '+skipped.join(', ')+' overflowed even at minimum fit and was NOT exported. Trim rows or shorten values, then export again.');
+});
+/* one-button package: all card PNGs + script + specs + fact sheet in a
+   single share, so the whole Short lands in one Drive folder. */
+document.getElementById("sharePack").addEventListener('click', async function(){
+  if(!cards.length){ alert('Render the cards first.'); return; }
+  const tag = (tagEl.value.trim() || 'ITC_TOPIC').replace(/\s+/g,'_');
+  const off=document.createElement("canvas"); off.width=W; off.height=H;
+  const octx=off.getContext("2d");
+  const files=[], skipped=[];
+  for(let i=0;i<cards.length;i++){
+    overflow=false; renderCard(octx,cards[i]);
+    if(overflow){ skipped.push(i+1); continue; }
+    files.push(new File([await canvasBlob(off)], fname(i), {type:'image/png'}));
+  }
+  if(specEl.value.trim()) files.push(new File([specEl.value], tag+'_CARDSPECS.txt', {type:'text/plain'}));
+  const wpage = document.getElementById('page');
+  if(wpage.innerText.trim()) files.push(new File([wpage.innerText], tag+'_SCRIPT.txt', {type:'text/plain'}));
+  const act = store.get('shorts', {active:null}).active;
+  if(act && act.factsFinal) files.push(new File([act.factsFinal], tag+'_FACTS.txt', {type:'text/plain'}));
+  if(skipped.length) alert('Card '+skipped.join(', ')+' overflows even at minimum fit and was left OUT of the package. Trim it, then share again.');
+  if(!files.length) return;
+  if(navigator.canShare && navigator.canShare({files})){
+    try{ await navigator.share({files, title: tag+' package'}); }catch(e){/* user cancelled */}
+  } else {
+    for(const f of files){ saveBlob(f, f.name); await new Promise(r=>setTimeout(r,350)); }
+    this.textContent='Downloaded instead (no share sheet here)';
+    setTimeout(()=>{ this.textContent='Share package · cards + script + facts'; }, 2000);
+  }
 });
 document.getElementById("share1").addEventListener('click', async function(){
   if(currentCardBlocked()) return;
