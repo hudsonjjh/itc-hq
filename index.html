@@ -426,6 +426,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v3.9</b> · Fixed the spec-card collision where dense cards (four rows with sub-lines plus a highlight) drew their last lines under the highlight box. The card generator now measures spec content with the exact same wrapping code that paints it, auto-fits in steps from full size down to 80 percent, and if a card still cannot fit, it warns and refuses to export instead of saving a broken PNG. Same fonts, colors, and 1080x1920 output.</p>
       <p><b>v3.8</b> · Prompt 4 rebuilt. It was still the old chat fallback that asked Claude to draw card images from attached samples. It now asks the chat that already has the facts to write card specs in the generator's machine format, with the full format reference and worked example attached to every copy, so the reply pastes into the Cards tab with zero edits. Prompt 4 joined the load-time drift self-test.</p>
       <p><b>v3.7</b> · The Writer now pastes as plain text. Pasting a script from a dark-themed app used to drag its monospace font and dark backgrounds into the page. Formatted documents still come in through Open. To clean a document that was already pasted with baggage: select all, then the Tx button.</p>
       <p><b>v3.6</b> · The playbook is now one topic per session, research to finished Short. The per-platform fact bank is gone: each Short gets its own fact sheet, researched in the Project with web search (Prompt 1), audited cold in a fresh chat outside it (Prompt 2), then packaged from LOCKED facts only (Prompt 3). Build a Short gained Research and Audit stages that carry the fact sheet into each prompt automatically. Steps renumbered 1 to 7, the correction log now points at public corrections instead of bank fixes, and the fact sheet archives with each Short as ITC_TOPIC_FACTS.txt. Old in-progress Shorts resume where they were.</p>
@@ -1107,7 +1108,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v3.8';
+const APP_VERSION = 'v3.9';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1920,7 +1921,9 @@ function wrap(ctx,text,f,maxW){
   if(cur) lines.push(cur);
   return lines;
 }
-function drawRich(ctx,text,x,y,f,maxW,lineH,base,accent){
+/* measureOnly runs the exact same wrapping without painting, so layout
+   math and pixels can never disagree. */
+function drawRich(ctx,text,x,y,f,maxW,lineH,base,accent,measureOnly){
   const segs=[]; let acc=false;
   String(text).split("*").forEach((part,i)=>{ if(part!=="") segs.push({t:part,a:i%2===1}); });
   const words=[]; segs.forEach(s=>s.t.split(/(\s+)/).forEach(w=>{ if(w!=="") words.push({t:w,a:s.a}); }));
@@ -1929,8 +1932,8 @@ function drawRich(ctx,text,x,y,f,maxW,lineH,base,accent){
   for(const w of words){
     const ww = ctx.measureText(w.t).width;
     if(cx+ww > x+maxW && cx>x){ cy+=lineH; cx=x; lines++; if(/^\s+$/.test(w.t)) continue; }
-    ctx.fillStyle = w.a? accent : base;
-    ctx.fillText(w.t,cx,cy); cx+=ww;
+    if(!measureOnly){ ctx.fillStyle = w.a? accent : base; ctx.fillText(w.t,cx,cy); }
+    cx+=ww;
   }
   return lines;
 }
@@ -1978,26 +1981,29 @@ function renderCard(ctx,c){
   setF(ctx,font(26,600,false,6)); ctx.fillStyle=C_STEEL;
   ctx.fillText(c.footer.toUpperCase(), MX, 1836);
 }
-function richLines(ctx,text,f,maxW){
-  setF(ctx,f);
-  return wrap(ctx,String(text).replace(/\*/g,""),f,maxW).length;
-}
+/* exact spec-card content height: same wrapping code as the painter */
 function specHeight(ctx,c,maxW){
   let h=0;
   for(const r of c.rows){
     h+=58;
-    h+=(richLines(ctx,r.cells[1]||"",font(41,400,true,0),maxW)-1)*56;
-    for(const s of r.subs){ h+=46; h+=(richLines(ctx,s,font(32,400,true,0),maxW)-1)*44; }
+    h+=(drawRich(ctx,r.cells[1]||"",0,0,font(41,400,true,0),maxW,56,"","",true)-1)*56;
+    for(const s of r.subs){ h+=46; h+=(drawRich(ctx,s,0,0,font(32,400,true,0),maxW,44,"","",true)-1)*44; }
     h+=74;
   }
   return h;
 }
 function fitScale(need,avail){ return Math.max(0.76, Math.min(1, avail/need)); }
+/* auto-fit: step the scale down 1.0 -> 0.8 in 0.05 increments until the
+   measured content fits above the highlight. Below the 0.8 floor the card
+   is broken by definition: warn and let showCard/export block it. */
+const FIT_STEPS = [1, 0.95, 0.9, 0.85, 0.8];
 function renderSpec(ctx,c,cy0,accent,limit){
   const avail=limit-cy0+30;
-  let s=fitScale(specHeight(ctx,c,828),avail);
-  if(s<1){ const need2=specHeight(ctx,c,828/s); s=fitScale(need2,avail);
-           if(avail/need2<0.76) warnOverflow(); }
+  let s = FIT_STEPS[FIT_STEPS.length-1], fitted = false;
+  for(const t of FIT_STEPS){
+    if(specHeight(ctx,c,828/t)*t <= avail){ s=t; fitted=true; break; }
+  }
+  if(!fitted) warnOverflow();
   const maxW=828/s;
   ctx.save(); ctx.translate(MX,cy0); ctx.scale(s,s);
   let cy=0;
@@ -2121,18 +2127,30 @@ function saveBlob(blob,name){ const a=document.createElement("a");
   a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click();
   setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},400); }
 
+/* overflowing cards do not export: a broken PNG on the channel is worse
+   than a blocked button. The warning box says what to trim. */
+function currentCardBlocked(){
+  if(!cards.length) return true;
+  overflow=false; renderCard(cctx,cards[idx]);
+  if(overflow){ alert('This card overflows even at minimum fit. Trim rows or shorten values, then export.'); showCard(); return true; }
+  return false;
+}
 document.getElementById("dl1").addEventListener('click', async ()=>{
-  if(!cards.length) return; saveBlob(await canvasBlob(cv), fname(idx));
+  if(currentCardBlocked()) return;
+  saveBlob(await canvasBlob(cv), fname(idx));
 });
 document.getElementById("dlall").addEventListener('click', async ()=>{
   if(!cards.length) return;
   const off=document.createElement("canvas"); off.width=W; off.height=H;
   const octx=off.getContext("2d");
+  const skipped=[];
   for(let i=0;i<cards.length;i++){ overflow=false; renderCard(octx,cards[i]);
+    if(overflow){ skipped.push(i+1); continue; }
     saveBlob(await canvasBlob(off), fname(i)); await new Promise(r=>setTimeout(r,350)); }
+  if(skipped.length) alert('Card '+skipped.join(', ')+' overflowed even at minimum fit and was NOT exported. Trim rows or shorten values, then export again.');
 });
 document.getElementById("share1").addEventListener('click', async function(){
-  if(!cards.length) return;
+  if(currentCardBlocked()) return;
   const blob = await canvasBlob(cv);
   const file = new File([blob], fname(idx), {type:'image/png'});
   if(navigator.canShare && navigator.canShare({files:[file]})){
