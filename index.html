@@ -367,7 +367,7 @@ input[type=file]{display:none}
   .c-edit{grid-area:edit}
   .c-help{grid-area:help}
   .c-preview{grid-area:preview;position:sticky;top:72px}
-  .cardsview textarea{min-height:380px}
+  .cardsview textarea{min-height:58vh}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -426,6 +426,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v4.1</b> · Card generator polish. Rows lines without a pipe now read as sub-lines of the row above, so AI output that forgets the ">" marker renders clean instead of as stray label-only rows. Subheads wrap to a second line instead of running off the card. The compare divider is segmented through the values only, no more line through the row labels. Unknown or miscapitalized card types now warn instead of silently rendering as spec. The overflow check measures to the real text bottom, so cards that visibly fit no longer get flagged and blocked. Spec editor is taller on desktop.</p>
       <p><b>v4.0</b> · The multi-AI and deep-cards release. Playbook prompts audited and rewritten model-agnostic: Claude (Opus or Fable) and ChatGPT both run every step, with the audit recommended in a different model than the research. Prompt 1 now demands precise source names and exact figures, harvests 8 to 12 CARD DATA points denser than the script can cover, and attaches the sheet as a PDF for the archive. Cards leveled up: new compare card type (two panel versus with center divider), optional source credit line above the footer, brand tick on the kicker, hairline separators between spec rows, and prompts that treat cards as the deep layer for viewers who pause to read. New Share package button sends every card PNG plus the script, card specs, and audited fact sheet to Drive in one share. CLAUDE.md and the drift self-test updated to match.</p>
       <p><b>v3.9</b> · Fixed the spec-card collision where dense cards (four rows with sub-lines plus a highlight) drew their last lines under the highlight box. The card generator now measures spec content with the exact same wrapping code that paints it, auto-fits in steps from full size down to 80 percent, and if a card still cannot fit, it warns and refuses to export instead of saving a broken PNG. Same fonts, colors, and 1080x1920 output.</p>
       <p><b>v3.8</b> · Prompt 4 rebuilt. It was still the old chat fallback that asked Claude to draw card images from attached samples. It now asks the chat that already has the facts to write card specs in the generator's machine format, with the full format reference and worked example attached to every copy, so the reply pastes into the Cards tab with zero edits. Prompt 4 joined the load-time drift self-test.</p>
@@ -1004,7 +1005,7 @@ ranges as "1994 to 1997".</pre>
         <div class="item"><code>LABEL | value</code><div class="d">spec row.</div></div>
         <div class="item"><code>YEAR | event</code><div class="d">timeline row.</div></div>
         <div class="item"><code>COL | COL | COL</code><div class="d">table row. The first one is the header.</div></div>
-        <div class="item"><code>&gt; text</code><div class="d">Smaller sub-line under the row above it.</div></div>
+        <div class="item"><code>&gt; text</code><div class="d">Smaller sub-line under the row above it. A rows line without a <code>|</code> reads the same way.</div></div>
         <div class="item"><code>*text*</code><div class="d">Colors that text in the accent.</div></div>
       </div>
       <div class="div"></div>
@@ -1151,7 +1152,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v4.0';
+const APP_VERSION = 'v4.1';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1292,6 +1293,7 @@ FORMAT RULES:
   compare "LABEL | left | right" with the first row naming the two
   panels (e.g. "SPEC | CHEVY 350 | FORD 351W").
 - "> text" under a spec row draws a smaller sub-line. Spec rows only.
+  Any rows line without a "|" is treated the same way.
 - *asterisks* color that text in the accent. Spec values and spec
   sub-lines only.
 - spec, timeline, and compare shrink to fit: up to about 8 plain spec
@@ -1959,11 +1961,18 @@ function parseSpecs(text){
       if(inRows){
         if(/^\s*>/.test(line)){
           if(c.rows.length) c.rows[c.rows.length-1].subs.push(line.replace(/^\s*>\s?/,""));
+        } else if(line.indexOf("|")===-1 && c.rows.length){
+          /* a rows line without a pipe reads as a sub-line of the row
+             above; AIs regularly forget the ">" marker */
+          c.rows[c.rows.length-1].subs.push(line.trim());
         } else {
           c.rows.push({ cells: line.split("|").map(s=>s.trim()), subs:[] });
         }
       }
     }
+    c.type = String(c.type||"spec").trim().toLowerCase();
+    if(!CARD_TYPES.includes(c.type))
+      c.warnings.push('Unknown type "'+c.type+'". Accepted: '+CARD_TYPES.join(', ')+'. Rendered as spec.');
     const allText = [c.kicker,c.headline,c.subhead,c.highlight,c.source,
                      ...c.rows.flatMap(r=>[...r.cells,...r.subs])].join(" ");
     if(/[\u2014\u2013]/.test(allText)) c.warnings.push("Em or en dash found in card copy. House rule: none in copy, visual styling only.");
@@ -2034,7 +2043,14 @@ function renderCard(ctx,c){
   y-=112;
   ctx.fillStyle=accent; rr(ctx,MX,y+34,168,9,2); ctx.fill();
   y+=34+9;
-  if(c.subhead){ y+=78; setF(ctx,font(42,500,false,0)); ctx.fillStyle=accent; ctx.fillText(c.subhead,MX,y); }
+  if(c.subhead){
+    y+=78;
+    const shf=font(42,500,false,0);
+    const shLines = wrap(ctx,c.subhead,shf,868);
+    setF(ctx,shf); ctx.fillStyle=accent;
+    for(const ln of shLines){ ctx.fillText(ln,MX,y); y+=54; }
+    y-=54;
+  }
   let cy = y+96;
   let hlTop = 1760, hlLines=null;
   if(c.highlight){
@@ -2074,10 +2090,12 @@ function fitScale(need,avail){ return Math.max(0.76, Math.min(1, avail/need)); }
    is broken by definition: warn and let showCard/export block it. */
 const FIT_STEPS = [1, 0.95, 0.9, 0.85, 0.8];
 function renderSpec(ctx,c,cy0,accent,limit){
-  const avail=limit-cy0+30;
+  /* fit against the real text bottom: measured height minus the trailing
+     row gap (74), plus 24px breathing room above the highlight/footer */
+  const avail=limit-cy0;
   let s = FIT_STEPS[FIT_STEPS.length-1], fitted = false;
   for(const t of FIT_STEPS){
-    if(specHeight(ctx,c,828/t)*t <= avail){ s=t; fitted=true; break; }
+    if((specHeight(ctx,c,828/t)-74)*t + 24 <= avail){ s=t; fitted=true; break; }
   }
   if(!fitted) warnOverflow();
   const maxW=828/s;
@@ -2139,22 +2157,22 @@ function renderTimeline(ctx,c,cy0,accent,limit){
 /* compare: two panels side by side. rows[0] names the panels
    (LABEL | LEFT | RIGHT), body rows are label + two values. */
 function compareHeight(ctx,c,txtW){
-  let h=118;
+  let h=104;
   for(const r of c.rows.slice(1)){
     const l = wrap(ctx, r.cells[1]||"", font(38,400,true,0), txtW).length;
     const rt = wrap(ctx, r.cells[2]||"", font(38,400,true,0), txtW).length;
-    h += 46 + Math.max(l,rt)*50 + 58;
+    h += 42 + Math.max(l,rt)*50 + 46;
   }
   return h;
 }
 function renderCompare(ctx,c,cy0,accent,limit){
   if(c.rows.length<2) return;
-  const avail=limit-cy0+30;
+  const avail=limit-cy0;
   const header=c.rows[0].cells, body=c.rows.slice(1);
   let s=FIT_STEPS[FIT_STEPS.length-1], fitted=false;
   for(const t of FIT_STEPS){
     const panelW=(((RX-MX)/t)-90)/2;
-    if(compareHeight(ctx,c,panelW-20)*t<=avail){ s=t; fitted=true; break; }
+    if((compareHeight(ctx,c,panelW-20)-46)*t + 24 <= avail){ s=t; fitted=true; break; }
   }
   if(!fitted) warnOverflow();
   const localW=(RX-MX)/s, panelW=(localW-90)/2;
@@ -2168,20 +2186,23 @@ function renderCompare(ctx,c,cy0,accent,limit){
   ctx.fillText("VS", midX, 34);
   ctx.strokeStyle=C_LINEC; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(0,64); ctx.lineTo(localW,64); ctx.stroke();
-  let cy=118;
+  let cy=104;
   for(const r of body){
     setF(ctx,font(26,600,false,4)); ctx.fillStyle=C_LABEL;
     ctx.fillText((r.cells[0]||"").toUpperCase(), midX, cy);
-    cy+=46;
+    cy+=42;
     setF(ctx,font(38,400,true,0));
     const lLines=wrap(ctx,r.cells[1]||"",font(38,400,true,0),panelW-20);
     const rLines=wrap(ctx,r.cells[2]||"",font(38,400,true,0),panelW-20);
     ctx.fillStyle=C_TXT;
     let ly=cy; for(const ln of lLines){ ctx.fillText(ln,leftCX,ly); ly+=50; }
     let ry=cy; for(const ln of rLines){ ctx.fillText(ln,rightCX,ry); ry+=50; }
-    cy+=Math.max(lLines.length,rLines.length)*50+58;
+    const rowsH = Math.max(lLines.length,rLines.length)*50;
+    /* divider segment through the values only, so it never crosses a label */
+    ctx.strokeStyle=C_LINEC; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(midX,cy-30); ctx.lineTo(midX,cy+rowsH-42); ctx.stroke();
+    cy+=rowsH+46;
   }
-  ctx.beginPath(); ctx.moveTo(midX,88); ctx.lineTo(midX,cy-58); ctx.stroke();
   ctx.restore();
 }
 function renderTable(ctx,c,cy,accent,limit){
