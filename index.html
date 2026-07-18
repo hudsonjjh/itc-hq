@@ -426,6 +426,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v4.2</b> · Timeline cards: the year column now sizes to the widest year on the card, so range years like "1980 to 1986" no longer overlap the event text. Timeline also joined the stepped auto-fit the other card types use, and its event text now respects the right margin.</p>
       <p><b>v4.1</b> · Card generator polish. Rows lines without a pipe now read as sub-lines of the row above, so AI output that forgets the ">" marker renders clean instead of as stray label-only rows. Subheads wrap to a second line instead of running off the card. The compare divider is segmented through the values only, no more line through the row labels. Unknown or miscapitalized card types now warn instead of silently rendering as spec. The overflow check measures to the real text bottom, so cards that visibly fit no longer get flagged and blocked. Spec editor is taller on desktop.</p>
       <p><b>v4.0</b> · The multi-AI and deep-cards release. Playbook prompts audited and rewritten model-agnostic: Claude (Opus or Fable) and ChatGPT both run every step, with the audit recommended in a different model than the research. Prompt 1 now demands precise source names and exact figures, harvests 8 to 12 CARD DATA points denser than the script can cover, and attaches the sheet as a PDF for the archive. Cards leveled up: new compare card type (two panel versus with center divider), optional source credit line above the footer, brand tick on the kicker, hairline separators between spec rows, and prompts that treat cards as the deep layer for viewers who pause to read. New Share package button sends every card PNG plus the script, card specs, and audited fact sheet to Drive in one share. CLAUDE.md and the drift self-test updated to match.</p>
       <p><b>v3.9</b> · Fixed the spec-card collision where dense cards (four rows with sub-lines plus a highlight) drew their last lines under the highlight box. The card generator now measures spec content with the exact same wrapping code that paints it, auto-fits in steps from full size down to 80 percent, and if a card still cannot fit, it warns and refuses to export instead of saving a broken PNG. Same fonts, colors, and 1080x1920 output.</p>
@@ -1152,7 +1153,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v4.1';
+const APP_VERSION = 'v4.2';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1973,6 +1974,9 @@ function parseSpecs(text){
     c.type = String(c.type||"spec").trim().toLowerCase();
     if(!CARD_TYPES.includes(c.type))
       c.warnings.push('Unknown type "'+c.type+'". Accepted: '+CARD_TYPES.join(', ')+'. Rendered as spec.');
+    if(c.type!=="spec" && c.rows.some(r=>r.subs.length))
+      c.warnings.push('Sub-lines only draw on spec cards. This '+c.type+' card has '+
+        c.rows.reduce((n,r)=>n+r.subs.length,0)+' that will not appear. Fold them into a row or move them to the highlight.');
     const allText = [c.kicker,c.headline,c.subhead,c.highlight,c.source,
                      ...c.rows.flatMap(r=>[...r.cells,...r.subs])].join(" ");
     if(/[\u2014\u2013]/.test(allText)) c.warnings.push("Em or en dash found in card copy. House rule: none in copy, visual styling only.");
@@ -2084,7 +2088,6 @@ function specHeight(ctx,c,maxW){
   }
   return h;
 }
-function fitScale(need,avail){ return Math.max(0.76, Math.min(1, avail/need)); }
 /* auto-fit: step the scale down 1.0 -> 0.8 in 0.05 increments until the
    measured content fits above the highlight. Below the 0.8 floor the card
    is broken by definition: warn and let showCard/export block it. */
@@ -2130,13 +2133,22 @@ function timelineHeight(ctx,c,txtW){
   return h;
 }
 function renderTimeline(ctx,c,cy0,accent,limit){
-  const avail=limit-cy0+30;
-  let s=fitScale(timelineHeight(ctx,c,630),avail);
-  if(s<1){ const need2=timelineHeight(ctx,c,630/s); s=fitScale(need2,avail);
-           if(avail/need2<0.76) warnOverflow(); }
-  const txtW=630/s;
+  const avail=limit-cy0;
+  /* the year column sizes to the widest year on the card, so ranges
+     like "1980 to 1986" never run into the event text */
+  setF(ctx,font(46,700,true,0));
+  let yearW=0;
+  for(const r of c.rows) yearW=Math.max(yearW, ctx.measureText(r.cells[0]||"").width);
+  const yearX=66, txtX=Math.max(330, yearX+yearW+40);
+  let s=FIT_STEPS[FIT_STEPS.length-1], fitted=false;
+  for(const t of FIT_STEPS){
+    const w=(RX-MX)/t - txtX - 10;
+    if((timelineHeight(ctx,c,w)-66)*t + 24 <= avail){ s=t; fitted=true; break; }
+  }
+  if(!fitted) warnOverflow();
+  const txtW=(RX-MX)/s - txtX - 10;
   ctx.save(); ctx.translate(MX,cy0); ctx.scale(s,s);
-  const dotX=16, yearX=66, txtX=330;
+  const dotX=16;
   let cy=0, prevDotY=null;
   for(const r of c.rows){
     const year=r.cells[0]||"", txt=r.cells[1]||"";
