@@ -37,13 +37,15 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is one topic per session and runs on both Claude
-  (Opus/Fable) and ChatGPT: topic research in an AI workspace (Claude
-  Project or ChatGPT Project) with web search; the fact-sheet audit in
-  a fresh chat outside any workspace, ideally a different model than
-  the one that researched. Keep all prompt copy model-agnostic; do not
-  write Claude-only instructions, and do not reintroduce the old
-  per-platform fact-bank workflow.
+- The workflow is playbook v5.0: seven steps, one subject per
+  production cycle, on both Claude (Opus/Fable) and ChatGPT. Steps 1
+  and 2 (deep research, second pass) share one chat; every other step
+  runs cold in a fresh chat with its full inputs pasted in, ideally
+  alternating models between writing and auditing. Every step output
+  must stand alone. Keep all prompt copy model-agnostic; do not write
+  Claude-only instructions, and do not reintroduce the correction
+  log, the per-platform fact bank, or workspace-dependent
+  instructions.
 
 ## Card renderer
 
