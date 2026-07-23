@@ -392,7 +392,7 @@ input[type=file]{display:none}
   <div class="kick">Quick copy · outside the flow</div>
   <div class="quickrow">
     <button class="copybtn" id="qcopy1">Prompt 1 · Deep research</button>
-    <button class="copybtn" id="qcopy7">Prompt 7 · Packaging</button>
+    <button class="copybtn" id="qcopy10">Prompt 10 · Packaging</button>
   </div>
   <p class="lead" style="font-size:12px;margin-top:2px">For one-off use. The Build a Short flow above copies each stage's prompt with everything filled in.</p>
 
@@ -411,6 +411,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v5.1</b> · Research spine expanded to five passes. New Step 3 Expansion Pass widens the frame in a fresh window: adjacency, cross-manufacturer context, supplier history, running changes, interchange, identity confusion, lore, and rigorous negative space, each searched or declared. New Step 5 Master Consolidation triangulates the audited document, over-generates and ranks the angle bank, and declares the state of knowledge ledger. Steps renumbered 1 to 10; Step 1 now hands off a coverage map, Step 2 points at expansion, the audit hits expansion additions with the same hostility, and angle selection picks from the ranked bank instead of mining raw. Build a Short gained Expansion and Consolidation stages with the document chain riding inside every copy.</p>
       <p><b>v5.0</b> · Full playbook rewrite around three design laws: every step portable (each output stands alone and runs cold in a fresh chat), research depth first (Steps 1 and 2 build a book-report reference document in one window, never scoped to runtime), and LOCKED-only facts. Seven steps: deep research, second pass, independent audit, angles and script, script audit, cards from script, packaging. The System and Five Rules merged into How This Works; correction log, QC checklist, Drive and tracker, weekly rhythm, social packaging, and portable instructions sections removed, their rules folded into the step prompts. Build a Short reworked to walk the new pipeline with the research document riding inside every prompt copy. Old in-progress Shorts resume at the matching stage.</p>
       <p><b>v4.2</b> · Timeline cards: the year column now sizes to the widest year on the card, so range years like "1980 to 1986" no longer overlap the event text. Timeline also joined the stepped auto-fit the other card types use, and its event text now respects the right margin.</p>
       <p><b>v4.1</b> · Card generator polish. Rows lines without a pipe now read as sub-lines of the row above, so AI output that forgets the ">" marker renders clean instead of as stray label-only rows. Subheads wrap to a second line instead of running off the card. The compare divider is segmented through the values only, no more line through the row labels. Unknown or miscapitalized card types now warn instead of silently rendering as spec. The overflow check measures to the real text bottom, so cards that visibly fit no longer get flagged and blocked. Spec editor is taller on desktop.</p>
@@ -451,8 +452,10 @@ input[type=file]{display:none}
       <p class="lead">No em dashes in any script or card copy. No emojis. Ranges written as "1994 to 1997". Voice: direct, mechanical, short sentences, a little personality, no hype, no filler. Sign off: "Inside The Case." or "Thanks for watching, Inside The Case."</p>
       <div class="kick">The pipeline</div>
       <div class="pipeline">
-        <div class="lbl">Steps 1 and 2 share a window · everything else runs cold</div>
-        <div class="row"><span class="pnode"><span class="pn">1</span> Research</span><span class="parrow">›</span><span class="pnode"><span class="pn">2</span> Second pass</span><span class="parrow">›</span><span class="pnode"><span class="pn">3</span> Audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">4</span> Script</span><span class="parrow">›</span><span class="pnode"><span class="pn">5</span> Script audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">6</span> Cards</span><span class="parrow">›</span><span class="pnode"><span class="pn">7</span> Packaging</span></div>
+        <div class="lbl">Research spine · steps 1 and 2 share a window, everything else runs cold</div>
+        <div class="row"><span class="pnode"><span class="pn">1</span> Research</span><span class="parrow">›</span><span class="pnode"><span class="pn">2</span> Second pass</span><span class="parrow">›</span><span class="pnode"><span class="pn">3</span> Expansion</span><span class="parrow">›</span><span class="pnode"><span class="pn">4</span> Audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">5</span> Consolidation</span></div>
+        <div class="lbl">Build phase</div>
+        <div class="row"><span class="pnode"><span class="pn">6</span> Angle</span><span class="parrow">›</span><span class="pnode"><span class="pn">7</span> Script</span><span class="parrow">›</span><span class="pnode"><span class="pn">8</span> Script audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">9</span> Cards</span><span class="parrow">›</span><span class="pnode"><span class="pn">10</span> Packaging</span></div>
       </div>
     </div>
   </details>
@@ -519,6 +522,11 @@ the source gives a precise number.
 STAY ON SUBJECT. No adjacent history padding, no filler, no general
 automotive commentary.
 
+OVER-PRODUCE LEADS. Note every adjacency, variant, and
+identity-confusion candidate you notice even if you do not chase it
+this pass, and record it in the coverage map below for a later
+expansion pass.
+
 OUTPUT, plain text in this exact structure:
 1. SUBJECT SUMMARY
 2. TIMELINE, year by year
@@ -533,6 +541,11 @@ OUTPUT, plain text in this exact structure:
 11. SOURCE LIST, named sources with links
 12. MASTER CLAIM TABLE: every factual claim in the document with its
     tier and source
+13. COVERAGE MAP AND UNCHASED LEADS: the categories fully covered,
+    the categories only partially covered, and every adjacency,
+    variant, or identity-confusion lead you noticed but did not
+    search. This feeds a later expansion pass so it does not repeat
+    work.
 
 STYLE. No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -573,15 +586,20 @@ Do all of the following:
 - Expand any section that is thin relative to the rest.
 - Flag anything in the first pass that drifted off topic and cut it.
 
-OUTPUT. The full standalone document in the same twelve part
+OUTPUT. The full standalone document in the same thirteen part
 structure as the first pass, plus two additions at the end:
-13. CHANGES FROM PASS ONE: what was upgraded, downgraded, corrected,
+14. CHANGES FROM PASS ONE: what was upgraded, downgraded, corrected,
     added, or removed, with reasoning
-14. CONFIDENCE ASSESSMENT: where this document is strongest, where it
+15. CONFIDENCE ASSESSMENT: where this document is strongest, where it
     is weakest, and what a fact checker should hit hardest
 
+Section 13 becomes the UPDATED COVERAGE MAP: mark what this pass
+closed and what remains open for expansion, so the Expansion Pass
+starts from a clean list of edges.
+
 This output must be the complete document, restated in full. The next
-step happens in a different chat with no memory of this one, and it
+step is the Expansion Pass, run in a fresh window with no memory of
+this chat, followed by the independent audit after that. Each
 receives only what you write here. Every claim keeps its tier and
 named source inline.
 
@@ -589,18 +607,147 @@ STYLE. No em dashes. No emojis. Ranges written as "1994 to 1997".
 
 End the response by attaching the complete revised document as a PDF
 named ITC_TOPIC_RESEARCH_V2.pdf. Keep the full plain text in the chat
-as well; the text is what moves to the audit.</pre>
+as well; the text is what moves to the expansion.</pre>
       </div>
     </div>
   </details>
 
   <details class="pbsec" id="pb-s3" data-owner="hudson">
-    <summary><span class="sn">03</span><span class="st">Independent audit, fresh chat</span><span class="chips"><span class="chip tool">Fresh chat · different model · web search on</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">03</span><span class="st">Expansion pass, fresh chat</span><span class="chips"><span class="chip tool">Fresh chat · web search on</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the Step 2 document, pasted or attached into a brand new chat</div>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 3 <span>·</span> Independent audit</div><div class="spacer"></div><button class="copybtn" data-copy="p3">Copy prompt</button></div>
-        <pre id="p3">You are auditing a research document for an automotive channel that
+        <div class="phead"><div class="pt">Prompt 3 <span>·</span> Expansion pass</div><div class="spacer"></div><button class="copybtn" data-copy="p3">Copy prompt</button></div>
+        <pre id="p3">You are running the Expansion Pass for an Inside The Case Auto
+research document. A two-pass research document is below. It has
+already been researched once and self-critiqued once in the same
+window. Your job is not to redo that work and not to audit it. Your
+job is to make the document exhaustive by finding everything it does
+not yet contain.
+
+STANDING RULES. This prompt runs cold. Assume no prior context.
+- Every factual claim carries a tier. LOCKED means confirmed by a
+  primary or factory grade source that actually covers the part,
+  application, or service condition. LIKELY means strong but single
+  or secondary source, or the source does not fully establish factory
+  allocation, an exact breakpoint, or original engineering intent.
+  UNVERIFIED means lore, forum only, indirect, conflicting, or
+  limited to a search status. UNVERIFIED does not mean false. It
+  means it cannot be stated as fact from the recovered record.
+- Source hierarchy. Factory brochures, OEM service and owner manuals,
+  and material from Ford, GM, Cummins, International, Navistar,
+  Bosch, BorgWarner, Dana, ARB, Accuride and equivalent manufacturers
+  outrank everything. Credible archives second. Forums are leads,
+  never proof. A replacement parts catalog locks service availability
+  or interchange only, never factory build combinations. Name the
+  source on every claim.
+- Search to confirm. Do not reason a fact into existence. Use web
+  search. If a thing cannot be confirmed, say so plainly and tier it
+  down.
+- Stay on subject. Adjacent material is in scope only where it
+  changes how the subject is understood, identified, or serviced. Do
+  not drift into a different video.
+- Style. No em dashes. No emojis. Ranges written as "1994 to 1997".
+  Continue the existing C-number claim IDs and S-number source IDs
+  from where the attached document ends. Do not renumber existing
+  claims.
+
+MANDATE. Work outward from the subject and find the parts of the
+story the first two passes did not ask about. Run a distinct
+multi-pass search for each category below. For every category, either
+add new tiered claims with named sources, or record a negative
+finding as UNVERIFIED research status that names the searches you
+ran. Do not leave a category blank without stating you searched it.
+
+1. Coverage map first. Read the document and list, in one block,
+every question it already answers well. Then list the open edges:
+the adjacent systems, years, variants, and identity questions it
+touches but does not resolve. Everything below aims at those edges,
+not at what is already covered.
+
+2. Adjacency. The neighboring systems and parts that share this
+subject's story. The mating transmission, transfer case, or
+driveshaft. The front axle or the opposite component. The brake and
+wheel-end system as its own subject. The frame, tow rating, or GVWR
+context that explains why the part exists. Add only what changes
+identification or understanding of the subject.
+
+3. Cross-manufacturer and period context. What the direct
+competitors used in the same years for the same job, only where the
+contrast explains a Ford or supplier decision or corrects a
+comparison viewers commonly make. No competitor deep-dive for its
+own sake.
+
+4. Supplier and business history. Why this supplier, why this part,
+the corporate versus vendor decision, licensing, plant or country
+sourcing, and any named supplier program. This is often where the
+strongest reason-why angle lives.
+
+5. Running changes, variants, and special builds. Mid-year and
+running production changes with dates where documented. Regional or
+export variants. Fleet, government, police, ambulance, or DSO
+special builds. These are frequent identity traps and strong hook
+material.
+
+6. Interchange and the swap and rebuild ecosystem. What actually
+interchanges, what does not, the common upgrades and their gotchas,
+and the minimum information needed to order the right parts. High
+value for a technical audience and a strong retention layer.
+
+7. Identity and naming confusion. Hunt every place the subject is
+mislabeled, shares a name with a different part, or is confused with
+a neighbor. List each confusion as its own tiered entry with the
+correction and its source. This is a priority category.
+Identity-confusion and misconception corrections are the channel's
+highest-reach angle type, so mine this surface hard.
+
+8. Misconceptions and lore, tiered. Extend the myth section. For
+each item give a verdict of CONFIRMED, CONTRADICTED, HALF TRUE, or
+NOT PROVEN, with the source and tier. Trace lore to its origin where
+you can find it.
+
+9. Surprises and counterintuitive findings. Anything that
+contradicts what a knowledgeable viewer would assume. Any
+dated-change trap. Any place where the obvious answer is wrong. Flag
+each as a candidate hook.
+
+10. Negative space, done rigorously. For every "was X available"
+question the subject invites, either lock the answer or state
+exactly what a document would need to say to lock it, and mark the
+current finding UNVERIFIED. Do not turn a failed search into a
+locked absence. One brochure or one owner guide cannot prove
+universal absence across a whole model range.
+
+OUTPUT. Restate the complete document with your additions folded in,
+in the same section structure and tier discipline as the version
+below, so the result is one standalone expanded research document.
+Continue the C-number and S-number sequences without gaps. Then
+append two short blocks:
+
+EXPANSION LOG. What you added by category, and what you searched but
+did not find.
+
+HANDOFF TO AUDIT. The new claims most in need of hostile checking
+and why. The next step is an independent audit run in a fresh window
+with no memory of this chat, so the expanded document must stand
+entirely on its own.
+
+End the response by attaching the expanded document as a PDF named
+ITC_TOPIC_RESEARCH_V3.pdf. Keep the full plain text in the chat as
+well; the text is what moves to the audit.
+
+RESEARCH DOCUMENT: [PASTE THE COMPLETE STEP 2 DOCUMENT]</pre>
+      </div>
+    </div>
+  </details>
+
+  <details class="pbsec" id="pb-s4" data-owner="hudson">
+    <summary><span class="sn">04</span><span class="st">Independent audit, fresh chat</span><span class="chips"><span class="chip tool">Fresh chat · different model · web search on</span></span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <div class="kick">You provide: the expanded research document, pasted or attached into a brand new chat</div>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt 4 <span>·</span> Independent audit</div><div class="spacer"></div><button class="copybtn" data-copy="p4">Copy prompt</button></div>
+        <pre id="p4">You are auditing a research document for an automotive channel that
 lives on accuracy. You had no part in writing it, and you may be a
 different AI than the one that did. Assume the document has errors
 and find them.
@@ -620,6 +767,12 @@ Rules of the audit:
   figures that conflict between sections.
 - Check every number, year, and figure individually.
 - Add anything materially missing.
+- Audit the expansion additions with the same hostility as the
+  original claims, with particular attention to the new adjacency,
+  cross-manufacturer, and interchange claims. Breadth passes are
+  where scope drift and over-tiering creep in. Confirm the C-number
+  continuation is clean and that no expansion claim was stated as
+  LOCKED on a replacement parts catalog or a forum lead.
 
 OUTPUT, in this order:
 1. AUDIT REPORT: every change made, with reasoning, and a final
@@ -637,50 +790,136 @@ End the response by attaching the corrected document as a PDF named
 ITC_TOPIC_RESEARCH_FINAL.pdf. Keep the full plain text in the chat
 as well.
 
-RESEARCH DOCUMENT: [PASTE THE COMPLETE STEP 2 DOCUMENT]</pre>
+RESEARCH DOCUMENT: [PASTE THE COMPLETE EXPANDED DOCUMENT]</pre>
       </div>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-s4">
-    <summary><span class="sn">04</span><span class="st">Angles and script</span><span class="chips"><span class="chip tool">Fresh chat · cold</span></span><span class="arrow">›</span></summary>
+  <details class="pbsec" id="pb-s5" data-owner="hudson">
+    <summary><span class="sn">05</span><span class="st">Master consolidation and angle mine</span><span class="chips"><span class="chip tool">Fresh chat · cold</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">4A is optional · you provide: the audited document, plus any direction</div>
+      <div class="kick">You provide: the Step 4 audited document, pasted or attached into a brand new chat</div>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 4A <span>·</span> Angle development, optional</div><div class="spacer"></div><button class="copybtn" data-copy="p4a">Copy prompt</button></div>
-        <pre id="p4a">Develop content directions for Inside The Case Auto from the audited
-research document below. Do not write the script. Do not invent
-facts. Every angle you propose must rest on LOCKED material in the
-document; if an angle depends on a fact that is not LOCKED, say so
-explicitly on that angle.
+        <div class="phead"><div class="pt">Prompt 5 <span>·</span> Master consolidation</div><div class="spacer"></div><button class="copybtn" data-copy="p5">Copy prompt</button></div>
+        <pre id="p5">You are running the Master Consolidation for an Inside The Case Auto
+research document. The final audited research document is below,
+carrying the auditor's corrections, tiers, and a CLEAR TO SCRIPT
+verdict. Your job is to turn that verified document into the finished
+research package the build phase runs from. You are not re-auditing
+facts. You accept the auditor's tiers as given. You do three things:
+triangulate for anything still unresolved, mine every content angle
+the verified record supports, and declare the state of knowledge.
 
-MY DIRECTION: [OPTIONAL: format, runtime, or an angle already in
-mind. Otherwise write "open"]
+STANDING RULES. This prompt runs cold.
+- Tiers and source hierarchy as defined in the document below. Only
+  LOCKED facts may be stated as fact in a script or shown on a card.
+  LIKELY routes to voiceover or description. UNVERIFIED routes to a
+  pinned comment or is excluded.
+- Do not introduce new factual claims. If a genuinely necessary new
+  fact surfaces, place it under NEW CLAIMS FOR REVIEW with a tier
+  and a named source and do not fold it into the verified body. It
+  must be human-checked before use.
+- Style. No em dashes. No emojis. Ranges as "1994 to 1997".
 
-For each angle give:
-- The core idea in one line
-- Why it works for a truck and engine history audience
-- The hook, worded
-- Which LOCKED facts it rests on, listed
-- The retention beat: the moment that keeps a viewer from swiping
-- The payoff
-- Short or long form, and rough runtime
+1. Triangulation. Cross-check the audit's corrections against the
+claims they touch. Where the auditor downgraded or split a claim,
+confirm the body now reads consistently with that verdict. List any
+residual conflict: any claim whose tier and wording still disagree,
+any place two LOCKED claims imply different things, any correction
+that did not fully propagate. Do not silently fix these. Flag each
+under RESIDUAL CONFLICTS FOR HUMAN REVIEW with the claim IDs and the
+exact tension. Accuracy is the brand, so a flagged conflict is a
+better outcome than a quiet guess.
 
-Give several distinct angles, at least four. Then recommend one, with
-reasoning. Rank the rest.
+2. Exhaustive angle mine. Read the entire verified document and
+over-generate content angles. Aim for many more than could ever be
+used, then rank. For each angle give: a working title in the
+channel's curiosity style, the one-line story, the LOCKED claims it
+depends on by ID, the tier of its weakest load-bearing claim, its
+hook type (identity confusion, misconception correction, hidden
+change, surprising why, or teardown reveal), best platform fit, and
+one line on why it works. Sort so that identity-confusion and
+misconception-correction angles built entirely on LOCKED claims rank
+at the top, since those are the channel's proven high-reach types.
+Mark any angle whose payoff leans on a LIKELY or UNVERIFIED claim,
+because that angle cannot carry its key line on a card and must move
+the soft part to voiceover or a pinned comment.
+
+3. State of knowledge ledger. Produce three lists that route the
+whole document by tier. CARD-READY: the LOCKED facts strong and
+specific enough to show on a card. VOICEOVER OR DESCRIPTION ONLY:
+the LIKELY material. PINNED COMMENT OR EXCLUDE: the UNVERIFIED
+material. Then restate the open questions and the what-to-hit-next
+priorities from the document so the next research session on this
+subject starts where this one stopped.
+
+OUTPUT, in this order:
+MASTER RESEARCH SUMMARY. A short standalone header stating subject,
+scope, and overall confidence.
+RESIDUAL CONFLICTS FOR HUMAN REVIEW.
+ANGLE BANK, ranked.
+STATE OF KNOWLEDGE LEDGER.
+OPEN QUESTIONS AND NEXT PRIORITIES.
+NEW CLAIMS FOR REVIEW, if any.
+
+The audited document below remains the sole factual basis. This
+package is the single input to angle selection and scripting.
+
+AUDITED DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
+      </div>
+    </div>
+  </details>
+
+  <details class="pbsec" id="pb-s6">
+    <summary><span class="sn">06</span><span class="st">Angle selection and development</span><span class="chips"><span class="chip tool">Fresh chat · cold · optional</span></span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <div class="kick">You provide: the angle bank from Step 5, the audited document, and any direction</div>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt 6 <span>·</span> Angle selection</div><div class="spacer"></div><button class="copybtn" data-copy="p6">Copy prompt</button></div>
+        <pre id="p6">Develop the chosen content angle for Inside The Case Auto. The
+ranked ANGLE BANK from the Master Consolidation and the audited
+research document are both below. Do not mine angles from raw
+research. Select from the ranked ANGLE BANK.
+
+MY DIRECTION: [OPTIONAL: an angle already chosen from the bank, or a
+format or runtime constraint. Otherwise write "open"]
+
+Take the recommended angle, or the operator's chosen angle, and
+develop it:
+- Confirm its LOCKED dependencies still hold in the audited
+  document, by claim ID.
+- State the hook type: identity confusion, misconception correction,
+  hidden change, surprising why, or teardown reveal.
+- Word the hook.
+- State the one retention beat and the payoff.
+- Short or long form, and rough runtime.
+- If its payoff leans on a LIKELY or UNVERIFIED claim, say so and
+  state what moves to voiceover or the pinned comment.
+
+Then recommend: confirm this angle or name the better one from the
+bank, with reasoning. Always recommend exactly one. Do not write the
+script. Do not invent facts.
 
 STYLE. No em dashes. No emojis. Ranges written as "1994 to 1997".
 
+ANGLE BANK: [PASTE THE ANGLE BANK FROM THE MASTER CONSOLIDATION]
+
 RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
       </div>
-      <div class="kick">4B · you provide: the audited document, plus topic, angle, format, and target runtime</div>
+    </div>
+  </details>
+
+  <details class="pbsec" id="pb-s7">
+    <summary><span class="sn">07</span><span class="st">Script writing</span><span class="chips"><span class="chip tool">Fresh chat · cold</span></span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <div class="kick">You provide: the audited document, plus topic, angle, format, and target runtime</div>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 4B <span>·</span> Script writing</div><div class="spacer"></div><button class="copybtn" data-copy="p4b">Copy prompt</button></div>
+        <div class="phead"><div class="pt">Prompt 7 <span>·</span> Script writing</div><div class="spacer"></div><button class="copybtn" data-copy="p7">Copy prompt</button></div>
         <div class="fillins">
           <div class="f"><label>Topic</label><input data-slot="topic" placeholder="the exact subject"></div>
           <div class="f"><label>Angle</label><input data-slot="angle" placeholder="the chosen angle or hook"></div>
         </div>
-        <pre id="p4b">Write a finished, recordable script for Inside The Case Auto. The
+        <pre id="p7">Write a finished, recordable script for Inside The Case Auto. The
 research document below is provided in this message and is the sole
 factual basis for the script. Treat it that way: no outside facts, no
 memory facts, no reasoning a spec into existence.
@@ -721,13 +960,13 @@ RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-s5">
-    <summary><span class="sn">05</span><span class="st">Script audit and fact check</span><span class="chips"><span class="chip tool">Fresh chat · web search on</span></span><span class="arrow">›</span></summary>
+  <details class="pbsec" id="pb-s8">
+    <summary><span class="sn">08</span><span class="st">Script audit and fact check</span><span class="chips"><span class="chip tool">Fresh chat · web search on</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: your rewritten final script, plus the audited document</div>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 5 <span>·</span> Script audit</div><div class="spacer"></div><button class="copybtn" data-copy="p5">Copy prompt</button></div>
-        <pre id="p5">Audit this script line by line against the research document below.
+        <div class="phead"><div class="pt">Prompt 8 <span>·</span> Script audit</div><div class="spacer"></div><button class="copybtn" data-copy="p8">Copy prompt</button></div>
+        <pre id="p8">Audit this script line by line against the research document below.
 Both are provided in this message. Assume the script has errors and
 find them.
 
@@ -764,13 +1003,13 @@ RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-s6">
-    <summary><span class="sn">06</span><span class="st">Card generation from script</span><span class="chips"><span class="chip tool">Fresh chat · one prompt</span></span><span class="arrow">›</span></summary>
+  <details class="pbsec" id="pb-s9">
+    <summary><span class="sn">09</span><span class="st">Card generation from script</span><span class="chips"><span class="chip tool">Fresh chat · one prompt</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the final script and the audited document, both in this one prompt</div>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 6 <span>·</span> Cards from script</div><div class="spacer"></div><button class="copybtn" data-copy="p6">Copy prompt</button></div>
-        <pre id="p6">Write the on-screen info cards for this video in the ITC HQ Card
+        <div class="phead"><div class="pt">Prompt 9 <span>·</span> Cards from script</div><div class="spacer"></div><button class="copybtn" data-copy="p9">Copy prompt</button></div>
+        <pre id="p9">Write the on-screen info cards for this video in the ITC HQ Card
 Generator machine format. The script and the research document are
 both below. Output card blocks ready to paste into the generator
 with zero edits.
@@ -811,13 +1050,13 @@ RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-s7">
-    <summary><span class="sn">07</span><span class="st">Packaging</span><span class="chips"><span class="chip tool">Fresh chat · when publishing</span></span><span class="arrow">›</span></summary>
+  <details class="pbsec" id="pb-s10">
+    <summary><span class="sn">10</span><span class="st">Packaging</span><span class="chips"><span class="chip tool">Fresh chat · when publishing</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the final script, the format, and the platforms</div>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 7 <span>·</span> Packaging</div><div class="spacer"></div><button class="copybtn" data-copy="p7">Copy prompt</button></div>
-        <pre id="p7">Build the publishing package for this video. The script is below.
+        <div class="phead"><div class="pt">Prompt 10 <span>·</span> Packaging</div><div class="spacer"></div><button class="copybtn" data-copy="p10">Copy prompt</button></div>
+        <pre id="p10">Build the publishing package for this video. The script is below.
 Everything must be copy ready and clearly labeled so each block drops
 straight into its platform. Scale the packaging to the video: a five
 minute shop fix does not get sold like a full teardown.
@@ -866,16 +1105,18 @@ SCRIPT: [PASTE THE FINAL SCRIPT]</pre>
     <div class="secbody">
       <table>
         <tr><th>Step</th><th>In</th><th>Out</th></tr>
-        <tr><td>1 Research</td><td>Topic and any direction</td><td>Complete research document, PDF plus text</td></tr>
-        <tr><td>2 Second pass</td><td>Nothing, same window</td><td>Full revised document, superseding pass one</td></tr>
-        <tr><td>3 Audit</td><td>Step 2 document, fresh chat</td><td>Audit report plus the corrected full document</td></tr>
-        <tr><td>4A Angles</td><td>Audited document, optional</td><td>Developed angles, one recommended</td></tr>
-        <tr><td>4B Script</td><td>Audited document plus direction</td><td>Script, NEW CLAIMS, claim map, runtime</td></tr>
-        <tr><td>5 Script audit</td><td>Final script plus document</td><td>Audit table, fixes, corrected script</td></tr>
-        <tr><td>6 Cards</td><td>Script plus document, one prompt</td><td>Card blocks plus placement map</td></tr>
-        <tr><td>7 Packaging</td><td>Script, format, platforms</td><td>Titles, descriptions, tags, captions, pinned comment</td></tr>
+        <tr><td>1 Research</td><td>Topic and any direction</td><td>Complete research document with coverage map</td></tr>
+        <tr><td>2 Second pass</td><td>Nothing, same window</td><td>Full revised document, updated coverage map</td></tr>
+        <tr><td>3 Expansion</td><td>Step 2 document, fresh chat</td><td>Expanded document, expansion log, audit handoff</td></tr>
+        <tr><td>4 Audit</td><td>Expanded document, fresh chat</td><td>Audit report plus the corrected full document</td></tr>
+        <tr><td>5 Consolidation</td><td>Audited document, fresh chat</td><td>Conflicts, ranked angle bank, knowledge ledger</td></tr>
+        <tr><td>6 Angle selection</td><td>Angle bank plus document, optional</td><td>One developed angle, recommended</td></tr>
+        <tr><td>7 Script</td><td>Audited document plus direction</td><td>Script, NEW CLAIMS, claim map, runtime</td></tr>
+        <tr><td>8 Script audit</td><td>Final script plus document</td><td>Audit table, fixes, corrected script</td></tr>
+        <tr><td>9 Cards</td><td>Script plus document, one prompt</td><td>Card blocks plus placement map</td></tr>
+        <tr><td>10 Packaging</td><td>Script, format, platforms</td><td>Titles, descriptions, tags, captions, pinned comment</td></tr>
       </table>
-      <p class="lead">Steps 1 and 2 share a window. Every other step runs cold in a fresh chat, ideally alternating models between writing and auditing. The Build a Short flow on the Home tab walks the whole pipeline with everything pre-filled.</p>
+      <p class="lead">Steps 1 and 2 share a window. Every other step runs cold in a fresh chat, ideally alternating models between writing and auditing. Expansion widens the factual frame; Consolidation mines and declares; neither repeats the verification the second pass and audit own. The Build a Short flow on the Home tab walks the whole pipeline with everything pre-filled.</p>
     </div>
   </details>
 
@@ -1095,7 +1336,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v5.0';
+const APP_VERSION = 'v5.1';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1251,7 +1492,7 @@ ${CARD_EXAMPLE}`;
 
 function promptText(id){
   let text = document.getElementById(id).textContent;
-  if(id==='p6') text += CARD_SNIPPET;   /* cards prompt always carries the format + worked example */
+  if(id==='p9') text += CARD_SNIPPET;   /* cards prompt always carries the format + worked example */
   return text;
 }
 document.querySelectorAll('.copybtn[data-copy]').forEach(btn=>{
@@ -1281,20 +1522,25 @@ function writerText(){ return document.getElementById('page').innerText; }
    itc_shorts = { active: short|null, history: [short] }
    short = { id, tag, angle, status, created, updated, facts, factsFinal,
              sections, claims, claimsNone, claimsMissing, parsed? }
-   status walks research -> audit -> script -> claims -> scriptaudit ->
-   cards -> filed. facts holds the Step 2 document, factsFinal the audited
-   Step 3 version that rides inside every later prompt copy. The NEW
-   CLAIMS gate is enforced in bsAdvance and bsFile: nothing moves past
-   claims until every claim is confirmed or cut. Shorts saved before v5.0
-   with status "package" resume at the script stage. */
+   status walks research -> expansion -> audit -> consolidation ->
+   script -> claims -> scriptaudit -> cards -> filed. Document chain:
+   facts (Step 2) -> factsExpanded (Step 3) -> factsFinal (Step 4) ->
+   consolidated (Step 5 package with the angle bank). Each rides inside
+   the next step's prompt copy. The NEW CLAIMS gate is enforced in
+   bsAdvance and bsFile: nothing moves past claims until every claim is
+   confirmed or cut. Shorts saved before v5.0 with status "package"
+   resume at the script stage; pre-v5.1 shorts skip the stages they
+   predate. */
 const BS_STAGES = [
-  { key:'research',    label:'Research' },
-  { key:'audit',       label:'Audit' },
-  { key:'script',      label:'Script' },
-  { key:'claims',      label:'Review claims' },
-  { key:'scriptaudit', label:'Script audit' },
-  { key:'cards',       label:'Cards' },
-  { key:'filed',       label:'Filed' }
+  { key:'research',      label:'Research' },
+  { key:'expansion',     label:'Expansion' },
+  { key:'audit',         label:'Audit' },
+  { key:'consolidation', label:'Consolidation' },
+  { key:'script',        label:'Script' },
+  { key:'claims',        label:'Review claims' },
+  { key:'scriptaudit',   label:'Script audit' },
+  { key:'cards',         label:'Cards' },
+  { key:'filed',         label:'Filed' }
 ];
 const bsWrap = document.getElementById('bsWrap');
 let bsView = null;        /* a completed stage being revisited, null = current */
@@ -1356,28 +1602,37 @@ function bsPrompt3(s){
   return document.getElementById('p3').textContent
     .replace('[PASTE THE COMPLETE STEP 2 DOCUMENT]', '\n' + (s.facts || ''));
 }
-function bsPrompt4a(s){
-  return document.getElementById('p4a').textContent.replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
-}
-function bsPrompt4b(s){
-  return bsFillSlots('p4b', s).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+function bsPrompt4(s){
+  return document.getElementById('p4').textContent
+    .replace('[PASTE THE COMPLETE EXPANDED DOCUMENT]', '\n' + (s.factsExpanded || s.facts || ''));
 }
 function bsPrompt5(s){
-  return document.getElementById('p5').textContent
-    .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText())
-    .replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+  return document.getElementById('p5').textContent.replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
 function bsPrompt6(s){
-  return promptText('p6')
+  return document.getElementById('p6').textContent
+    .replace('[PASTE THE ANGLE BANK FROM THE MASTER CONSOLIDATION]', '\n' + (s.consolidated || ''))
+    .replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+}
+function bsPrompt7(s){
+  return bsFillSlots('p7', s).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+}
+function bsPrompt8(s){
+  return document.getElementById('p8').textContent
     .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText())
     .replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
-function bsPrompt7(){
-  return document.getElementById('p7').textContent
+function bsPrompt9(s){
+  return promptText('p9')
+    .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText())
+    .replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+}
+function bsPrompt10(){
+  return document.getElementById('p10').textContent
     .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText());
 }
 
-/* the Step 4B reply splits on its four output headers */
+/* the Prompt 7 script reply splits on its four output headers */
 function bsParsePackage(text){
   const lines = text.split(/\r?\n/);
   const marks = [];
@@ -1507,11 +1762,32 @@ function bsPanelResearch(st, s){
   ta.value = s.facts || '';
   p.appendChild(ta);
   const row = bsEl('<div class="bs-row"></div>');
-  const go = bsEl('<button type="button" class="amber">Document captured · on to the audit</button>');
+  const go = bsEl('<button type="button" class="amber">Document captured · on to the expansion</button>');
   go.addEventListener('click', ()=>{
     if(!ta.value.trim()){ alert('Paste the Step 2 document first.'); return; }
     s.facts = ta.value.trim(); s.updated = Date.now();
-    if(bsStageIdx(s.status) <= bsStageIdx('research')) s.status = 'audit';
+    if(bsStageIdx(s.status) <= bsStageIdx('research')) s.status = 'expansion';
+    bsView = null; bsSave(st); renderShort();
+  });
+  row.appendChild(go); p.appendChild(row);
+  return p;
+}
+
+function bsPanelExpansion(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note">Fresh window, web search on. The copy below carries the Step 2 document. The expansion widens the frame: adjacency, suppliers, variants, interchange, identity confusion. It adds tiered claims; it does not audit. Paste the complete expanded document it returns below.</p>'));
+  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 3 · Step 2 document attached</button>');
+  copyBtn.addEventListener('click', function(){ copyText(bsPrompt3(s), this); });
+  p.appendChild(copyBtn);
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the complete expanded research document here, expansion log and audit handoff included."></textarea>');
+  ta.value = s.factsExpanded || '';
+  p.appendChild(ta);
+  const row = bsEl('<div class="bs-row"></div>');
+  const go = bsEl('<button type="button" class="amber">Expanded · on to the audit</button>');
+  go.addEventListener('click', ()=>{
+    if(!ta.value.trim()){ alert('Paste the expanded document first.'); return; }
+    s.factsExpanded = ta.value.trim(); s.updated = Date.now();
+    if(bsStageIdx(s.status) <= bsStageIdx('expansion')) s.status = 'audit';
     bsView = null; bsSave(st); renderShort();
   });
   row.appendChild(go); p.appendChild(row);
@@ -1520,19 +1796,40 @@ function bsPanelResearch(st, s){
 
 function bsPanelAudit(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note">Open a <b>brand new chat</b>, web search on, ideally a <b>different model</b> than the one that researched. The copy below already carries the Step 2 document. Read the audit verdict when it returns, apply your own judgment, then paste the complete corrected document below. You outrank the AI, all of them.</p>'));
-  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 3 · document attached</button>');
-  copyBtn.addEventListener('click', function(){ copyText(bsPrompt3(s), this); });
+  p.appendChild(bsEl('<p class="bs-note">Open a <b>brand new chat</b>, web search on, ideally a <b>different model</b> than the one that researched. The copy below carries the expanded document, and the audit hits the expansion additions with the same hostility as the originals. Read the verdict, apply your own judgment, then paste the complete corrected document below. You outrank the AI, all of them.</p>'));
+  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 4 · expanded document attached</button>');
+  copyBtn.addEventListener('click', function(){ copyText(bsPrompt4(s), this); });
   p.appendChild(copyBtn);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the complete corrected document here. This exact text rides inside every later prompt."></textarea>');
   ta.value = s.factsFinal || '';
   p.appendChild(ta);
   const row = bsEl('<div class="bs-row"></div>');
-  const go = bsEl('<button type="button" class="amber">Audited · on to the script</button>');
+  const go = bsEl('<button type="button" class="amber">Audited · on to the consolidation</button>');
   go.addEventListener('click', ()=>{
     if(!ta.value.trim()){ alert('Paste the corrected document first.'); return; }
     s.factsFinal = ta.value.trim(); s.updated = Date.now();
-    if(bsStageIdx(s.status) <= bsStageIdx('audit')) s.status = 'script';
+    if(bsStageIdx(s.status) <= bsStageIdx('audit')) s.status = 'consolidation';
+    bsView = null; bsSave(st); renderShort();
+  });
+  row.appendChild(go); p.appendChild(row);
+  return p;
+}
+
+function bsPanelConsolidation(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note">Fresh window. The copy below carries the audited document. The consolidation triangulates, over-generates and ranks the angle bank, and declares the state of knowledge. It accepts the auditor\'s tiers as given. Check RESIDUAL CONFLICTS yourself, then paste the whole package below; its angle bank feeds the angle selection.</p>'));
+  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 5 · audited document attached</button>');
+  copyBtn.addEventListener('click', function(){ copyText(bsPrompt5(s), this); });
+  p.appendChild(copyBtn);
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the whole consolidation package here: summary, conflicts, angle bank, ledger, open questions."></textarea>');
+  ta.value = s.consolidated || '';
+  p.appendChild(ta);
+  const row = bsEl('<div class="bs-row"></div>');
+  const go = bsEl('<button type="button" class="amber">Consolidated · on to the script</button>');
+  go.addEventListener('click', ()=>{
+    if(!ta.value.trim()){ alert('Paste the consolidation package first.'); return; }
+    s.consolidated = ta.value.trim(); s.updated = Date.now();
+    if(bsStageIdx(s.status) <= bsStageIdx('consolidation')) s.status = 'script';
     bsView = null; bsSave(st); renderShort();
   });
   row.appendChild(go); p.appendChild(row);
@@ -1546,22 +1843,22 @@ function bsPanelScript(st, s){
     p.appendChild(bsParseSummary(st, s));
     return p;
   }
-  p.appendChild(bsEl('<p class="bs-note">Fresh chat, cold. Prompt 4A (optional) develops angles first; Prompt 4B writes the script. Both copies carry the audited document. Topic and angle are filled in on 4B. Paste the whole 4B reply below in one go.</p>'));
+  p.appendChild(bsEl('<p class="bs-note">Fresh chat, cold. Prompt 6 (optional) selects and develops an angle from the consolidation\'s ranked bank; Prompt 7 writes the script. Both copies carry what they need. Topic and angle are filled in on 7. Paste the whole Prompt 7 reply below in one go.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
-  const cA = bsEl('<button type="button" class="copybtn">Copy Prompt 4A · angles, optional</button>');
-  cA.addEventListener('click', function(){ copyText(bsPrompt4a(s), this); });
-  const cB = bsEl('<button type="button" class="copybtn">Copy Prompt 4B · script</button>');
-  cB.addEventListener('click', function(){ copyText(bsPrompt4b(s), this); });
+  const cA = bsEl('<button type="button" class="copybtn">Copy Prompt 6 · angle selection, optional</button>');
+  cA.addEventListener('click', function(){ copyText(bsPrompt6(s), this); });
+  const cB = bsEl('<button type="button" class="copybtn">Copy Prompt 7 · script</button>');
+  cB.addEventListener('click', function(){ copyText(bsPrompt7(s), this); });
   row1.appendChild(cA); row1.appendChild(cB); p.appendChild(row1);
-  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the entire 4B reply here. It splits on the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers."></textarea>');
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the entire Prompt 7 reply here. It splits on the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers."></textarea>');
   p.appendChild(ta);
   const row = bsEl('<div class="bs-row"></div>');
   const parseBtn = bsEl('<button type="button" class="amber">Split the reply</button>');
   parseBtn.addEventListener('click', ()=>{
-    if(!ta.value.trim()){ alert('Paste the 4B reply first.'); return; }
+    if(!ta.value.trim()){ alert('Paste the Prompt 7 reply first.'); return; }
     const parsed = bsParsePackage(ta.value);
     if(!Object.keys(parsed).length){
-      alert('No section headers found. The paste needs the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers from Prompt 4B.');
+      alert('No section headers found. The paste needs the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers from Prompt 7.');
       return;
     }
     s.parsed = parsed; s.updated = Date.now();
@@ -1601,7 +1898,7 @@ function bsPanelClaims(st, s){
     return p;
   }
   if(s.claimsMissing){
-    p.appendChild(bsEl('<p class="bs-note miss">The 4B reply had no NEW CLAIMS section, so the gate stays closed. Paste the reply again, or confirm there are no new claims.</p>'));
+    p.appendChild(bsEl('<p class="bs-note miss">The Prompt 7 reply had no NEW CLAIMS section, so the gate stays closed. Paste the reply again, or confirm there are no new claims.</p>'));
     const row = bsEl('<div class="bs-row"></div>');
     const back = bsEl('<button type="button" class="ghost">Back to Script</button>');
     back.addEventListener('click', ()=>{ s.status='script'; s.updated=Date.now(); bsView=null; bsSave(st); renderShort(); });
@@ -1629,8 +1926,8 @@ function bsPanelScriptAudit(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   p.appendChild(bsEl('<p class="bs-note">Rewrite the script in the <b>Writer</b> first if you want; the copy below always carries the current Writer text plus the audited document. Run it in a fresh chat, web search on. When the audit returns, paste the corrected script below, or continue if it came back clean.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
-  const c5 = bsEl('<button type="button" class="copybtn">Copy Prompt 5 · script + document attached</button>');
-  c5.addEventListener('click', function(){ copyText(bsPrompt5(s), this); });
+  const c5 = bsEl('<button type="button" class="copybtn">Copy Prompt 8 · script + document attached</button>');
+  c5.addEventListener('click', function(){ copyText(bsPrompt8(s), this); });
   const w = bsEl('<button type="button" class="ghost">Open Writer</button>');
   w.addEventListener('click', ()=>showView('writer'));
   row1.appendChild(c5); row1.appendChild(w); p.appendChild(row1);
@@ -1654,8 +1951,8 @@ function bsPanelScriptAudit(st, s){
 function bsPanelCards(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   p.appendChild(bsEl('<p class="bs-note">Fresh chat, one prompt: the copy below carries the final script, the audited document, and the full card machine format. Paste the reply below and the card blocks route to the Cards tab with file tag "'+esc(s.tag)+'".</p>'));
-  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 6 · script + document + format attached</button>');
-  copyBtn.addEventListener('click', function(){ copyText(bsPrompt6(s), this); });
+  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 9 · script + document + format attached</button>');
+  copyBtn.addEventListener('click', function(){ copyText(bsPrompt9(s), this); });
   p.appendChild(copyBtn);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the whole Prompt 6 reply here: the card blocks plus the placement map."></textarea>');
   p.appendChild(ta);
@@ -1666,7 +1963,7 @@ function bsPanelCards(st, s){
     if(!txt.trim()){ alert('Paste the Prompt 6 reply first.'); return; }
     const cut = txt.search(/^\s*PLACEMENT MAP/mi);
     const specs = (cut>=0? txt.slice(0,cut) : txt).trim();
-    if(specs.indexOf('===')===-1){ alert('No card blocks found. The paste needs the === CARD lines from Prompt 6.'); return; }
+    if(specs.indexOf('===')===-1){ alert('No card blocks found. The paste needs the === CARD lines from Prompt 9.'); return; }
     specEl.value = specs; specEl.dispatchEvent(new Event('input'));
     tagEl.value = s.tag; tagEl.dispatchEvent(new Event('input'));
     s.sections['PLACEMENT MAP'] = (cut>=0)? txt.slice(cut).trim() : '';
@@ -1684,8 +1981,8 @@ function bsPanelCards(st, s){
   oc.addEventListener('click', ()=>showView('cards'));
   const sp = bsEl('<button type="button" class="ghost">Share the whole package</button>');
   sp.addEventListener('click', ()=>{ showView('cards'); document.getElementById('sharePack').click(); });
-  const c7 = bsEl('<button type="button" class="copybtn">Copy Prompt 7 · packaging</button>');
-  c7.addEventListener('click', function(){ copyText(bsPrompt7(), this); });
+  const c7 = bsEl('<button type="button" class="copybtn">Copy Prompt 10 · packaging</button>');
+  c7.addEventListener('click', function(){ copyText(bsPrompt10(), this); });
   row1.appendChild(oc); row1.appendChild(sp); row1.appendChild(c7); p.appendChild(row1);
   if(s.status==='cards'){
     const row = bsEl('<div class="bs-row"></div>');
@@ -1698,7 +1995,7 @@ function bsPanelCards(st, s){
 
 function bsStartPanel(st){
   const box = bsEl('<div class="bs-box"></div>');
-  box.appendChild(bsEl('<p class="bs-note">One subject in, one finished video out, the same path every time: Research, Audit, Script, Review claims, Script audit, Cards, Filed. Set the topic tag once; it names the prompts, the Writer doc, and the card files.</p>'));
+  box.appendChild(bsEl('<p class="bs-note">One subject in, one finished video out, the same path every time: Research, Expansion, Audit, Consolidation, Script, Review claims, Script audit, Cards, Filed. Set the topic tag once; it names the prompts, the Writer doc, and the card files.</p>'));
   const form = bsEl('<div class="logform"><div class="r">'+
     '<input class="i-tag" placeholder="TOPIC TAG · e.g. BW4407" maxlength="24" style="max-width:170px">'+
     '<input class="i-angle" placeholder="ANGLE · optional direction"></div>'+
@@ -1708,7 +2005,8 @@ function bsStartPanel(st){
     const angle = form.querySelector('.i-angle').value.trim();
     if(!tag){ alert('Set a topic tag first. It carries through the whole pipeline.'); return; }
     st.active = { id:Date.now(), tag, angle, status:'research', created:Date.now(), updated:Date.now(),
-      facts:'', factsFinal:'', sections:{}, claims:[], claimsNone:false, claimsMissing:false };
+      facts:'', factsExpanded:'', factsFinal:'', consolidated:'',
+      sections:{}, claims:[], claimsNone:false, claimsMissing:false };
     bsView = null; bsSave(st); renderShort();
   });
   box.appendChild(form);
@@ -1777,7 +2075,8 @@ function renderShort(){
       back.querySelector('.bk').addEventListener('click', e=>{ e.preventDefault(); bsView = null; renderShort(); });
       box.appendChild(back);
     }
-    const panels = { research:bsPanelResearch, audit:bsPanelAudit, script:bsPanelScript,
+    const panels = { research:bsPanelResearch, expansion:bsPanelExpansion, audit:bsPanelAudit,
+      consolidation:bsPanelConsolidation, script:bsPanelScript,
       claims:bsPanelClaims, scriptaudit:bsPanelScriptAudit, cards:bsPanelCards };
     box.appendChild((panels[viewKey] || bsPanelResearch)(st, s));
     bsWrap.appendChild(box);
@@ -1790,8 +2089,8 @@ renderShort();
 document.getElementById('qcopy1').addEventListener('click', function(){
   copyText(document.getElementById('p1').textContent, this);
 });
-document.getElementById('qcopy7').addEventListener('click', function(){
-  copyText(document.getElementById('p7').textContent, this);
+document.getElementById('qcopy10').addEventListener('click', function(){
+  copyText(document.getElementById('p10').textContent, this);
 });
 
 /* ---------------- [HOME] backup and restore, every itc_ key ---------------- */
@@ -2253,9 +2552,9 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     if(c.length!==1 || c[0].type!==t || !RENDERERS[c[0].type])
       fails.push('parser or renderer no longer accepts type "'+t+'"');
   });
-  const p6txt = document.getElementById('p6').textContent;
+  const p9txt = document.getElementById('p9').textContent;
   CARD_TYPES.forEach(t=>{
-    if(!p6txt.includes(t)) fails.push('Prompt 6 no longer names card type "'+t+'"');
+    if(!p9txt.includes(t)) fails.push('Prompt 9 no longer names card type "'+t+'"');
     if(!CARD_SNIPPET.includes(t)) fails.push('CARD_SNIPPET no longer names card type "'+t+'"');
   });
   const demo = parseSpecs(CARD_EXAMPLE);
