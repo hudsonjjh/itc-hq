@@ -411,6 +411,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v5.2</b> · Script writing split into three formats: 7A Short form, 7B long form (chapters, one retention beat per 60 to 90 seconds, bracketed chapter titles for YouTube chapters), and 7C written posts for Facebook and YouTube built to platform character limits (hook inside Facebook's 450 character fold, YouTube community post under 2,000). All three carry the new channel voice card: mechanical directness, numbers over adjectives, identity confusion and misconception correction as the proven shapes, honesty about uncertainty, the sign offs. The voice card is guarded by the load-time self-test. Build a Short's script stage offers all three copies; 7A and 7B replies split and route as before, 7C posts go straight to the platforms.</p>
       <p><b>v5.1</b> · Research spine expanded to five passes. New Step 3 Expansion Pass widens the frame in a fresh window: adjacency, cross-manufacturer context, supplier history, running changes, interchange, identity confusion, lore, and rigorous negative space, each searched or declared. New Step 5 Master Consolidation triangulates the audited document, over-generates and ranks the angle bank, and declares the state of knowledge ledger. Steps renumbered 1 to 10; Step 1 now hands off a coverage map, Step 2 points at expansion, the audit hits expansion additions with the same hostility, and angle selection picks from the ranked bank instead of mining raw. Build a Short gained Expansion and Consolidation stages with the document chain riding inside every copy.</p>
       <p><b>v5.0</b> · Full playbook rewrite around three design laws: every step portable (each output stands alone and runs cold in a fresh chat), research depth first (Steps 1 and 2 build a book-report reference document in one window, never scoped to runtime), and LOCKED-only facts. Seven steps: deep research, second pass, independent audit, angles and script, script audit, cards from script, packaging. The System and Five Rules merged into How This Works; correction log, QC checklist, Drive and tracker, weekly rhythm, social packaging, and portable instructions sections removed, their rules folded into the step prompts. Build a Short reworked to walk the new pipeline with the research document riding inside every prompt copy. Old in-progress Shorts resume at the matching stage.</p>
       <p><b>v4.2</b> · Timeline cards: the year column now sizes to the widest year on the card, so range years like "1980 to 1986" no longer overlap the event text. Timeline also joined the stepped auto-fit the other card types use, and its event text now respects the right margin.</p>
@@ -910,33 +911,45 @@ RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
   </details>
 
   <details class="pbsec" id="pb-s7">
-    <summary><span class="sn">07</span><span class="st">Script writing</span><span class="chips"><span class="chip tool">Fresh chat · cold</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">07</span><span class="st">Script writing</span><span class="chips"><span class="chip tool">Fresh chat · cold · three formats</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">You provide: the audited document, plus topic, angle, format, and target runtime</div>
+      <div class="kick">You provide: the audited document, plus topic, angle, and target</div>
+      <p class="lead">Three prompts, one per format: 7A for a Short, 7B for long form, 7C for written posts. Each carries the full channel voice card and stands alone. They also run fine inside the Inside The Case Project chat, which layers your accumulated conversation context on top; the prompts do not depend on it.</p>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt 7 <span>·</span> Script writing</div><div class="spacer"></div><button class="copybtn" data-copy="p7">Copy prompt</button></div>
+        <div class="phead"><div class="pt">Prompt 7A <span>·</span> Short form script</div><div class="spacer"></div><button class="copybtn" data-copy="p7a">Copy prompt</button></div>
         <div class="fillins">
           <div class="f"><label>Topic</label><input data-slot="topic" placeholder="the exact subject"></div>
           <div class="f"><label>Angle</label><input data-slot="angle" placeholder="the chosen angle or hook"></div>
         </div>
-        <pre id="p7">Write a finished, recordable script for Inside The Case Auto. The
-research document below is provided in this message and is the sole
-factual basis for the script. Treat it that way: no outside facts, no
-memory facts, no reasoning a spec into existence.
+        <pre id="p7a">Write a finished, recordable Short script for Inside The Case Auto.
+The research document below is provided in this message and is the
+sole factual basis for the script. Treat it that way: no outside
+facts, no memory facts, no reasoning a spec into existence.
 
 TOPIC: <span class="slot" data-for="topic">[FILL IN]</span>
 ANGLE: <span class="slot" data-for="angle">[FILL IN]</span>
-FORMAT AND TARGET RUNTIME: [Short, about 1:45, unless stated
-otherwise. Long form scales to the stated target]
+TARGET RUNTIME: about 1:45 unless stated otherwise.
 
 SCRIPT SHAPE. Hook, setup, mechanical truth, one strong retention
-beat, payoff, sign off. Sign off is "Inside The Case." or "Thanks for
-watching, Inside The Case."
+beat, payoff, sign off. The hook is the first line and it earns the
+next fifteen seconds or the viewer is gone.
 
-VOICE. Direct, mechanical, short sentences, a little personality, no
-hype, no filler, no adjective stacking, no corporate phrasing.
-Written for voiceover: say it out loud, and if a line cannot be read
-cleanly, rewrite it.
+CHANNEL VOICE CARD. This is how Inside The Case sounds:
+- Direct, mechanical, short sentences, a little personality. No
+  hype, no filler, no adjective stacking, no corporate phrasing.
+- Numbers beat adjectives: "14 mm to 12 mm", never "significantly
+  smaller".
+- The channel's proven high-reach shapes are identity confusion and
+  misconception correction: state the common belief plainly, then
+  correct it with the document's facts.
+- Respect the audience. They know trucks. Explain the why, never
+  talk down, never oversell.
+- Honesty is the brand. Own uncertainty out loud ("the record does
+  not show") instead of papering over it.
+- Written for voiceover: say it out loud, and if a line cannot be
+  read cleanly, rewrite it.
+- Sign off: "Inside The Case." or "Thanks for watching, Inside The
+  Case."
 
 HARD RULES:
 - Only LOCKED facts appear in the script, stated as fact.
@@ -954,6 +967,124 @@ NEW CLAIMS: as defined above.
 CLAIM MAP: each script line or beat, and which sourced fact in the
 research document it rests on.
 RUNTIME: estimated runtime at a natural voiceover pace.
+
+RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
+      </div>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt 7B <span>·</span> Long form script</div><div class="spacer"></div><button class="copybtn" data-copy="p7b">Copy prompt</button></div>
+        <pre id="p7b">Write a finished, recordable long form script for Inside The Case
+Auto. The research document below is provided in this message and is
+the sole factual basis for the script. Treat it that way: no outside
+facts, no memory facts, no reasoning a spec into existence.
+
+TOPIC: <span class="slot" data-for="topic">[FILL IN]</span>
+ANGLE: <span class="slot" data-for="angle">[FILL IN]</span>
+TARGET RUNTIME: [state it, e.g. 8 to 12 minutes. The script scales
+to this target, not the other way around]
+
+SCRIPT SHAPE. Cold open hook in the first fifteen seconds that
+fronts the best mechanical truth or identity confusion in the
+document. Then setup, then the story in chapters. Each chapter is
+one mechanical idea, opened with its own mini hook and closed with a
+payoff. One real retention beat every 60 to 90 seconds: a surprise,
+a correction, a number that lands, or the part nobody checks.
+Transitions are one sentence, never a paragraph. Land the biggest
+payoff near the end, then a short honest wrap and the sign off.
+Label each chapter in the script with a short bracketed title line,
+usable later for YouTube chapters.
+
+CHANNEL VOICE CARD. This is how Inside The Case sounds:
+- Direct, mechanical, short sentences, a little personality. No
+  hype, no filler, no adjective stacking, no corporate phrasing.
+- Numbers beat adjectives: "14 mm to 12 mm", never "significantly
+  smaller".
+- The channel's proven high-reach shapes are identity confusion and
+  misconception correction: state the common belief plainly, then
+  correct it with the document's facts.
+- Respect the audience. They know trucks. Explain the why, never
+  talk down, never oversell. Long form earns length with depth, not
+  padding: if a chapter does not add mechanical understanding, cut
+  it.
+- Honesty is the brand. Own uncertainty out loud ("the record does
+  not show") instead of papering over it.
+- Written for voiceover: say it out loud, and if a line cannot be
+  read cleanly, rewrite it.
+- Sign off: "Inside The Case." or "Thanks for watching, Inside The
+  Case."
+
+HARD RULES:
+- Only LOCKED facts appear in the script, stated as fact. LIKELY
+  material may appear only with its uncertainty spoken ("the record
+  points to, but does not confirm").
+- No em dashes anywhere in script copy. No emojis.
+- Ranges written as "1994 to 1997".
+- Any factual claim you introduce that is not in the research
+  document goes in the NEW CLAIMS section with a tier and a named
+  source, for human review before recording. Never buried in the
+  script. If there are none, write "None, all claims from the
+  research document."
+
+OUTPUT, plain text under these exact headers, in this order:
+SCRIPT: the finished script, recordable as written, chapters
+labeled.
+NEW CLAIMS: as defined above.
+CLAIM MAP: each chapter, and which sourced facts in the research
+document it rests on.
+RUNTIME: estimated runtime per chapter and in total, at a natural
+voiceover pace, against the stated target.
+
+RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
+      </div>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt 7C <span>·</span> Post write-ups</div><div class="spacer"></div><button class="copybtn" data-copy="p7c">Copy prompt</button></div>
+        <pre id="p7c">Write platform post write-ups for Inside The Case Auto: the written
+version of one mechanical story, built for readers, not voiceover.
+The research document below is provided in this message and is the
+sole factual basis. No outside facts, no memory facts.
+
+TOPIC: <span class="slot" data-for="topic">[FILL IN]</span>
+ANGLE: <span class="slot" data-for="angle">[FILL IN]</span>
+
+CHANNEL VOICE CARD. This is how Inside The Case sounds:
+- Direct, mechanical, short sentences, a little personality. No
+  hype, no filler, no adjective stacking, no corporate phrasing.
+- Numbers beat adjectives: "14 mm to 12 mm", never "significantly
+  smaller".
+- The channel's proven high-reach shapes are identity confusion and
+  misconception correction: state the common belief plainly, then
+  correct it with the document's facts.
+- Respect the audience. They know trucks. Explain the why, never
+  talk down, never oversell.
+- Honesty is the brand. Own uncertainty out loud ("the record does
+  not show") instead of papering over it.
+- Written to be scanned fast: short paragraphs of one or two
+  sentences, line breaks between them, the strongest fact early.
+
+PLATFORM LIMITS. Build each post to its platform:
+- FACEBOOK POST. The feed truncates around the first 450 characters
+  behind "See more", so the hook and the tension must land inside
+  the first two sentences. Full post 800 to 1,500 characters. Up to
+  3 relevant hashtags at the end, or none. Links go in the first
+  comment, not the post body.
+- YOUTUBE COMMUNITY POST. Same story, tightened to under 2,000
+  characters. YouTube shows more text up front than Facebook, so the
+  structure can breathe slightly, but the first line still has to
+  stop the scroll.
+
+BOTH POSTS:
+- Only LOCKED facts, stated as fact.
+- No em dashes. No emojis in the body text. Ranges written as
+  "1994 to 1997".
+- An honest question closer is allowed to invite comments ("which
+  one would you run"), never bait.
+- State the character count after each post.
+
+OUTPUT, plain text under these exact headers, in this order:
+FACEBOOK POST: the post, then its character count.
+YOUTUBE COMMUNITY POST: the post, then its character count.
+NEW CLAIMS: any factual claim not in the research document, with
+tier and named source, for human review before posting. If there
+are none, write "None, all claims from the research document."
 
 RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
       </div>
@@ -1111,7 +1242,7 @@ SCRIPT: [PASTE THE FINAL SCRIPT]</pre>
         <tr><td>4 Audit</td><td>Expanded document, fresh chat</td><td>Audit report plus the corrected full document</td></tr>
         <tr><td>5 Consolidation</td><td>Audited document, fresh chat</td><td>Conflicts, ranked angle bank, knowledge ledger</td></tr>
         <tr><td>6 Angle selection</td><td>Angle bank plus document, optional</td><td>One developed angle, recommended</td></tr>
-        <tr><td>7 Script</td><td>Audited document plus direction</td><td>Script, NEW CLAIMS, claim map, runtime</td></tr>
+        <tr><td>7 Script</td><td>Audited document plus direction</td><td>7A Short or 7B long form: script, NEW CLAIMS, claim map, runtime. 7C: FB and YT posts, built to character limits</td></tr>
         <tr><td>8 Script audit</td><td>Final script plus document</td><td>Audit table, fixes, corrected script</td></tr>
         <tr><td>9 Cards</td><td>Script plus document, one prompt</td><td>Card blocks plus placement map</td></tr>
         <tr><td>10 Packaging</td><td>Script, format, platforms</td><td>Titles, descriptions, tags, captions, pinned comment</td></tr>
@@ -1336,7 +1467,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v5.1';
+const APP_VERSION = 'v5.2';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1614,8 +1745,14 @@ function bsPrompt6(s){
     .replace('[PASTE THE ANGLE BANK FROM THE MASTER CONSOLIDATION]', '\n' + (s.consolidated || ''))
     .replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
-function bsPrompt7(s){
-  return bsFillSlots('p7', s).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+function bsPrompt7a(s){
+  return bsFillSlots('p7a', s).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+}
+function bsPrompt7b(s){
+  return bsFillSlots('p7b', s).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+}
+function bsPrompt7c(s){
+  return bsFillSlots('p7c', s).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
 function bsPrompt8(s){
   return document.getElementById('p8').textContent
@@ -1843,22 +1980,28 @@ function bsPanelScript(st, s){
     p.appendChild(bsParseSummary(st, s));
     return p;
   }
-  p.appendChild(bsEl('<p class="bs-note">Fresh chat, cold. Prompt 6 (optional) selects and develops an angle from the consolidation\'s ranked bank; Prompt 7 writes the script. Both copies carry what they need. Topic and angle are filled in on 7. Paste the whole Prompt 7 reply below in one go.</p>'));
+  p.appendChild(bsEl('<p class="bs-note">Fresh chat, cold. Prompt 6 (optional) selects an angle from the consolidation\'s ranked bank. Then pick the format: 7A writes the Short, 7B the long form, 7C the written posts for Facebook and YouTube. Every copy carries the audited document and the channel voice card. Paste the whole 7A or 7B reply below; 7C posts go straight to the platforms.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
-  const cA = bsEl('<button type="button" class="copybtn">Copy Prompt 6 · angle selection, optional</button>');
+  const cA = bsEl('<button type="button" class="copybtn">Copy 6 · angle, optional</button>');
   cA.addEventListener('click', function(){ copyText(bsPrompt6(s), this); });
-  const cB = bsEl('<button type="button" class="copybtn">Copy Prompt 7 · script</button>');
-  cB.addEventListener('click', function(){ copyText(bsPrompt7(s), this); });
+  const cB = bsEl('<button type="button" class="copybtn">Copy 7A · Short script</button>');
+  cB.addEventListener('click', function(){ copyText(bsPrompt7a(s), this); });
   row1.appendChild(cA); row1.appendChild(cB); p.appendChild(row1);
-  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the entire Prompt 7 reply here. It splits on the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers."></textarea>');
+  const row2 = bsEl('<div class="bs-row"></div>');
+  const cC = bsEl('<button type="button" class="copybtn">Copy 7B · long form script</button>');
+  cC.addEventListener('click', function(){ copyText(bsPrompt7b(s), this); });
+  const cD = bsEl('<button type="button" class="copybtn">Copy 7C · post write-ups</button>');
+  cD.addEventListener('click', function(){ copyText(bsPrompt7c(s), this); });
+  row2.appendChild(cC); row2.appendChild(cD); p.appendChild(row2);
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the entire 7A or 7B reply here. It splits on the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers."></textarea>');
   p.appendChild(ta);
   const row = bsEl('<div class="bs-row"></div>');
   const parseBtn = bsEl('<button type="button" class="amber">Split the reply</button>');
   parseBtn.addEventListener('click', ()=>{
-    if(!ta.value.trim()){ alert('Paste the Prompt 7 reply first.'); return; }
+    if(!ta.value.trim()){ alert('Paste the 7A or 7B reply first.'); return; }
     const parsed = bsParsePackage(ta.value);
     if(!Object.keys(parsed).length){
-      alert('No section headers found. The paste needs the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers from Prompt 7.');
+      alert('No section headers found. The paste needs the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers from Prompt 7A or 7B.');
       return;
     }
     s.parsed = parsed; s.updated = Date.now();
@@ -1898,7 +2041,7 @@ function bsPanelClaims(st, s){
     return p;
   }
   if(s.claimsMissing){
-    p.appendChild(bsEl('<p class="bs-note miss">The Prompt 7 reply had no NEW CLAIMS section, so the gate stays closed. Paste the reply again, or confirm there are no new claims.</p>'));
+    p.appendChild(bsEl('<p class="bs-note miss">The script reply had no NEW CLAIMS section, so the gate stays closed. Paste the reply again, or confirm there are no new claims.</p>'));
     const row = bsEl('<div class="bs-row"></div>');
     const back = bsEl('<button type="button" class="ghost">Back to Script</button>');
     back.addEventListener('click', ()=>{ s.status='script'; s.updated=Date.now(); bsView=null; bsSave(st); renderShort(); });
@@ -2556,6 +2699,13 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
   CARD_TYPES.forEach(t=>{
     if(!p9txt.includes(t)) fails.push('Prompt 9 no longer names card type "'+t+'"');
     if(!CARD_SNIPPET.includes(t)) fails.push('CARD_SNIPPET no longer names card type "'+t+'"');
+  });
+  /* the three script prompts each carry the voice card and house rules */
+  ['p7a','p7b','p7c'].forEach(id=>{
+    const t = document.getElementById(id).textContent;
+    if(!t.includes('CHANNEL VOICE CARD')) fails.push(id+' lost the channel voice card');
+    if(!t.includes('No em dashes')) fails.push(id+' lost the em dash rule');
+    if(id!=='p7c' && !t.includes('Inside The Case."')) fails.push(id+' lost the sign off');
   });
   const demo = parseSpecs(CARD_EXAMPLE);
   if(demo.length!==CARD_TYPES.length || CARD_TYPES.some(t=>!demo.find(c=>c.type===t)))
