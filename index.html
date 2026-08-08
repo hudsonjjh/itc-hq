@@ -411,6 +411,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v5.3</b> · Topic and angle can now be AI-picked. A toggle on the Script stage tells Prompts 6, 7A, 7B, and 7C to choose the strongest topic and angle from the research package (top of the consolidation's ranked angle bank) instead of using the Short's tag and angle, stating the choice at the top of the reply. The playbook prompts document the same option for manual use: write "pick from the research package" in the topic or angle slot.</p>
       <p><b>v5.2</b> · Script writing split into three formats: 7A Short form, 7B long form (chapters, one retention beat per 60 to 90 seconds, bracketed chapter titles for YouTube chapters), and 7C written posts for Facebook and YouTube built to platform character limits (hook inside Facebook's 450 character fold, YouTube community post under 2,000). All three carry the new channel voice card: mechanical directness, numbers over adjectives, identity confusion and misconception correction as the proven shapes, honesty about uncertainty, the sign offs. The voice card is guarded by the load-time self-test. Build a Short's script stage offers all three copies; 7A and 7B replies split and route as before, 7C posts go straight to the platforms.</p>
       <p><b>v5.1</b> · Research spine expanded to five passes. New Step 3 Expansion Pass widens the frame in a fresh window: adjacency, cross-manufacturer context, supplier history, running changes, interchange, identity confusion, lore, and rigorous negative space, each searched or declared. New Step 5 Master Consolidation triangulates the audited document, over-generates and ranks the angle bank, and declares the state of knowledge ledger. Steps renumbered 1 to 10; Step 1 now hands off a coverage map, Step 2 points at expansion, the audit hits expansion additions with the same hostility, and angle selection picks from the ranked bank instead of mining raw. Build a Short gained Expansion and Consolidation stages with the document chain riding inside every copy.</p>
       <p><b>v5.0</b> · Full playbook rewrite around three design laws: every step portable (each output stands alone and runs cold in a fresh chat), research depth first (Steps 1 and 2 build a book-report reference document in one window, never scoped to runtime), and LOCKED-only facts. Seven steps: deep research, second pass, independent audit, angles and script, script audit, cards from script, packaging. The System and Five Rules merged into How This Works; correction log, QC checklist, Drive and tracker, weekly rhythm, social packaging, and portable instructions sections removed, their rules folded into the step prompts. Build a Short reworked to walk the new pipeline with the research document riding inside every prompt copy. Old in-progress Shorts resume at the matching stage.</p>
@@ -926,9 +927,14 @@ The research document below is provided in this message and is the
 sole factual basis for the script. Treat it that way: no outside
 facts, no memory facts, no reasoning a spec into existence.
 
-TOPIC: <span class="slot" data-for="topic">[FILL IN]</span>
-ANGLE: <span class="slot" data-for="angle">[FILL IN]</span>
+TOPIC: <span class="slot" data-for="topic">[FILL IN, or write "pick from the research package"]</span>
+ANGLE: <span class="slot" data-for="angle">[FILL IN, or write "pick from the research package"]</span>
 TARGET RUNTIME: about 1:45 unless stated otherwise.
+
+PICK RULE. If TOPIC or ANGLE reads "pick from the research package",
+choose the strongest option the document supports, using the ANGLE
+BANK ranking when it is included, and state your choice on the first
+line of the reply, before the SCRIPT header.
 
 SCRIPT SHAPE. Hook, setup, mechanical truth, one strong retention
 beat, payoff, sign off. The hook is the first line and it earns the
@@ -977,10 +983,15 @@ Auto. The research document below is provided in this message and is
 the sole factual basis for the script. Treat it that way: no outside
 facts, no memory facts, no reasoning a spec into existence.
 
-TOPIC: <span class="slot" data-for="topic">[FILL IN]</span>
-ANGLE: <span class="slot" data-for="angle">[FILL IN]</span>
+TOPIC: <span class="slot" data-for="topic">[FILL IN, or write "pick from the research package"]</span>
+ANGLE: <span class="slot" data-for="angle">[FILL IN, or write "pick from the research package"]</span>
 TARGET RUNTIME: [state it, e.g. 8 to 12 minutes. The script scales
 to this target, not the other way around]
+
+PICK RULE. If TOPIC or ANGLE reads "pick from the research package",
+choose the strongest option the document supports, using the ANGLE
+BANK ranking when it is included, and state your choice on the first
+line of the reply, before the SCRIPT header.
 
 SCRIPT SHAPE. Cold open hook in the first fifteen seconds that
 fronts the best mechanical truth or identity confusion in the
@@ -1042,8 +1053,13 @@ version of one mechanical story, built for readers, not voiceover.
 The research document below is provided in this message and is the
 sole factual basis. No outside facts, no memory facts.
 
-TOPIC: <span class="slot" data-for="topic">[FILL IN]</span>
-ANGLE: <span class="slot" data-for="angle">[FILL IN]</span>
+TOPIC: <span class="slot" data-for="topic">[FILL IN, or write "pick from the research package"]</span>
+ANGLE: <span class="slot" data-for="angle">[FILL IN, or write "pick from the research package"]</span>
+
+PICK RULE. If TOPIC or ANGLE reads "pick from the research package",
+choose the strongest option the document supports, using the ANGLE
+BANK ranking when it is included, and state your choice on the first
+line of the reply, before the posts.
 
 CHANNEL VOICE CARD. This is how Inside The Case sounds:
 - Direct, mechanical, short sentences, a little personality. No
@@ -1467,7 +1483,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v5.2';
+const APP_VERSION = 'v5.3';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1719,11 +1735,12 @@ function bsFile(st){
 /* prompt builders: every copy carries everything the target chat needs,
    because every step after 2 runs cold with zero shared context */
 const BS_DOC_MARK = '[PASTE THE COMPLETE AUDITED DOCUMENT]';
-function bsFillSlots(preId, s){
+function bsFillSlots(preId, s, allowPick){
   const pre = document.getElementById(preId).cloneNode(true);
+  const pick = allowPick && s.autoPick;
   pre.querySelectorAll('.slot').forEach(sp=>{
-    if(sp.dataset.for==='topic') sp.textContent = s.tag;
-    if(sp.dataset.for==='angle') sp.textContent = s.angle || 'none';
+    if(sp.dataset.for==='topic') sp.textContent = pick? 'pick from the research package' : s.tag;
+    if(sp.dataset.for==='angle') sp.textContent = pick? 'pick from the research package' : (s.angle || 'none');
   });
   return pre.textContent;
 }
@@ -1741,18 +1758,22 @@ function bsPrompt5(s){
   return document.getElementById('p5').textContent.replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
 function bsPrompt6(s){
+  const direction = s.autoPick
+    ? 'open, pick the top ranked angle from the bank yourself'
+    : (s.angle || 'open');
   return document.getElementById('p6').textContent
+    .replace(/\[OPTIONAL: an angle already chosen[\s\S]*?"open"\]/, direction)
     .replace('[PASTE THE ANGLE BANK FROM THE MASTER CONSOLIDATION]', '\n' + (s.consolidated || ''))
     .replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
 function bsPrompt7a(s){
-  return bsFillSlots('p7a', s).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+  return bsFillSlots('p7a', s, true).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
 function bsPrompt7b(s){
-  return bsFillSlots('p7b', s).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+  return bsFillSlots('p7b', s, true).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
 function bsPrompt7c(s){
-  return bsFillSlots('p7c', s).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
+  return bsFillSlots('p7c', s, true).replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
 function bsPrompt8(s){
   return document.getElementById('p8').textContent
@@ -1981,6 +2002,12 @@ function bsPanelScript(st, s){
     return p;
   }
   p.appendChild(bsEl('<p class="bs-note">Fresh chat, cold. Prompt 6 (optional) selects an angle from the consolidation\'s ranked bank. Then pick the format: 7A writes the Short, 7B the long form, 7C the written posts for Facebook and YouTube. Every copy carries the audited document and the channel voice card. Paste the whole 7A or 7B reply below; 7C posts go straight to the platforms.</p>'));
+  const tog = bsEl('<div class="pfoot" style="border:1px solid var(--line);border-radius:8px;margin:2px 0 8px">'+
+    '<input type="checkbox" id="bsAutoPick"><label for="bsAutoPick" style="cursor:pointer">Let the AI pick the topic and angle itself from the research package (top of the angle bank), instead of using this Short\'s tag and angle</label></div>');
+  const tcb = tog.querySelector('input');
+  tcb.checked = !!s.autoPick;
+  tcb.addEventListener('change', function(){ s.autoPick = this.checked; s.updated = Date.now(); bsSave(st); });
+  p.appendChild(tog);
   const row1 = bsEl('<div class="bs-row"></div>');
   const cA = bsEl('<button type="button" class="copybtn">Copy 6 · angle, optional</button>');
   cA.addEventListener('click', function(){ copyText(bsPrompt6(s), this); });
@@ -2148,7 +2175,7 @@ function bsStartPanel(st){
     const angle = form.querySelector('.i-angle').value.trim();
     if(!tag){ alert('Set a topic tag first. It carries through the whole pipeline.'); return; }
     st.active = { id:Date.now(), tag, angle, status:'research', created:Date.now(), updated:Date.now(),
-      facts:'', factsExpanded:'', factsFinal:'', consolidated:'',
+      facts:'', factsExpanded:'', factsFinal:'', consolidated:'', autoPick:false,
       sections:{}, claims:[], claimsNone:false, claimsMissing:false };
     bsView = null; bsSave(st); renderShort();
   });
