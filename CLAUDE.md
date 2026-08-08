@@ -22,8 +22,12 @@ have it installed as a home-screen app.
    at the top of `index.html` are intentional (offline + pixel-identical
    card exports). Never replace them with CDN links or delete them.
 5. **localStorage keys are user data.** Keys are prefixed `itc_`
-   (corrections, QC state, card drafts, writer doc). Do not rename keys
+   (`itc_dossiers` is the research library, `itc_shorts` the job
+   queue, plus card drafts and the writer doc). Do not rename keys
    without migrating old values, or people lose their saved work.
+   Dossiers are the most valuable thing in there: they represent hours
+   of research per part and are only on the device plus the backup
+   file.
 6. **Mobile first.** Primary viewport is a phone in portrait. Touch
    targets stay at least 36px. Test reasoning against a ~400px width.
 7. **file:// must keep working.** The app doubles as a plain local file:
@@ -37,14 +41,21 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is playbook v5.1: ten steps, one subject per
-  production cycle, on both Claude (Opus/Fable) and ChatGPT. The
-  research spine is five passes (deep research, second pass in the
-  same chat, expansion, independent audit, master consolidation with
-  the ranked angle bank); the build phase is angle selection, script,
-  script audit, cards, packaging. Steps 1 and 2 share one chat; every
-  other step runs cold in a fresh chat with its full inputs pasted
-  in, ideally alternating models between writing and auditing. Every step output
+- The workflow is playbook v6.0, two tracks, on both Claude
+  (Opus/Fable) and ChatGPT. The **research track** (R1 scope and
+  coverage plan, R2 deep research, R3 second pass, R4 expansion, R5
+  accuracy audit, R6 gap hunt, R7 finalize) builds one permanent
+  dossier per part to the fixed nineteen-section schema and shelves it
+  in the Library. The **production track** (P1 content plan, P2A/B/C
+  write, P3 copy audit, P4 cards, P5 packaging) draws content out of a
+  finished dossier, repeatedly. R2 and R3 share one chat; every other
+  step runs cold in a fresh chat with its inputs pasted in, ideally
+  alternating models between writing and auditing.
+- Research is the product. A dossier is never scoped to one video, and
+  R1's question list plus R6's gap hunt exist so a missing answer is
+  visible rather than silent. Do not collapse those two steps, and do
+  not let R7 mine angles again: that split is what fixed narrow,
+  thin content planning. Every step output
   must stand alone. Keep all prompt copy model-agnostic; do not write
   Claude-only instructions, and do not reintroduce the correction
   log, the per-platform fact bank, or workspace-dependent
