@@ -437,6 +437,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v6.1</b> · Files, not walls of text, and far less chat jumping. Every step now replies "Here you go" with the finished output attached as one PDF and only the required notes in the message: a verdict, a count, what is still open. The plain text comes back only where this app has to read it, in one clean code block: the R1 plan, the R4 hand-off, the R7 final dossier, the P1 slate, the P2 copy, and the P3 corrected copy. Chat count dropped from about twelve to four, and each prompt now opens by naming exactly where to run it. Chat 1 in the Inside The Case folder runs R1 through R4 together; chat 2, blank and outside any folder, runs R5 through R7; chat 3 in the folder runs P1 and P2; chat 4, blank, runs P3 through P5. Independence is only enforced where a model would otherwise grade its own homework, which is the accuracy audit and the copy audit, and R4 gained an anti-anchoring rule since it now follows its own research in the same chat. The research track in the app collapsed from seven stages to four to match.</p>
       <p><b>v6.0</b> · The library release. Research is now the product, not a stage that gets thrown away. The playbook splits into two tracks: a seven step research track (R1 scope and coverage plan, R2 deep research, R3 second pass, R4 expansion, R5 accuracy audit, R6 gap hunt, R7 finalize) that builds one permanent dossier per part to a fixed nineteen section schema, and a five step production track (P1 content plan, P2 write as Short, long form, or posts, P3 copy audit, P4 cards, P5 packaging) that draws content out of a finished dossier as many times as the record supports. Two new steps fix the two real failures: R1 writes the question list the dossier is measured against, and R6 holds the finished dossier against that list and closes what is missing, so a hole is visible instead of silent. Consolidation stopped trying to be a content planner: R7 only assembles and declares, and P1 mines angles by walking every dossier section in order rather than free-associating. New Library tab holds every dossier on the device, keyed by part tag; production prompts read from it automatically, and nothing gets pasted by hand. Dossiers export to .txt or open in the Writer for .docx, and ride along in the package share. Jobs in progress from v5.x migrate onto the matching track.</p>
       <p><b>v5.5</b> · Playbook audit and polish. Platform limits in 7C and Prompt 10 were written from memory in v5.2 and were wrong; they are now researched and verified as of August 2026, and reframed around the fold rather than the maximum: Facebook hides past roughly 125 characters on mobile (line-driven, not fixed), YouTube community posts past 288, YouTube titles show about 70 of 100, descriptions 157 of 5,000. Prompt 10 gained Instagram and TikTok limits and builds chapters from 7B's bracketed titles. Closed an accuracy hole: 7C posts are published copy, so Step 8 now audits posts as well as scripts. Fixed two stale "Prompt 6" references in the Cards stage left over from the renumber. QoL: every paste box autosaves as you type and shows a word and character count, so a long research document survives a reload and a truncated paste is obvious; each stage carries a FULL STEP link to its playbook section; the package share now matches the Short by file tag, so a filed Short still ships its research document.</p>
       <p><b>v5.4</b> · Writer saves real .docx files again. The html-docx-js library it used was loaded from a CDN, and that copy went dead, so Save .docx had been quietly falling back to .html. Writing .docx now happens in the app itself: a built-in Word writer packs the page into a proper Office document with headings, bold, italic, underline, strikethrough, highlight colors, font sizes, alignment, line spacing, bulleted and numbered lists including nested ones, quotes, and dividers. No library, no CDN, so it works offline, on a phone, and from a plain local file. Opening a .docx still uses mammoth, which needs internet on first load only.</p>
@@ -483,9 +484,21 @@ input[type=file]{display:none}
       <p class="lead">Factory brochures, OEM service and owner manuals, and material from Ford, GM, Cummins, International, Navistar, Bosch, BorgWarner, Dana, ARB, Accuride and equivalent manufacturers outrank everything. Credible archives second. Forums are leads, never proof. A replacement parts catalog locks service availability or interchange only, never factory build combinations.</p>
       <div class="kick">Style rules</div>
       <p class="lead">No em dashes in any script or card copy. No emojis. Ranges written as "1994 to 1997". Voice: direct, mechanical, short sentences, a little personality, no hype, no filler. Sign off: "Inside The Case." or "Thanks for watching, Inside The Case."</p>
+      <div class="kick">How every step replies</div>
+      <p class="lead">Every step hands back a finished file, not a wall of text. The reply is "Here you go", the complete output attached as one PDF, and only the notes that actually need saying: a verdict, a count, what is still open. No writing the document out in the chat, no explaining it back to you. Where this app has to read the output to carry it forward, the step adds the plain text in one code block underneath, with nothing wrapped around it. That is three places in the whole pipeline: the R1 plan, the R7 final dossier, and the production track's short outputs.</p>
+      <div class="kick">Which chat, and why</div>
+      <p class="lead">Four chats total, not twelve. Chat jumping only buys something where a model would otherwise be grading its own homework, and that is exactly two places: the accuracy audit and the copy audit. Everywhere else, stay put.</p>
+      <table>
+        <tr><th>Chat</th><th>Where</th><th>Steps</th></tr>
+        <tr><td>1 · Research</td><td>Your <b>Inside The Case</b> folder</td><td>R1, R2, R3, R4 all in one chat. The plan and every pass stay in context, which is what makes the second pass and the expansion work.</td></tr>
+        <tr><td>2 · Audit</td><td><b>New blank chat, no folder</b>, different model if you have one</td><td>R5, R6, R7. The auditor must meet the dossier cold. The folder carries your standing context, so being outside it is the whole point.</td></tr>
+        <tr><td>3 · Write</td><td>Your <b>Inside The Case</b> folder</td><td>P1, P2. The folder's context helps the voice here.</td></tr>
+        <tr><td>4 · Check</td><td><b>New blank chat, no folder</b>, different model if you have one</td><td>P3, P4, P5. The copy audit cannot run in the chat that wrote the copy.</td></tr>
+      </table>
+      <p class="lead">If chat 1 gets slow or starts truncating, that is the only good reason to split it: run R4 in its own chat and paste the dossier in. Otherwise one chat per column, top to bottom.</p>
       <div class="kick">The pipeline</div>
       <div class="pipeline">
-        <div class="lbl">Research track · builds the dossier · R2 and R3 share a window, the rest run cold</div>
+        <div class="lbl">Research track · builds the dossier · chat 1 then chat 2</div>
         <div class="row"><span class="pnode"><span class="pn">R1</span> Scope</span><span class="parrow">›</span><span class="pnode"><span class="pn">R2</span> Research</span><span class="parrow">›</span><span class="pnode"><span class="pn">R3</span> Second pass</span><span class="parrow">›</span><span class="pnode"><span class="pn">R4</span> Expansion</span><span class="parrow">›</span><span class="pnode"><span class="pn">R5</span> Accuracy audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">R6</span> Gap hunt</span><span class="parrow">›</span><span class="pnode"><span class="pn">R7</span> Finalize</span></div>
         <div class="lbl">Production track · draws content out of a finished dossier, any number of times</div>
         <div class="row"><span class="pnode"><span class="pn">P1</span> Content plan</span><span class="parrow">›</span><span class="pnode"><span class="pn">P2</span> Write</span><span class="parrow">›</span><span class="pnode"><span class="pn">P3</span> Copy audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">P4</span> Cards</span><span class="parrow">›</span><span class="pnode"><span class="pn">P5</span> Packaging</span></div>
@@ -524,7 +537,7 @@ input[type=file]{display:none}
   </details>
 
   <details class="pbsec" id="pb-r1" data-owner="hudson">
-    <summary><span class="sn">R1</span><span class="st">Scope and coverage plan</span><span class="chips"><span class="chip tool">Fresh chat · fast</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R1</span><span class="st">Scope and coverage plan</span><span class="chips"><span class="chip tool">Chat 1 · ITC folder</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the part or topic, and what type it is</div>
       <p class="lead">Ten minutes that decide whether the research is thorough or narrow. This writes the question list the whole dossier gets measured against, so "we missed it" becomes visible instead of silent.</p>
@@ -534,7 +547,10 @@ input[type=file]{display:none}
           <div class="f"><label>Subject</label><input data-slot="topic" placeholder="the exact part. e.g. E4OD transmission"></div>
           <div class="f"><label>Notes</label><input data-slot="angle" placeholder="optional: era, scope limits, what you already know"></div>
         </div>
-        <pre id="pr1">Inside The Case coverage plan. You are not researching yet. You are
+        <pre id="pr1">CHAT: your Inside The Case folder. This same chat runs R1 through R4,
+so do not start a new one until the expansion pass is done.
+
+Inside The Case coverage plan. You are not researching yet. You are
 writing the question list that a full research dossier on this
 subject will be measured against, so that a missing answer is
 visible instead of silent.
@@ -609,11 +625,17 @@ Finally, define DONE. Write the specific bar this dossier must clear
 to count as complete, in terms of which questions must be LOCKED
 and which may remain open.
 
-OUTPUT, plain text:
-SUBJECT AND SCOPE
-CLASSIFICATION
-COVERAGE PLAN, part A by section, part B by type
-DEFINITION OF DONE
+OUTPUT sections: SUBJECT AND SCOPE, CLASSIFICATION, COVERAGE PLAN
+(part A by section, part B by type), DEFINITION OF DONE.
+
+DELIVERY. Do not explain the plan back to me. Reply with "Here you
+go", attach the complete plan as one PDF named ITC_TAG_PLAN.pdf, and
+put only this in the message: the classification, how many questions
+the plan holds, and the definition of done in one line. Then, below
+the message, paste the complete plan as plain text in a single code
+block with nothing wrapped around it, because the app carries that
+text into the gap hunt later. If you cannot create files, say so in
+one line and give the plain text alone.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
@@ -621,12 +643,15 @@ No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
   </details>
 
   <details class="pbsec" id="pb-r2" data-owner="hudson">
-    <summary><span class="sn">R2</span><span class="st">Deep research pass one</span><span class="chips"><span class="chip tool">Fresh chat · web search on</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R2</span><span class="st">Deep research pass one</span><span class="chips"><span class="chip tool">Chat 1 · web search on</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the coverage plan from R1</div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R2 <span>·</span> Deep research</div><div class="spacer"></div><button class="copybtn" data-copy="pr2">Copy prompt</button></div>
-        <pre id="pr2">Inside The Case deep research, pass one. You are building a
+        <pre id="pr2">CHAT: the same chat as R1, in your Inside The Case folder. The
+coverage plan is repeated below so this works either way.
+
+Inside The Case deep research, pass one. You are building a
 reference dossier, not a summary and not a script. It will be handed
 to other people and other AI models with no access to this
 conversation, so it must stand completely on its own.
@@ -691,8 +716,15 @@ CONTRADICTED, HALF TRUE, or NOT PROVEN. Section 18 marks every
 section COMPLETE, PARTIAL, or EMPTY, names the searches you ran for
 anything not complete, and states what is still missing.
 
-If the reply runs long, keep going until every section exists. If it
-cuts off, continue when asked.
+DELIVERY. Do not write the dossier out in the chat and do not explain
+it back to me. Reply with "Here you go", attach the complete dossier
+as one PDF named ITC_TAG_DOSSIER_V1.pdf, and put only this in the
+message: how many claims you locked, how many are LIKELY, how many
+are UNVERIFIED, and which sections came back thin. Keep the dossier
+itself in the file. If the document is too large for one pass, say so
+and deliver it as one PDF plus a short note on what still needs
+writing, then continue when asked. If you cannot create files, say so
+in one line and write the dossier out instead.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -703,12 +735,14 @@ COVERAGE PLAN: [PASTE THE R1 COVERAGE PLAN]</pre>
   </details>
 
   <details class="pbsec" id="pb-r3" data-owner="hudson">
-    <summary><span class="sn">R3</span><span class="st">Second pass, same window</span><span class="chips"><span class="chip tool">Same chat as R2</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R3</span><span class="st">Second pass, same window</span><span class="chips"><span class="chip tool">Chat 1 · same chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: nothing. The R2 dossier is already in context</div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R3 <span>·</span> Second pass</div><div class="spacer"></div><button class="copybtn" data-copy="pr3">Copy prompt</button></div>
-        <pre id="pr3">Second pass on the dossier you just produced. Push harder than the
+        <pre id="pr3">CHAT: the same chat as R1 and R2. Do not start a new one.
+
+Second pass on the dossier you just produced. Push harder than the
 first pass. Output the complete revised dossier, superseding the
 first: the whole thing again, improved, not a diff.
 
@@ -737,10 +771,14 @@ dossier version 2 in section 00, plus two additions at the end:
 
 Update section 18 COVERAGE LEDGER to reflect this pass.
 
-The next step is an expansion pass in a fresh window with no memory
-of this chat, so the dossier must stand entirely on its own. Every
-claim keeps its tier, named source, and ID. Continue the S and C
-numbering without gaps.
+Every claim keeps its tier, named source, and ID. Continue the S and
+C numbering without gaps.
+
+DELIVERY. Do not write the dossier out in the chat. Reply with "Here
+you go", attach it as one PDF named ITC_TAG_DOSSIER_V2.pdf, and put
+only this in the message: what you upgraded, what you downgraded, and
+what is still weakest. If you cannot create files, say so in one line
+and write it out instead.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
@@ -748,18 +786,28 @@ No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
   </details>
 
   <details class="pbsec" id="pb-r4" data-owner="hudson">
-    <summary><span class="sn">R4</span><span class="st">Expansion pass</span><span class="chips"><span class="chip tool">Fresh chat · web search on</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R4</span><span class="st">Expansion pass</span><span class="chips"><span class="chip tool">Chat 1 · same chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the R3 dossier</div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R4 <span>·</span> Expansion pass</div><div class="spacer"></div><button class="copybtn" data-copy="pr4">Copy prompt</button></div>
-        <pre id="pr4">You are running the Expansion Pass on an Inside The Case dossier. It
-has been researched once and self-critiqued once in the same window.
-Your job is not to redo that work and not to audit it. Your job is to
-make it exhaustive by finding what it does not yet contain.
+        <pre id="pr4">CHAT: the same chat as R1 through R3. This is the last step in this
+chat; the audit that follows moves to a blank one.
 
-STANDING RULES. This prompt runs cold. Tiers, source hierarchy, and
-ID discipline are defined in the dossier below; follow them exactly.
+You are running the Expansion Pass on an Inside The Case dossier. It
+has been researched once and self-critiqued once, in this chat, by
+you. Your job is not to redo that work and not to audit it. Your job
+is to make it exhaustive by finding what it does not yet contain.
+
+ANTI-ANCHORING. You wrote the dossier, so you will be tempted to
+believe you already covered these categories. Assume you did not.
+Treat your own earlier coverage claims as unproven and run the
+searches anyway. A category you "already did" that returns nothing
+new should say so explicitly, naming the searches you just ran, not
+point back at the existing text.
+
+STANDING RULES. Tiers, source hierarchy, and ID discipline are as
+defined in the dossier above; follow them exactly.
 Continue the S and C numbering from where the dossier ends and do not
 renumber existing entries. Search to confirm; never reason a fact
 into existence. Stay on subject: adjacent material is in scope only
@@ -819,21 +867,36 @@ section 00, section 18 COVERAGE LEDGER updated. Then append:
 21 EXPANSION LOG: what you added by category, and what you searched
    but did not find.
 
-The next step is an independent audit in a fresh window with no
-memory of this chat, so the dossier must stand entirely on its own.
+The next step is an independent audit in a blank chat with no memory
+of this one, so the dossier must stand entirely on its own.
 
-DOSSIER: [PASTE THE COMPLETE R3 DOSSIER]</pre>
+DELIVERY. Do not write the dossier out in the chat. Reply with "Here
+you go", attach it as one PDF named ITC_TAG_DOSSIER_V3.pdf, and put
+only this in the message: what you added by category, what you
+searched and did not find, and the claims most in need of hostile
+checking. Then, below the message, paste the complete dossier as
+plain text in a single code block with nothing wrapped around it,
+because the audit runs in a different chat and the app carries that
+text into it. If you cannot create files, say so in one line and give
+the plain text alone.</pre>
       </div>
     </div>
   </details>
 
   <details class="pbsec" id="pb-r5" data-owner="hudson">
-    <summary><span class="sn">R5</span><span class="st">Accuracy audit</span><span class="chips"><span class="chip tool">Fresh chat · different model · web search on</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R5</span><span class="st">Accuracy audit</span><span class="chips"><span class="chip tool">Chat 2 · blank, no folder</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the R4 dossier. Best run in a different model than the one that researched</div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R5 <span>·</span> Accuracy audit</div><div class="spacer"></div><button class="copybtn" data-copy="pr5">Copy prompt</button></div>
-        <pre id="pr5">You are auditing an Inside The Case dossier for a channel that lives
+        <pre id="pr5">CHAT: a brand new blank chat, NOT inside any project or folder, and a
+different model than the one that researched if you have one. This is
+the one place in the whole pipeline where the chat actually matters:
+a model that just wrote the dossier will agree with itself, and a
+folder carries the same standing context you are trying to escape.
+R6 and R7 continue in this same chat afterwards.
+
+You are auditing an Inside The Case dossier for a channel that lives
 on accuracy. You had no part in writing it and you may be a different
 AI than the one that did. Assume it has errors and find them. This
 audit is about whether what is here is true. Completeness is somebody
@@ -859,15 +922,19 @@ Rules of the audit:
   individually, digit by digit.
 - Confirm the S and C numbering is continuous with no duplicates.
 
-OUTPUT, in this order:
-1. AUDIT REPORT: every change made, with reasoning, by claim ID. End
-   with a verdict line reading either "ACCURACY CLEARED" or
-   "NOT CLEARED:" followed by what still blocks it.
-2. THE COMPLETE CORRECTED DOSSIER, restated in full in the same
-   nineteen section schema, tiers updated, dossier version 4 in
-   section 00. Not just the audit notes: the whole dossier, because
-   the next step runs in a different chat and receives only what you
-   write here.
+OUTPUT: the audit report, every change with reasoning by claim ID,
+and the complete corrected dossier restated in full in the nineteen
+section schema, tiers updated, dossier version 4 in section 00.
+
+DELIVERY. Do not write either document out in the chat and do not
+explain the audit back to me. Reply with "Here you go", attach both
+as one PDF named ITC_TAG_DOSSIER_V4.pdf, audit report first and the
+corrected dossier after it, and put only this in the message: the
+verdict line, reading either "ACCURACY CLEARED" or "NOT CLEARED:"
+followed by what blocks it, plus the count of claims corrected and
+tiers changed. Keep the corrected dossier in this chat's context for
+the gap hunt that follows. If you cannot create files, say so in one
+line and write both out instead.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -877,19 +944,24 @@ DOSSIER: [PASTE THE COMPLETE R4 DOSSIER]</pre>
   </details>
 
   <details class="pbsec" id="pb-r6" data-owner="hudson">
-    <summary><span class="sn">R6</span><span class="st">Gap hunt</span><span class="chips"><span class="chip tool">Fresh chat · web search on</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R6</span><span class="st">Gap hunt</span><span class="chips"><span class="chip tool">Chat 2 · same chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the R5 dossier and the R1 coverage plan</div>
       <p class="lead">The step that stops you finding things later with a casual search. R5 asked whether the dossier is true. This asks what is missing, measured against the plan written before any research happened.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R6 <span>·</span> Gap hunt</div><div class="spacer"></div><button class="copybtn" data-copy="pr6">Copy prompt</button></div>
-        <pre id="pr6">You are running the Gap Hunt on an Inside The Case dossier. The
-dossier has already been audited for accuracy. You are not
-re-auditing it. You are answering one question: what is missing?
+        <pre id="pr6">CHAT: the same blank chat as R5, where you just corrected this
+dossier. R7 follows here too.
 
-You have two documents below: the coverage plan written before any
-research began, and the dossier that came out of the research. Your
-job is to hold one against the other and close what you can.
+You are running the Gap Hunt on an Inside The Case dossier. You just
+audited it for accuracy. You are not re-auditing it. You are
+answering one question: what is missing?
+
+The corrected dossier is above in this chat. Below is the coverage
+plan, written before any research began. Your job is to hold one
+against the other and close what you can. You did not write the
+dossier, so you have no reason to defend its coverage; check every
+question against the text rather than against your impression of it.
 
 STEP 1. THE AUDIT OF ABSENCE. Walk the coverage plan question by
 question, every question in part A and part B. For each one, mark:
@@ -943,23 +1015,33 @@ Do not fabricate to close a gap. An honest STILL OPEN is worth more
 than a soft answer, and it goes in the pinned comment later instead
 of the script.
 
+DELIVERY. Do not write any of it out in the chat. Reply with "Here
+you go", attach the whole thing as one PDF named
+ITC_TAG_DOSSIER_V5.pdf, ordered coverage audit, gap closure log,
+updated dossier, remaining holes, and put only this in the message:
+how many questions were unanswered or soft, how many you closed, and
+what is still open. Keep the updated dossier in this chat's context
+for the finalize step. If you cannot create files, say so in one line
+and write it out instead.
+
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
-COVERAGE PLAN: [PASTE THE R1 COVERAGE PLAN]
-
-DOSSIER: [PASTE THE COMPLETE R5 DOSSIER]</pre>
+COVERAGE PLAN: [PASTE THE R1 COVERAGE PLAN]</pre>
       </div>
     </div>
   </details>
 
   <details class="pbsec" id="pb-r7" data-owner="hudson">
-    <summary><span class="sn">R7</span><span class="st">Dossier finalize</span><span class="chips"><span class="chip tool">Fresh chat · no new research</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R7</span><span class="st">Dossier finalize</span><span class="chips"><span class="chip tool">Chat 2 · same chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the R6 dossier</div>
       <p class="lead">Assembly and declaration only. No angle mining happens here, and no new facts enter. This produces the permanent library copy.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R7 <span>·</span> Finalize</div><div class="spacer"></div><button class="copybtn" data-copy="pr7">Copy prompt</button></div>
-        <pre id="pr7">You are finalizing an Inside The Case dossier for the permanent
+        <pre id="pr7">CHAT: the same blank chat as R5 and R6. The gap-hunted dossier is
+above in this chat; work from it.
+
+You are finalizing an Inside The Case dossier for the permanent
 library. You are not researching and not re-auditing. You accept the
 tiers as given. You are assembling the clean final copy and declaring
 what it knows.
@@ -1006,22 +1088,34 @@ Do not introduce new factual claims. If a genuinely necessary new
 fact surfaces, put it under NEW CLAIMS FOR REVIEW with a tier and
 named source, outside the dossier body, for human checking.
 
-No em dashes. No emojis. Ranges written as "1994 to 1997".
+DELIVERY. This is the permanent copy, so it comes back two ways.
+Reply with "Here you go", attach everything as one PDF named
+ITC_TAG_DOSSIER.pdf, and put only this in the message: the status
+line, either LIBRARY READY or BLOCKED with the reason, overall
+confidence, the three weakest sections, and any residual conflicts
+needing a human. Then, below the message, paste the FINAL DOSSIER as
+plain text in a single code block with nothing wrapped around it.
+That block is what goes into the Library and every future script is
+written from it, so it must be the complete document, not a summary.
+If you cannot create files, say so in one line and give the plain
+text alone.
 
-DOSSIER: [PASTE THE COMPLETE R6 DOSSIER]</pre>
+No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
       <div class="done-banner">DOSSIER DONE · Save it to the Library tab. Every production step reads from it.</div>
     </div>
   </details>
 
   <details class="pbsec" id="pb-p1">
-    <summary><span class="sn">P1</span><span class="st">Content plan</span><span class="chips"><span class="chip tool">Fresh chat · once per dossier</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">P1</span><span class="st">Content plan</span><span class="chips"><span class="chip tool">Chat 3 · ITC folder</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: a finished dossier from the Library</div>
       <p class="lead">Run once per dossier and keep the result. It walks the whole dossier section by section instead of picking whatever looked interesting, which is what kept producing narrow, thin angles.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P1 <span>·</span> Content plan</div><div class="spacer"></div><button class="copybtn" data-copy="pp1">Copy prompt</button></div>
-        <pre id="pp1">You are building the content plan for a finished Inside The Case
+        <pre id="pp1">CHAT: your Inside The Case folder. P2 continues in this same chat.
+
+You are building the content plan for a finished Inside The Case
 dossier. The dossier is below and is the sole factual basis. Do not
 research. Do not invent. Do not write scripts.
 
@@ -1070,6 +1164,15 @@ dossier are unused, say so plainly. That is either a missed
 opportunity or a sign the research went somewhere the audience does
 not care about, and it is worth knowing which.
 
+DELIVERY. Do not explain the plan back to me. Reply with "Here you
+go", attach the whole plan as one PDF named ITC_TAG_PLAN_CONTENT.pdf,
+and put only this in the message: how many stories the slate holds,
+the top three by title, and the percentage of LOCKED claims the slate
+uses. Then, below the message, paste the RANKED SLATE as plain text
+in a single code block with nothing wrapped around it, because the
+app saves that slate with the dossier. The per-section mine and the
+coverage report stay in the PDF only.
+
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
@@ -1078,7 +1181,7 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
   </details>
 
   <details class="pbsec" id="pb-p2">
-    <summary><span class="sn">P2</span><span class="st">Write it</span><span class="chips"><span class="chip tool">Fresh chat · three formats</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">P2</span><span class="st">Write it</span><span class="chips"><span class="chip tool">Chat 3 · same chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the dossier, and the story you picked off the slate</div>
       <p class="lead">Three prompts, one per format. Each carries the dossier, the chosen story, and the channel voice card, and each stands alone.</p>
@@ -1088,7 +1191,9 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
           <div class="f"><label>Story</label><input data-slot="topic" placeholder="the story from the slate, or leave for the AI to pick"></div>
           <div class="f"><label>Angle notes</label><input data-slot="angle" placeholder="optional direction"></div>
         </div>
-        <pre id="pp2a">Write a finished, recordable Short script for Inside The Case Auto.
+        <pre id="pp2a">CHAT: the same chat as P1, in your Inside The Case folder.
+
+Write a finished, recordable Short script for Inside The Case Auto.
 The dossier below is provided in this message and is the sole
 factual basis. No outside facts, no memory facts, no reasoning a
 spec into existence.
@@ -1143,11 +1248,19 @@ NEW CLAIMS: as defined above.
 CLAIM MAP: each script line or beat and the claim ID it rests on.
 RUNTIME: estimated runtime at a natural voiceover pace.
 
+DELIVERY. This step comes back as text, not a file, because the app
+splits it on those exact headers and routes the copy into the Writer.
+No preamble, no commentary between sections, no explaining it back to
+me. Attach a PDF of the same thing as well if you want one for the
+archive.
+
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P2B <span>·</span> Long form script</div><div class="spacer"></div><button class="copybtn" data-copy="pp2b">Copy prompt</button></div>
-        <pre id="pp2b">Write a finished, recordable long form script for Inside The Case
+        <pre id="pp2b">CHAT: the same chat as P1, in your Inside The Case folder.
+
+Write a finished, recordable long form script for Inside The Case
 Auto. The dossier below is provided in this message and is the sole
 factual basis. No outside facts, no memory facts.
 
@@ -1206,11 +1319,19 @@ NEW CLAIMS: as defined above.
 CLAIM MAP: each chapter and the claim IDs it rests on.
 RUNTIME: per chapter and total, against the stated target.
 
+DELIVERY. This step comes back as text, not a file, because the app
+splits it on those exact headers and routes the copy into the Writer.
+No preamble, no commentary between sections, no explaining it back to
+me. Attach a PDF of the same thing as well if you want one for the
+archive.
+
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P2C <span>·</span> Post write-ups</div><div class="spacer"></div><button class="copybtn" data-copy="pp2c">Copy prompt</button></div>
-        <pre id="pp2c">Write platform post write-ups for Inside The Case Auto: the written
+        <pre id="pp2c">CHAT: the same chat as P1, in your Inside The Case folder.
+
+Write platform post write-ups for Inside The Case Auto: the written
 version of one mechanical story, built for readers, not voiceover.
 The dossier below is the sole factual basis.
 
@@ -1267,19 +1388,30 @@ If there are none, write "None, all claims from the dossier."
 A post is published copy, so it gets the same fact check a script
 gets. Run these through P3 before posting.
 
+DELIVERY. This step comes back as text, not a file, because the app
+splits it on those exact headers and routes the copy into the Writer.
+No preamble, no commentary between sections, no explaining it back to
+me. Attach a PDF of the same thing as well if you want one for the
+archive.
+
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
     </div>
   </details>
 
   <details class="pbsec" id="pb-p3">
-    <summary><span class="sn">P3</span><span class="st">Copy audit</span><span class="chips"><span class="chip tool">Fresh chat · web search on</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">P3</span><span class="st">Copy audit</span><span class="chips"><span class="chip tool">Chat 4 · blank, no folder</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: your rewritten final copy, plus the dossier</div>
       <p class="lead">Runs on anything about to be published: a Short script, a long form script, or the P2C posts. Nothing reaches an audience without this pass.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P3 <span>·</span> Copy audit</div><div class="spacer"></div><button class="copybtn" data-copy="pp3">Copy prompt</button></div>
-        <pre id="pp3">Audit this copy line by line against the dossier below. Both are in
+        <pre id="pp3">CHAT: a brand new blank chat, NOT inside any project or folder, and a
+different model than the one that wrote the copy if you have one. A
+chat that just wrote the script will defend it. P4 and P5 continue in
+this same chat afterwards.
+
+Audit this copy line by line against the dossier below. Both are in
 this message. The copy is a video script or a written post, and
 either way it is about to be published. Assume it has errors and find
 them.
@@ -1312,6 +1444,13 @@ OUTPUT, in this order:
    every fix applied. Restate it completely; it will be used
    directly.
 
+DELIVERY. Do not explain the audit back to me. Reply with "Here you
+go", attach the audit table and required fixes as one PDF named
+ITC_TAG_COPY_AUDIT.pdf, and put only the severity one and two counts
+in the message. The CORRECTED COPY does not go in the PDF: paste it
+as plain text in a single code block with nothing wrapped around it,
+because it goes straight back into the Writer.
+
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
 SCRIPT OR POST: [PASTE THE FINAL COPY]
@@ -1322,12 +1461,14 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
   </details>
 
   <details class="pbsec" id="pb-p4">
-    <summary><span class="sn">P4</span><span class="st">Cards from script</span><span class="chips"><span class="chip tool">Fresh chat · one prompt</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">P4</span><span class="st">Cards from script</span><span class="chips"><span class="chip tool">Chat 4 · same chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the final script and the dossier, both in this one prompt</div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P4 <span>·</span> Cards</div><div class="spacer"></div><button class="copybtn" data-copy="pp4">Copy prompt</button></div>
-        <pre id="pp4">Write the on-screen info cards for this video in the ITC HQ Card
+        <pre id="pp4">CHAT: the same blank chat as P3, where the copy was just audited.
+
+Write the on-screen info cards for this video in the ITC HQ Card
 Generator machine format. The script and the dossier are both below.
 Output card blocks ready to paste into the generator with zero edits.
 
@@ -1371,12 +1512,14 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
   </details>
 
   <details class="pbsec" id="pb-p5">
-    <summary><span class="sn">P5</span><span class="st">Packaging</span><span class="chips"><span class="chip tool">Fresh chat · when publishing</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">P5</span><span class="st">Packaging</span><span class="chips"><span class="chip tool">Chat 4 · same chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the final script, the format, and the platforms</div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P5 <span>·</span> Packaging</div><div class="spacer"></div><button class="copybtn" data-copy="pp5">Copy prompt</button></div>
-        <pre id="pp5">Build the publishing package for this video. The script is below.
+        <pre id="pp5">CHAT: the same blank chat as P3 and P4.
+
+Build the publishing package for this video. The script is below.
 Everything must be copy ready and clearly labeled so each block drops
 straight into its platform. Scale the packaging to the video: a five
 minute shop fix does not get sold like a full teardown.
@@ -1441,25 +1584,25 @@ SCRIPT: [PASTE THE FINAL SCRIPT]</pre>
     <div class="secbody">
       <div class="kick">Research track · builds one dossier</div>
       <table>
-        <tr><th>Step</th><th>In</th><th>Out</th></tr>
-        <tr><td>R1 Scope</td><td>The part, and its type</td><td>Coverage plan: the question list and the definition of done</td></tr>
-        <tr><td>R2 Research</td><td>Coverage plan</td><td>Dossier v1, nineteen sections</td></tr>
-        <tr><td>R3 Second pass</td><td>Nothing, same window</td><td>Dossier v2, self-critiqued</td></tr>
-        <tr><td>R4 Expansion</td><td>Dossier v2, fresh chat</td><td>Dossier v3, frame widened</td></tr>
-        <tr><td>R5 Accuracy audit</td><td>Dossier v3, fresh chat</td><td>Dossier v4, corrected, accuracy verdict</td></tr>
-        <tr><td>R6 Gap hunt</td><td>Dossier v4 plus the R1 plan</td><td>Dossier v5, holes closed or declared</td></tr>
-        <tr><td>R7 Finalize</td><td>Dossier v5</td><td>Dossier v6, library ready, tier ledger</td></tr>
+        <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
+        <tr><td>R1 Scope</td><td>1 · ITC folder</td><td>Coverage plan PDF, plus its text for the app</td></tr>
+        <tr><td>R2 Research</td><td>1 · same chat</td><td>Dossier v1 PDF, nineteen sections</td></tr>
+        <tr><td>R3 Second pass</td><td>1 · same chat</td><td>Dossier v2 PDF, self-critiqued</td></tr>
+        <tr><td>R4 Expansion</td><td>1 · same chat</td><td>Dossier v3 PDF, plus its text for the audit chat</td></tr>
+        <tr><td>R5 Accuracy audit</td><td>2 · blank, no folder</td><td>Dossier v4 PDF, accuracy verdict in the message</td></tr>
+        <tr><td>R6 Gap hunt</td><td>2 · same chat</td><td>Dossier v5 PDF, holes closed or declared</td></tr>
+        <tr><td>R7 Finalize</td><td>2 · same chat</td><td>Dossier PDF, plus the full text for the Library</td></tr>
       </table>
       <div class="kick">Production track · runs any number of times per dossier</div>
       <table>
-        <tr><th>Step</th><th>In</th><th>Out</th></tr>
-        <tr><td>P1 Content plan</td><td>A finished dossier</td><td>Ranked slate, series candidates, coverage report</td></tr>
-        <tr><td>P2 Write</td><td>Dossier plus chosen story</td><td>2A Short, 2B long form, or 2C posts</td></tr>
-        <tr><td>P3 Copy audit</td><td>Final copy plus dossier</td><td>Audit table, fixes, corrected copy</td></tr>
-        <tr><td>P4 Cards</td><td>Script plus dossier</td><td>Card blocks plus placement map</td></tr>
-        <tr><td>P5 Packaging</td><td>Script, format, platforms</td><td>Titles, descriptions, tags, captions, pinned comment</td></tr>
+        <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
+        <tr><td>P1 Content plan</td><td>3 · ITC folder</td><td>Plan PDF, plus the ranked slate text</td></tr>
+        <tr><td>P2 Write</td><td>3 · same chat</td><td>Text under its headers, so the app can split it</td></tr>
+        <tr><td>P3 Copy audit</td><td>4 · blank, no folder</td><td>Audit PDF, plus the corrected copy as text</td></tr>
+        <tr><td>P4 Cards</td><td>4 · same chat</td><td>Card blocks plus placement map</td></tr>
+        <tr><td>P5 Packaging</td><td>4 · same chat</td><td>Titles, descriptions, tags, captions, pinned comment</td></tr>
       </table>
-      <p class="lead">R2 and R3 share one window. Everything else runs cold in a fresh chat, ideally alternating models between writing and auditing. The Library tab holds finished dossiers and feeds them into every production prompt automatically.</p>
+      <p class="lead">Four chats, and only two of them are about independence: the audit chat and the check chat, both outside any folder so the auditor meets the work cold. The Library tab holds finished dossiers and feeds them into every production prompt automatically.</p>
     </div>
   </details>
 
@@ -1706,7 +1849,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v6.0';
+const APP_VERSION = 'v6.1';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -2018,13 +2161,11 @@ renderLibrary();
    ---------------------------------------------------------------- */
 const BS_TRACKS = {
   research: [
-    { key:'scope',     label:'Scope' },
-    { key:'research',  label:'Research' },
-    { key:'expansion', label:'Expansion' },
-    { key:'accuracy',  label:'Accuracy audit' },
-    { key:'gaphunt',   label:'Gap hunt' },
-    { key:'finalize',  label:'Finalize' },
-    { key:'shelved',   label:'Shelved' }
+    { key:'scope',    label:'Scope' },
+    { key:'research', label:'Research · chat 1' },
+    { key:'audit',    label:'Audit · chat 2' },
+    { key:'finalize', label:'Finalize' },
+    { key:'shelved',  label:'Shelved' }
   ],
   production: [
     { key:'plan',      label:'Content plan' },
@@ -2035,18 +2176,20 @@ const BS_TRACKS = {
     { key:'filed',     label:'Filed' }
   ]
 };
-const BS_STEP_SECTION = { scope:'pb-r1', research:'pb-r2', expansion:'pb-r4', accuracy:'pb-r5',
-  gaphunt:'pb-r6', finalize:'pb-r7', plan:'pb-p1', write:'pb-p2', claims:'pb-p2',
-  copyaudit:'pb-p3', cards:'pb-p4' };
+const BS_STEP_SECTION = { scope:'pb-r1', research:'pb-r2', audit:'pb-r5', finalize:'pb-r7',
+  plan:'pb-p1', write:'pb-p2', claims:'pb-p2', copyaudit:'pb-p3', cards:'pb-p4' };
 const bsWrap = document.getElementById('bsWrap');
 let bsView = null;
 let bsHistOpen = false;
 
 /* pre-v6 jobs carried the old single-track statuses; map them onto the
    track they belong to so work in progress survives the restructure */
-const BS_LEGACY = { research:['research','research'], audit:['research','accuracy'],
+const BS_LEGACY = { research:['research','research'], audit:['research','audit'],
   consolidation:['research','finalize'], package:['production','write'], script:['production','write'],
   scriptaudit:['production','copyaudit'] };
+/* v6.1 folded expansion into the research chat and the gap hunt into the
+   audit chat, so those stages no longer exist as their own steps */
+const BS_FOLDED = { expansion:'research', accuracy:'audit', gaphunt:'audit' };
 function bsNorm(s){
   if(!s) return s;
   if(!s.kind){
@@ -2055,11 +2198,15 @@ function bsNorm(s){
     else if(s.status==='expansion'){ s.kind='research'; }
     else if(s.status==='claims' || s.status==='cards' || s.status==='filed'){ s.kind='production'; }
     else { s.kind='research'; s.status='scope'; }
-    if(s.facts && !s.r3doc) s.r3doc = s.facts;
     if(s.factsExpanded && !s.r4doc) s.r4doc = s.factsExpanded;
     if(s.factsFinal && !s.finalDoc) s.finalDoc = s.factsFinal;
     if(s.consolidated && !s.contentPlan) s.contentPlan = s.consolidated;
     if(s.kind==='production' && !s.dossierTag) s.dossierTag = s.tag;
+  }
+  if(s.kind==='research' && BS_FOLDED[s.status]){
+    s.status = BS_FOLDED[s.status];
+    if(s.r3doc && !s.r4doc) s.r4doc = s.r3doc;
+    if(s.r5doc && !s.r6doc) s.r6doc = s.r5doc;
   }
   return s;
 }
@@ -2136,15 +2283,12 @@ function prR1(s){ return bsFill('pr1', s, s.name || s.tag, s.angle); }
 function prR2(s){ return document.getElementById('pr2').textContent
   .replace('[PASTE THE R1 COVERAGE PLAN]', '\n' + (s.plan||'')); }
 function prR3(){ return document.getElementById('pr3').textContent; }
-function prR4(s){ return document.getElementById('pr4').textContent
-  .replace('[PASTE THE COMPLETE R3 DOSSIER]', '\n' + (s.r3doc||'')); }
+function prR4(){ return document.getElementById('pr4').textContent; }
 function prR5(s){ return document.getElementById('pr5').textContent
   .replace('[PASTE THE COMPLETE R4 DOSSIER]', '\n' + (s.r4doc||'')); }
 function prR6(s){ return document.getElementById('pr6').textContent
-  .replace('[PASTE THE R1 COVERAGE PLAN]', '\n' + (s.plan||''))
-  .replace('[PASTE THE COMPLETE R5 DOSSIER]', '\n' + (s.r5doc||'')); }
-function prR7(s){ return document.getElementById('pr7').textContent
-  .replace('[PASTE THE COMPLETE R6 DOSSIER]', '\n' + (s.r6doc||'')); }
+  .replace('[PASTE THE R1 COVERAGE PLAN]', '\n' + (s.plan||'')); }
+function prR7(){ return document.getElementById('pr7').textContent; }
 
 function ppP1(s){ return document.getElementById('pp1').textContent
   .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
@@ -2271,55 +2415,40 @@ function bsDocStage(st, s, opt){
 /* ---- research track panels ---- */
 function bsPanelScope(st, s){
   return bsDocStage(st, s, {
-    note: 'R1 writes the question list this dossier gets measured against, so a missing answer is visible instead of silent. Fresh chat, no web search needed. Paste the coverage plan below; the gap hunt at R6 checks the finished dossier against it.',
+    note: '<b>Chat 1, in your Inside The Case folder.</b> R1 writes the question list this dossier gets measured against, so a missing answer is visible instead of silent. It comes back as a PDF plus the plain text; paste the text below, because the gap hunt runs in a different chat and needs it.',
     copies: [{ label:'Copy R1 · scope and coverage plan', build: prR1 }],
-    placeholder: 'Paste the R1 coverage plan here: scope, classification, the question list, and the definition of done.',
+    placeholder: 'Paste the coverage plan text here: scope, classification, the question list, and the definition of done.',
     field: 'plan', next: 'Plan captured · start the research', from: 'scope', to: 'research',
     needs: 'Paste the coverage plan first.'
   });
 }
 function bsPanelResearch(st, s){
   return bsDocStage(st, s, {
-    note: 'R2 and R3 run in <b>one chat</b>, web search on. Send R2 and let it finish, then send R3 into the <b>same chat</b>. Both carry what they need. When the second pass is done, paste the complete dossier below.',
-    copies: [{ label:'Copy R2 · deep research', build: prR2 }, { label:'Copy R3 · second pass', build: prR3 }],
-    placeholder: 'Paste the complete R3 dossier here, all nineteen sections.',
-    field: 'r3doc', next: 'Dossier captured · on to expansion', from: 'research', to: 'expansion',
-    needs: 'Paste the R3 dossier first.'
+    note: '<b>Same chat 1, web search on.</b> Send R2, then R3, then R4, one after another in that one chat. Each replies with a PDF and a short note. Only the last one needs pasting back: R4 ends with the dossier as plain text, and that is what the audit chat gets.',
+    copies: [{ label:'Copy R2 · deep research', build: prR2 },
+             { label:'Copy R3 · second pass', build: prR3 },
+             { label:'Copy R4 · expansion', build: prR4 }],
+    placeholder: 'Paste the R4 dossier text here, all nineteen sections.',
+    field: 'r4doc', next: 'Dossier captured · on to the audit', from: 'research', to: 'audit',
+    needs: 'Paste the R4 dossier first.'
   });
 }
-function bsPanelExpansion(st, s){
+function bsPanelAudit(st, s){
   return bsDocStage(st, s, {
-    note: 'Fresh window, web search on. R4 widens the frame: adjacency, suppliers, variants, interchange, identity confusion, negative space. It adds tiered claims and does not audit.',
-    copies: [{ label:'Copy R4 · expansion, dossier attached', build: prR4 }],
-    placeholder: 'Paste the complete expanded dossier here, expansion log included.',
-    field: 'r4doc', next: 'Expanded · on to the accuracy audit', from: 'expansion', to: 'accuracy',
-    needs: 'Paste the expanded dossier first.'
-  });
-}
-function bsPanelAccuracy(st, s){
-  return bsDocStage(st, s, {
-    note: 'Fresh window, web search on, ideally a <b>different model</b> than the one that researched. R5 asks only whether what is here is true. Read the verdict, apply your own judgment, then paste the corrected dossier.',
-    copies: [{ label:'Copy R5 · accuracy audit, dossier attached', build: prR5 }],
-    placeholder: 'Paste the complete corrected dossier here.',
-    field: 'r5doc', next: 'Accuracy cleared · on to the gap hunt', from: 'accuracy', to: 'gaphunt',
-    needs: 'Paste the corrected dossier first.'
-  });
-}
-function bsPanelGapHunt(st, s){
-  return bsDocStage(st, s, {
-    note: 'The step that stops you finding things later with a casual search. R6 holds the finished dossier against the R1 plan question by question, then goes and closes what is missing. The copy below carries both documents.',
-    copies: [{ label:'Copy R6 · gap hunt, plan and dossier attached', build: prR6 }],
-    placeholder: 'Paste the complete updated dossier here, coverage audit and remaining holes included.',
-    field: 'r6doc', next: 'Gaps closed · on to finalize', from: 'gaphunt', to: 'finalize',
-    needs: 'Paste the updated dossier first.'
+    note: '<b>Chat 2: a brand new blank chat, no folder</b>, different model if you have one, web search on. This is the one hand-off that matters for accuracy. Send R5, then R6 in the same chat. R5 carries the dossier for you; R6 carries the R1 plan. Paste back the dossier R6 returns.',
+    copies: [{ label:'Copy R5 · accuracy audit, dossier attached', build: prR5 },
+             { label:'Copy R6 · gap hunt, plan attached', build: prR6 }],
+    placeholder: 'Paste the gap-hunted dossier text here, remaining holes included.',
+    field: 'r6doc', next: 'Audited and gap hunted · on to finalize', from: 'audit', to: 'finalize',
+    needs: 'Paste the audited dossier first.'
   });
 }
 function bsPanelFinalize(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note">R7 assembles the permanent copy and declares what it knows. No new research, no angle mining. Paste the final dossier below and it goes on the shelf under tag <b>'+esc(s.tag)+'</b>, ready for the production track.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Same chat 2.</b> R7 assembles the permanent copy and declares what it knows. No new research, no angle mining. It replies with the dossier PDF plus the full text; paste that text below and it goes on the shelf under tag <b>'+esc(s.tag)+'</b>, ready for the production track.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
-  const c = bsEl('<button type="button" class="copybtn">Copy R7 · finalize, dossier attached</button>');
-  c.addEventListener('click', function(){ copyText(prR7(s), this); });
+  const c = bsEl('<button type="button" class="copybtn">Copy R7 · finalize</button>');
+  c.addEventListener('click', function(){ copyText(prR7(), this); });
   row1.appendChild(c); p.appendChild(row1);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the FINAL DOSSIER section here. This is the copy that lives in the Library."></textarea>');
   p.appendChild(ta);
@@ -2348,7 +2477,7 @@ function bsPanelFinalize(st, s){
 function bsPanelPlan(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   const d = getDossier(s.dossierTag);
-  p.appendChild(bsEl('<p class="bs-note">Reading from the <b>'+esc(s.dossierTag)+'</b> dossier'+(d&&d.name? ', '+esc(d.name):'')+'. P1 walks every section of it and mines each one, so the slate is broad instead of whatever looked shiny. Run it once per dossier; the slate is saved with it. Already have a plan? Skip straight to the write stage.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Chat 3, in your Inside The Case folder.</b> Reading from the <b>'+esc(s.dossierTag)+'</b> dossier'+(d&&d.name? ', '+esc(d.name):'')+'. P1 walks every section of it and mines each one, so the slate is broad instead of whatever looked shiny. Run it once per dossier; the slate is saved with it. Already have a plan? Skip straight to the write stage.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
   const c = bsEl('<button type="button" class="copybtn">Copy P1 · content plan, dossier attached</button>');
   c.addEventListener('click', function(){ copyText(ppP1(s), this); });
@@ -2413,7 +2542,7 @@ function bsPanelWrite(st, s){
     p.appendChild(bsParseSummary(st, s));
     return p;
   }
-  p.appendChild(bsEl('<p class="bs-note">Fresh chat, cold. Pick the format: 2A writes the Short, 2B the long form, 2C the written posts. Every copy carries the <b>'+esc(s.dossierTag)+'</b> dossier and the channel voice card. Paste the reply below.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Same chat 3.</b> Pick the format: 2A writes the Short, 2B the long form, 2C the written posts. Every copy carries the <b>'+esc(s.dossierTag)+'</b> dossier and the channel voice card. This one comes back as text, not a file, because it splits on its headers and routes into the Writer.</p>'));
   const storyRow = bsEl('<div class="logform"><div class="r"><input class="i-story" placeholder="STORY off the slate, or leave blank to let the AI pick"></div></div>');
   const si = storyRow.querySelector('.i-story');
   si.value = s.story || '';
@@ -2496,7 +2625,7 @@ function bsPanelClaims(st, s){
 }
 function bsPanelCopyAudit(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note">Rewrite in the <b>Writer</b> first if you want; the copy below always carries the current Writer text plus the <b>'+esc(s.dossierTag)+'</b> dossier. Fresh chat, web search on. Paste the corrected copy below, or continue if it came back clean.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Chat 4: a brand new blank chat, no folder</b>, different model if you have one, web search on. A chat that just wrote the copy will defend it. Rewrite in the <b>Writer</b> first if you want; the copy below always carries the current Writer text plus the <b>'+esc(s.dossierTag)+'</b> dossier. Paste the corrected copy back, or continue if it came back clean.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
   const c3 = bsEl('<button type="button" class="copybtn">Copy P3 · copy + dossier attached</button>');
   c3.addEventListener('click', function(){ copyText(ppP3(s), this); });
@@ -2521,7 +2650,7 @@ function bsPanelCopyAudit(st, s){
 }
 function bsPanelCards(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note">Fresh chat, one prompt: the copy below carries the final script, the dossier, and the card machine format. Paste the reply and the card blocks route to the Cards tab with file tag "'+esc(s.dossierTag)+'". Posts skip this stage.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Same chat 4</b>, where the copy was just audited. P4 carries the final script, the dossier, and the card machine format; P5 packages it. Paste the P4 reply and the card blocks route to the Cards tab with file tag "'+esc(s.dossierTag)+'". Posts skip the cards.</p>'));
   const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy P4 · script + dossier + format attached</button>');
   copyBtn.addEventListener('click', function(){ copyText(ppP4(s), this); });
   p.appendChild(copyBtn);
@@ -2597,7 +2726,7 @@ function bsStartPanel(st){
     if(!tag){ alert('Give it a tag first. The tag names the dossier, the prompts, and the card files.'); return; }
     st.active = { id:Date.now(), kind:'research', tag, name: form.querySelector('.i-name').value.trim(),
       type: form.querySelector('.i-type').value, angle:'', status:'scope', created:Date.now(), updated:Date.now(),
-      plan:'', r3doc:'', r4doc:'', r5doc:'', r6doc:'', finalDoc:'' };
+      plan:'', r4doc:'', r6doc:'', finalDoc:'' };
     bsView = null; bsSave(st); renderShort();
   });
   box.appendChild(form);
@@ -2661,9 +2790,9 @@ function bsHistory(st){
   return det;
 }
 
-const BS_PANELS = { scope:bsPanelScope, research:bsPanelResearch, expansion:bsPanelExpansion,
-  accuracy:bsPanelAccuracy, gaphunt:bsPanelGapHunt, finalize:bsPanelFinalize,
-  plan:bsPanelPlan, write:bsPanelWrite, claims:bsPanelClaims, copyaudit:bsPanelCopyAudit, cards:bsPanelCards };
+const BS_PANELS = { scope:bsPanelScope, research:bsPanelResearch, audit:bsPanelAudit,
+  finalize:bsPanelFinalize, plan:bsPanelPlan, write:bsPanelWrite, claims:bsPanelClaims,
+  copyaudit:bsPanelCopyAudit, cards:bsPanelCards };
 
 function renderShort(){
   const st = bsState();
