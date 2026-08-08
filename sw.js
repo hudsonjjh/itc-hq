@@ -1,7 +1,7 @@
 /* ITC HQ service worker
    Bump CACHE_VERSION whenever index.html changes so installed phones
    pick up the new build on next launch. */
-const CACHE_VERSION = 'itc-hq-v5.3';
+const CACHE_VERSION = 'itc-hq-v5.4';
 const PRECACHE = [
   './',
   './index.html',
@@ -42,7 +42,8 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // CDN libraries (mammoth, html-docx): cache-first, fill in background.
+  // mammoth, the .docx reader: cache-first, fill in background. Writing
+  // .docx needs no CDN, that runs in app.
   if (url.hostname === 'cdnjs.cloudflare.com') {
     e.respondWith(
       caches.match(e.request).then((m) => {
