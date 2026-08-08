@@ -202,6 +202,9 @@ details.pbsec>summary .chips{display:flex;gap:5px;flex-wrap:wrap}
 .bs-paste{width:100%;min-height:170px;background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:9px;
   padding:12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.5;resize:vertical;outline:none;margin-top:8px}
 .bs-paste:focus{border-color:var(--amber)}
+.bs-count{color:var(--steel);font-size:10.5px;font-family:'JetBrains Mono',monospace;margin:5px 2px 0}
+.bs-head .full{color:var(--steel);font-size:10.5px;font-family:'JetBrains Mono',monospace;text-decoration:none;flex:none}
+.bs-head .full:hover{color:var(--amber)}
 .bs-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
 .bs-row>button{flex:1;min-width:130px;min-height:38px}
 .bs-parsed{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:4px 12px 10px;margin-top:8px}
@@ -401,7 +404,7 @@ input[type=file]{display:none}
   <div class="card">
     <div class="k">Version</div>
     <h4 id="verline"></h4>
-    <p>One file, four tools: the Playbook (v5.0), the Card Generator, Case Writer, and this dashboard. Shorts and drafts save to this device. To change anything, hand the file (or the GitHub repo) back to Claude and describe the change.</p>
+    <p>One file, four tools: the Playbook, the Card Generator, Case Writer, and this dashboard. Everything in progress saves to this device. To change anything, hand the file (or the GitHub repo) back to Claude and describe the change.</p>
     <div class="bs-row">
       <button class="ghost" id="backupBtn">Back up data</button>
       <button class="ghost" id="restoreBtn">Restore backup</button>
@@ -412,6 +415,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v5.5</b> · Playbook audit and polish. Platform limits in 7C and Prompt 10 were written from memory in v5.2 and were wrong; they are now researched and verified as of August 2026, and reframed around the fold rather than the maximum: Facebook hides past roughly 125 characters on mobile (line-driven, not fixed), YouTube community posts past 288, YouTube titles show about 70 of 100, descriptions 157 of 5,000. Prompt 10 gained Instagram and TikTok limits and builds chapters from 7B's bracketed titles. Closed an accuracy hole: 7C posts are published copy, so Step 8 now audits posts as well as scripts. Fixed two stale "Prompt 6" references in the Cards stage left over from the renumber. QoL: every paste box autosaves as you type and shows a word and character count, so a long research document survives a reload and a truncated paste is obvious; each stage carries a FULL STEP link to its playbook section; the package share now matches the Short by file tag, so a filed Short still ships its research document.</p>
       <p><b>v5.4</b> · Writer saves real .docx files again. The html-docx-js library it used was loaded from a CDN, and that copy went dead, so Save .docx had been quietly falling back to .html. Writing .docx now happens in the app itself: a built-in Word writer packs the page into a proper Office document with headings, bold, italic, underline, strikethrough, highlight colors, font sizes, alignment, line spacing, bulleted and numbered lists including nested ones, quotes, and dividers. No library, no CDN, so it works offline, on a phone, and from a plain local file. Opening a .docx still uses mammoth, which needs internet on first load only.</p>
       <p><b>v5.3</b> · Topic and angle can now be AI-picked. A toggle on the Script stage tells Prompts 6, 7A, 7B, and 7C to choose the strongest topic and angle from the research package (top of the consolidation's ranked angle bank) instead of using the Short's tag and angle, stating the choice at the top of the reply. The playbook prompts document the same option for manual use: write "pick from the research package" in the topic or angle slot.</p>
       <p><b>v5.2</b> · Script writing split into three formats: 7A Short form, 7B long form (chapters, one retention beat per 60 to 90 seconds, bracketed chapter titles for YouTube chapters), and 7C written posts for Facebook and YouTube built to platform character limits (hook inside Facebook's 450 character fold, YouTube community post under 2,000). All three carry the new channel voice card: mechanical directness, numbers over adjectives, identity confusion and misconception correction as the proven shapes, honesty about uncertainty, the sign offs. The voice card is guarded by the load-time self-test. Build a Short's script stage offers all three copies; 7A and 7B replies split and route as before, 7C posts go straight to the platforms.</p>
@@ -1078,16 +1082,21 @@ CHANNEL VOICE CARD. This is how Inside The Case sounds:
 - Written to be scanned fast: short paragraphs of one or two
   sentences, line breaks between them, the strongest fact early.
 
-PLATFORM LIMITS. Build each post to its platform:
-- FACEBOOK POST. The feed truncates around the first 450 characters
-  behind "See more", so the hook and the tension must land inside
-  the first two sentences. Full post 800 to 1,500 characters. Up to
-  3 relevant hashtags at the end, or none. Links go in the first
-  comment, not the post body.
-- YOUTUBE COMMUNITY POST. Same story, tightened to under 2,000
-  characters. YouTube shows more text up front than Facebook, so the
-  structure can breathe slightly, but the first line still has to
-  stop the scroll.
+PLATFORM LIMITS, verified August 2026. What matters is not the
+maximum, it is the fold: the point where the platform hides the rest
+behind a link. Write to the fold.
+- FACEBOOK POST. The maximum is 63,206 characters, far more than you
+  need. The fold is not a fixed number: Facebook collapses the post
+  behind "See more" based on how many lines fit the screen, and
+  reported cutoffs run from about 125 characters on mobile to about
+  477 on desktop. So land the hook and the tension inside the first
+  125 characters, and never later than 250. Full post 600 to 1,200
+  characters. Up to 3 relevant hashtags at the end, or none. Links
+  go in the first comment, not the post body.
+- YOUTUBE COMMUNITY POST. The maximum runs into the thousands, so it
+  is not the constraint. The fold is: only the first 288 characters
+  show before "Read more". Put the correction or the surprise inside
+  those 288 characters. Full post 800 to 1,500 characters.
 
 BOTH POSTS:
 - Only LOCKED facts, stated as fact.
@@ -1104,6 +1113,9 @@ NEW CLAIMS: any factual claim not in the research document, with
 tier and named source, for human review before posting. If there
 are none, write "None, all claims from the research document."
 
+A post is published copy, so it gets the same fact check a script
+gets. Run these through Step 8 before posting.
+
 RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
       </div>
     </div>
@@ -1112,40 +1124,45 @@ RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
   <details class="pbsec" id="pb-s8">
     <summary><span class="sn">08</span><span class="st">Script audit and fact check</span><span class="chips"><span class="chip tool">Fresh chat · web search on</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">You provide: your rewritten final script, plus the audited document</div>
+      <div class="kick">You provide: your rewritten final copy, plus the audited document</div>
+      <p class="lead">Runs on anything about to be published: a Short script, a long form script, or the 7C posts. Paste whichever one where the copy goes. Nothing reaches an audience without this pass.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt 8 <span>·</span> Script audit</div><div class="spacer"></div><button class="copybtn" data-copy="p8">Copy prompt</button></div>
-        <pre id="p8">Audit this script line by line against the research document below.
-Both are provided in this message. Assume the script has errors and
-find them.
+        <pre id="p8">Audit this copy line by line against the research document below.
+Both are provided in this message. The copy is a video script or a
+written post, and either way it is about to be published. Assume it
+has errors and find them.
 
 Check, one at a time:
-- Every factual claim in the script against the research document:
+- Every factual claim in the copy against the research document:
   CONFIRMED, CONTRADICTED, or NOT FOUND.
 - Any claim not in the research document: independently verify it by
   web search, tier it, and flag it as a new claim.
-- Any claim below LOCKED that is stated as fact in the script. That
-  is a stop and fix.
+- Any claim below LOCKED that is stated as fact. That is a stop and
+  fix.
 - Numbers, years, and figures, individually, digit by digit.
 - Voice and style compliance: em dashes, emojis, range formatting
   (must read "1994 to 1997"), sentence length, hype language, filler.
-- Runtime estimate against the stated target.
-- Structure: is the hook strong, is there a real retention beat, does
-  the payoff land.
+- If it is a script: runtime estimate against the stated target, and
+  structure, meaning is the hook strong, is there a real retention
+  beat, does the payoff land.
+- If it is a post: character count against the platform fold, and
+  whether the hook lands before the fold. Facebook hides past about
+  125 characters on mobile, YouTube community past 288.
 
 OUTPUT, in this order:
-1. AUDIT TABLE: each script line or beat, its verdict, and the
-   evidence.
+1. AUDIT TABLE: each line or beat, its verdict, and the evidence.
 2. REQUIRED FIXES: a clear list ranked by severity. Severity one is
-   a factual error that must not be recorded. Severity two is a tier
-   or sourcing problem. Severity three is voice, style, or structure.
-3. CORRECTED SCRIPT: the full script, clean and ready to record,
-   with every required fix applied. Restate it completely; it will
-   be used directly.
+   a factual error that must not be published. Severity two is a
+   tier or sourcing problem. Severity three is voice, style, or
+   structure.
+3. CORRECTED COPY: the full script or post, clean and ready to
+   record or publish, with every required fix applied. Restate it
+   completely; it will be used directly.
 
 STYLE. No em dashes. No emojis. Ranges written as "1994 to 1997".
 
-SCRIPT: [PASTE THE FINAL SCRIPT]
+SCRIPT OR POST: [PASTE THE FINAL COPY]
 
 RESEARCH DOCUMENT: [PASTE THE COMPLETE AUDITED DOCUMENT]</pre>
       </div>
@@ -1213,6 +1230,19 @@ minute shop fix does not get sold like a full teardown.
 FORMAT: [Short or long form, and runtime]
 PLATFORMS: [YouTube, plus Facebook, Instagram, TikTok as needed]
 
+PLATFORM LIMITS, verified August 2026. Respect the hard caps, and
+write to the fold, which is where the platform hides the rest.
+- YouTube title: 100 character cap, but only about 70 show in search
+  and suggested tiles. Put the hook in the first 60.
+- YouTube description: 5,000 character cap. Only the first 157
+  characters on desktop, about 100 on mobile, show before "Show
+  more". Front-load what the video actually covers.
+- YouTube tags: 500 characters total across all tags combined.
+- Instagram caption: 2,200 cap, first 125 characters visible. Cap of
+  30 hashtags, but 3 to 5 focused ones perform better than a stack.
+- TikTok caption: keep under 2,200 characters. Same hashtag rule, 3
+  to 5 focused tags.
+
 FOR A SHORT:
 - 10 title options, no hashtags
 - 2 description options
@@ -1223,7 +1253,9 @@ FOR A SHORT:
 FOR LONG FORM:
 - 8 title options, one recommended with reasoning
 - Description
-- Chapters with timestamps from the script structure
+- Chapters with timestamps. If the script carries bracketed chapter
+  titles, build the chapter list from those, in script order, with
+  the first chapter at 0:00.
 - Pinned comment
 - Thumbnail text ideas
 - Facebook details when asked
@@ -1234,6 +1266,7 @@ ALWAYS:
 - TikTok caption plus tags tied to the real topic
 - Recommend one title, balancing curiosity, accuracy, and search
   value
+- State the character count on every title, description, and caption
 - Titles create curiosity without dishonest clickbait. Style
   reference: "Why This Engine Lasted", "What Actually Changed
   Inside", "This Wasn't About Horsepower", "Simple, Mechanical, And
@@ -1485,7 +1518,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v5.4';
+const APP_VERSION = 'v5.5';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -1709,6 +1742,35 @@ function bsStageIdx(key){ return BS_STAGES.findIndex(s=>s.key===key); }
 function bsLabel(key){ const s = BS_STAGES[bsStageIdx(key)]; return s? s.label : key; }
 function bsEl(html){ const d = document.createElement('div'); d.innerHTML = html; return d.firstElementChild; }
 
+/* paste boxes autosave as you type, so a pasted research document
+   survives a re-render or a reload, and they show a size readout so a
+   truncated paste is obvious before it moves down the pipeline */
+function bsWirePaste(ta, st, s, key){
+  const meta = bsEl('<div class="bs-count"></div>');
+  const upd = ()=>{
+    const v = ta.value;
+    const words = (v.trim().match(/\S+/g)||[]).length;
+    meta.textContent = v.trim()? words.toLocaleString()+' words · '+v.length.toLocaleString()+' characters' : '';
+  };
+  ta.value = s[key] || '';
+  upd();
+  let timer = null;
+  ta.addEventListener('input', ()=>{
+    upd();
+    clearTimeout(timer);
+    timer = setTimeout(()=>{ s[key] = ta.value; bsSave(st); }, 600);
+  });
+  return meta;
+}
+/* each stage links to its full playbook step */
+const BS_STEP_SECTION = { research:'pb-s1', expansion:'pb-s3', audit:'pb-s4', consolidation:'pb-s5',
+  script:'pb-s7', claims:'pb-s7', scriptaudit:'pb-s8', cards:'pb-s9' };
+function goPlaybook(secId){
+  showView('playbook');
+  const sec = document.getElementById(secId);
+  if(sec){ sec.open = true; setTimeout(()=>sec.scrollIntoView({behavior:'smooth', block:'start'}), 60); }
+}
+
 function bsClaimsResolved(s){
   if(s.claimsNone) return true;
   if(!s.claims || !s.claims.length) return false;
@@ -1779,7 +1841,7 @@ function bsPrompt7c(s){
 }
 function bsPrompt8(s){
   return document.getElementById('p8').textContent
-    .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText())
+    .replace('[PASTE THE FINAL COPY]', '\n' + writerText())
     .replace(BS_DOC_MARK, '\n' + (s.factsFinal || ''));
 }
 function bsPrompt9(s){
@@ -1919,8 +1981,8 @@ function bsPanelResearch(st, s){
   c2.addEventListener('click', function(){ copyText(bsPrompt2(), this); });
   row1.appendChild(c1); row1.appendChild(c2); p.appendChild(row1);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the complete Step 2 research document here."></textarea>');
-  ta.value = s.facts || '';
   p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'facts'));
   const row = bsEl('<div class="bs-row"></div>');
   const go = bsEl('<button type="button" class="amber">Document captured · on to the expansion</button>');
   go.addEventListener('click', ()=>{
@@ -1940,8 +2002,8 @@ function bsPanelExpansion(st, s){
   copyBtn.addEventListener('click', function(){ copyText(bsPrompt3(s), this); });
   p.appendChild(copyBtn);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the complete expanded research document here, expansion log and audit handoff included."></textarea>');
-  ta.value = s.factsExpanded || '';
   p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'factsExpanded'));
   const row = bsEl('<div class="bs-row"></div>');
   const go = bsEl('<button type="button" class="amber">Expanded · on to the audit</button>');
   go.addEventListener('click', ()=>{
@@ -1961,8 +2023,8 @@ function bsPanelAudit(st, s){
   copyBtn.addEventListener('click', function(){ copyText(bsPrompt4(s), this); });
   p.appendChild(copyBtn);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the complete corrected document here. This exact text rides inside every later prompt."></textarea>');
-  ta.value = s.factsFinal || '';
   p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'factsFinal'));
   const row = bsEl('<div class="bs-row"></div>');
   const go = bsEl('<button type="button" class="amber">Audited · on to the consolidation</button>');
   go.addEventListener('click', ()=>{
@@ -1982,8 +2044,8 @@ function bsPanelConsolidation(st, s){
   copyBtn.addEventListener('click', function(){ copyText(bsPrompt5(s), this); });
   p.appendChild(copyBtn);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the whole consolidation package here: summary, conflicts, angle bank, ledger, open questions."></textarea>');
-  ta.value = s.consolidated || '';
   p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'consolidated'));
   const row = bsEl('<div class="bs-row"></div>');
   const go = bsEl('<button type="button" class="amber">Consolidated · on to the script</button>');
   go.addEventListener('click', ()=>{
@@ -2024,6 +2086,7 @@ function bsPanelScript(st, s){
   row2.appendChild(cC); row2.appendChild(cD); p.appendChild(row2);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the entire 7A or 7B reply here. It splits on the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers."></textarea>');
   p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'replyDraft'));
   const row = bsEl('<div class="bs-row"></div>');
   const parseBtn = bsEl('<button type="button" class="amber">Split the reply</button>');
   parseBtn.addEventListener('click', ()=>{
@@ -2033,7 +2096,7 @@ function bsPanelScript(st, s){
       alert('No section headers found. The paste needs the SCRIPT, NEW CLAIMS, CLAIM MAP, and RUNTIME headers from Prompt 7A or 7B.');
       return;
     }
-    s.parsed = parsed; s.updated = Date.now();
+    s.parsed = parsed; s.replyDraft = ''; s.updated = Date.now();
     bsSave(st); renderShort();
   });
   row.appendChild(parseBtn);
@@ -2103,14 +2166,16 @@ function bsPanelScriptAudit(st, s){
   const w = bsEl('<button type="button" class="ghost">Open Writer</button>');
   w.addEventListener('click', ()=>showView('writer'));
   row1.appendChild(c5); row1.appendChild(w); p.appendChild(row1);
-  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the CORRECTED SCRIPT section here to replace the Writer copy."></textarea>');
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the CORRECTED COPY section here to replace the Writer text."></textarea>');
   p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'auditDraft'));
   if(s.status==='scriptaudit'){
     const row = bsEl('<div class="bs-row"></div>');
     const apply = bsEl('<button type="button" class="amber">Apply corrected script · on to Cards</button>');
     apply.addEventListener('click', ()=>{
-      if(!ta.value.trim()){ alert('Paste the corrected script first, or use "clean" below.'); return; }
+      if(!ta.value.trim()){ alert('Paste the corrected copy first, or use "clean" below.'); return; }
       bsSetScript(s, ta.value.trim());
+      s.auditDraft = '';
       bsAdvance(st,'cards');
     });
     const clean = bsEl('<button type="button" class="ghost">Came back clean · continue</button>');
@@ -2126,13 +2191,14 @@ function bsPanelCards(st, s){
   const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy Prompt 9 · script + document + format attached</button>');
   copyBtn.addEventListener('click', function(){ copyText(bsPrompt9(s), this); });
   p.appendChild(copyBtn);
-  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the whole Prompt 6 reply here: the card blocks plus the placement map."></textarea>');
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the whole Prompt 9 reply here: the card blocks plus the placement map."></textarea>');
   p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'cardsDraft'));
   const row0 = bsEl('<div class="bs-row"></div>');
   const route = bsEl('<button type="button" class="amber">Route cards to the Cards tab</button>');
   route.addEventListener('click', ()=>{
     const txt = ta.value;
-    if(!txt.trim()){ alert('Paste the Prompt 6 reply first.'); return; }
+    if(!txt.trim()){ alert('Paste the Prompt 9 reply first.'); return; }
     const cut = txt.search(/^\s*PLACEMENT MAP/mi);
     const specs = (cut>=0? txt.slice(0,cut) : txt).trim();
     if(specs.indexOf('===')===-1){ alert('No card blocks found. The paste needs the === CARD lines from Prompt 9.'); return; }
@@ -2236,9 +2302,13 @@ function renderShort(){
   } else {
     const s = st.active;
     const box = bsEl('<div class="bs-box"></div>');
-    const head = bsEl('<div class="bs-head"><span class="tag"></span><span class="angle"></span></div>');
+    const head = bsEl('<div class="bs-head"><span class="tag"></span><span class="angle"></span><a href="#" class="full">FULL STEP ›</a></div>');
     head.querySelector('.tag').textContent = s.tag;
     head.querySelector('.angle').textContent = s.angle || '';
+    head.querySelector('.full').addEventListener('click', e=>{
+      e.preventDefault();
+      goPlaybook(BS_STEP_SECTION[(bsView && bsStageIdx(bsView) < bsStageIdx(s.status))? bsView : s.status] || 'pb-start');
+    });
     box.appendChild(head);
     box.appendChild(bsStepper(st, s));
     const viewKey = (bsView && bsStageIdx(bsView) < bsStageIdx(s.status))? bsView : s.status;
@@ -2684,8 +2754,11 @@ document.getElementById("sharePack").addEventListener('click', async function(){
   if(specEl.value.trim()) files.push(new File([specEl.value], tag+'_CARDSPECS.txt', {type:'text/plain'}));
   const wpage = document.getElementById('page');
   if(wpage.innerText.trim()) files.push(new File([wpage.innerText], tag+'_SCRIPT.txt', {type:'text/plain'}));
-  const act = store.get('shorts', {active:null}).active;
-  if(act && act.factsFinal) files.push(new File([act.factsFinal], tag+'_FACTS.txt', {type:'text/plain'}));
+  /* match the Short by file tag so a filed Short still packages its
+     research document, not just the one currently active */
+  const sst = store.get('shorts', {active:null, history:[]});
+  const src = [sst.active].concat(sst.history||[]).find(x=>x && x.tag===tag) || sst.active;
+  if(src && src.factsFinal) files.push(new File([src.factsFinal], tag+'_FACTS.txt', {type:'text/plain'}));
   if(skipped.length) alert('Card '+skipped.join(', ')+' overflows even at minimum fit and was left OUT of the package. Trim it, then share again.');
   if(!files.length) return;
   if(navigator.canShare && navigator.canShare({files})){
@@ -2712,7 +2785,7 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
 
 /* ---------------- [CARDS] self-test: prompt vs parser drift guard ----------------
    Runs once at load. Fails loudly (console + Home banner) if the card types
-   documented in Prompt 4 / CARD_SNIPPET ever drift from what the parser and
+   documented in Prompt 9 / CARD_SNIPPET ever drift from what the parser and
    renderers actually accept, or if the worked example stops parsing clean. */
 (function selfTest(){
   const fails = [];
@@ -2747,7 +2820,7 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     console.error('ITC HQ self-test FAILED:\n- '+fails.join('\n- '));
     const n = document.createElement('div');
     n.className = 'note';
-    n.innerHTML = '<b>Self-test failed:</b> the card prompt and the card generator have drifted apart. Cards may not render from Prompt 4 output. Open the browser console for details, then hand this file to Claude.';
+    n.innerHTML = '<b>Self-test failed:</b> the card prompt and the card generator have drifted apart. Cards may not render from Prompt 9 output. Open the browser console for details, then hand this file to Claude.';
     const home = document.getElementById('view-home');
     home.insertBefore(n, home.firstChild);
   }
