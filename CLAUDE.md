@@ -55,7 +55,21 @@ have it installed as a home-screen app.
   R1's question list plus R6's gap hunt exist so a missing answer is
   visible rather than silent. Do not collapse those two steps, and do
   not let R7 mine angles again: that split is what fixed narrow,
-  thin content planning. Every step output
+  thin content planning.
+- The standing rules and the sweeps live in exactly one place each,
+  `<pre id="rules">` and `<pre id="sweeps">`, and are appended at copy
+  time by `withBlocks()`. Never paste tier, source-hierarchy, or style
+  rules back into an individual prompt: that duplication is what the
+  v6.2 revision removed, and the load-time self-test now fails if the
+  blocks stop attaching.
+- Coverage and accuracy are different questions. Accuracy asks whether
+  the claims are true (R5); coverage asks whether the right questions
+  were ever generated (the sweeps, R6). Completeness reports four
+  separate axes and deliberately has no blended total, because a
+  single number gets quoted as "we know this much about the subject"
+  when it only ever meant "we answered our own question list".
+- R8 is optional and only for a dossier that is already finished.
+  Do not route new subjects through it. Every step output
   must stand alone. Keep all prompt copy model-agnostic; do not write
   Claude-only instructions, and do not reintroduce the correction
   log, the per-platform fact bank, or workspace-dependent

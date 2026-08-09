@@ -437,6 +437,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v6.2</b> · Reliability revision, aimed at two failures the E4OD dossier exposed. Coverage discovery: the old loop generated its question list from what looked important and then scored completeness against that same list, so a component nobody thought to ask about stayed invisible. New sweeps block generates questions from the object instead: a physical component inventory, a parts catalog and service parts test, an exploded view test, a visual identification sweep, a boring parts test, and fifteen structured attack angles that must be worked before any open ended question. R1 now builds the component inventory, R4 runs the sweeps, R6 marks every component COVERED, THIN, or ABSENT and treats absence as a search trigger rather than silence. Completeness is now four separate axes with no blended total. Production readiness: claims carry type, evidence class, source year, proven span, span basis, and a span risk flag, so a 1997 manual no longer silently reads as 1989 hardware; every card ready claim carries a spoken form; every change claim carries stated purpose, failure consequence, and service action; and the schema gained a terminology register, specimen register with its own P numbers and an automatic UNVERIFIED cap on unattached specimens, search register, boundary section, and corrections to published content. The standing rules and sweeps are now written once and attached to every research prompt at copy time, replacing twenty one duplicated copies. New optional R8 pass re-attacks a finished dossier and rebuilds it, and R7 and R8 emit a machine readable claims companion.</p>
       <p><b>v6.1</b> · Files, not walls of text, and far less chat jumping. Every step now replies "Here you go" with the finished output attached as one PDF and only the required notes in the message: a verdict, a count, what is still open. The plain text comes back only where this app has to read it, in one clean code block: the R1 plan, the R4 hand-off, the R7 final dossier, the P1 slate, the P2 copy, and the P3 corrected copy. Chat count dropped from about twelve to four, and each prompt now opens by naming exactly where to run it. Chat 1 in the Inside The Case folder runs R1 through R4 together; chat 2, blank and outside any folder, runs R5 through R7; chat 3 in the folder runs P1 and P2; chat 4, blank, runs P3 through P5. Independence is only enforced where a model would otherwise grade its own homework, which is the accuracy audit and the copy audit, and R4 gained an anti-anchoring rule since it now follows its own research in the same chat. The research track in the app collapsed from seven stages to four to match.</p>
       <p><b>v6.0</b> · The library release. Research is now the product, not a stage that gets thrown away. The playbook splits into two tracks: a seven step research track (R1 scope and coverage plan, R2 deep research, R3 second pass, R4 expansion, R5 accuracy audit, R6 gap hunt, R7 finalize) that builds one permanent dossier per part to a fixed nineteen section schema, and a five step production track (P1 content plan, P2 write as Short, long form, or posts, P3 copy audit, P4 cards, P5 packaging) that draws content out of a finished dossier as many times as the record supports. Two new steps fix the two real failures: R1 writes the question list the dossier is measured against, and R6 holds the finished dossier against that list and closes what is missing, so a hole is visible instead of silent. Consolidation stopped trying to be a content planner: R7 only assembles and declares, and P1 mines angles by walking every dossier section in order rather than free-associating. New Library tab holds every dossier on the device, keyed by part tag; production prompts read from it automatically, and nothing gets pasted by hand. Dossiers export to .txt or open in the Writer for .docx, and ride along in the package share. Jobs in progress from v5.x migrate onto the matching track.</p>
       <p><b>v5.5</b> · Playbook audit and polish. Platform limits in 7C and Prompt 10 were written from memory in v5.2 and were wrong; they are now researched and verified as of August 2026, and reframed around the fold rather than the maximum: Facebook hides past roughly 125 characters on mobile (line-driven, not fixed), YouTube community posts past 288, YouTube titles show about 70 of 100, descriptions 157 of 5,000. Prompt 10 gained Instagram and TikTok limits and builds chapters from 7B's bracketed titles. Closed an accuracy hole: 7C posts are published copy, so Step 8 now audits posts as well as scripts. Fixed two stale "Prompt 6" references in the Cards stage left over from the renumber. QoL: every paste box autosaves as you type and shows a word and character count, so a long research document survives a reload and a truncated paste is obvious; each stage carries a FULL STEP link to its playbook section; the package share now matches the Short by file tag, so a filed Short still ships its research document.</p>
@@ -500,6 +501,8 @@ input[type=file]{display:none}
       <div class="pipeline">
         <div class="lbl">Research track · builds the dossier · chat 1 then chat 2</div>
         <div class="row"><span class="pnode"><span class="pn">R1</span> Scope</span><span class="parrow">›</span><span class="pnode"><span class="pn">R2</span> Research</span><span class="parrow">›</span><span class="pnode"><span class="pn">R3</span> Second pass</span><span class="parrow">›</span><span class="pnode"><span class="pn">R4</span> Expansion</span><span class="parrow">›</span><span class="pnode"><span class="pn">R5</span> Accuracy audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">R6</span> Gap hunt</span><span class="parrow">›</span><span class="pnode"><span class="pn">R7</span> Finalize</span></div>
+        <div class="lbl">Optional · re-attack a dossier that is already finished</div>
+        <div class="row"><span class="pnode"><span class="pn">R8</span> Revise</span></div>
         <div class="lbl">Production track · draws content out of a finished dossier, any number of times</div>
         <div class="row"><span class="pnode"><span class="pn">P1</span> Content plan</span><span class="parrow">›</span><span class="pnode"><span class="pn">P2</span> Write</span><span class="parrow">›</span><span class="pnode"><span class="pn">P3</span> Copy audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">P4</span> Cards</span><span class="parrow">›</span><span class="pnode"><span class="pn">P5</span> Packaging</span></div>
       </div>
@@ -508,31 +511,307 @@ input[type=file]{display:none}
   </details>
 
   <details class="pbsec" id="pb-schema">
-    <summary><span class="sn">·</span><span class="st">The dossier schema</span><span class="arrow">›</span></summary>
+    <summary><span class="sn">·</span><span class="st">The dossier schema</span><span class="chips"><span class="chip tool">Schema version 2</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <p class="lead">Every ITC dossier has the same nineteen sections in the same order, whatever the part is. Same shape every time means you can find anything fast, diff two parts against each other, and see a hole at a glance. Schema version 1.</p>
+      <p class="lead">Every ITC dossier has the same sections in the same order, whatever the part is. Same shape every time means you can find anything fast, diff two parts against each other, and see a hole at a glance. Sections 19 to 23 were added in schema version 2; a version 1 dossier is still readable and gets upgraded by R8 rather than invalidated.</p>
       <table>
         <tr><th>#</th><th>Section</th><th>What belongs in it</th></tr>
-        <tr><td>00</td><td>DOSSIER HEADER</td><td>Tag, subject, type, dossier version, date, schema version, overall confidence, one paragraph summary.</td></tr>
-        <tr><td>01</td><td>ORIGIN AND DEVELOPMENT</td><td>Who designed and built it, why it was built, the program, the supplier relationship, first testing, first production, what it replaced.</td></tr>
-        <tr><td>02</td><td>YEAR BY YEAR RECORD</td><td>Every model year it existed, what changed, the exact breakpoint, and why the change happened.</td></tr>
-        <tr><td>03</td><td>IDENTIFICATION</td><td>Casting numbers, tags, stampings, part numbers, date codes, visual tells, and where on the part to look.</td></tr>
+        <tr><td>00</td><td>DOSSIER HEADER</td><td>Tag, subject, type, dossier version, date, schema version, the coverage scorecard, and a one paragraph summary.</td></tr>
+        <tr><td>01</td><td>ORIGIN AND DEVELOPMENT</td><td>Who designed and built it, why, the program, the supplier relationship, first testing, first production.</td></tr>
+        <tr><td>02</td><td>YEAR BY YEAR RECORD</td><td>Every model year it existed, what changed, the exact breakpoint, and why.</td></tr>
+        <tr><td>03</td><td>IDENTIFICATION</td><td>Casting numbers, tags, stampings, part numbers, date codes, visual tells, and where to look. Each visual feature classified for identification safety.</td></tr>
         <tr><td>04</td><td>SPECIFICATIONS</td><td>Full tables of every published figure with units.</td></tr>
-        <tr><td>05</td><td>VARIANTS AND CONFIGURATIONS</td><td>Every version, including regional, export, fleet, government, and special order builds.</td></tr>
+        <tr><td>05</td><td>VARIANTS AND CONFIGURATIONS</td><td>Every version, including regional, export, fleet, government, and special order.</td></tr>
         <tr><td>06</td><td>APPLICATIONS AND FITMENT</td><td>Every vehicle, year, engine, and trim it was factory installed in, and what it was never available with.</td></tr>
         <tr><td>07</td><td>MATING COMPONENTS</td><td>What it bolts to on every side, by year and application.</td></tr>
-        <tr><td>08</td><td>INTERCHANGE AND SWAPS</td><td>What actually interchanges, what does not, the gotchas, and the minimum information needed to order right.</td></tr>
+        <tr><td>08</td><td>INTERCHANGE AND SWAPS</td><td>What interchanges, what does not, the gotchas, and the minimum information needed to order right.</td></tr>
         <tr><td>09</td><td>SYSTEMS AND INTERNALS</td><td>One subsection per major internal system, how it works, and what is inside it.</td></tr>
-        <tr><td>10</td><td>FAILURE MODES AND SERVICE</td><td>Known weak points, symptoms, causes, service intervals, and shop reality.</td></tr>
-        <tr><td>11</td><td>UPGRADES AND AFTERMARKET</td><td>Common upgrades, what they fix, and what they break.</td></tr>
-        <tr><td>12</td><td>PRODUCTION AND MARKET CONTEXT</td><td>Production numbers, plants, competitors, and what the market was doing.</td></tr>
-        <tr><td>13</td><td>MYTHS, RUMORS, AND LORE</td><td>Each claim with a verdict of CONFIRMED, CONTRADICTED, HALF TRUE, or NOT PROVEN, plus where the lore came from.</td></tr>
+        <tr><td>10</td><td>FAILURE MODES AND SERVICE</td><td>Weak points, symptoms, causes, service intervals, and shop reality.</td></tr>
+        <tr><td>11</td><td>UPGRADES AND AFTERMARKET</td><td>Common upgrades, what they fix, what they break, factory updates kept separate from aftermarket.</td></tr>
+        <tr><td>12</td><td>PRODUCTION AND MARKET CONTEXT</td><td>Production numbers, plants, and what the market was doing.</td></tr>
+        <tr><td>13</td><td>MYTHS, RUMORS, AND LORE</td><td>Each with a verdict of CONFIRMED, CONTRADICTED, HALF TRUE, or NOT PROVEN, plus where the lore came from.</td></tr>
         <tr><td>14</td><td>SURPRISES</td><td>Anything counterintuitive, any dated-change trap, any place the obvious answer is wrong.</td></tr>
         <tr><td>15</td><td>OPEN QUESTIONS</td><td>What could not be confirmed, and exactly what document would settle it.</td></tr>
-        <tr><td>16</td><td>SOURCE REGISTRY</td><td>Every source as S1, S2, S3 with title, publisher, year, and link.</td></tr>
-        <tr><td>17</td><td>MASTER CLAIM TABLE</td><td>Every claim as C1, C2, C3 with its tier, its source IDs, and its section number.</td></tr>
-        <tr><td>18</td><td>COVERAGE LEDGER</td><td>Per section: COMPLETE, PARTIAL, or EMPTY, with the searches run and what is still missing.</td></tr>
+        <tr><td>16</td><td>SOURCE REGISTRY</td><td>Every source as S1, S2, S3 with title, publisher, year, link, link check date, archive URL, and an on-screen credit string.</td></tr>
+        <tr><td>17</td><td>MASTER CLAIM TABLE</td><td>Every claim with the full field set below.</td></tr>
+        <tr><td>18</td><td>COVERAGE SCORECARD</td><td>The four coverage axes, what was swept, and what remains unknown.</td></tr>
+        <tr><td>19</td><td>TERMINOLOGY AND MECHANISM REGISTER</td><td>Every acronym, system name, trade name, and named component used anywhere in the record, defined, tiered, and sourced.</td></tr>
+        <tr><td>20</td><td>SPECIMEN REGISTER</td><td>Physical evidence as P1, P2, P3, with what is legible versus transcribed versus inferred.</td></tr>
+        <tr><td>21</td><td>SEARCH REGISTER</td><td>One row per query: exact string, date, question targeted, and result.</td></tr>
+        <tr><td>22</td><td>BOUNDARY</td><td>What it replaced, what replaced it, what it shares parts with, and what it competed against.</td></tr>
+        <tr><td>23</td><td>CORRECTIONS TO PUBLISHED CONTENT</td><td>Anything this dossier now contradicts that the channel already published. Empty is a valid answer, absent is not.</td></tr>
       </table>
+      <div class="kick">What every claim carries</div>
+      <p class="lead">Tier answers how sure. It cannot also answer what kind of statement this is, what the source is allowed to prove, or which years it covers. Those are separate fields, so none of them get re-derived at script time by whoever is writing under pressure.</p>
+      <table>
+        <tr><th>Field</th><th>Required on</th><th>What it holds</th></tr>
+        <tr><td>ID</td><td>every claim</td><td>C1, C2, C3. Permanent, never renumbered or reused.</td></tr>
+        <tr><td>TIER</td><td>every claim</td><td>LOCKED, LIKELY, or UNVERIFIED.</td></tr>
+        <tr><td>TYPE</td><td>every claim</td><td>OBJECT, RECORD, or PROVENANCE.</td></tr>
+        <tr><td>EVIDENCE CLASS</td><td>every claim</td><td>One of the fixed classes in the standing rules.</td></tr>
+        <tr><td>SOURCE</td><td>every claim</td><td>S-numbers, with page, section, figure, or table.</td></tr>
+        <tr><td>SOURCE YEAR</td><td>every claim</td><td>Publication year of the document.</td></tr>
+        <tr><td>PROVEN SPAN</td><td>every claim</td><td>The years the claim is actually proven for.</td></tr>
+        <tr><td>SPAN BASIS</td><td>every claim</td><td>STATED BY SOURCE, BOUNDED BY SOURCE SCOPE, or UNKNOWN.</td></tr>
+        <tr><td>SPAN RISK</td><td>every claim</td><td>Set when the claim reads as covering the run but is proven only for its source year.</td></tr>
+        <tr><td>SPOKEN FORM</td><td>card-ready LOCKED object claims</td><td>One line, plain English, recordable as written, exact figure preserved.</td></tr>
+        <tr><td>SCREEN ONLY</td><td>card-ready claims</td><td>Set when the claim should be shown and not spoken.</td></tr>
+        <tr><td>STATED PURPOSE</td><td>every change claim</td><td>Why the manufacturer says it changed, or NOT DOCUMENTED.</td></tr>
+        <tr><td>FAILURE CONSEQUENCE</td><td>every change claim</td><td>What the source says goes wrong with the wrong part, or NOT DOCUMENTED.</td></tr>
+        <tr><td>SERVICE ACTION</td><td>every change claim</td><td>What the source tells the technician to do, or NOT DOCUMENTED.</td></tr>
+      </table>
+      <p class="lead">RECORD and PROVENANCE claims need only ID, tier, type, and source. The full field set is required on OBJECT claims, and spoken forms only on the card-ready ones, so the schema does not five times the length of the dossier for claims nobody will ever narrate.</p>
+      <div class="kick">The four coverage axes</div>
+      <p class="lead">One completeness number invites being quoted as "we know this much about the subject" when it only ever meant "we answered this much of our own question list". Four axes, reported separately, no blended total.</p>
+      <table>
+        <tr><th>Axis</th><th>Measures</th></tr>
+        <tr><td>QUESTION COVERAGE</td><td>Percentage of the planned questions that are answered. Says nothing about whether the plan was any good.</td></tr>
+        <tr><td>COMPONENT COVERAGE</td><td>Percentage of major physical components and subsystems actually swept for revisions, identification, service difference, and interchange. This is the axis that catches a missing oil pan.</td></tr>
+        <tr><td>BREAKPOINT COVERAGE</td><td>Of the running changes known or suspected, how many have an exact factory breakpoint rather than a vague year.</td></tr>
+        <tr><td>SOURCE CONFIDENCE</td><td>How much of the useful record is LOCKED versus soft, counting object claims only.</td></tr>
+      </table>
+      <p class="lead">Every scorecard ends with the same sentence, in full: unknown unknowns remain possible, and these numbers measure what was asked, not what exists.</p>
+    </div>
+  </details>
+
+  <details class="pbsec" id="pb-rules">
+    <summary><span class="sn">·</span><span class="st">Standing rules</span><span class="chips"><span class="chip tool">Attached to every R prompt</span></span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <p class="lead">Written once, here. Every research prompt copies with this block attached to the bottom automatically, so a cold chat gets the whole standard without the rules being duplicated twelve times where they can drift apart. Edit them here and every prompt changes.</p>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Standing rules <span>·</span> the ITC research standard</div><div class="spacer"></div><button class="copybtn" data-copy="rules">Copy block</button></div>
+        <pre id="rules">ITC STANDING RULES. These govern every research step.
+
+TIERS. Every claim carries a tier.
+LOCKED = confirmed by a primary or factory grade source that actually
+covers the part, application, or condition in question.
+LIKELY = strong evidence but a single or secondary source, or the
+source does not fully establish factory allocation, an exact
+breakpoint, or engineering intent.
+UNVERIFIED = lore, forum only, indirect, conflicting, or unconfirmed.
+UNVERIFIED does not mean false. It means it cannot be stated as fact
+from the recovered record.
+
+SOURCE HIERARCHY. Factory brochures, OEM service and owner manuals,
+technical service bulletins, and material from Ford, GM, Cummins,
+International, Navistar, Bosch, BorgWarner, Dana, ARB, Accuride and
+equivalent manufacturers outrank everything. Credible archives
+second. Forums are leads, never proof. Name sources precisely:
+title, publisher, year, and the page, section, figure, or table the
+claim sits in.
+
+EVIDENCE CLASS. Every claim names the class of document behind it,
+from this fixed list, and no claim may prove more than its class
+allows:
+ORDER GUIDE, proves what could be ordered.
+SALES BROCHURE, proves what was advertised, never what was built.
+OWNER GUIDE, proves what the operator was told, never what the
+  hardware does internally.
+WORKSHOP MANUAL, proves the hardware and procedure for the years the
+  manual covers.
+TSB, proves a service population and a known problem, never an
+  ordering matrix.
+PARTS CATALOG SERVICE FIT, proves service fit and interchange, never
+  original assembly line allocation.
+REMAN CATALOG, proves what a rebuilder supplies, never original
+  build.
+SUPPLIER TECHNICAL, proves the supplier's own design and spec.
+REBUILDER TECHNICAL, proves field practice, tiered on its sourcing.
+PERIOD PRESS, proves what was reported at the time.
+SPECIMEN, proves one physical example and nothing about the fleet.
+FORUM, a lead only, never proof.
+
+CLAIM TYPE. Every claim carries a type.
+OBJECT = a statement about the subject itself.
+RECORD = a statement about what the recovered record does or does not
+  contain. Always safe to narrate as "the record does not show".
+  Never card eligible as a fact about the part, and never counted in
+  coverage or accuracy scoring as if it were an object fact.
+PROVENANCE = a statement about who produced a source.
+
+APPLICABILITY SPAN. Tier says how sure. Span says how far. Every
+claim carries three separate fields:
+SOURCE YEAR, the publication year of the document.
+PROVEN SPAN, the years the claim is actually proven for.
+SPAN BASIS, one of: STATED BY SOURCE, BOUNDED BY SOURCE SCOPE, or
+  UNKNOWN.
+Set SPAN RISK on any claim likely to be read as covering the whole
+production run while only being proven for its source year. A 1997
+workshop manual describing solenoid logic proves 1997. It does not
+prove 1989 unless something else closes the gap. This narrows scope,
+never truth: a LOCKED claim stays LOCKED and simply gains an honest
+boundary.
+
+SEARCH DISCIPLINE. Search to confirm. Never reason a fact into
+existence because it is mechanically logical. A negative search
+result is never proof of nonexistence: when a category returns
+nothing, name the exact queries you ran and state that they returned
+no new evidence. Log every query in the search register with its
+exact string, the date, the coverage question it targeted, and
+whether it produced new evidence, corroboration, or nothing.
+
+ANTI-ANCHORING. Never treat the dossier's own coverage claims as
+proof that a category was searched. A comprehensive looking document
+is not evidence that a component was investigated. Run the search
+anyway, then report what you ran.
+
+REMAN AND SERVICE CONTAMINATION. Never date a rebuilt or
+remanufactured assembly from replaceable parts unless the source
+establishes the feature could not have been changed in service.
+Classify any physical feature as one of: ORIGINAL PRODUCTION FEATURE,
+FACTORY SERVICE UPDATE, FACTORY REMAN FEATURE, AFTERMARKET REBUILD
+FEATURE, or UNKNOWN CURRENT CONFIGURATION.
+
+SPECIMEN EVIDENCE. Physical observations live in their own ID space,
+P1, P2, P3, separate from sources. Each records what the specimen is,
+what was photographed or measured and by whom, what is directly
+legible versus transcribed, what is inferred, whether the artifact is
+still held, and whether images are attached to the current session.
+Hard rule: a specimen observation whose artifact is not attached to
+the current session is capped at UNVERIFIED regardless of any tier it
+inherited.
+
+IDS. Sources are S1, S2, S3. Claims are C1, C2, C3. Specimens are P1,
+P2, P3. IDs are permanent. Continue the numbering, never renumber,
+and never reuse a retired ID.
+
+STYLE. No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
+      </div>
+    </div>
+  </details>
+
+  <details class="pbsec" id="pb-sweeps">
+    <summary><span class="sn">·</span><span class="st">The sweeps</span><span class="chips"><span class="chip tool">Attached to R1, R4, R6, R8</span></span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <p class="lead">The sweeps exist because a research process can be excellent at answering the questions it thought of and blind to the ones it never generated. Every question below comes from the object, not from what looks interesting, so a component cannot go missing just because nobody found it worth asking about. Like the standing rules, this block is attached automatically to the prompts that use it.</p>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">The sweeps <span>·</span> deterministic question generation</div><div class="spacer"></div><button class="copybtn" data-copy="sweeps">Copy block</button></div>
+        <pre id="sweeps">ITC SWEEPS. Deterministic question generation. These do not depend on
+what seems important. Work them mechanically.
+
+SWEEP 1, PHYSICAL COMPONENT INVENTORY. Take the subject apart on
+paper and list every component and subsystem a person would find,
+whether or not it sounds interesting. Build the inventory from the
+subject's own type. Examples of the depth expected:
+- TRANSMISSION: bellhousing or front case, converter, pump, front
+  seal, case and casting revisions, cooler fittings and external
+  lines, electrical connectors, sensors, linkage, range sensor,
+  dipstick and tube, oil pan, pan gasket, pan bolt pattern, pan
+  depth, drain plug provision, filter, pickup, valve body,
+  accumulator body, separator plate, solenoid body, center support,
+  drums, clutch packs, bands, planetary assemblies, one-way
+  clutches, shafts, bearings, bushings, lubrication circuits, output
+  and extension housing, transfer case adapter, speed sensor or
+  speedometer provision, mount, output yoke, parking pawl.
+- ENGINE: block, heads, deck, main caps and bolts, crank, rods,
+  pistons, rings, cam and drive, valvetrain, oil pump and pan, pickup,
+  cooling passages and pump, thermostat housing, intake, exhaust
+  manifolds, injection or fuel system, turbo or induction, gaskets,
+  front cover, accessory drive, flywheel or flexplate, sensors,
+  harness connectors, dipstick, breather.
+- AXLE: housing and casting, tubes, ring and pinion, carrier, diff
+  and lockers, bearings, shafts and splines, hubs, knuckles, joints,
+  seals, brake mounting, backing plates, cover, fill and drain
+  provisions, vent, spring perches, U-bolts, steering arms, sensors.
+- TRANSFER CASE: case halves and castings, chain or gears, planetary,
+  clutch pack, shift mechanism and motor, input and output shafts and
+  splines, yokes or flanges, seals, pump and lubrication, speed
+  sensor provision, tag location, fill and drain, adapters, mounts,
+  linkage, harness connector.
+- MANUAL TRANSMISSION: case and castings, bellhousing, input and
+  output shafts, splines, gear sets, synchros, shift rails and forks,
+  shifter and tower, bearings, seals, fill and drain, PTO provision,
+  clutch actuation, pilot bearing, mount, speedometer provision.
+- FUEL OR INJECTION SYSTEM: pump, governor, lines, injectors,
+  nozzles, filters, lift pump, tank and sender, returns, shutoff,
+  timing mechanism, linkage, sensors, calibration hardware.
+- SUSPENSION OR BODY: structural panels, mounts, brackets, glass and
+  openings, hinges, latches, seals, frame rails and crossmembers,
+  fasteners, trim attachment, corrosion-prone areas.
+- ELECTRICAL: computer, connectors and pin counts, sensors, actuators,
+  harness routing and revisions, grounds, relays, fuses, diagnostic
+  provision, calibration part numbers.
+If the subject is not on this list, build the equivalent inventory
+for what it actually is, at the same depth.
+
+For every component in the inventory, answer or explicitly declare
+unanswered:
+- Did it change during production?
+- When did it change, and is the breakpoint model year, build date,
+  serial, application based, or unknown?
+- Why did it change, if documented?
+- How are the versions visually told apart?
+- Did the part number change?
+- Did material, dimensions, capacity, tooth count, spline count,
+  bolt pattern, casting, connector, or calibration change?
+- Is the newer version backward compatible? Is the older forward
+  compatible?
+- Must associated parts change with it?
+- Does it interchange only as a complete assembly?
+- Does service replacement differ from original production?
+- Can a remanufactured unit carry later hardware here?
+- Is this feature safe for identification? Is it safe for dating?
+
+SWEEP 2, PARTS CATALOG AND SERVICE PARTS. Approach the subject as a
+rebuilder, parts counter, dismantler, and technician. Build the major
+service parts inventory, then ask of each: more than one service
+number? supersessions? early and late versions? engine specific? 2WD
+and 4WD specific? GVWR specific? calibration specific? sold only as a
+matched set? did the service replacement intentionally differ from
+production? did the OEM require companion parts? Many running changes
+are far easier to find through service parts, bulletins,
+supersessions, and rebuild kits than through sales literature. Any
+major part with multiple generations that is absent from the year by
+year, identification, variants, interchange, service, or open
+question sections triggers another search.
+
+SWEEP 3, EXPLODED VIEW. Where factory exploded diagrams, service
+illustrations, or parts breakdowns exist, use them as coverage maps.
+List every major component the diagram shows, then name which of them
+the dossier has never investigated, and search those individually. The
+diagram is a question generator, not proof of a change by itself.
+
+SWEEP 4, VISUAL IDENTIFICATION. Search deliberately for what a person
+standing next to the part can see: ribs, bosses, plugs, pan shape,
+case shape, casting numbers, tag locations, connector shape, sensor
+count, bolt count, flange shape, yokes, adapters, cooler fitting
+locations, drain plugs, inspection covers, stamped codes, paint or
+colour marks, labels, reman tags, machining differences. Classify
+every visible feature as exactly one of:
+FACTORY PROVEN IDENTIFIER, SERVICE PART CLUE, SECONDARY
+IDENTIFICATION CLUE, NOT SAFE FOR IDENTIFICATION, or UNKNOWN.
+
+SWEEP 5, BORING PARTS. Research naturally chases the dramatic:
+planetaries, failures, electronics, horsepower, famous applications.
+Run one pass aimed only at the mundane: pan, filter, gasket, dipstick,
+tube, fittings, brackets, mounts, covers, plugs, seals, fasteners,
+yokes, shields, drain hardware, wiring connectors, retainers, clips.
+The point is not to pad the dossier. It is to find out whether the
+boring parts changed in ways that decide identification or
+interchange. A short negative result is a good outcome here.
+
+SWEEP 6, STRUCTURED ATTACK ANGLES. Before generating any open ended
+"questions nobody asked", attack the subject separately from each of
+these seats, because each one asks different questions: physical
+walkaround, exploded assembly, parts catalog, rebuilder inventory,
+technician and service procedure, vehicle application matrix, visual
+identification, owner and operator behaviour, failure diagnosis,
+factory supersessions, production breakpoints, remanufacturing,
+interchange, aftermarket misconception, junkyard identification. Only
+after those have been worked should you generate open ended questions.
+
+ABSENCE IS A FINDING. If a major component or subsystem does not
+appear anywhere in the dossier, that is not silence, it is a
+question: was it unchanged, or was it never researched? Search
+before deciding, and never let an absent section imply an absent
+change.
+
+DEPTH, NOT PUBLICATION. Investigate a component even when it produces
+nothing an audience will ever hear. If a part genuinely never changed,
+or nothing reliable can be recovered, a one line negative result or an
+open question is the correct output. What matters is that the check
+happened and that the check is visible.</pre>
+      </div>
     </div>
   </details>
 
@@ -616,17 +895,34 @@ you chose, and add anything the subject specifically needs:
   by year, harness changes, diagnostic protocol, grounds.
 - OTHER: build the deepest sensible list for the subject.
 
-For every question in both parts, mark the expected difficulty:
+PART C. The component inventory. Work sweep 1 in the attached sweeps
+block and build the full physical inventory for this subject: every
+component and subsystem a person would find if they took it apart,
+whether or not it sounds interesting. Do not shorten the list because
+a part seems unlikely to have changed. The oil pan, the dipstick tube,
+the cooler fittings, and the wiring connector belong on it exactly as
+much as the planetary set does, and they are the ones that get left
+off. Every entry carries the sweep 1 question set.
+
+This inventory is the thing that makes a missing component visible.
+Later passes score coverage against it, so a component that is absent
+from the dossier shows up as an unanswered row rather than as silence.
+
+For every question in all three parts, mark the expected difficulty:
 EASY if factory literature almost certainly answers it, HARD if it
 will need parts catalogs or archives, UNLIKELY if it may not be
 recoverable at all.
 
 Finally, define DONE. Write the specific bar this dossier must clear
-to count as complete, in terms of which questions must be LOCKED
-and which may remain open.
+to count as complete, on all four coverage axes: which questions must
+be LOCKED, which components must be swept, which breakpoints must be
+exact, and what may honestly remain open. Say plainly that clearing
+this bar means the plan was answered, not that the subject is fully
+known.
 
 OUTPUT sections: SUBJECT AND SCOPE, CLASSIFICATION, COVERAGE PLAN
-(part A by section, part B by type), DEFINITION OF DONE.
+(part A by section, part B by type, part C the component inventory),
+DEFINITION OF DONE.
 
 DELIVERY. Do not explain the plan back to me. Reply with "Here you
 go", attach the complete plan as one PDF named ITC_TAG_PLAN.pdf, and
@@ -665,30 +961,21 @@ factory literature, service manuals, parts catalogs, supplier
 documentation, technical service bulletins, training material,
 credible archives. Depth over polish.
 
-TIERS. Every claim carries a tier, a named source, and a claim ID.
-LOCKED = primary or factory grade source that actually covers the
-part, application, or condition. LIKELY = strong evidence but single
-or secondary source, or the source does not fully establish factory
-allocation, an exact breakpoint, or engineering intent. UNVERIFIED =
-lore, forum only, indirect, conflicting, or unconfirmed. UNVERIFIED
-does not mean false. It means it cannot be stated as fact from the
-recovered record. Where sources disagree, say so, present both, and
-tier accordingly. Never guess to fill a gap.
+RULES. The ITC standing rules and the sweeps are attached below this
+prompt. Follow them exactly: they define the tiers, the source
+hierarchy, the evidence classes, the claim fields, the ID discipline,
+and the search rules. Where sources disagree, say so, present both,
+and tier accordingly. Never guess to fill a gap. Keep figures exact
+with units and never round when the source gives a precise number.
 
-SOURCES. Factory brochures, OEM service and owner manuals, and
-material from Ford, GM, Cummins, International, Navistar, Bosch,
-BorgWarner, Dana, ARB, Accuride and equivalent manufacturers first.
-Credible archives second. Forums are leads, never proof. A
-replacement parts catalog locks service availability or interchange
-only, never factory build combinations. Name sources precisely:
-title, publisher, year. Keep figures exact with units and never
-round when the source gives a precise number.
+COVERAGE. Answer the coverage plan question by question, and work
+sweep 1, the physical component inventory, as part of this pass. Every
+component in that inventory gets an answer or an explicit declaration
+that it was searched and nothing was found. A component that produces
+no audience facing claim still gets checked, and the check is visible.
 
-IDS. Number every source S1, S2, S3 and every claim C1, C2, C3.
-These IDs are permanent and later passes continue them.
-
-OUTPUT. The dossier, in the nineteen section schema, in this order
-and with these exact headers:
+OUTPUT. The dossier, in the full schema, in this order and with these
+exact headers:
 00 DOSSIER HEADER
 01 ORIGIN AND DEVELOPMENT
 02 YEAR BY YEAR RECORD
@@ -707,14 +994,23 @@ and with these exact headers:
 15 OPEN QUESTIONS
 16 SOURCE REGISTRY
 17 MASTER CLAIM TABLE
-18 COVERAGE LEDGER
+18 COVERAGE SCORECARD
+19 TERMINOLOGY AND MECHANISM REGISTER
+20 SPECIMEN REGISTER
+21 SEARCH REGISTER
+22 BOUNDARY
+23 CORRECTIONS TO PUBLISHED CONTENT
 
 Section 00 states tag, subject, type, dossier version 1, today's
-date, schema version 1, overall confidence, and a one paragraph
-summary. Section 13 gives every myth a verdict of CONFIRMED,
-CONTRADICTED, HALF TRUE, or NOT PROVEN. Section 18 marks every
-section COMPLETE, PARTIAL, or EMPTY, names the searches you ran for
-anything not complete, and states what is still missing.
+date, schema version 2, and a one paragraph summary. Section 13 gives
+every myth a verdict of CONFIRMED, CONTRADICTED, HALF TRUE, or NOT
+PROVEN. Section 18 reports the four coverage axes separately and ends
+with the unknown unknowns sentence in full. Section 19 defines every
+acronym, system name, trade name, and named component you used
+anywhere in the record: if you name it in a claim, define it here or
+put it in open questions. Section 21 logs every query you ran as a
+table. Section 23 is empty on a first build, and that is fine, but the
+header exists.
 
 DELIVERY. Do not write the dossier out in the chat and do not explain
 it back to me. Reply with "Here you go", attach the complete dossier
@@ -806,8 +1102,18 @@ searches anyway. A category you "already did" that returns nothing
 new should say so explicitly, naming the searches you just ran, not
 point back at the existing text.
 
-STANDING RULES. Tiers, source hierarchy, and ID discipline are as
-defined in the dossier above; follow them exactly.
+RULES. The ITC standing rules and the sweeps are attached below this
+prompt. Follow them exactly.
+
+RUN THE SWEEPS FIRST. Before the categories below, work sweeps 2
+through 5 in the attached block: the parts catalog and service parts
+test, the exploded view test, the visual identification sweep, and
+the boring parts test. These are where running changes actually hide.
+Bulletins, supersessions, rebuild kits, and parts catalogs surface
+mid-year changes that sales literature never mentions, and the
+mundane components are the ones the earlier passes skipped. For every
+component in the plan's inventory, state COVERED, THIN, or ABSENT
+before you search, then search everything not COVERED.
 Continue the S and C numbering from where the dossier ends and do not
 renumber existing entries. Search to confirm; never reason a fact
 into existence. Stay on subject: adjacent material is in scope only
@@ -964,12 +1270,19 @@ dossier, so you have no reason to defend its coverage; check every
 question against the text rather than against your impression of it.
 
 STEP 1. THE AUDIT OF ABSENCE. Walk the coverage plan question by
-question, every question in part A and part B. For each one, mark:
+question, every question in parts A, B, and C. For each one, mark:
 ANSWERED AND LOCKED, ANSWERED BUT SOFT (tiered LIKELY or UNVERIFIED),
 PARTIALLY ANSWERED (name what is missing), or NOT ANSWERED. Do not
 skip questions and do not summarize the list. Every question gets a
 line. If the dossier answers something the plan never asked, note it
 as an unplanned gain.
+
+Then walk part C, the component inventory, separately and by name.
+For every component, mark COVERED, THIN, or ABSENT. A component that
+appears nowhere in the dossier is not evidence that it never changed:
+it is evidence that nobody looked. Treat every ABSENT row as a
+required search in step 2, and never let an empty section imply an
+unchanged part.
 
 STEP 2. CLOSE THE GAPS. Now search, hard, for everything marked
 ANSWERED BUT SOFT, PARTIALLY ANSWERED, or NOT ANSWERED. Work in
@@ -989,25 +1302,48 @@ and period press. Then report one of:
 - STILL OPEN: what you searched, and precisely what document would
   settle it if someone found it.
 
-STEP 3. THE QUESTIONS NOBODY ASKED. The coverage plan was written
-before anyone knew what the record held. Now that the dossier exists,
-list the questions the plan should have included and did not, given
-what turned up. Search those too, same reporting.
+STEP 3. THE UNDEFINED TERM HUNT. List every acronym, system name,
+trade name, proper noun, and named component that appears anywhere in
+the dossier's claims and is defined nowhere in it. A term that is load
+bearing in a LOCKED claim while being defined nowhere is a mandatory
+search, because a script can name it and cannot explain it, and any
+definition written at script time is an unsourced new claim. For each
+term find a one sentence plain definition, what it physically is, what
+it does in this specific subject, what it is commonly confused with,
+the first and last year it applies here, and whether the term is the
+manufacturer's own wording or industry shorthand. Where no definition
+can be sourced, that is an open question, not a silent omission.
 
-STEP 4. THE CASUAL SEARCH TEST. Put yourself in the seat of somebody
-who knows this subject well and is about to watch a video on it. Write
-the ten questions they would expect answered. Check each against the
-dossier. Anything the dossier cannot answer is a gap: close it or
-declare it.
+STEP 4. THE QUESTIONS NOBODY ASKED. The coverage plan was written
+before anyone knew what the record held. Work sweep 6 in the attached
+block first: attack the subject separately from each of the fifteen
+listed seats, because each one generates different questions. Only
+after those structured attacks should you generate open ended
+questions the plan should have included and did not. Search those too,
+same reporting.
+
+STEP 5. THE CASUAL EXPERT TEST. Put yourself in two seats. First,
+somebody who knows this subject well and is about to watch a video on
+it. Second, somebody with the actual part on a bench trying to
+identify what they have. Write the ten questions each would expect
+answered. Check each against the dossier. Anything it cannot answer is
+a gap: close it or declare it.
 
 OUTPUT, in this order:
-1. COVERAGE AUDIT: the full question by question table from step 1.
-2. GAP CLOSURE LOG: every gap from steps 2, 3, and 4 with its result.
-3. THE COMPLETE UPDATED DOSSIER, restated in full in the nineteen
-   section schema with every closed gap folded into the right
-   section, dossier version 5 in section 00, and section 18 COVERAGE
-   LEDGER rewritten to match what you just established.
-4. REMAINING HOLES: what is still unanswered, why, and what would
+1. COVERAGE AUDIT: the full question by question table from step 1,
+   plus the component table with every COVERED, THIN, or ABSENT mark.
+2. GAP CLOSURE LOG: every gap from steps 2 through 5 with its result.
+3. TERMINOLOGY REGISTER: every term from step 3 with its definition,
+   tier, and source, or an open question where none was found.
+4. THE COMPLETE UPDATED DOSSIER, restated in full in the current
+   schema with every closed gap folded into the right section,
+   dossier version 5 in section 00, section 21 SEARCH REGISTER
+   carrying every query you ran as a table, and section 18 COVERAGE
+   SCORECARD rewritten on all four axes: question coverage, component
+   coverage, breakpoint coverage, and source confidence, each
+   reported separately with no blended total, ending with the unknown
+   unknowns sentence in full.
+5. REMAINING HOLES: what is still unanswered, why, and what would
    settle it. This is the honest edge of the record and it belongs in
    the dossier.
 
@@ -1070,39 +1406,291 @@ screen. VOICEOVER OR DESCRIPTION ONLY, the LIKELY material, which can
 be said with its uncertainty spoken but never shown as fact.
 PINNED COMMENT OR EXCLUDE, the UNVERIFIED material.
 
-4. DECLARE. Write the dossier's own status: overall confidence, the
-three strongest sections, the three weakest, what a future session
-should hit first, and the completeness percentage by section from the
-coverage ledger.
+4. MAKE IT SAYABLE. A dossier that is accurate but cannot be spoken is
+half finished, and every hour not spent here gets spent later by
+whoever is scripting, under time pressure, without the source in front
+of them. For every card ready LOCKED object claim, write the SPOKEN
+FORM: one line, plain English, recordable as written, with the exact
+figure preserved. Where a claim cannot be read aloud cleanly, part
+number strings, unit pairs that do not convert, multi column tables,
+set SCREEN ONLY and say so rather than leaving it for someone else to
+discover at the microphone. Then, for every change claim, fill STATED
+PURPOSE, FAILURE CONSEQUENCE, and SERVICE ACTION, marking each one NOT
+DOCUMENTED where the record does not carry it. The consequence is
+almost always the retention beat, so a change claim without one is
+half researched.
+
+5. DECLARE. Write the dossier's own status: the four coverage axes
+reported separately with no blended total, the three strongest
+sections, the three weakest, what a future session should hit first,
+and the unknown unknowns sentence in full. Verify the URL of every
+source backing a LOCKED claim, record the check date and an archive
+snapshot where one exists, and write a short on screen credit string
+for corner text over footage. Do not claim to have checked a link you
+did not open.
 
 OUTPUT, in this order:
-FINAL DOSSIER: the complete document in the nineteen section schema,
-dossier version 6 in section 00, marked STATUS: LIBRARY READY, or
-STATUS: BLOCKED with the reason if triangulation found something that
-must be resolved first.
+FINAL DOSSIER: the complete document in the current schema, dossier
+version 6 in section 00, marked STATUS: LIBRARY READY, or STATUS:
+BLOCKED with the reason if triangulation found something that must be
+resolved first.
 RESIDUAL CONFLICTS FOR HUMAN REVIEW.
-STATE OF KNOWLEDGE LEDGER.
+STATE OF KNOWLEDGE LEDGER: card ready, voiceover or description only,
+pinned comment or exclude.
 NEXT RESEARCH PRIORITIES.
+MACHINE READABLE COMPANION, as TSV, one row per claim, with these
+columns in this order: id, tier, type, evidence_class, source_ids,
+source_year, proven_span, span_basis, span_risk, section, card_ready,
+screen_only, spoken_form, stated_purpose, failure_consequence,
+service_action. Escape any tabs inside fields. The prose dossier stays
+the permanent human record; this companion is what the app and the
+downstream prompts read instead of re-parsing thirty pages.
 
 Do not introduce new factual claims. If a genuinely necessary new
 fact surfaces, put it under NEW CLAIMS FOR REVIEW with a tier and
 named source, outside the dossier body, for human checking.
 
 DELIVERY. This is the permanent copy, so it comes back two ways.
-Reply with "Here you go", attach everything as one PDF named
-ITC_TAG_DOSSIER.pdf, and put only this in the message: the status
-line, either LIBRARY READY or BLOCKED with the reason, overall
-confidence, the three weakest sections, and any residual conflicts
-needing a human. Then, below the message, paste the FINAL DOSSIER as
-plain text in a single code block with nothing wrapped around it.
-That block is what goes into the Library and every future script is
-written from it, so it must be the complete document, not a summary.
-If you cannot create files, say so in one line and give the plain
-text alone.
+Reply with "Here you go" and attach two files: the dossier as
+ITC_TAG_DOSSIER.pdf and the companion as ITC_TAG_CLAIMS.tsv. Put only
+this in the message: the status line, either LIBRARY READY or BLOCKED
+with the reason, the four coverage axes, the three weakest sections,
+and any residual conflicts needing a human. Then, below the message,
+paste the FINAL DOSSIER as plain text in one code block and the
+companion TSV in a second code block, with nothing wrapped around
+either. Those blocks are what go into the Library and every future
+script is written from them, so the dossier block must be the
+complete document, not a summary. If you cannot create files, say so
+in one line and give the two text blocks alone.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
       <div class="done-banner">DOSSIER DONE · Save it to the Library tab. Every production step reads from it.</div>
+    </div>
+  </details>
+
+  <details class="pbsec" id="pb-r8">
+    <summary><span class="sn">R8</span><span class="st">Revise a finished dossier</span><span class="chips"><span class="chip tool">OPTIONAL · chat 2 style, blank, no folder</span></span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <div class="kick">You provide: a finished dossier, plus anything new that prompted the revision</div>
+      <p class="lead"><b>Optional. Not part of a normal build.</b> R1 through R7 produce a finished dossier. R8 exists for when that dossier is already done and something has changed: a gap turned up, a physical part is in front of you, new factory material surfaced, an old dossier needs tightening, or confidence in its completeness has dropped. It keeps every verified claim and attacks the coverage.</p>
+      <p class="lead"><b>Do not use R8</b> to build a new dossier, to polish prose, or to chase only the one gap you already noticed. If the subject has never been researched, run R1. If you only want to fix one fact, fix it in the Library by hand.</p>
+      <p class="lead">Two prompts, back to back in the same blank chat. R8A attacks and reports. R8B rebuilds. They are split because one prompt asking for fifty things gets fifty shallow answers, and the whole point of this pass is that it is not shallow.</p>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt R8A <span>·</span> re-attack the coverage</div><div class="spacer"></div><button class="copybtn" data-copy="pr8a">Copy prompt</button></div>
+        <pre id="pr8a">CHAT: a brand new blank chat, NOT inside any project or folder, and a
+different model than the one that built the dossier if you have one.
+R8B follows in this same chat.
+
+You are re-attacking a finished Inside The Case dossier. Your posture
+is: THIS DOSSIER HAS GAPS. It went through a full multi stage process,
+it looks comprehensive, and that is exactly why it is dangerous. A
+process can be excellent at answering the questions it generated early
+and blind to the ones it never generated, then verify, audit, and
+score completeness against a question universe that was incomplete
+from the start.
+
+Do not congratulate the earlier research. Do not trust its
+completeness score. Do not treat the presence of a detailed section as
+proof that a neighbouring component was ever searched. If the operator
+has named one gap below, treat it as evidence that there are others of
+the same kind, not as the job.
+
+WHAT PROMPTED THIS REVISION: [OPTIONAL. a gap you noticed, a part in
+your hand, new material found, or "general tightening"]
+
+PHYSICAL INSPECTION NOTES: [OPTIONAL. anything observed while
+handling a real unit. State plainly whether you still hold the item
+and whether images are attached to this chat.]
+
+UNROUTED NEW CLAIMS: [OPTIONAL. claims raised during scripting that
+never made it back into the dossier.]
+
+VIEWER QUESTIONS AND CORRECTIONS: [OPTIONAL. repeated questions from
+comments are direct evidence of a coverage hole and carry the same
+weight as a schema generated question.]
+
+WORK IN THIS ORDER.
+
+PHASE 1, REBUILD THE QUESTION UNIVERSE FROM SCRATCH. Reconstruct the
+subject and its scope from the dossier, then write the question list
+you would write if the dossier did not exist. Do not read its coverage
+plan first and do not inherit its structure. Only after your list is
+written, compare it against the dossier and mark every question the
+dossier never asked.
+
+PHASE 2, RUN THE SWEEPS. Work sweeps 1 through 6 in the attached
+sweeps block, mechanically, in order. For every component in the
+inventory, state one of: COVERED, the dossier answers it; THIN, the
+dossier touches it without resolving it; or ABSENT, the dossier never
+mentions it. Absent components are your priority list.
+
+PHASE 3, SEARCH THE GAPS. For everything marked THIN or ABSENT, and
+everything from phase 1 the dossier never asked, search hard and
+search wide. Vary vocabulary the way different sources would: factory
+name, casual name, part number, casting number, supplier name,
+aftermarket name. Work parts catalogs, service manuals, training
+material, bulletins, brochures, supersession listings, rebuild kits,
+and period press. Report each as CLOSED with the tiered answer and
+source, NARROWED with what is established and what remains, or STILL
+OPEN with the searches run and the document that would settle it.
+
+PHASE 4, THE UNDEFINED TERM HUNT. List every acronym, system name,
+trade name, proper noun, and named component that appears anywhere in
+the dossier's claims and is defined nowhere in it. This list is
+usually longer than anyone expects. Search a definition for each one:
+a one sentence plain definition, what it physically is, what it does
+in this specific subject, what it is commonly confused with, the first
+and last year it applies here, and whether the term is the
+manufacturer's own wording or industry shorthand. A term that is load
+bearing in a LOCKED claim and undefined in the record is a mandatory
+search, not an optional nicety. Where no definition can be sourced,
+that is an open question, not a silent omission.
+
+PHASE 5, THE SPAN AUDIT. Go through every existing claim, including
+LOCKED ones, and establish its source year, its proven span, and its
+span basis. Flag SPAN RISK on every claim that reads as covering the
+whole production run while being proven only for its source year.
+Expect this to catch claims drawn from a late workshop manual and used
+to describe early hardware. This narrows scope, never truth.
+
+PHASE 6, RE-ATTACK THE SOFT AND VERIFY THE HARD. Attack every LIKELY
+claim again and every UNVERIFIED claim again with fresh searches.
+Independently re-verify a meaningful sample of LOCKED claims against a
+second source, choosing the ones that carry the most weight. Check
+every number, year, ratio, dimension, capacity, torque, spline count,
+tooth count, part number, date code, breakpoint, and application,
+digit by digit. Hunt contradictions inside the dossier and corrections
+that were made once but never propagated.
+
+PHASE 7, EVIDENCE AND SPECIMENS. Assign a type and an evidence class
+to every existing claim. Rebuild physical observations into the P
+number register, and automatically cap at UNVERIFIED any specimen
+claim whose artifact is not attached to this chat, regardless of what
+tier it previously held. Check whether any claim proves more than its
+evidence class allows.
+
+PHASE 8, BOUNDARIES AND SIBLINGS. Check the subject's predecessor,
+successor, part sharing siblings, and competitors. The operator's
+other finished dossiers are listed below; any claim touching a subject
+already dossiered must be checked for contradiction and carry a cross
+reference. A contradiction between two published dossiers is the most
+expensive error available, because both have already been published
+against.
+
+SIBLING DOSSIERS ON THE SHELF: [THE APP FILLS THIS IN]
+
+PHASE 9, THE CASUAL EXPERT TEST. Put yourself in the seat of someone
+who knows this subject well and is about to watch a video on it, then
+someone who has the part on a bench and is trying to identify it.
+Write the ten questions each would expect answered. Check every one
+against the dossier and close or declare anything it cannot answer.
+
+OUTPUT. A findings report only. Do not rebuild the dossier yet; that
+is R8B, next, in this chat. Report:
+1. QUESTIONS THE DOSSIER NEVER ASKED, from phase 1.
+2. COMPONENT SWEEP TABLE, every component marked COVERED, THIN, or
+   ABSENT.
+3. GAP CLOSURE LOG, every search with its result.
+4. UNDEFINED TERMS, with the definitions you sourced.
+5. SPAN RISK LIST, every claim ID affected.
+6. TIER AND EVIDENCE CHANGES, every claim ID that must move.
+7. CONTRADICTIONS, internal and cross dossier.
+8. NEW MATERIAL, everything found that the dossier does not contain.
+9. SEARCH REGISTER, every query you ran, as a table.
+10. HONEST VERDICT: was the previous completeness assessment
+    materially too optimistic, and by how much.
+
+DELIVERY. Reply with "Here you go", attach the findings as one PDF
+named ITC_TAG_R8_FINDINGS.pdf, and put only this in the message: how
+many components came back ABSENT, how many terms were undefined, how
+many claims need a span flag, and whether the old score was too
+optimistic. If you cannot create files, say so in one line and write
+the findings out instead.</pre>
+      </div>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt R8B <span>·</span> rebuild the dossier</div><div class="spacer"></div><button class="copybtn" data-copy="pr8b">Copy prompt</button></div>
+        <pre id="pr8b">CHAT: the same blank chat as R8A, where the findings are above.
+
+Now rebuild the dossier. You are not starting over: you are keeping
+every claim that holds, fixing what does not, folding in what you
+found, and upgrading the whole record to the current schema.
+
+PRESERVE WHAT HOLDS. FIX WHAT DOES NOT. FIND WHAT IS MISSING.
+TIGHTEN WHAT IS SOFT. DO NOT THROW AWAY VERIFIED WORK.
+
+RULES OF THE REBUILD:
+- Preserve every existing valid claim ID and source ID. Continue the
+  numbering for anything new. Never silently renumber. If structural
+  renumbering is genuinely unavoidable, output a mapping table from
+  every old ID to every new ID.
+- Correct wording or tiering only where new evidence requires it.
+- Explicitly list every prior claim upgraded, downgraded, split,
+  merged, narrowed, contradicted, or retired, by ID.
+- Propagate every correction through every section it touches.
+- Upgrade the dossier to the current schema. Add the sections it does
+  not yet have: terminology register, specimen register, search
+  register, boundary, and corrections to published content. A dossier
+  written to the older schema is not invalid, it is just out of date,
+  and this is the upgrade.
+- Fill the new claim fields on existing claims: type, evidence class,
+  source year, proven span, span basis, span risk.
+- For every change claim, fill stated purpose, failure consequence,
+  and service action, marking any of the three NOT DOCUMENTED where
+  the record does not carry it. A change claim without a consequence
+  is half researched, because the consequence is almost always the
+  retention beat.
+- For every card ready LOCKED object claim, write the spoken form:
+  one line, plain English, recordable as written, with the exact
+  figure preserved or an explicit screen only note. Part number
+  strings, unit pairs that do not convert cleanly, and multi column
+  tables are usually screen only, and saying so here means nobody
+  has to solve it again at script time.
+- Verify the URL of every source backing a LOCKED claim, record the
+  check date and an archive snapshot where one exists, and write a
+  short on screen credit string for corner text over footage. Do not
+  claim to have checked a link you did not open.
+
+OUTPUT, in this order.
+
+1. REVISION REPORT, short and concrete: new claims, new sources,
+claims upgraded, downgraded, corrected, split or merged, spans
+narrowed, claims flagged span risk, terms that had no definition
+before this pass, change claims with no documented purpose or
+consequence, sources with broken or unverifiable links,
+contradictions against other ITC dossiers, published statements now
+needing correction, major newly discovered subject areas, major gaps
+still unresolved, whether the prior completeness assessment was
+materially too optimistic, and the final library ready status.
+
+2. NEW COVERAGE FOUND BY R8. Everything the original workflow missed,
+listed plainly before it gets normalised into the dossier, so the miss
+is visible rather than absorbed.
+
+3. TERMS DEFINED BY R8. Every term that was load bearing in a LOCKED
+claim while being defined nowhere in the record.
+
+4. THE COMPLETE REVISED DOSSIER, standalone, superseding the previous
+version, in the full current schema with the coverage scorecard on
+its four axes. Not a diff.
+
+5. THE MACHINE READABLE COMPANION, as TSV, one row per claim, with
+these columns in this order: id, tier, type, evidence_class,
+source_ids, source_year, proven_span, span_basis, span_risk,
+section, card_ready, screen_only, spoken_form, stated_purpose,
+failure_consequence, service_action. Escape any tabs inside fields.
+The prose dossier stays the permanent human record; this companion is
+what the app and the downstream prompts read instead of re-parsing
+thirty pages.
+
+DELIVERY. Reply with "Here you go" and attach two files: the revised
+dossier as ITC_TAG_DOSSIER.pdf, and the companion as
+ITC_TAG_CLAIMS.tsv. Put only the revision report headline numbers and
+the library ready status in the message. Then, below the message,
+paste the complete revised dossier as plain text in one code block,
+and the companion TSV in a second code block, because the app reads
+both. Nothing else in the message.</pre>
+      </div>
     </div>
   </details>
 
@@ -1591,7 +2179,8 @@ SCRIPT: [PASTE THE FINAL SCRIPT]</pre>
         <tr><td>R4 Expansion</td><td>1 · same chat</td><td>Dossier v3 PDF, plus its text for the audit chat</td></tr>
         <tr><td>R5 Accuracy audit</td><td>2 · blank, no folder</td><td>Dossier v4 PDF, accuracy verdict in the message</td></tr>
         <tr><td>R6 Gap hunt</td><td>2 · same chat</td><td>Dossier v5 PDF, holes closed or declared</td></tr>
-        <tr><td>R7 Finalize</td><td>2 · same chat</td><td>Dossier PDF, plus the full text for the Library</td></tr>
+        <tr><td>R7 Finalize</td><td>2 · same chat</td><td>Dossier PDF, plus the full text and claims TSV for the Library</td></tr>
+        <tr><td>R8 Revise</td><td>blank, no folder</td><td><b>Optional.</b> R8A findings PDF, then R8B returns the revised dossier and companion. For a finished dossier that needs re-attacking, not for a new one.</td></tr>
       </table>
       <div class="kick">Production track · runs any number of times per dossier</div>
       <table>
@@ -1849,7 +2438,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v6.1';
+const APP_VERSION = 'v6.2';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -2003,11 +2592,18 @@ WORKED EXAMPLE, every type once:
 
 ${CARD_EXAMPLE}`;
 
-function promptText(id){
-  let text = document.getElementById(id).textContent;
-  if(id==='pp4') text += CARD_SNIPPET;   /* cards prompt always carries the format + worked example */
+/* Shared blocks are written once in the playbook and attached at copy
+   time, so a cold chat still receives the whole standard while the rules
+   themselves live in exactly one place and cannot drift apart. */
+const RULES_PROMPTS  = ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b'];
+const SWEEPS_PROMPTS = ['pr1','pr4','pr6','pr8a'];
+function withBlocks(id, text){
+  if(id==='pp4') text += CARD_SNIPPET;   /* cards prompt carries the format + worked example */
+  if(RULES_PROMPTS.includes(id))  text += '\n\n' + document.getElementById('rules').textContent;
+  if(SWEEPS_PROMPTS.includes(id)) text += '\n\n' + document.getElementById('sweeps').textContent;
   return text;
 }
+function promptText(id){ return withBlocks(id, document.getElementById(id).textContent); }
 document.querySelectorAll('.copybtn[data-copy]').forEach(btn=>{
   btn.addEventListener('click', ()=>copyText(promptText(btn.dataset.copy), btn));
 });
@@ -2043,7 +2639,10 @@ function goPlaybook(secId){
    One dossier per part or topic, built by the research track and read
    by every production prompt. Never scoped to a single video.
    ================================================================ */
-const SCHEMA_VERSION = 1;
+/* v2 added the terminology, specimen, search, boundary, and corrections
+   sections plus the per-claim type, evidence class, and span fields. A v1
+   dossier stays readable and is upgraded by R8, never invalidated. */
+const SCHEMA_VERSION = 2;
 function dossiers(){ const d = store.get('dossiers', {}); return (d && typeof d==='object')? d : {}; }
 function saveDossiers(d){ store.set('dossiers', d); }
 function dossierList(){ return Object.values(dossiers()).sort((a,b)=>(b.updated||0)-(a.updated||0)); }
@@ -2068,8 +2667,11 @@ function renderLibrary(){
     badge.classList.add(ready? 'ready':'draft');
     badge.textContent = ready? 'READY' : 'EMPTY';
     const words = ((d.text||'').trim().match(/\S+/g)||[]).length;
-    el.querySelector('.meta').textContent = (d.type||'other') + ' · ' + words.toLocaleString() + ' words · updated ' +
-      new Date(d.updated||Date.now()).toLocaleDateString();
+    const sch = d.schema || 1;
+    el.querySelector('.meta').textContent = (d.type||'other') + ' · ' + words.toLocaleString() + ' words · ' +
+      (sch < SCHEMA_VERSION? 'schema v'+sch+', R8 can upgrade it' : 'schema v'+sch) +
+      (d.claims? ' · claims file' : '') +
+      ' · updated ' + new Date(d.updated||Date.now()).toLocaleDateString();
     el.addEventListener('click', ()=>{ libOpen = (libOpen===d.tag)? null : d.tag; renderLibrary(); });
     list.appendChild(el);
   });
@@ -2127,6 +2729,12 @@ function renderLibrary(){
     if(!dossierReady(getDossier(d.tag))){ alert('This dossier has no text in it yet. Paste the finished dossier first.'); return; }
     bsStartProduction(d.tag);
   });
+  const bRev = bsEl('<button type="button" class="ghost">Revise with R8</button>');
+  bRev.addEventListener('click', ()=>{
+    if(!dossierReady(getDossier(d.tag))){ alert('This dossier has no text in it yet.'); return; }
+    bsStartRevision(d.tag);
+  });
+  r2.appendChild(bRev);
   const bDel = bsEl('<button type="button" class="ghost">Delete</button>');
   bDel.addEventListener('click', ()=>{
     if(!confirm('Delete the '+d.tag+' dossier? This cannot be undone, so export it first if you want a copy.')) return;
@@ -2174,9 +2782,18 @@ const BS_TRACKS = {
     { key:'copyaudit', label:'Copy audit' },
     { key:'cards',     label:'Cards' },
     { key:'filed',     label:'Filed' }
+  ],
+  /* the optional R8 revision pass: re-attack a finished dossier, then
+     rebuild it. Two steps because one prompt asking for fifty things
+     gets fifty shallow answers. */
+  revise: [
+    { key:'attack',  label:'Re-attack' },
+    { key:'rebuild', label:'Rebuild' },
+    { key:'shelved', label:'Shelved' }
   ]
 };
 const BS_STEP_SECTION = { scope:'pb-r1', research:'pb-r2', audit:'pb-r5', finalize:'pb-r7',
+  attack:'pb-r8', rebuild:'pb-r8',
   plan:'pb-p1', write:'pb-p2', claims:'pb-p2', copyaudit:'pb-p3', cards:'pb-p4' };
 const bsWrap = document.getElementById('bsWrap');
 let bsView = null;
@@ -2219,7 +2836,7 @@ function bsState(){
   return { active:null, history:[] };
 }
 function bsSave(st){ store.set('shorts', st); }
-function bsTrack(s){ return BS_TRACKS[s && s.kind==='production'? 'production':'research']; }
+function bsTrack(s){ return (s && BS_TRACKS[s.kind]) || BS_TRACKS.research; }
 function bsStageIdx(s, key){ return bsTrack(s).findIndex(x=>x.key===key); }
 function bsLabel(s, key){ const t = bsTrack(s).find(x=>x.key===key); return t? t.label : key; }
 
@@ -2274,21 +2891,37 @@ function bsFill(preId, s, topic, note){
     if(sp.dataset.for==='topic') sp.textContent = topic;
     if(sp.dataset.for==='angle') sp.textContent = note || 'none';
   });
-  return pre.textContent;
+  return withBlocks(preId, pre.textContent);
 }
 function bsDossierText(s){ const d = getDossier(s.dossierTag); return d? (d.text||'') : ''; }
 const P_DOSSIER_MARK = '[PASTE THE COMPLETE DOSSIER]';
 
 function prR1(s){ return bsFill('pr1', s, s.name || s.tag, s.angle); }
-function prR2(s){ return document.getElementById('pr2').textContent
+function prR2(s){ return promptText('pr2')
   .replace('[PASTE THE R1 COVERAGE PLAN]', '\n' + (s.plan||'')); }
-function prR3(){ return document.getElementById('pr3').textContent; }
-function prR4(){ return document.getElementById('pr4').textContent; }
-function prR5(s){ return document.getElementById('pr5').textContent
+function prR3(){ return promptText('pr3'); }
+function prR4(){ return promptText('pr4'); }
+function prR5(s){ return promptText('pr5')
   .replace('[PASTE THE COMPLETE R4 DOSSIER]', '\n' + (s.r4doc||'')); }
-function prR6(s){ return document.getElementById('pr6').textContent
+function prR6(s){ return promptText('pr6')
   .replace('[PASTE THE R1 COVERAGE PLAN]', '\n' + (s.plan||'')); }
-function prR7(){ return document.getElementById('pr7').textContent; }
+function prR7(){ return promptText('pr7'); }
+/* R8 is the optional revision pass: it reads a finished dossier out of
+   the Library and is told which sibling dossiers exist so it can flag
+   cross-dossier contradictions, the most expensive error available. */
+function bsSiblings(tag){
+  const others = dossierList().filter(d=>d.tag!==tag && dossierReady(d))
+    .map(d=>d.tag + (d.name? ' ('+d.name+')' : ''));
+  return others.length? others.join(', ') : 'none on the shelf yet';
+}
+function prR8a(s){
+  return promptText('pr8a')
+    .replace('[THE APP FILLS THIS IN]', bsSiblings(s.dossierTag||s.tag))
+    .replace(/WHAT PROMPTED THIS REVISION: \[[^\]]*\]/,
+             'WHAT PROMPTED THIS REVISION: ' + (s.reason || 'general tightening'))
+    + '\n\nDOSSIER:\n' + bsDossierText(s);
+}
+function prR8b(){ return promptText('pr8b'); }
 
 function ppP1(s){ return document.getElementById('pp1').textContent
   .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
@@ -2373,7 +3006,7 @@ function bsStepper(st, s){
   const wrap = bsEl('<div class="bs-steps"></div>');
   bsTrack(s).forEach((stg, i)=>{
     const b = bsEl('<button type="button" class="bs-step"><span class="n"></span><span class="t"></span></button>');
-    b.querySelector('.n').textContent = (s.kind==='production'? 'P':'R') + (i+1);
+    b.querySelector('.n').textContent = (s.kind==='production'? 'P' : s.kind==='revise'? 'R8.' : 'R') + (i+1);
     b.querySelector('.t').textContent = stg.label;
     if(i < cur){ b.classList.add('done'); b.addEventListener('click', ()=>{ bsView = stg.key; renderShort(); }); }
     else if(i === cur){ b.classList.add('now'); b.addEventListener('click', ()=>{ bsView = null; renderShort(); }); }
@@ -2443,6 +3076,64 @@ function bsPanelAudit(st, s){
     needs: 'Paste the audited dossier first.'
   });
 }
+/* ---- R8 revision panels ---- */
+function bsPanelAttack(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note"><b>Optional pass. Brand new blank chat, no folder</b>, different model if you have one. R8A re-attacks the <b>'+esc(s.dossierTag)+'</b> dossier assuming it has gaps: it rebuilds the question universe from scratch, runs every sweep, hunts undefined terms, and audits applicability spans. The copy below carries the dossier and the list of your other shelved dossiers so it can flag cross-dossier contradictions.</p>'));
+  const form = bsEl('<div class="logform"><div class="r"><input class="i-reason" placeholder="What prompted this? a gap, a part in hand, new material, or leave blank"></div></div>');
+  const ri = form.querySelector('.i-reason');
+  ri.value = s.reason || '';
+  ri.addEventListener('input', ()=>{ s.reason = ri.value; s.updated = Date.now(); bsSave(st); });
+  p.appendChild(form);
+  const row1 = bsEl('<div class="bs-row"></div>');
+  const c = bsEl('<button type="button" class="copybtn">Copy R8A · re-attack, dossier attached</button>');
+  c.addEventListener('click', function(){ copyText(prR8a(s), this); });
+  row1.appendChild(c); p.appendChild(row1);
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Optional: paste the R8A findings here for your own record. You can also just read the PDF and carry on to R8B in the same chat."></textarea>');
+  p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'findings'));
+  const row = bsEl('<div class="bs-row"></div>');
+  const go = bsEl('<button type="button" class="amber">Attack done · on to the rebuild</button>');
+  go.addEventListener('click', ()=>{ s.findings = ta.value; bsAdvance(st, 'rebuild'); });
+  row.appendChild(go); p.appendChild(row);
+  return p;
+}
+function bsPanelRebuild(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note"><b>Same chat as R8A.</b> R8B keeps every claim that holds, folds in what the attack found, and upgrades the record to the current schema. It returns the revised dossier and the machine readable companion. Paste both below and they replace what is on the shelf under <b>'+esc(s.dossierTag)+'</b>.</p>'));
+  const row1 = bsEl('<div class="bs-row"></div>');
+  const c = bsEl('<button type="button" class="copybtn">Copy R8B · rebuild</button>');
+  c.addEventListener('click', function(){ copyText(prR8b(), this); });
+  row1.appendChild(c); p.appendChild(row1);
+  p.appendChild(bsEl('<div class="kick" style="margin-top:10px">Revised dossier</div>'));
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the complete revised dossier text here."></textarea>');
+  p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'finalDoc'));
+  p.appendChild(bsEl('<div class="kick">Companion file · the claims TSV</div>'));
+  const tb = bsEl('<textarea class="bs-paste" style="min-height:110px" placeholder="Paste the TSV companion here. Optional, but it is what makes the coverage numbers computable later."></textarea>');
+  p.appendChild(tb);
+  p.appendChild(bsWirePaste(tb, st, s, 'claimsTsv'));
+  if(s.status==='rebuild'){
+    const row = bsEl('<div class="bs-row"></div>');
+    const b = bsEl('<button type="button" class="amber">Replace the shelved dossier</button>');
+    b.addEventListener('click', ()=>{
+      if(!ta.value.trim()){ alert('Paste the revised dossier first.'); return; }
+      const all = dossiers();
+      if(!all[s.dossierTag]){ alert('That dossier is no longer in the Library.'); return; }
+      all[s.dossierTag].text = ta.value.trim();
+      all[s.dossierTag].claims = tb.value.trim();
+      all[s.dossierTag].schema = SCHEMA_VERSION;
+      all[s.dossierTag].updated = Date.now();
+      saveDossiers(all);
+      s.finalDoc = ta.value.trim();
+      bsFile(st);
+      alert('Revised. '+s.dossierTag+' on the shelf now carries the R8 version'+(tb.value.trim()? ' and its claims companion.' : '.'));
+    });
+    row.appendChild(b); p.appendChild(row);
+  }
+  return p;
+}
+
 function bsPanelFinalize(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   p.appendChild(bsEl('<p class="bs-note"><b>Same chat 2.</b> R7 assembles the permanent copy and declares what it knows. No new research, no angle mining. It replies with the dossier PDF plus the full text; paste that text below and it goes on the shelf under tag <b>'+esc(s.tag)+'</b>, ready for the production track.</p>'));
@@ -2696,6 +3387,17 @@ function bsPanelCards(st, s){
 }
 
 /* ---- start panel and history ---- */
+function bsStartRevision(dossierTag){
+  const st = bsState();
+  const d = getDossier(dossierTag);
+  if(!d){ alert('That dossier is not in the Library.'); return; }
+  if(st.active) st.history.unshift(st.active);
+  st.active = { id:Date.now(), kind:'revise', dossierTag, tag:dossierTag, name:d.name||dossierTag,
+    reason:'', findings:'', finalDoc:'', claimsTsv:'', status:'attack',
+    created:Date.now(), updated:Date.now() };
+  st.history = st.history.slice(0,20);
+  bsView = null; bsSave(st); renderShort(); showView('home');
+}
 function bsStartProduction(dossierTag){
   const st = bsState();
   const d = getDossier(dossierTag);
@@ -2766,7 +3468,7 @@ function bsHistory(st){
     const el = bsEl('<div class="histitem"><div class="body"><div class="tag"></div><div class="meta"></div></div><span class="btns"></span></div>');
     el.querySelector('.tag').textContent = (h.tag||h.dossierTag||'?') + (h.story? ' · '+h.story : '');
     const doneKey = (h.kind==='production')? 'filed':'shelved';
-    el.querySelector('.meta').textContent = (h.kind==='production'? 'MAKE':'RESEARCH') + ' · ' +
+    el.querySelector('.meta').textContent = (h.kind==='production'? 'MAKE' : h.kind==='revise'? 'REVISE':'RESEARCH') + ' · ' +
       (h.status===doneKey? (h.kind==='production'? 'FILED':'SHELVED') : 'IN PROGRESS · '+bsLabel(h, h.status).toUpperCase()) +
       ' · ' + new Date(h.updated).toLocaleDateString();
     const btns = el.querySelector('.btns');
@@ -2791,7 +3493,8 @@ function bsHistory(st){
 }
 
 const BS_PANELS = { scope:bsPanelScope, research:bsPanelResearch, audit:bsPanelAudit,
-  finalize:bsPanelFinalize, plan:bsPanelPlan, write:bsPanelWrite, claims:bsPanelClaims,
+  finalize:bsPanelFinalize, attack:bsPanelAttack, rebuild:bsPanelRebuild,
+  plan:bsPanelPlan, write:bsPanelWrite, claims:bsPanelClaims,
   copyaudit:bsPanelCopyAudit, cards:bsPanelCards };
 
 function renderShort(){
@@ -2804,7 +3507,7 @@ function renderShort(){
     const box = bsEl('<div class="bs-box"></div>');
     const head = bsEl('<div class="bs-head"><span class="tag"></span><span class="angle"></span><a href="#" class="full">FULL STEP ›</a></div>');
     head.querySelector('.tag').textContent = s.tag || s.dossierTag;
-    head.querySelector('.angle').textContent = (s.kind==='production'? 'make' : 'research') + (s.name? ' · '+s.name : '');
+    head.querySelector('.angle').textContent = (s.kind==='production'? 'make' : s.kind==='revise'? 'revise' : 'research') + (s.name? ' · '+s.name : '');
     const viewKey = (bsView && bsStageIdx(s, bsView) < bsStageIdx(s, s.status))? bsView : s.status;
     head.querySelector('.full').addEventListener('click', e=>{ e.preventDefault(); goPlaybook(BS_STEP_SECTION[viewKey] || 'pb-start'); });
     box.appendChild(head);
@@ -3303,9 +4006,17 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     if(id!=='pp2c' && !t.includes('Inside The Case."')) fails.push(id+' lost the sign off');
   });
   /* every step prompt must exist and every stage must map to a real section */
-  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp5'].forEach(id=>{
+  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp5'].forEach(id=>{
     if(!document.getElementById(id)) fails.push('step prompt "'+id+'" is missing from the playbook');
   });
+  /* the shared blocks must exist and must actually attach at copy time,
+     otherwise a cold chat silently loses the whole standard */
+  ['rules','sweeps'].forEach(id=>{
+    if(!document.getElementById(id)) fails.push('shared block "'+id+'" is missing from the playbook');
+  });
+  if(!/ITC STANDING RULES/.test(promptText('pr2'))) fails.push('the standing rules stopped attaching to research prompts');
+  if(!/ITC SWEEPS/.test(promptText('pr6'))) fails.push('the sweeps stopped attaching to the gap hunt');
+  if(/ITC SWEEPS/.test(promptText('pr5'))) fails.push('the sweeps are attaching to the accuracy audit, which does not use them');
   Object.keys(BS_STEP_SECTION).forEach(k=>{
     if(!document.getElementById(BS_STEP_SECTION[k])) fails.push('stage "'+k+'" points at a playbook section that does not exist');
   });
