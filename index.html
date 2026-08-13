@@ -437,6 +437,7 @@ input[type=file]{display:none}
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v6.3</b> · New popup card type: small notification blocks for laying over footage, for a piece of trivia, a caution, or a correction that is worth knowing and does not deserve a full card. Four flavours set by one style line, did you know in amber, tip in blue, heads up in red, correction in green, each with the label and colour already chosen. A popup carries no rows, just an optional short headline and one or two sentences of text, and it grows to fit what it holds so it can never overflow. Unlike every other card it exports tight cropped on a transparent background, so it drops straight onto the timeline above a clip with nothing to mask out, and it is styled to read at the top of frame. Same parser, same warnings, same export, share, and package buttons, and popups are named _POPUP_01 so they sort apart from the cards. Prompt P4 now proposes popups alongside cards and places them on the script lines where the voiceover moves on quickly.</p>
       <p><b>v6.2</b> · Reliability revision, aimed at two failures the E4OD dossier exposed. Coverage discovery: the old loop generated its question list from what looked important and then scored completeness against that same list, so a component nobody thought to ask about stayed invisible. New sweeps block generates questions from the object instead: a physical component inventory, a parts catalog and service parts test, an exploded view test, a visual identification sweep, a boring parts test, and fifteen structured attack angles that must be worked before any open ended question. R1 now builds the component inventory, R4 runs the sweeps, R6 marks every component COVERED, THIN, or ABSENT and treats absence as a search trigger rather than silence. Completeness is now four separate axes with no blended total. Production readiness: claims carry type, evidence class, source year, proven span, span basis, and a span risk flag, so a 1997 manual no longer silently reads as 1989 hardware; every card ready claim carries a spoken form; every change claim carries stated purpose, failure consequence, and service action; and the schema gained a terminology register, specimen register with its own P numbers and an automatic UNVERIFIED cap on unattached specimens, search register, boundary section, and corrections to published content. The standing rules and sweeps are now written once and attached to every research prompt at copy time, replacing twenty one duplicated copies. New optional R8 pass re-attacks a finished dossier and rebuilds it, and R7 and R8 emit a machine readable claims companion.</p>
       <p><b>v6.1</b> · Files, not walls of text, and far less chat jumping. Every step now replies "Here you go" with the finished output attached as one PDF and only the required notes in the message: a verdict, a count, what is still open. The plain text comes back only where this app has to read it, in one clean code block: the R1 plan, the R4 hand-off, the R7 final dossier, the P1 slate, the P2 copy, and the P3 corrected copy. Chat count dropped from about twelve to four, and each prompt now opens by naming exactly where to run it. Chat 1 in the Inside The Case folder runs R1 through R4 together; chat 2, blank and outside any folder, runs R5 through R7; chat 3 in the folder runs P1 and P2; chat 4, blank, runs P3 through P5. Independence is only enforced where a model would otherwise grade its own homework, which is the accuracy audit and the copy audit, and R4 gained an anti-anchoring rule since it now follows its own research in the same chat. The research track in the app collapsed from seven stages to four to match.</p>
       <p><b>v6.0</b> · The library release. Research is now the product, not a stage that gets thrown away. The playbook splits into two tracks: a seven step research track (R1 scope and coverage plan, R2 deep research, R3 second pass, R4 expansion, R5 accuracy audit, R6 gap hunt, R7 finalize) that builds one permanent dossier per part to a fixed nineteen section schema, and a five step production track (P1 content plan, P2 write as Short, long form, or posts, P3 copy audit, P4 cards, P5 packaging) that draws content out of a finished dossier as many times as the record supports. Two new steps fix the two real failures: R1 writes the question list the dossier is measured against, and R6 holds the finished dossier against that list and closes what is missing, so a hole is visible instead of silent. Consolidation stopped trying to be a content planner: R7 only assembles and declares, and P1 mines angles by walking every dossier section in order rather than free-associating. New Library tab holds every dossier on the device, keyed by part tag; production prompts read from it automatically, and nothing gets pasted by hand. Dossiers export to .txt or open in the Writer for .docx, and ride along in the package share. Jobs in progress from v5.x migrate onto the matching track.</p>
@@ -2079,17 +2080,26 @@ HARD RULES:
 - Every card must match the moment in the script it lands on.
 - 3 to 5 cards for a Short. Long form: one card per major beat,
   roughly one per 60 to 90 seconds of runtime.
-- Card types are exactly spec, timeline, table, and compare. No other
-  types exist. Add a source credit line to every card you can.
+- Card types are exactly spec, timeline, table, compare, and popup. No
+  other types exist. Add a source credit line to every card you can.
+- popup is the aside. It is a small notification block laid over the
+  footage, not a full card, and it carries one fact worth knowing that
+  does not deserve its own card: a piece of trivia, a caution, or a
+  correction to something people commonly believe. Use style: did you
+  know, tip, warning, or correction, then one or two sentences of
+  text. Suggest 1 to 3 popups alongside the cards for a Short, more
+  for long form, and place them on lines where the voiceover moves on
+  quickly but the detail is worth a beat on screen.
 - No em dashes, no emojis, ranges written as "1994 to 1997".
 
 The full machine format reference and a worked example are attached
 below this prompt.
 
 OUTPUT, in this order:
-1. The card blocks, one after another, no commentary between them.
-2. PLACEMENT MAP: one line per card, quoting the script line each
-   card supports, with the claim IDs behind it.
+1. The card blocks, one after another, no commentary between them,
+   popups included in the same list.
+2. PLACEMENT MAP: one line per card and per popup, quoting the script
+   line each one supports, with the claim IDs behind it.
 
 SCRIPT: [PASTE THE FINAL SCRIPT]
 
@@ -2261,6 +2271,16 @@ SCRIPT: [PASTE THE FINAL SCRIPT]</pre>
         <div class="item"><code>timeline</code><div class="d"><b>Year + event.</b> Rows read <code>YEAR | event</code>. Dots down a connecting line. Auto-shrinks to fit.</div></div>
         <div class="item"><code>table</code><div class="d"><b>Multi-column grid.</b> First row is the header. Rows read <code>COL | COL | COL</code>. The third column auto-colors in the accent. Does not shrink, so it warns if content overflows.</div></div>
         <div class="item"><code>compare</code><div class="d"><b>Two panel versus.</b> Rows read <code>LABEL | left | right</code>. The first row names the two panels, e.g. <code>SPEC | CHEVY 350 | FORD 351W</code>. Center divider, VS mark, auto-shrinks to fit.</div></div>
+        <div class="item"><code>popup</code><div class="d"><b>Notification block for laying over footage.</b> No rows. Uses <code>style:</code> and <code>text:</code> with an optional short <code>headline:</code>. Exports as a tight-cropped PNG on a <b>transparent background</b>, sized to its own text, so it drops straight onto the timeline above your clip. Built to read at the top of frame.</div></div>
+      </div>
+      <div class="div"></div>
+      <div class="grp">
+        <h4>Popup styles · the "style:" line</h4>
+        <div class="item"><code>did you know</code><div class="d"><span class="swatchchip" style="background:#FF8C16"></span>Label reads DID YOU KNOW, amber. The default.</div></div>
+        <div class="item"><code>tip</code><div class="d"><span class="swatchchip" style="background:#7EA6D9"></span>Label reads TIP, blue.</div></div>
+        <div class="item"><code>warning</code><div class="d"><span class="swatchchip" style="background:#E8604C"></span>Label reads HEADS UP, red.</div></div>
+        <div class="item"><code>correction</code><div class="d"><span class="swatchchip" style="background:#6FCF8F"></span>Label reads CORRECTION, green.</div></div>
+        <div class="item"><code>kicker</code><div class="d">Set it to override the style's label with your own wording.</div></div>
       </div>
       <div class="div"></div>
       <div class="grp">
@@ -2320,7 +2340,14 @@ YEARS | PUMP | MAINS | NOTE       <span class="k">table: first row is headers</s
 SPEC | CHEVY 350 | FORD 351W      <span class="k">compare: first row names the panels</span>
 highlight: Optional callout box text at the bottom of the card.
 source: Ford dimension chart      <span class="k">optional credit above the footer</span>
-footer: INSIDE THE CASE · AUTO</pre>
+footer: INSIDE THE CASE · AUTO
+
+=== POPUP 05                      <span class="k">popup: no rows, transparent, tight cropped</span>
+type: popup
+style: did you know               <span class="k">did you know, tip, warning, or correction</span>
+headline: STILL A C6 INSIDE       <span class="k">optional short bold line</span>
+text: One or two sentences, read in a couple of seconds.
+source: Ford workshop manual      <span class="k">optional small credit</span></pre>
     <div class="row"><button class="ghost" id="copysnip">Copy prompt snippet</button></div>
   </details>
   </div>
@@ -2438,7 +2465,7 @@ footer: INSIDE THE CASE · AUTO</pre>
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v6.2';
+const APP_VERSION = 'v6.3';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -2502,7 +2529,7 @@ document.querySelectorAll('.fillins input').forEach(inp=>{
 /* ---------------- [PLAYBOOK] card snippet appended to prompt 4 ----------------
    CARD_TYPES mirrors the parser: it must equal the keys of RENDERERS in the
    [CARDS] section. The load-time self-test fails loudly if they drift. */
-const CARD_TYPES = ['spec','timeline','table','compare'];
+const CARD_TYPES = ['spec','timeline','table','compare','popup'];
 const CARD_EXAMPLE = `=== CARD 01
 type: spec
 accent: amber
@@ -2551,7 +2578,14 @@ DISPLACEMENT | 349.85 ci | 351.86 ci
 BORE | 4.000 in | 4.000 in
 STROKE | 3.480 in | 3.500 in
 BORE CENTERS | 4.400 in | 4.380 in
-source: Ford and GM dimension charts`;
+source: Ford and GM dimension charts
+
+=== POPUP 05
+type: popup
+style: did you know
+headline: STILL A C6 INSIDE
+text: The overdrive section bolts to a gearset Ford had already been building for twenty years.
+source: Ford workshop manual`;
 const CARD_SNIPPET = `
 
 Output the CARD SPECS in exactly the machine format below, ready to
@@ -2578,13 +2612,24 @@ FORMAT RULES:
   table "COL | COL | COL" with the first row as the headers,
   compare "LABEL | left | right" with the first row naming the two
   panels (e.g. "SPEC | CHEVY 350 | FORD 351W").
+- popup is different: it has no rows at all. It is a small
+  notification block that gets laid over the footage, so it uses
+  "style:" plus "text:" and an optional short "headline:". Style is
+  one of: did you know, tip, warning, correction. The style sets the
+  label and the colour, so accent is not needed unless you want to
+  override it. Keep the text to one or two sentences, because the
+  block is read in a couple of seconds while the video keeps moving.
+  Use popups for an aside that is worth knowing and does not deserve
+  a full card: a piece of trivia, a caution, a correction to a
+  common belief.
 - "> text" under a spec row draws a smaller sub-line. Spec rows only.
   Any rows line without a "|" is treated the same way.
 - *asterisks* color that text in the accent. Spec values and spec
   sub-lines only.
 - spec, timeline, and compare shrink to fit: up to about 8 plain spec
   rows, 5 spec rows with sub-lines, or 6 compare rows. table does not
-  shrink, so keep tables to about 5 rows and 3 columns.
+  shrink, so keep tables to about 5 rows and 3 columns. popup grows to
+  fit its own text and never overflows.
 - No em dashes, no en dashes, no emojis. Ranges written as
   "1994 to 1997".
 
@@ -3567,23 +3612,40 @@ restoreInput.addEventListener('change', ()=>{
    [CARDS] parser + canvas renderer (ported from Card Generator v1.1)
    ================================================================ */
 const ACCENTS = { amber:"#FF8C16", red:"#E8604C", green:"#6FCF8F", blue:"#7EA6D9" };
-const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer","source"];
+const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer","source","text","style"];
+/* popup flavours: the style line sets the label and the default accent,
+   so a popup is one line to write and still reads consistently */
+const POPUP_STYLES = {
+  "did you know": { label:"DID YOU KNOW", accent:"amber" },
+  "tip":          { label:"TIP",          accent:"blue"  },
+  "warning":      { label:"HEADS UP",     accent:"red"   },
+  "heads up":     { label:"HEADS UP",     accent:"red"   },
+  "correction":   { label:"CORRECTION",   accent:"green" }
+};
+const POPUP_W = 960;
 /* one renderer per accepted card type; unknown types fall back to spec.
    The self-test checks these keys against CARD_TYPES in the prompt. */
-const RENDERERS = { spec: renderSpec, timeline: renderTimeline, table: renderTable, compare: renderCompare };
+const RENDERERS = { spec: renderSpec, timeline: renderTimeline, table: renderTable,
+  compare: renderCompare, popup: renderPopup };
 
 function parseSpecs(text){
   const cards = [];
   const blocks = text.split(/^\s*===.*$/m).map(b=>b.trim()).filter(Boolean);
   for(const block of blocks){
     const c = { type:"spec", accent:"amber", kicker:"", counter:"", headline:"",
-                subhead:"", rows:[], highlight:"", footer:"INSIDE THE CASE · AUTO", source:"", warnings:[] };
+                subhead:"", rows:[], highlight:"", footer:"INSIDE THE CASE · AUTO", source:"",
+                text:"", style:"", setKeys:[], warnings:[] };
     let inRows = false;
     for(const raw of block.split(/\r?\n/)){
       const line = raw.trimEnd();
       if(!line.trim()) continue;
       const m = line.match(/^([a-z]+)\s*:\s*(.*)$/i);
-      if(m && KEYS.includes(m[1].toLowerCase())){ inRows=false; c[m[1].toLowerCase()] = m[2].trim(); continue; }
+      if(m && KEYS.includes(m[1].toLowerCase())){
+        inRows=false;
+        const k = m[1].toLowerCase();
+        c[k] = m[2].trim(); c.setKeys.push(k);
+        continue;
+      }
       if(/^rows\s*:\s*$/i.test(line)){ inRows = true; continue; }
       if(inRows){
         if(/^\s*>/.test(line)){
@@ -3603,7 +3665,7 @@ function parseSpecs(text){
     if(c.type!=="spec" && c.rows.some(r=>r.subs.length))
       c.warnings.push('Sub-lines only draw on spec cards. This '+c.type+' card has '+
         c.rows.reduce((n,r)=>n+r.subs.length,0)+' that will not appear. Fold them into a row or move them to the highlight.');
-    const allText = [c.kicker,c.headline,c.subhead,c.highlight,c.source,
+    const allText = [c.kicker,c.headline,c.subhead,c.highlight,c.source,c.text,
                      ...c.rows.flatMap(r=>[...r.cells,...r.subs])].join(" ");
     if(/[\u2014\u2013]/.test(allText)) c.warnings.push("Em or en dash found in card copy. House rule: none in copy, visual styling only.");
     if(/(\d{4})\s*[-\u2013\u2014]\s*('?\d{2,4})/.test(allText)) c.warnings.push("Hyphenated range found. House rule: write ranges as \"1994 to 1997\".");
@@ -3654,7 +3716,77 @@ function bg(ctx){
 }
 function rr(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); }
 
+/* popup: a small notification block for dropping over footage. It carries
+   no full frame, sizes itself to its own text, and exports on a
+   transparent background, so the PNG is tight to the block. Designed to
+   read at the top of frame, clear of the Shorts title bar. */
+function renderPopup(ctx,c){
+  const st = POPUP_STYLES[(c.style||"").trim().toLowerCase()];
+  /* an accent line always wins; otherwise the style picks the colour.
+     c.accent carries the "amber" default, so the explicit check has to
+     come first or the style could never set anything. */
+  const accent = (c.setKeys||[]).includes("accent")
+    ? (ACCENTS[c.accent] || (/^#/.test(c.accent)? c.accent : ACCENTS.amber))
+    : (st? ACCENTS[st.accent] : ACCENTS.amber);
+  const label = (c.kicker || (st? st.label : "DID YOU KNOW")).toUpperCase();
+  const body  = c.text || c.highlight || c.subhead || "";
+  const PAD=40, BAR=10, X=BAR+34, maxW=POPUP_W-X-44;
+  const MG=36;   /* room around the panel so the shadow fades instead of
+                    being sliced off flat at the canvas edge */
+  const labelF=font(25,700,false,5), headF=font(42,800,false,0),
+        bodyF=font(34,400,false,0), srcF=font(21,600,true,2);
+
+  const headLines = c.headline? wrap(ctx,c.headline.toUpperCase(),headF,maxW) : [];
+  const bodyLines = body? wrap(ctx,body,bodyF,maxW) : [];
+
+  /* one cursor walk, measured first then repeated to paint, so the block
+     is always exactly as tall as what is in it */
+  function walk(paint){
+    let y = PAD + 26;
+    if(paint){
+      ctx.fillStyle=accent; rr(ctx,X,y-13,13,13,3); ctx.fill();
+      setF(ctx,labelF); ctx.fillStyle=accent; ctx.fillText(label, X+26, y);
+    }
+    headLines.forEach((ln,i)=>{
+      y += i? 50 : 54;
+      if(paint){ setF(ctx,headF); ctx.fillStyle="#F4F6F9"; ctx.fillText(ln,X,y); }
+    });
+    bodyLines.forEach((ln,i)=>{
+      y += i? 46 : (headLines.length? 52 : 48);
+      if(paint){ setF(ctx,bodyF); ctx.fillStyle="#E4E9F0"; ctx.fillText(ln,X,y); }
+    });
+    if(c.source){
+      y += 46;
+      if(paint){ setF(ctx,srcF); ctx.fillStyle=C_LABEL;
+        ctx.fillText("SOURCE · "+c.source.toUpperCase(),X,y); }
+    }
+    return y + PAD;
+  }
+
+  const h = Math.round(walk(false));
+  ctx.canvas.width = POPUP_W + MG*2;                   /* resizing clears it */
+  ctx.canvas.height = h + MG*2;
+  ctx.textAlign="left"; ctx.textBaseline="alphabetic";
+  ctx.translate(MG, MG);
+  /* soft shadow so the block still reads over bright footage */
+  ctx.save();
+  ctx.shadowColor="rgba(0,0,0,0.55)"; ctx.shadowBlur=28; ctx.shadowOffsetY=8;
+  ctx.fillStyle="#141A25"; rr(ctx,0,0,POPUP_W,h,26); ctx.fill();
+  ctx.restore();
+  ctx.strokeStyle="rgba(255,255,255,0.07)"; ctx.lineWidth=2;
+  rr(ctx,1,1,POPUP_W-2,h-2,25); ctx.stroke();
+  /* accent bar down the left, rounded outside and square inside */
+  ctx.save(); rr(ctx,0,0,POPUP_W,h,26); ctx.clip();
+  ctx.fillStyle=accent; ctx.fillRect(0,0,BAR,h); ctx.restore();
+  walk(true);
+  ctx.setTransform(1,0,0,1,0,0);
+}
+
 function renderCard(ctx,c){
+  if(c.type==="popup"){ renderPopup(ctx,c); return; }
+  /* every other type draws the full 1080x1920 frame, so restore the
+     canvas if the previous card was a popup */
+  if(ctx.canvas.width!==W || ctx.canvas.height!==H){ ctx.canvas.width=W; ctx.canvas.height=H; }
   const accent = ACCENTS[c.accent] || (/^#/.test(c.accent)? c.accent : ACCENTS.amber);
   bg(ctx);
   ctx.textAlign="left"; ctx.textBaseline="alphabetic";
@@ -3907,7 +4039,10 @@ document.getElementById("next").addEventListener('click', ()=>{ idx++; showCard(
 specEl.addEventListener('input', ()=>store.set('cardspecs', specEl.value));
 tagEl.addEventListener('input', ()=>store.set('cardtag', tagEl.value));
 
-function fname(i){ return tagEl.value.trim().replace(/\s+/g,"_")+"_CARD_"+String(i+1).padStart(2,"0")+".png"; }
+function fname(i){
+  const kind = (cards[i] && cards[i].type==="popup")? "_POPUP_" : "_CARD_";
+  return tagEl.value.trim().replace(/\s+/g,"_")+kind+String(i+1).padStart(2,"0")+".png";
+}
 function canvasBlob(canvas){ return new Promise(res=>canvas.toBlob(res,"image/png")); }
 function saveBlob(blob,name){ const a=document.createElement("a");
   a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click();
@@ -4027,6 +4162,11 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
   const canary = parseSpecs('=== CARD 01\nheadline: X\nrows:\nYEARS | 1994—1997');
   if(!canary.length || !canary[0].warnings.length)
     fails.push('the house-rule dash warning stopped firing');
+  /* popup body text lives in its own key, so it needs its own canary or
+     an em dash in a popup ships unflagged */
+  const popCanary = parseSpecs('=== P\ntype: popup\ntext: Built 1994—1997 here.');
+  if(!popCanary.length || !popCanary[0].warnings.length)
+    fails.push('house-rule warnings stopped scanning popup text');
   if(fails.length){
     console.error('ITC HQ self-test FAILED:\n- '+fails.join('\n- '));
     const n = document.createElement('div');
