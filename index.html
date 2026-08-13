@@ -174,6 +174,19 @@ details.pbsec>.secbody{padding:2px 15px 18px;border-top:1px solid var(--line)}
 details.pbsec>summary .chips{display:flex;gap:5px;flex-wrap:wrap}
 
 
+/* playbook: one row per step, copy without expanding */
+details.pbsec>summary .rowcopy{display:flex;gap:6px;flex:none;align-items:center}
+.copybtn.sm{padding:9px 13px;font-size:10.5px;min-height:36px;letter-spacing:.04em}
+.outline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 10px;
+  color:var(--steel);font-size:11px;font-family:'JetBrains Mono',monospace}
+.outline b{color:var(--dim);font-weight:600}
+.outline a{color:var(--amber);text-decoration:none;border-bottom:1px dotted rgba(255,140,22,.5)}
+.pbtagbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0 12px}
+.pbtagbar input{background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:7px;
+  padding:9px 11px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;max-width:170px}
+.pbtagbar input:focus{border-color:var(--amber)}
+.pbtagbar .note2{color:var(--steel);font-size:11px;flex:1;min-width:150px}
+
 .searchwrap{position:relative;margin:6px 0 4px}
 .searchwrap input{width:100%;background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:8px;
   padding:11px 12px 11px 38px;font-family:Poppins,sans-serif;font-size:13px;outline:none}
@@ -422,57 +435,8 @@ input[type=file]{display:none}
   </div>
   <p class="lead" style="font-size:12px;margin-top:2px">For one-off use. The flow above copies each stage's prompt with the documents already inside it.</p>
 
-  <div class="kick">This app</div>
-  <div class="card">
-    <div class="k">Version</div>
-    <h4 id="verline"></h4>
-    <p>One file, four tools: the Playbook, the Card Generator, Case Writer, and this dashboard. Everything in progress saves to this device. To change anything, hand the file (or the GitHub repo) back to Claude and describe the change.</p>
-    <div class="bs-row">
-      <button class="ghost" id="backupBtn">Back up data</button>
-      <button class="ghost" id="restoreBtn">Restore backup</button>
-    </div>
-    <p style="font-size:11px;color:var(--steel)">Backup downloads everything this device has saved (Shorts, drafts, the writer doc) as one JSON file. Restore loads that file back in and overwrites what is here.</p>
-  </div>
-  <input type="file" id="restoreInput" accept=".json,application/json">
-
-  <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
-    <div class="secbody">
-      <p><b>v6.3</b> · New popup card type: small notification blocks for laying over footage, for a piece of trivia, a caution, or a correction that is worth knowing and does not deserve a full card. Four flavours set by one style line, did you know in amber, tip in blue, heads up in red, correction in green, each with the label and colour already chosen. A popup carries no rows, just an optional short headline and one or two sentences of text, and it grows to fit what it holds so it can never overflow. Unlike every other card it exports tight cropped on a transparent background, so it drops straight onto the timeline above a clip with nothing to mask out, and it is styled to read at the top of frame. Same parser, same warnings, same export, share, and package buttons, and popups are named _POPUP_01 so they sort apart from the cards. Prompt P4 now proposes popups alongside cards and places them on the script lines where the voiceover moves on quickly.</p>
-      <p><b>v6.2</b> · Reliability revision, aimed at two failures the E4OD dossier exposed. Coverage discovery: the old loop generated its question list from what looked important and then scored completeness against that same list, so a component nobody thought to ask about stayed invisible. New sweeps block generates questions from the object instead: a physical component inventory, a parts catalog and service parts test, an exploded view test, a visual identification sweep, a boring parts test, and fifteen structured attack angles that must be worked before any open ended question. R1 now builds the component inventory, R4 runs the sweeps, R6 marks every component COVERED, THIN, or ABSENT and treats absence as a search trigger rather than silence. Completeness is now four separate axes with no blended total. Production readiness: claims carry type, evidence class, source year, proven span, span basis, and a span risk flag, so a 1997 manual no longer silently reads as 1989 hardware; every card ready claim carries a spoken form; every change claim carries stated purpose, failure consequence, and service action; and the schema gained a terminology register, specimen register with its own P numbers and an automatic UNVERIFIED cap on unattached specimens, search register, boundary section, and corrections to published content. The standing rules and sweeps are now written once and attached to every research prompt at copy time, replacing twenty one duplicated copies. New optional R8 pass re-attacks a finished dossier and rebuilds it, and R7 and R8 emit a machine readable claims companion.</p>
-      <p><b>v6.1</b> · Files, not walls of text, and far less chat jumping. Every step now replies "Here you go" with the finished output attached as one PDF and only the required notes in the message: a verdict, a count, what is still open. The plain text comes back only where this app has to read it, in one clean code block: the R1 plan, the R4 hand-off, the R7 final dossier, the P1 slate, the P2 copy, and the P3 corrected copy. Chat count dropped from about twelve to four, and each prompt now opens by naming exactly where to run it. Chat 1 in the Inside The Case folder runs R1 through R4 together; chat 2, blank and outside any folder, runs R5 through R7; chat 3 in the folder runs P1 and P2; chat 4, blank, runs P3 through P5. Independence is only enforced where a model would otherwise grade its own homework, which is the accuracy audit and the copy audit, and R4 gained an anti-anchoring rule since it now follows its own research in the same chat. The research track in the app collapsed from seven stages to four to match.</p>
-      <p><b>v6.0</b> · The library release. Research is now the product, not a stage that gets thrown away. The playbook splits into two tracks: a seven step research track (R1 scope and coverage plan, R2 deep research, R3 second pass, R4 expansion, R5 accuracy audit, R6 gap hunt, R7 finalize) that builds one permanent dossier per part to a fixed nineteen section schema, and a five step production track (P1 content plan, P2 write as Short, long form, or posts, P3 copy audit, P4 cards, P5 packaging) that draws content out of a finished dossier as many times as the record supports. Two new steps fix the two real failures: R1 writes the question list the dossier is measured against, and R6 holds the finished dossier against that list and closes what is missing, so a hole is visible instead of silent. Consolidation stopped trying to be a content planner: R7 only assembles and declares, and P1 mines angles by walking every dossier section in order rather than free-associating. New Library tab holds every dossier on the device, keyed by part tag; production prompts read from it automatically, and nothing gets pasted by hand. Dossiers export to .txt or open in the Writer for .docx, and ride along in the package share. Jobs in progress from v5.x migrate onto the matching track.</p>
-      <p><b>v5.5</b> · Playbook audit and polish. Platform limits in 7C and Prompt 10 were written from memory in v5.2 and were wrong; they are now researched and verified as of August 2026, and reframed around the fold rather than the maximum: Facebook hides past roughly 125 characters on mobile (line-driven, not fixed), YouTube community posts past 288, YouTube titles show about 70 of 100, descriptions 157 of 5,000. Prompt 10 gained Instagram and TikTok limits and builds chapters from 7B's bracketed titles. Closed an accuracy hole: 7C posts are published copy, so Step 8 now audits posts as well as scripts. Fixed two stale "Prompt 6" references in the Cards stage left over from the renumber. QoL: every paste box autosaves as you type and shows a word and character count, so a long research document survives a reload and a truncated paste is obvious; each stage carries a FULL STEP link to its playbook section; the package share now matches the Short by file tag, so a filed Short still ships its research document.</p>
-      <p><b>v5.4</b> · Writer saves real .docx files again. The html-docx-js library it used was loaded from a CDN, and that copy went dead, so Save .docx had been quietly falling back to .html. Writing .docx now happens in the app itself: a built-in Word writer packs the page into a proper Office document with headings, bold, italic, underline, strikethrough, highlight colors, font sizes, alignment, line spacing, bulleted and numbered lists including nested ones, quotes, and dividers. No library, no CDN, so it works offline, on a phone, and from a plain local file. Opening a .docx still uses mammoth, which needs internet on first load only.</p>
-      <p><b>v5.3</b> · Topic and angle can now be AI-picked. A toggle on the Script stage tells Prompts 6, 7A, 7B, and 7C to choose the strongest topic and angle from the research package (top of the consolidation's ranked angle bank) instead of using the Short's tag and angle, stating the choice at the top of the reply. The playbook prompts document the same option for manual use: write "pick from the research package" in the topic or angle slot.</p>
-      <p><b>v5.2</b> · Script writing split into three formats: 7A Short form, 7B long form (chapters, one retention beat per 60 to 90 seconds, bracketed chapter titles for YouTube chapters), and 7C written posts for Facebook and YouTube built to platform character limits (hook inside Facebook's 450 character fold, YouTube community post under 2,000). All three carry the new channel voice card: mechanical directness, numbers over adjectives, identity confusion and misconception correction as the proven shapes, honesty about uncertainty, the sign offs. The voice card is guarded by the load-time self-test. Build a Short's script stage offers all three copies; 7A and 7B replies split and route as before, 7C posts go straight to the platforms.</p>
-      <p><b>v5.1</b> · Research spine expanded to five passes. New Step 3 Expansion Pass widens the frame in a fresh window: adjacency, cross-manufacturer context, supplier history, running changes, interchange, identity confusion, lore, and rigorous negative space, each searched or declared. New Step 5 Master Consolidation triangulates the audited document, over-generates and ranks the angle bank, and declares the state of knowledge ledger. Steps renumbered 1 to 10; Step 1 now hands off a coverage map, Step 2 points at expansion, the audit hits expansion additions with the same hostility, and angle selection picks from the ranked bank instead of mining raw. Build a Short gained Expansion and Consolidation stages with the document chain riding inside every copy.</p>
-      <p><b>v5.0</b> · Full playbook rewrite around three design laws: every step portable (each output stands alone and runs cold in a fresh chat), research depth first (Steps 1 and 2 build a book-report reference document in one window, never scoped to runtime), and LOCKED-only facts. Seven steps: deep research, second pass, independent audit, angles and script, script audit, cards from script, packaging. The System and Five Rules merged into How This Works; correction log, QC checklist, Drive and tracker, weekly rhythm, social packaging, and portable instructions sections removed, their rules folded into the step prompts. Build a Short reworked to walk the new pipeline with the research document riding inside every prompt copy. Old in-progress Shorts resume at the matching stage.</p>
-      <p><b>v4.2</b> · Timeline cards: the year column now sizes to the widest year on the card, so range years like "1980 to 1986" no longer overlap the event text. Timeline also joined the stepped auto-fit the other card types use, and its event text now respects the right margin.</p>
-      <p><b>v4.1</b> · Card generator polish. Rows lines without a pipe now read as sub-lines of the row above, so AI output that forgets the ">" marker renders clean instead of as stray label-only rows. Subheads wrap to a second line instead of running off the card. The compare divider is segmented through the values only, no more line through the row labels. Unknown or miscapitalized card types now warn instead of silently rendering as spec. The overflow check measures to the real text bottom, so cards that visibly fit no longer get flagged and blocked. Spec editor is taller on desktop.</p>
-      <p><b>v4.0</b> · The multi-AI and deep-cards release. Playbook prompts audited and rewritten model-agnostic: Claude (Opus or Fable) and ChatGPT both run every step, with the audit recommended in a different model than the research. Prompt 1 now demands precise source names and exact figures, harvests 8 to 12 CARD DATA points denser than the script can cover, and attaches the sheet as a PDF for the archive. Cards leveled up: new compare card type (two panel versus with center divider), optional source credit line above the footer, brand tick on the kicker, hairline separators between spec rows, and prompts that treat cards as the deep layer for viewers who pause to read. New Share package button sends every card PNG plus the script, card specs, and audited fact sheet to Drive in one share. CLAUDE.md and the drift self-test updated to match.</p>
-      <p><b>v3.9</b> · Fixed the spec-card collision where dense cards (four rows with sub-lines plus a highlight) drew their last lines under the highlight box. The card generator now measures spec content with the exact same wrapping code that paints it, auto-fits in steps from full size down to 80 percent, and if a card still cannot fit, it warns and refuses to export instead of saving a broken PNG. Same fonts, colors, and 1080x1920 output.</p>
-      <p><b>v3.8</b> · Prompt 4 rebuilt. It was still the old chat fallback that asked Claude to draw card images from attached samples. It now asks the chat that already has the facts to write card specs in the generator's machine format, with the full format reference and worked example attached to every copy, so the reply pastes into the Cards tab with zero edits. Prompt 4 joined the load-time drift self-test.</p>
-      <p><b>v3.7</b> · The Writer now pastes as plain text. Pasting a script from a dark-themed app used to drag its monospace font and dark backgrounds into the page. Formatted documents still come in through Open. To clean a document that was already pasted with baggage: select all, then the Tx button.</p>
-      <p><b>v3.6</b> · The playbook is now one topic per session, research to finished Short. The per-platform fact bank is gone: each Short gets its own fact sheet, researched in the Project with web search (Prompt 1), audited cold in a fresh chat outside it (Prompt 2), then packaged from LOCKED facts only (Prompt 3). Build a Short gained Research and Audit stages that carry the fact sheet into each prompt automatically. Steps renumbered 1 to 7, the correction log now points at public corrections instead of bank fixes, and the fact sheet archives with each Short as ITC_TOPIC_FACTS.txt. Old in-progress Shorts resume where they were.</p>
-      <p><b>v3.5</b> · Prompt 4's card section now speaks the generator's exact machine format: real card types only (spec, timeline, table), full syntax rules, and a worked example covering every type, so specs paste into the Cards tab with zero edits. Dropped the invented "comparison" and "myth bust" types and the wrong footer. Added a load-time self-test that flags the prompt and parser drifting apart. No visual changes.</p>
-      <p><b>v3.4</b> · Desktop layout. On screens 1000px and wider the tab bar becomes a left rail, the working column widens, and the Cards tab goes side by side: spec editor on the left, live card preview pinned on the right, reference below. Phone layout is untouched.</p>
-      <p><b>v3.3</b> · Home rebuilt around Build a Short: one Short at a time moves through Package, Review claims, Script, Cards, Filed. The whole Claude package pastes in once and splits into script, new claims, card specs, and comment vulnerabilities, then routes to the Writer and Cards tabs. NEW CLAIMS is now a hard gate: every claim must be confirmed into the bank or cut from the script before cards or filing. The corrections inbox became a per-tag bank correction log with Copy for re-audit; old inbox entries migrated over automatically. The topic tag set at the start carries through the prompt, the Writer doc name, the card file tag, and the correction log. Added backup and restore of all app data.</p>
-      <p><b>v3.1</b> · Removed the Hudson/Partner mode. The playbook now reads as one full process for whoever is running it. Role chips and hand-off wording cleaned up throughout.</p>
-      <p><b>v3.0</b> · Merged the Playbook, Card Generator, and Case Writer into one installable app. Workflow moved to Claude-only: Step 1 bank build now runs in Claude with web search, Step 2 audit runs in a fresh Claude chat outside the Project. Added the corrections inbox, playbook search, persistent Hudson/Partner mode, card share sheet, and on-device autosave. Fonts embedded so cards render identically offline.</p>
-    </div>
-  </details>
-</section>
-
-<!-- ================================================================ PLAYBOOK -->
-<section class="view" id="view-playbook">
-
-  <div class="searchwrap">
-    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
-    <input id="pbsearch" placeholder="Search the playbook" autocomplete="off">
-  </div>
-  <div class="nohits" id="nohits">Nothing matches. Try a shorter word.</div>
-
-  <details class="pbsec" id="pb-start" open>
+  <div class="kick">How it works · reference</div>
+  <details class="pbsec" id="pb-start">
     <summary><span class="sn">·</span><span class="st">How This Works</span><span class="arrow">›</span></summary>
     <div class="secbody">
       <h2 style="margin-top:14px">Research the part once, properly. Publish from it forever.</h2>
@@ -674,9 +638,7 @@ inherited.
 
 IDS. Sources are S1, S2, S3. Claims are C1, C2, C3. Specimens are P1,
 P2, P3. IDs are permanent. Continue the numbering, never renumber,
-and never reuse a retired ID.
-
-STYLE. No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
+and never reuse a retired ID.</pre>
       </div>
     </div>
   </details>
@@ -816,6 +778,124 @@ happened and that the check is visible.</pre>
     </div>
   </details>
 
+  <details class="pbsec" id="pb-quickref">
+    <summary><span class="sn">·</span><span class="st">Quick reference</span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <div class="kick">Research track · builds one dossier</div>
+      <table>
+        <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
+        <tr><td>R1 Scope</td><td>1 · ITC folder</td><td>Coverage plan PDF, plus its text for the app</td></tr>
+        <tr><td>R2 Research</td><td>1 · same chat</td><td>Dossier v1 PDF, nineteen sections</td></tr>
+        <tr><td>R3 Second pass</td><td>1 · same chat</td><td>Dossier v2 PDF, self-critiqued</td></tr>
+        <tr><td>R4 Expansion</td><td>1 · same chat</td><td>Dossier v3 PDF, plus its text for the audit chat</td></tr>
+        <tr><td>R5 Accuracy audit</td><td>2 · blank, no folder</td><td>Dossier v4 PDF, accuracy verdict in the message</td></tr>
+        <tr><td>R6 Gap hunt</td><td>2 · same chat</td><td>Dossier v5 PDF, holes closed or declared</td></tr>
+        <tr><td>R7 Finalize</td><td>2 · same chat</td><td>Dossier PDF, plus the full text and claims TSV for the Library</td></tr>
+        <tr><td>R8 Revise</td><td>blank, no folder</td><td><b>Optional.</b> R8A findings PDF, then R8B returns the revised dossier and companion. For a finished dossier that needs re-attacking, not for a new one.</td></tr>
+      </table>
+      <div class="kick">Production track · runs any number of times per dossier</div>
+      <table>
+        <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
+        <tr><td>P1 Content plan</td><td>3 · ITC folder</td><td>Plan PDF, plus the ranked slate text</td></tr>
+        <tr><td>P2 Write</td><td>3 · same chat</td><td>Text under its headers, so the app can split it</td></tr>
+        <tr><td>P3 Copy audit</td><td>4 · blank, no folder</td><td>Audit PDF, plus the corrected copy as text</td></tr>
+        <tr><td>P4 Cards</td><td>4 · same chat</td><td>Card blocks plus placement map</td></tr>
+        <tr><td>P5 Packaging</td><td>4 · same chat</td><td>Titles, description, tags, captions. P5C writes the pinned comment on its own.</td></tr>
+      </table>
+      <p class="lead">Four chats, and only two of them are about independence: the audit chat and the check chat, both outside any folder so the auditor meets the work cold. The Library tab holds finished dossiers and feeds them into every production prompt automatically.</p>
+    </div>
+  </details>
+
+  <div class="kick">House rules · yours to set</div>
+  <details class="pbsec" id="rulesSec">
+    <summary><span class="sn">·</span><span class="st">Style, targets, and your own rules</span><span class="chips"><span class="chip tool">Rides on every research prompt</span></span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <p class="lead" style="font-size:12.5px">These ride on the bottom of every research prompt. Change them here and every prompt changes with them. The tier system, the source hierarchy, and the evidence classes are deliberately not editable: a typo in those quietly changes what LOCKED means in every dossier you build afterwards, and nothing would warn you.</p>
+      <div class="logform">
+        <div class="r"><input id="rSignoff" placeholder="Sign off"></div>
+        <div class="r"><input id="rSignoffAlt" placeholder="Alternate sign off"></div>
+        <div class="r">
+          <input id="rShort" placeholder="Short runtime target" style="max-width:190px">
+          <input id="rLong" placeholder="Long form target" style="max-width:190px">
+        </div>
+        <div class="r">
+          <input id="rDensity" placeholder="Seconds per figure" style="max-width:150px">
+          <input id="rHashtags" placeholder="Hashtag count" style="max-width:150px">
+          <input id="rRange" placeholder="Range wording">
+        </div>
+      </div>
+      <div class="pfoot" style="border:1px solid var(--line);border-radius:8px;margin:4px 0">
+        <input type="checkbox" id="rNoEmDash"><label for="rNoEmDash" style="cursor:pointer">Ban em dashes and en dashes in copy</label>
+      </div>
+      <div class="pfoot" style="border:1px solid var(--line);border-radius:8px;margin:4px 0 8px">
+        <input type="checkbox" id="rNoEmoji"><label for="rNoEmoji" style="cursor:pointer">Ban emojis in copy</label>
+      </div>
+      <label class="small">Your own house rules · appended to every research prompt</label>
+      <textarea id="rExtras" class="bs-paste" style="min-height:110px" placeholder="One rule per line. Anything you keep having to correct the AI on belongs here."></textarea>
+      <div class="bs-row">
+        <button class="amber" id="rSave">Save rules</button>
+        <button class="ghost" id="rReset">Reset to defaults</button>
+      </div>
+      <label class="small">What gets attached, right now</label>
+      <div class="bs-pre" id="rPreview"></div>
+    </div>
+  </details>
+
+  <div class="kick">This app</div>
+  <div class="card">
+    <div class="k">Version</div>
+    <h4 id="verline"></h4>
+    <p>One file, four tools: the Playbook, the Card Generator, Case Writer, and this dashboard. Everything in progress saves to this device. To change anything, hand the file (or the GitHub repo) back to Claude and describe the change.</p>
+    <div class="bs-row">
+      <button class="ghost" id="backupBtn">Back up data</button>
+      <button class="ghost" id="restoreBtn">Restore backup</button>
+    </div>
+    <p style="font-size:11px;color:var(--steel)">Backup downloads everything this device has saved (Shorts, drafts, the writer doc) as one JSON file. Restore loads that file back in and overwrites what is here.</p>
+  </div>
+  <input type="file" id="restoreInput" accept=".json,application/json">
+
+  <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <p><b>v6.4</b> · Home and Playbook stopped saying different things. Fixed a real bug: prompts told the AI to save files as ITC_TAG_PLAN.pdf and nothing ever substituted the tag, so every PDF came back literally named TAG. Every filename in every prompt is now a token, and each step names its own output as ITC_TAG_STEP.pdf, so R2 saves ITC_E4OD_R2.pdf and hands ITC_E4OD_R2.pdf to R3. Re-running a step bumps a decimal, R2 then R2.1, with a new revision control on each step. The Playbook tab is now only prompts, one row per step with its Copy button in the row, so a step with nothing to fill in is a single tap and never has to be expanded, plus a tag field for when no job is running. How this works, the dossier schema, the standing rules, the sweeps, and the quick reference all moved to Home as collapsed reference. House rules became editable on Home: sign off wording, runtime targets, figure density, hashtag counts, range wording, the punctuation bans, and a free-text box for your own rules, all riding on every research prompt with a live preview. The tier system, source hierarchy, and evidence classes stay locked on purpose. Packaging split into two: P5 does titles, description, tags, and captions, and the new P5C writes the pinned comment on its own.</p>
+      <p><b>v6.3</b> · New popup card type: small notification blocks for laying over footage, for a piece of trivia, a caution, or a correction that is worth knowing and does not deserve a full card. Four flavours set by one style line, did you know in amber, tip in blue, heads up in red, correction in green, each with the label and colour already chosen. A popup carries no rows, just an optional short headline and one or two sentences of text, and it grows to fit what it holds so it can never overflow. Unlike every other card it exports tight cropped on a transparent background, so it drops straight onto the timeline above a clip with nothing to mask out, and it is styled to read at the top of frame. Same parser, same warnings, same export, share, and package buttons, and popups are named _POPUP_01 so they sort apart from the cards. Prompt P4 now proposes popups alongside cards and places them on the script lines where the voiceover moves on quickly.</p>
+      <p><b>v6.2</b> · Reliability revision, aimed at two failures the E4OD dossier exposed. Coverage discovery: the old loop generated its question list from what looked important and then scored completeness against that same list, so a component nobody thought to ask about stayed invisible. New sweeps block generates questions from the object instead: a physical component inventory, a parts catalog and service parts test, an exploded view test, a visual identification sweep, a boring parts test, and fifteen structured attack angles that must be worked before any open ended question. R1 now builds the component inventory, R4 runs the sweeps, R6 marks every component COVERED, THIN, or ABSENT and treats absence as a search trigger rather than silence. Completeness is now four separate axes with no blended total. Production readiness: claims carry type, evidence class, source year, proven span, span basis, and a span risk flag, so a 1997 manual no longer silently reads as 1989 hardware; every card ready claim carries a spoken form; every change claim carries stated purpose, failure consequence, and service action; and the schema gained a terminology register, specimen register with its own P numbers and an automatic UNVERIFIED cap on unattached specimens, search register, boundary section, and corrections to published content. The standing rules and sweeps are now written once and attached to every research prompt at copy time, replacing twenty one duplicated copies. New optional R8 pass re-attacks a finished dossier and rebuilds it, and R7 and R8 emit a machine readable claims companion.</p>
+      <p><b>v6.1</b> · Files, not walls of text, and far less chat jumping. Every step now replies "Here you go" with the finished output attached as one PDF and only the required notes in the message: a verdict, a count, what is still open. The plain text comes back only where this app has to read it, in one clean code block: the R1 plan, the R4 hand-off, the R7 final dossier, the P1 slate, the P2 copy, and the P3 corrected copy. Chat count dropped from about twelve to four, and each prompt now opens by naming exactly where to run it. Chat 1 in the Inside The Case folder runs R1 through R4 together; chat 2, blank and outside any folder, runs R5 through R7; chat 3 in the folder runs P1 and P2; chat 4, blank, runs P3 through P5. Independence is only enforced where a model would otherwise grade its own homework, which is the accuracy audit and the copy audit, and R4 gained an anti-anchoring rule since it now follows its own research in the same chat. The research track in the app collapsed from seven stages to four to match.</p>
+      <p><b>v6.0</b> · The library release. Research is now the product, not a stage that gets thrown away. The playbook splits into two tracks: a seven step research track (R1 scope and coverage plan, R2 deep research, R3 second pass, R4 expansion, R5 accuracy audit, R6 gap hunt, R7 finalize) that builds one permanent dossier per part to a fixed nineteen section schema, and a five step production track (P1 content plan, P2 write as Short, long form, or posts, P3 copy audit, P4 cards, P5 packaging) that draws content out of a finished dossier as many times as the record supports. Two new steps fix the two real failures: R1 writes the question list the dossier is measured against, and R6 holds the finished dossier against that list and closes what is missing, so a hole is visible instead of silent. Consolidation stopped trying to be a content planner: R7 only assembles and declares, and P1 mines angles by walking every dossier section in order rather than free-associating. New Library tab holds every dossier on the device, keyed by part tag; production prompts read from it automatically, and nothing gets pasted by hand. Dossiers export to .txt or open in the Writer for .docx, and ride along in the package share. Jobs in progress from v5.x migrate onto the matching track.</p>
+      <p><b>v5.5</b> · Playbook audit and polish. Platform limits in 7C and Prompt 10 were written from memory in v5.2 and were wrong; they are now researched and verified as of August 2026, and reframed around the fold rather than the maximum: Facebook hides past roughly 125 characters on mobile (line-driven, not fixed), YouTube community posts past 288, YouTube titles show about 70 of 100, descriptions 157 of 5,000. Prompt 10 gained Instagram and TikTok limits and builds chapters from 7B's bracketed titles. Closed an accuracy hole: 7C posts are published copy, so Step 8 now audits posts as well as scripts. Fixed two stale "Prompt 6" references in the Cards stage left over from the renumber. QoL: every paste box autosaves as you type and shows a word and character count, so a long research document survives a reload and a truncated paste is obvious; each stage carries a FULL STEP link to its playbook section; the package share now matches the Short by file tag, so a filed Short still ships its research document.</p>
+      <p><b>v5.4</b> · Writer saves real .docx files again. The html-docx-js library it used was loaded from a CDN, and that copy went dead, so Save .docx had been quietly falling back to .html. Writing .docx now happens in the app itself: a built-in Word writer packs the page into a proper Office document with headings, bold, italic, underline, strikethrough, highlight colors, font sizes, alignment, line spacing, bulleted and numbered lists including nested ones, quotes, and dividers. No library, no CDN, so it works offline, on a phone, and from a plain local file. Opening a .docx still uses mammoth, which needs internet on first load only.</p>
+      <p><b>v5.3</b> · Topic and angle can now be AI-picked. A toggle on the Script stage tells Prompts 6, 7A, 7B, and 7C to choose the strongest topic and angle from the research package (top of the consolidation's ranked angle bank) instead of using the Short's tag and angle, stating the choice at the top of the reply. The playbook prompts document the same option for manual use: write "pick from the research package" in the topic or angle slot.</p>
+      <p><b>v5.2</b> · Script writing split into three formats: 7A Short form, 7B long form (chapters, one retention beat per 60 to 90 seconds, bracketed chapter titles for YouTube chapters), and 7C written posts for Facebook and YouTube built to platform character limits (hook inside Facebook's 450 character fold, YouTube community post under 2,000). All three carry the new channel voice card: mechanical directness, numbers over adjectives, identity confusion and misconception correction as the proven shapes, honesty about uncertainty, the sign offs. The voice card is guarded by the load-time self-test. Build a Short's script stage offers all three copies; 7A and 7B replies split and route as before, 7C posts go straight to the platforms.</p>
+      <p><b>v5.1</b> · Research spine expanded to five passes. New Step 3 Expansion Pass widens the frame in a fresh window: adjacency, cross-manufacturer context, supplier history, running changes, interchange, identity confusion, lore, and rigorous negative space, each searched or declared. New Step 5 Master Consolidation triangulates the audited document, over-generates and ranks the angle bank, and declares the state of knowledge ledger. Steps renumbered 1 to 10; Step 1 now hands off a coverage map, Step 2 points at expansion, the audit hits expansion additions with the same hostility, and angle selection picks from the ranked bank instead of mining raw. Build a Short gained Expansion and Consolidation stages with the document chain riding inside every copy.</p>
+      <p><b>v5.0</b> · Full playbook rewrite around three design laws: every step portable (each output stands alone and runs cold in a fresh chat), research depth first (Steps 1 and 2 build a book-report reference document in one window, never scoped to runtime), and LOCKED-only facts. Seven steps: deep research, second pass, independent audit, angles and script, script audit, cards from script, packaging. The System and Five Rules merged into How This Works; correction log, QC checklist, Drive and tracker, weekly rhythm, social packaging, and portable instructions sections removed, their rules folded into the step prompts. Build a Short reworked to walk the new pipeline with the research document riding inside every prompt copy. Old in-progress Shorts resume at the matching stage.</p>
+      <p><b>v4.2</b> · Timeline cards: the year column now sizes to the widest year on the card, so range years like "1980 to 1986" no longer overlap the event text. Timeline also joined the stepped auto-fit the other card types use, and its event text now respects the right margin.</p>
+      <p><b>v4.1</b> · Card generator polish. Rows lines without a pipe now read as sub-lines of the row above, so AI output that forgets the ">" marker renders clean instead of as stray label-only rows. Subheads wrap to a second line instead of running off the card. The compare divider is segmented through the values only, no more line through the row labels. Unknown or miscapitalized card types now warn instead of silently rendering as spec. The overflow check measures to the real text bottom, so cards that visibly fit no longer get flagged and blocked. Spec editor is taller on desktop.</p>
+      <p><b>v4.0</b> · The multi-AI and deep-cards release. Playbook prompts audited and rewritten model-agnostic: Claude (Opus or Fable) and ChatGPT both run every step, with the audit recommended in a different model than the research. Prompt 1 now demands precise source names and exact figures, harvests 8 to 12 CARD DATA points denser than the script can cover, and attaches the sheet as a PDF for the archive. Cards leveled up: new compare card type (two panel versus with center divider), optional source credit line above the footer, brand tick on the kicker, hairline separators between spec rows, and prompts that treat cards as the deep layer for viewers who pause to read. New Share package button sends every card PNG plus the script, card specs, and audited fact sheet to Drive in one share. CLAUDE.md and the drift self-test updated to match.</p>
+      <p><b>v3.9</b> · Fixed the spec-card collision where dense cards (four rows with sub-lines plus a highlight) drew their last lines under the highlight box. The card generator now measures spec content with the exact same wrapping code that paints it, auto-fits in steps from full size down to 80 percent, and if a card still cannot fit, it warns and refuses to export instead of saving a broken PNG. Same fonts, colors, and 1080x1920 output.</p>
+      <p><b>v3.8</b> · Prompt 4 rebuilt. It was still the old chat fallback that asked Claude to draw card images from attached samples. It now asks the chat that already has the facts to write card specs in the generator's machine format, with the full format reference and worked example attached to every copy, so the reply pastes into the Cards tab with zero edits. Prompt 4 joined the load-time drift self-test.</p>
+      <p><b>v3.7</b> · The Writer now pastes as plain text. Pasting a script from a dark-themed app used to drag its monospace font and dark backgrounds into the page. Formatted documents still come in through Open. To clean a document that was already pasted with baggage: select all, then the Tx button.</p>
+      <p><b>v3.6</b> · The playbook is now one topic per session, research to finished Short. The per-platform fact bank is gone: each Short gets its own fact sheet, researched in the Project with web search (Prompt 1), audited cold in a fresh chat outside it (Prompt 2), then packaged from LOCKED facts only (Prompt 3). Build a Short gained Research and Audit stages that carry the fact sheet into each prompt automatically. Steps renumbered 1 to 7, the correction log now points at public corrections instead of bank fixes, and the fact sheet archives with each Short as ITC_TOPIC_FACTS.txt. Old in-progress Shorts resume where they were.</p>
+      <p><b>v3.5</b> · Prompt 4's card section now speaks the generator's exact machine format: real card types only (spec, timeline, table), full syntax rules, and a worked example covering every type, so specs paste into the Cards tab with zero edits. Dropped the invented "comparison" and "myth bust" types and the wrong footer. Added a load-time self-test that flags the prompt and parser drifting apart. No visual changes.</p>
+      <p><b>v3.4</b> · Desktop layout. On screens 1000px and wider the tab bar becomes a left rail, the working column widens, and the Cards tab goes side by side: spec editor on the left, live card preview pinned on the right, reference below. Phone layout is untouched.</p>
+      <p><b>v3.3</b> · Home rebuilt around Build a Short: one Short at a time moves through Package, Review claims, Script, Cards, Filed. The whole Claude package pastes in once and splits into script, new claims, card specs, and comment vulnerabilities, then routes to the Writer and Cards tabs. NEW CLAIMS is now a hard gate: every claim must be confirmed into the bank or cut from the script before cards or filing. The corrections inbox became a per-tag bank correction log with Copy for re-audit; old inbox entries migrated over automatically. The topic tag set at the start carries through the prompt, the Writer doc name, the card file tag, and the correction log. Added backup and restore of all app data.</p>
+      <p><b>v3.1</b> · Removed the Hudson/Partner mode. The playbook now reads as one full process for whoever is running it. Role chips and hand-off wording cleaned up throughout.</p>
+      <p><b>v3.0</b> · Merged the Playbook, Card Generator, and Case Writer into one installable app. Workflow moved to Claude-only: Step 1 bank build now runs in Claude with web search, Step 2 audit runs in a fresh Claude chat outside the Project. Added the corrections inbox, playbook search, persistent Hudson/Partner mode, card share sheet, and on-device autosave. Fonts embedded so cards render identically offline.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================================================================ PLAYBOOK -->
+<section class="view" id="view-playbook">
+
+  <div class="pbtagbar">
+    <input id="pbTag" placeholder="TAG" maxlength="24" aria-label="Topic tag">
+    <span class="note2" id="pbTagNote"></span>
+  </div>
+  <div class="searchwrap">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+    <input id="pbsearch" placeholder="Search the playbook" autocomplete="off">
+  </div>
+  <div class="nohits" id="nohits">Nothing matches. Try a shorter word.</div>
+
   <details class="pbsec" id="pb-r1" data-owner="hudson">
     <summary><span class="sn">R1</span><span class="st">Scope and coverage plan</span><span class="chips"><span class="chip tool">Chat 1 · ITC folder</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
@@ -926,7 +1006,7 @@ OUTPUT sections: SUBJECT AND SCOPE, CLASSIFICATION, COVERAGE PLAN
 DEFINITION OF DONE.
 
 DELIVERY. Do not explain the plan back to me. Reply with "Here you
-go", attach the complete plan as one PDF named ITC_TAG_PLAN.pdf, and
+go", attach the complete plan as one PDF named [[OUT]], and
 put only this in the message: the classification, how many questions
 the plan holds, and the definition of done in one line. Then, below
 the message, paste the complete plan as plain text in a single code
@@ -1015,7 +1095,7 @@ header exists.
 
 DELIVERY. Do not write the dossier out in the chat and do not explain
 it back to me. Reply with "Here you go", attach the complete dossier
-as one PDF named ITC_TAG_DOSSIER_V1.pdf, and put only this in the
+as one PDF named [[OUT]], and put only this in the
 message: how many claims you locked, how many are LIKELY, how many
 are UNVERIFIED, and which sections came back thin. Keep the dossier
 itself in the file. If the document is too large for one pass, say so
@@ -1072,7 +1152,7 @@ Every claim keeps its tier, named source, and ID. Continue the S and
 C numbering without gaps.
 
 DELIVERY. Do not write the dossier out in the chat. Reply with "Here
-you go", attach it as one PDF named ITC_TAG_DOSSIER_V2.pdf, and put
+you go", attach it as one PDF named [[OUT]], and put
 only this in the message: what you upgraded, what you downgraded, and
 what is still weakest. If you cannot create files, say so in one line
 and write it out instead.
@@ -1178,7 +1258,7 @@ The next step is an independent audit in a blank chat with no memory
 of this one, so the dossier must stand entirely on its own.
 
 DELIVERY. Do not write the dossier out in the chat. Reply with "Here
-you go", attach it as one PDF named ITC_TAG_DOSSIER_V3.pdf, and put
+you go", attach it as one PDF named [[OUT]], and put
 only this in the message: what you added by category, what you
 searched and did not find, and the claims most in need of hostile
 checking. Then, below the message, paste the complete dossier as
@@ -1235,7 +1315,7 @@ section schema, tiers updated, dossier version 4 in section 00.
 
 DELIVERY. Do not write either document out in the chat and do not
 explain the audit back to me. Reply with "Here you go", attach both
-as one PDF named ITC_TAG_DOSSIER_V4.pdf, audit report first and the
+as one PDF named [[OUT]], audit report first and the
 corrected dossier after it, and put only this in the message: the
 verdict line, reading either "ACCURACY CLEARED" or "NOT CLEARED:"
 followed by what blocks it, plus the count of claims corrected and
@@ -1354,7 +1434,7 @@ of the script.
 
 DELIVERY. Do not write any of it out in the chat. Reply with "Here
 you go", attach the whole thing as one PDF named
-ITC_TAG_DOSSIER_V5.pdf, ordered coverage audit, gap closure log,
+[[OUT]], ordered coverage audit, gap closure log,
 updated dossier, remaining holes, and put only this in the message:
 how many questions were unanswered or soft, how many you closed, and
 what is still open. Keep the updated dossier in this chat's context
@@ -1453,7 +1533,7 @@ named source, outside the dossier body, for human checking.
 
 DELIVERY. This is the permanent copy, so it comes back two ways.
 Reply with "Here you go" and attach two files: the dossier as
-ITC_TAG_DOSSIER.pdf and the companion as ITC_TAG_CLAIMS.tsv. Put only
+[[OUT]] and the companion as [[OUT_TSV]]. Put only
 this in the message: the status line, either LIBRARY READY or BLOCKED
 with the reason, the four coverage axes, the three weakest sections,
 and any residual conflicts needing a human. Then, below the message,
@@ -1603,7 +1683,7 @@ is R8B, next, in this chat. Report:
     materially too optimistic, and by how much.
 
 DELIVERY. Reply with "Here you go", attach the findings as one PDF
-named ITC_TAG_R8_FINDINGS.pdf, and put only this in the message: how
+named [[OUT]], and put only this in the message: how
 many components came back ABSENT, how many terms were undefined, how
 many claims need a span flag, and whether the old score was too
 optimistic. If you cannot create files, say so in one line and write
@@ -1685,8 +1765,8 @@ what the app and the downstream prompts read instead of re-parsing
 thirty pages.
 
 DELIVERY. Reply with "Here you go" and attach two files: the revised
-dossier as ITC_TAG_DOSSIER.pdf, and the companion as
-ITC_TAG_CLAIMS.tsv. Put only the revision report headline numbers and
+dossier as [[OUT]], and the companion as
+[[OUT_TSV]]. Put only the revision report headline numbers and
 the library ready status in the message. Then, below the message,
 paste the complete revised dossier as plain text in one code block,
 and the companion TSV in a second code block, because the app reads
@@ -1754,7 +1834,7 @@ opportunity or a sign the research went somewhere the audience does
 not care about, and it is worth knowing which.
 
 DELIVERY. Do not explain the plan back to me. Reply with "Here you
-go", attach the whole plan as one PDF named ITC_TAG_PLAN_CONTENT.pdf,
+go", attach the whole plan as one PDF named [[OUT]],
 and put only this in the message: how many stories the slate holds,
 the top three by title, and the percentage of LOCKED claims the slate
 uses. Then, below the message, paste the RANKED SLATE as plain text
@@ -2035,7 +2115,7 @@ OUTPUT, in this order:
 
 DELIVERY. Do not explain the audit back to me. Reply with "Here you
 go", attach the audit table and required fixes as one PDF named
-ITC_TAG_COPY_AUDIT.pdf, and put only the severity one and two counts
+[[OUT]], and put only the severity one and two counts
 in the message. The CORRECTED COPY does not go in the PDF: paste it
 as plain text in a single code block with nothing wrapped around it,
 because it goes straight back into the Writer.
@@ -2165,45 +2245,59 @@ ALWAYS:
   reference: "Why This Engine Lasted", "What Actually Changed
   Inside", "This Wasn't About Horsepower", "Simple, Mechanical, And
   Built To Work"
-- The pinned comment is where LIKELY and UNVERIFIED material lives,
-  clearly framed as such, with sources. Preempt the predictable
-  technical objection, calm and factual, never combative.
 - State the character count on every title, description, and caption
 
-STYLE. No em dashes. No emojis. Ranges written as "1994 to 1997".
+Leave the pinned comment out. It is its own prompt, because it is the
+one piece of packaging that has to be argued carefully.
+
+DELIVERY. Reply with "Here you go", attach the package as one PDF
+named [[OUT]], and paste the titles, description, and tags as plain
+text underneath so they can be copied straight into the upload page.
 
 SCRIPT: [PASTE THE FINAL SCRIPT]</pre>
+      </div>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt P5C <span>·</span> Pinned comment</div><div class="spacer"></div><button class="copybtn" data-copy="pp5c">Copy prompt</button></div>
+        <pre id="pp5c">CHAT: the same blank chat as P3 and P4.
+
+Write the pinned comment for this video. One comment, nothing else.
+
+The pinned comment does three jobs, in this order of importance:
+1. It owns anything the script simplified, rounded, or could not
+   confirm, before a commenter finds it. This is where LIKELY and
+   UNVERIFIED material is allowed to live, clearly framed as not
+   fully confirmed, with the source named.
+2. It preempts the predictable technical objection. Name the thing a
+   knowledgeable viewer is about to type, and answer it calmly with
+   the record. Never combative, never defensive, and never pretend
+   the objection is stupid.
+3. It invites the correction the channel actually wants: people who
+   have the part in hand, the document, or the build sheet.
+
+RULES:
+- Facts stated as fact must be LOCKED. Anything softer is labelled as
+  such in plain words, for example "the record points to this but
+  does not confirm it".
+- If the dossier holds an open question relevant to this video, say
+  so. Honesty about the edge of the record is the channel's brand,
+  and it converts a potential correction into a reason to comment.
+- Short paragraphs, line breaks between them. Nobody reads a wall.
+- No em dashes, no emojis, ranges written as "1994 to 1997".
+- If a correction to something already published is needed, put it
+  first and state it plainly.
+
+OUTPUT: the pinned comment, ready to paste, then its character count.
+Nothing else in the reply.
+
+SCRIPT: [PASTE THE FINAL SCRIPT]
+
+OPEN QUESTIONS AND SOFT MATERIAL FROM THE DOSSIER: [PASTE THE OPEN
+QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
       </div>
     </div>
   </details>
 
-  <details class="pbsec" id="pb-quickref">
-    <summary><span class="sn">·</span><span class="st">Quick reference</span><span class="arrow">›</span></summary>
-    <div class="secbody">
-      <div class="kick">Research track · builds one dossier</div>
-      <table>
-        <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
-        <tr><td>R1 Scope</td><td>1 · ITC folder</td><td>Coverage plan PDF, plus its text for the app</td></tr>
-        <tr><td>R2 Research</td><td>1 · same chat</td><td>Dossier v1 PDF, nineteen sections</td></tr>
-        <tr><td>R3 Second pass</td><td>1 · same chat</td><td>Dossier v2 PDF, self-critiqued</td></tr>
-        <tr><td>R4 Expansion</td><td>1 · same chat</td><td>Dossier v3 PDF, plus its text for the audit chat</td></tr>
-        <tr><td>R5 Accuracy audit</td><td>2 · blank, no folder</td><td>Dossier v4 PDF, accuracy verdict in the message</td></tr>
-        <tr><td>R6 Gap hunt</td><td>2 · same chat</td><td>Dossier v5 PDF, holes closed or declared</td></tr>
-        <tr><td>R7 Finalize</td><td>2 · same chat</td><td>Dossier PDF, plus the full text and claims TSV for the Library</td></tr>
-        <tr><td>R8 Revise</td><td>blank, no folder</td><td><b>Optional.</b> R8A findings PDF, then R8B returns the revised dossier and companion. For a finished dossier that needs re-attacking, not for a new one.</td></tr>
-      </table>
-      <div class="kick">Production track · runs any number of times per dossier</div>
-      <table>
-        <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
-        <tr><td>P1 Content plan</td><td>3 · ITC folder</td><td>Plan PDF, plus the ranked slate text</td></tr>
-        <tr><td>P2 Write</td><td>3 · same chat</td><td>Text under its headers, so the app can split it</td></tr>
-        <tr><td>P3 Copy audit</td><td>4 · blank, no folder</td><td>Audit PDF, plus the corrected copy as text</td></tr>
-        <tr><td>P4 Cards</td><td>4 · same chat</td><td>Card blocks plus placement map</td></tr>
-        <tr><td>P5 Packaging</td><td>4 · same chat</td><td>Titles, descriptions, tags, captions, pinned comment</td></tr>
-      </table>
-      <p class="lead">Four chats, and only two of them are about independence: the audit chat and the check chat, both outside any folder so the auditor meets the work cold. The Library tab holds finished dossiers and feeds them into every production prompt automatically.</p>
-    </div>
-  </details>
+
 
 </section>
 
@@ -2465,7 +2559,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v6.3';
+const APP_VERSION = 'v6.4';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -2642,16 +2736,180 @@ ${CARD_EXAMPLE}`;
    themselves live in exactly one place and cannot drift apart. */
 const RULES_PROMPTS  = ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b'];
 const SWEEPS_PROMPTS = ['pr1','pr4','pr6','pr8a'];
+/* Every step names its own output file, so a chat hands the next chat a
+   document with an unambiguous name instead of "the PDF". A re-run of a
+   step bumps a decimal: R2, then R2.1, then R2.2. */
+const STEP_OF = { pr1:'R1', pr2:'R2', pr3:'R3', pr4:'R4', pr5:'R5', pr6:'R6', pr7:'R7',
+  pr8a:'R8A', pr8b:'R8B', pp1:'P1', pp2a:'P2A', pp2b:'P2B', pp2c:'P2C', pp3:'P3',
+  pp4:'P4', pp5:'P5', pp5c:'P5C' };
+const PREV_OF = { pr2:'R1', pr3:'R2', pr4:'R3', pr5:'R4', pr6:'R5', pr7:'R6', pr8b:'R8A' };
+
+function activeTag(){
+  const j = bsState().active;
+  const t = j && (j.tag || j.dossierTag);
+  return (t || store.get('pbtag','') || 'TAG').trim().toUpperCase().replace(/\s+/g,'_');
+}
+function stepFile(tag, step, runs){
+  const n = (runs && runs[step]) || 0;
+  return 'ITC_' + tag + '_' + step + (n? '.'+n : '');
+}
+function fillTokens(id, text){
+  const j = bsState().active;
+  const runs = (j && j.runs) || {};
+  const tag = activeTag();
+  const step = STEP_OF[id];
+  const out = step? stepFile(tag, step, runs) : 'ITC_'+tag;
+  const prevStep = PREV_OF[id];
+  return text
+    .replace(/\[\[OUT_TSV\]\]/g, out + '_CLAIMS.tsv')
+    .replace(/\[\[OUT\]\]/g, out + '.pdf')
+    .replace(/\[\[PREV\]\]/g, prevStep? stepFile(tag, prevStep, runs) + '.pdf' : 'the previous step')
+    .replace(/\[\[TAG\]\]/g, tag);
+}
 function withBlocks(id, text){
   if(id==='pp4') text += CARD_SNIPPET;   /* cards prompt carries the format + worked example */
-  if(RULES_PROMPTS.includes(id))  text += '\n\n' + document.getElementById('rules').textContent;
+  if(RULES_PROMPTS.includes(id))  text += '\n\n' + rulesBlock();
   if(SWEEPS_PROMPTS.includes(id)) text += '\n\n' + document.getElementById('sweeps').textContent;
-  return text;
+  return fillTokens(id, text);
 }
 function promptText(id){ return withBlocks(id, document.getElementById(id).textContent); }
+
+/* House style is yours to set; the tier system, source hierarchy, and
+   evidence classes are not, because a typo there quietly changes what
+   LOCKED means in every future dossier. */
+const RULE_DEFAULTS = {
+  signoff:'Inside The Case.', signoffAlt:'Thanks for watching, Inside The Case.',
+  shortTarget:'1 to 3 minutes', longTarget:'8 to 12 minutes', density:'20',
+  hashtags:'3 to 5', range:'1994 to 1997',
+  noEmDash:true, noEmoji:true, extras:''
+};
+function ruleSet(){ return Object.assign({}, RULE_DEFAULTS, store.get('rules', {})); }
+function saveRules(r){ store.set('rules', r); }
+function styleBlock(over){
+  const r = Object.assign({}, ruleSet(), over || {});
+  const bans = [];
+  if(r.noEmDash) bans.push('No em dashes and no en dashes');
+  if(r.noEmoji)  bans.push('No emojis');
+  let t = 'STYLE. ' + (bans.length? bans.join('. ') + '. ' : '') +
+    'Ranges written as "' + r.range + '".\n' +
+    'Sign off: "' + r.signoff + '" or "' + r.signoffAlt + '".\n' +
+    'Runtime targets: a Short runs ' + r.shortTarget + ', long form ' + r.longTarget +
+    '. Carry at least one exact figure, date, or breakpoint every ' + r.density +
+    ' seconds of runtime.\n' +
+    'Hashtags: ' + r.hashtags + ' focused tags, never a stack.';
+  if(r.extras && r.extras.trim()) t += '\n\nHOUSE RULES.\n' + r.extras.trim();
+  return t;
+}
+function rulesBlock(){ return document.getElementById('rules').textContent.trim() + '\n\n' + styleBlock(); }
 document.querySelectorAll('.copybtn[data-copy]').forEach(btn=>{
   btn.addEventListener('click', ()=>copyText(promptText(btn.dataset.copy), btn));
 });
+
+/* ---------------- [PLAYBOOK] compact step rows ----------------
+   Each step is one row with its own Copy button, so a step with nothing
+   to fill in never has to be expanded. Built here rather than in the
+   markup so the step list stays defined in one place. */
+const SECTION_PROMPTS = {
+  'pb-r1':['pr1'], 'pb-r2':['pr2'], 'pb-r3':['pr3'], 'pb-r4':['pr4'],
+  'pb-r5':['pr5'], 'pb-r6':['pr6'], 'pb-r7':['pr7'], 'pb-r8':['pr8a','pr8b'],
+  'pb-p1':['pp1'], 'pb-p2':['pp2a','pp2b','pp2c'], 'pb-p3':['pp3'],
+  'pb-p4':['pp4'], 'pb-p5':['pp5','pp5c']
+};
+const pbOutlines = [];
+Object.keys(SECTION_PROMPTS).forEach(sec=>{
+  const d = document.getElementById(sec); if(!d) return;
+  const ids = SECTION_PROMPTS[sec].filter(id=>document.getElementById(id));
+  if(!ids.length) return;
+  const sum = d.querySelector('summary');
+  const wrap = document.createElement('span');
+  wrap.className = 'rowcopy';
+  ids.forEach(id=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'copybtn sm';
+    b.textContent = ids.length>1? STEP_OF[id] : 'Copy';
+    b.addEventListener('click', e=>{
+      e.preventDefault(); e.stopPropagation();   /* copy without opening the row */
+      copyText(promptText(id), b);
+    });
+    wrap.appendChild(b);
+  });
+  sum.insertBefore(wrap, sum.querySelector('.arrow'));
+  /* the output filename, with a control to start a new revision of this step */
+  const body = d.querySelector('.secbody');
+  const line = document.createElement('div');
+  line.className = 'outline';
+  body.insertBefore(line, body.firstChild);
+  pbOutlines.push({ line, ids });
+});
+function refreshPlaybook(){
+  const j = bsState().active;
+  const tagIn = document.getElementById('pbTag');
+  if(document.activeElement !== tagIn) tagIn.value = activeTag()==='TAG'? '' : activeTag();
+  tagIn.disabled = !!(j && (j.tag || j.dossierTag));
+  document.getElementById('pbTagNote').textContent = (j && (j.tag||j.dossierTag))
+    ? 'Using the tag from the job running on the Home tab.'
+    : 'No job running, so set the tag here and every prompt names its files with it.';
+  pbOutlines.forEach(o=>{
+    o.line.innerHTML = '';
+    o.ids.forEach(id=>{
+      const step = STEP_OF[id];
+      const span = document.createElement('span');
+      span.innerHTML = 'saves as <b></b> ';
+      span.querySelector('b').textContent = fillTokens(id, '[[OUT]]');
+      const a = document.createElement('a');
+      a.href = '#'; a.textContent = '+ new revision';
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const st = bsState();
+        if(!st.active){ alert('Start a job on the Home tab first, then revisions get tracked against it.'); return; }
+        st.active.runs = st.active.runs || {};
+        st.active.runs[step] = (st.active.runs[step]||0) + 1;
+        bsSave(st); refreshPlaybook();
+      });
+      span.appendChild(a);
+      o.line.appendChild(span);
+    });
+  });
+}
+document.getElementById('pbTag').addEventListener('input', function(){
+  store.set('pbtag', this.value.trim().toUpperCase().replace(/\s+/g,'_'));
+  refreshPlaybook();
+});
+
+/* ---------------- [HOME] editable house rules ---------------- */
+const RULE_FIELDS = { rSignoff:'signoff', rSignoffAlt:'signoffAlt', rShort:'shortTarget',
+  rLong:'longTarget', rDensity:'density', rHashtags:'hashtags', rRange:'range', rExtras:'extras' };
+function loadRuleForm(){
+  const r = ruleSet();
+  Object.keys(RULE_FIELDS).forEach(el=>{ document.getElementById(el).value = r[RULE_FIELDS[el]]; });
+  document.getElementById('rNoEmDash').checked = r.noEmDash;
+  document.getElementById('rNoEmoji').checked  = r.noEmoji;
+  document.getElementById('rPreview').textContent = styleBlock();
+}
+function readRuleForm(){
+  const r = {};
+  Object.keys(RULE_FIELDS).forEach(el=>{ r[RULE_FIELDS[el]] = document.getElementById(el).value; });
+  r.noEmDash = document.getElementById('rNoEmDash').checked;
+  r.noEmoji  = document.getElementById('rNoEmoji').checked;
+  return r;
+}
+document.getElementById('rSave').addEventListener('click', function(){
+  saveRules(readRuleForm());
+  loadRuleForm();
+  const t = this.textContent; this.textContent = 'Saved';
+  setTimeout(()=>{ this.textContent = t; }, 1200);
+});
+document.getElementById('rReset').addEventListener('click', ()=>{
+  if(!confirm('Put every house rule back to the default?')) return;
+  saveRules({}); loadRuleForm();
+});
+['rSignoff','rSignoffAlt','rShort','rLong','rDensity','rHashtags','rRange','rExtras'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', ()=>{
+    document.getElementById('rPreview').textContent = styleBlock(readRuleForm());
+  });
+});
+loadRuleForm();
 
 /* ---------------- [PLAYBOOK] search ---------------- */
 const pbsecs = Array.from(document.querySelectorAll('#view-playbook details.pbsec'));
@@ -2980,7 +3238,9 @@ function ppP3(s){ return document.getElementById('pp3').textContent
 function ppP4(s){ return promptText('pp4')
   .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText())
   .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
-function ppP5(){ return document.getElementById('pp5').textContent
+function ppP5(){ return promptText('pp5')
+  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()); }
+function ppP5c(){ return promptText('pp5c')
   .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()); }
 
 /* ---- the write-stage reply splits on its four output headers ---- */
@@ -3419,9 +3679,14 @@ function bsPanelCards(st, s){
   oc.addEventListener('click', ()=>showView('cards'));
   const sp = bsEl('<button type="button" class="ghost">Share the whole package</button>');
   sp.addEventListener('click', ()=>{ showView('cards'); document.getElementById('sharePack').click(); });
-  const c5 = bsEl('<button type="button" class="copybtn">Copy P5 · packaging</button>');
+  row1.appendChild(oc); row1.appendChild(sp); p.appendChild(row1);
+  p.appendChild(bsEl('<div class="kick" style="margin-top:12px">Packaging · two prompts</div>'));
+  const row2 = bsEl('<div class="bs-row"></div>');
+  const c5 = bsEl('<button type="button" class="copybtn">Copy P5 · titles, description, tags</button>');
   c5.addEventListener('click', function(){ copyText(ppP5(), this); });
-  row1.appendChild(oc); row1.appendChild(sp); row1.appendChild(c5); p.appendChild(row1);
+  const c5c = bsEl('<button type="button" class="copybtn">Copy P5C · pinned comment</button>');
+  c5c.addEventListener('click', function(){ copyText(ppP5c(), this); });
+  row2.appendChild(c5); row2.appendChild(c5c); p.appendChild(row2);
   if(s.status==='cards'){
     const row = bsEl('<div class="bs-row"></div>');
     const b = bsEl('<button type="button" class="amber">Done · mark this Filed</button>');
@@ -3566,6 +3831,7 @@ function renderShort(){
     bsWrap.appendChild(box);
   }
   bsWrap.appendChild(bsHistory(st));
+  refreshPlaybook();   /* the tag and every filename follow the active job */
 }
 renderShort();
 
@@ -4141,8 +4407,20 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     if(id!=='pp2c' && !t.includes('Inside The Case."')) fails.push(id+' lost the sign off');
   });
   /* every step prompt must exist and every stage must map to a real section */
-  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp5'].forEach(id=>{
+  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp5','pp5c'].forEach(id=>{
     if(!document.getElementById(id)) fails.push('step prompt "'+id+'" is missing from the playbook');
+  });
+  /* filename tokens must actually be substituted, or the AI is told to
+     save a file with a literal [[OUT]] in its name. The tag being the
+     placeholder TAG is fine: that just means no job is running yet. */
+  if(/\[\[[A-Z_]+\]\]/.test(promptText('pr2')))
+    fails.push('filename tokens stopped resolving in the prompts');
+  /* shape check, not a re-implementation: tag, step, optional revision */
+  const f = fillTokens('pr2','[[OUT]]');
+  if(!/^ITC_[A-Z0-9_]+_R2(\.\d+)?\.pdf$/.test(f))
+    fails.push('step filenames are not being built from the tag and step, got "'+f+'"');
+  Object.keys(SECTION_PROMPTS).forEach(sec=>{
+    if(!document.getElementById(sec)) fails.push('playbook section "'+sec+'" is missing');
   });
   /* the shared blocks must exist and must actually attach at copy time,
      otherwise a cold chat silently loses the whole standard */
