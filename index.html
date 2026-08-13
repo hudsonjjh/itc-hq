@@ -857,7 +857,7 @@ happened and that the check is visible.</pre>
         <tr><td>P1 Content plan</td><td>3 · ITC folder</td><td>Plan PDF, plus the ranked slate text</td></tr>
         <tr><td>P2 Write</td><td>3 · same chat</td><td>Text under its headers, so the app can split it</td></tr>
         <tr><td>P3 Copy audit</td><td>4 · blank, no folder</td><td>Audit PDF, plus the corrected copy as text</td></tr>
-        <tr><td>P4 Cards</td><td>4 · same chat</td><td>Card blocks plus placement map</td></tr>
+        <tr><td>P4 Cards</td><td>4 · same chat</td><td>Card blocks plus placement map. P4B writes a run of popups the same way.</td></tr>
         <tr><td>P5 Packaging</td><td>4 · same chat</td><td>Titles, description, tags, captions. P5C writes the pinned comment on its own.</td></tr>
       </table>
       <p class="lead">Four chats, and only two of them are about independence: the audit chat and the check chat, both outside any folder so the auditor meets the work cold. The Library tab holds finished dossiers and feeds them into every production prompt automatically.</p>
@@ -914,6 +914,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v6.6</b> · Popups got their own prompt. P4 only ever suggested one to three popups alongside the cards, so producing a proper run of them meant typing the style and format into a chat by hand. New P4B writes 6 to 10 popups for a Short, or one every 30 to 45 seconds for long form, working from the dossier surplus rather than the script wording: the number the script rounds, the casting number, the identification tell, the myth there was no time for, the service trap. It carries the machine format and the worked example automatically, picks the right style for what the fact actually is, names the script line each popup lands on, and ends with a cut list for when the edit only has room for half. The load-time self-test now fails if P4B ever loses a style name or the format block.</p>
       <p><b>v6.5</b> · Lessons taken from a real E4OD revision pass, where practice had already outrun the playbook. R8 no longer merges its own findings: R8A now produces a standalone pass document marked NOT CONSOLIDATED, and R8B audits that pass in a second blank chat before consolidating it, because merging what a session just found, in the session that found it, leaves nobody to grade the work but the chat that did it. Failed promotions are now a required output, as a table with the queries and what would settle it, so a dead end is paid for once. The evidence class list gained marketplace or salvage listing, tertiary reference, recall record, and research log, after a real dossier had to invent five UNCLASSIFIABLE classes to describe its own sources. Link checks now record a state rather than pass or fail, including image only with no readable text, which is a file that downloads and can still never be re-verified by search. New: a scatter check that gathers every dated claim into one year spine wherever it is filed, because a window of years can look empty while being fully covered; a narrative verdict section for what the record can and cannot be made to say; precedents, so an evidence class is tiered once instead of per claim; open gaps carry an action type, since a gap filed as searchable when it is really a scanning job never closes; claims can bind to each other with TRAVELS WITH so a caveat cannot be separated from the claim it limits; and every pass now states plainly what it did not attempt.</p>
       <p><b>v6.4</b> · Home and Playbook stopped saying different things. Fixed a real bug: prompts told the AI to save files as ITC_TAG_PLAN.pdf and nothing ever substituted the tag, so every PDF came back literally named TAG. Every filename in every prompt is now a token, and each step names its own output as ITC_TAG_STEP.pdf, so R2 saves ITC_E4OD_R2.pdf and hands ITC_E4OD_R2.pdf to R3. Re-running a step bumps a decimal, R2 then R2.1, with a new revision control on each step. The Playbook tab is now only prompts, one row per step with its Copy button in the row, so a step with nothing to fill in is a single tap and never has to be expanded, plus a tag field for when no job is running. How this works, the dossier schema, the standing rules, the sweeps, and the quick reference all moved to Home as collapsed reference. House rules became editable on Home: sign off wording, runtime targets, figure density, hashtag counts, range wording, the punctuation bans, and a free-text box for your own rules, all riding on every research prompt with a live preview. The tier system, source hierarchy, and evidence classes stay locked on purpose. Packaging split into two: P5 does titles, description, tags, and captions, and the new P5C writes the pinned comment on its own.</p>
       <p><b>v6.3</b> · New popup card type: small notification blocks for laying over footage, for a piece of trivia, a caution, or a correction that is worth knowing and does not deserve a full card. Four flavours set by one style line, did you know in amber, tip in blue, heads up in red, correction in green, each with the label and colour already chosen. A popup carries no rows, just an optional short headline and one or two sentences of text, and it grows to fit what it holds so it can never overflow. Unlike every other card it exports tight cropped on a transparent background, so it drops straight onto the timeline above a clip with nothing to mask out, and it is styled to read at the top of frame. Same parser, same warnings, same export, share, and package buttons, and popups are named _POPUP_01 so they sort apart from the cards. Prompt P4 now proposes popups alongside cards and places them on the script lines where the voiceover moves on quickly.</p>
@@ -2373,7 +2374,62 @@ SCRIPT: [PASTE THE FINAL SCRIPT]
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
-      <div class="note"><b>Then:</b> paste the card blocks into the <b>Cards tab</b>, hit Render, clear any warnings, and export. The Share package button sends cards, script, specs, and the dossier to Drive in one share.</div>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt P4B <span>·</span> Popups</div><div class="spacer"></div><button class="copybtn" data-copy="pp4b">Copy prompt</button></div>
+        <pre id="pp4b">CHAT: the same blank chat as P3 and P4.
+
+Write a run of on-screen popups for this video in the ITC HQ Card
+Generator machine format. The script and the dossier are both below.
+Output popup blocks ready to paste into the generator with zero edits.
+No commentary before, between, or after them.
+
+WHAT A POPUP IS. A small notification block laid over the footage,
+not a full card. It carries one fact worth knowing that does not
+deserve a card of its own, and it is read in about two seconds while
+the video keeps moving.
+
+WHERE THEY COME FROM. The dossier holds far more than any script can
+say, and that surplus is exactly what popups are for. Work from the
+dossier, not from the script's wording. The best popups come from:
+- a number the script rounds, skips, or generalises
+- a casting number, part number, date code, or spline count
+- an identification tell someone could use on a real part
+- a myth the dossier settled that the script has no time to cover
+- a service trap, a do-not-do-this
+- a supplier or origin detail that is interesting but off the spine
+Never restate what the voiceover already says in full. A popup that
+echoes the narration is wasted screen time.
+
+HOW MANY. 6 to 10 for a Short, so there is something to cut from.
+Long form scales up, roughly one every 30 to 45 seconds. Over-produce
+deliberately: dropping a weak popup at edit time is easy, inventing a
+good one at edit time is not.
+
+HARD RULES:
+- Only LOCKED facts. LIKELY and UNVERIFIED belong in the pinned
+  comment, never on screen.
+- Style is one of: did you know, tip, warning, correction. Pick the
+  one the fact actually is. A caution is not trivia, and a correction
+  is not a tip.
+- One idea per popup. If it needs a sentence of setup before the
+  point lands, it is a card, not a popup.
+- Keep the text to one or two short sentences.
+- No em dashes, no emojis, ranges written as "1994 to 1997".
+
+The full machine format and a worked example are attached below.
+
+OUTPUT, in this order:
+1. The popup blocks, one after another.
+2. PLACEMENT MAP: one line per popup, quoting the script line it
+   lands on, with the claim ID behind it.
+3. CUT LIST: which ones you would drop first if the edit only has
+   room for half, and why.
+
+SCRIPT: [PASTE THE FINAL SCRIPT]
+
+DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
+      </div>
+      <div class="note"><b>Then:</b> paste the blocks into the <b>Cards tab</b>, hit Render, clear any warnings, and export. Popups export tight cropped on a transparent background and are named _POPUP_01 so they sort apart from the cards. The Share package button sends everything to Drive in one share.</div>
     </div>
   </details>
 
@@ -2747,7 +2803,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v6.5';
+const APP_VERSION = 'v6.6';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -2929,7 +2985,7 @@ const SWEEPS_PROMPTS = ['pr1','pr4','pr6','pr8a'];
    step bumps a decimal: R2, then R2.1, then R2.2. */
 const STEP_OF = { pr1:'R1', pr2:'R2', pr3:'R3', pr4:'R4', pr5:'R5', pr6:'R6', pr7:'R7',
   pr8a:'R8A', pr8b:'R8B', pp1:'P1', pp2a:'P2A', pp2b:'P2B', pp2c:'P2C', pp3:'P3',
-  pp4:'P4', pp5:'P5', pp5c:'P5C' };
+  pp4:'P4', pp4b:'P4B', pp5:'P5', pp5c:'P5C' };
 const PREV_OF = { pr2:'R1', pr3:'R2', pr4:'R3', pr5:'R4', pr6:'R5', pr7:'R6', pr8b:'R8A' };
 
 function activeTag(){
@@ -2955,7 +3011,9 @@ function fillTokens(id, text){
     .replace(/\[\[TAG\]\]/g, tag);
 }
 function withBlocks(id, text){
-  if(id==='pp4') text += CARD_SNIPPET;   /* cards prompt carries the format + worked example */
+  /* both card prompts carry the machine format and the worked example,
+     so the syntax never has to be typed by hand */
+  if(id==='pp4' || id==='pp4b') text += CARD_SNIPPET;
   if(RULES_PROMPTS.includes(id))  text += '\n\n' + rulesBlock();
   if(SWEEPS_PROMPTS.includes(id)) text += '\n\n' + document.getElementById('sweeps').textContent;
   return fillTokens(id, text);
@@ -3001,7 +3059,7 @@ const SECTION_PROMPTS = {
   'pb-r1':['pr1'], 'pb-r2':['pr2'], 'pb-r3':['pr3'], 'pb-r4':['pr4'],
   'pb-r5':['pr5'], 'pb-r6':['pr6'], 'pb-r7':['pr7'], 'pb-r8':['pr8a','pr8b'],
   'pb-p1':['pp1'], 'pb-p2':['pp2a','pp2b','pp2c'], 'pb-p3':['pp3'],
-  'pb-p4':['pp4'], 'pb-p5':['pp5','pp5c']
+  'pb-p4':['pp4','pp4b'], 'pb-p5':['pp5','pp5c']
 };
 const pbOutlines = [];
 Object.keys(SECTION_PROMPTS).forEach(sec=>{
@@ -3430,6 +3488,9 @@ function ppP3(s){ return document.getElementById('pp3').textContent
 function ppP4(s){ return promptText('pp4')
   .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText())
   .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
+function ppP4b(s){ return promptText('pp4b')
+  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText())
+  .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
 function ppP5(){ return promptText('pp5')
   .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()); }
 function ppP5c(){ return promptText('pp5c')
@@ -3842,10 +3903,14 @@ function bsPanelCopyAudit(st, s){
 function bsPanelCards(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   p.appendChild(bsEl('<p class="bs-note"><b>Same chat 4</b>, where the copy was just audited. P4 carries the final script, the dossier, and the card machine format; P5 packages it. Paste the P4 reply and the card blocks route to the Cards tab with file tag "'+esc(s.dossierTag)+'". Posts skip the cards.</p>'));
-  const copyBtn = bsEl('<button type="button" class="copybtn" style="width:100%">Copy P4 · script + dossier + format attached</button>');
+  const rowC = bsEl('<div class="bs-row"></div>');
+  const copyBtn = bsEl('<button type="button" class="copybtn">Copy P4 · cards</button>');
   copyBtn.addEventListener('click', function(){ copyText(ppP4(s), this); });
-  p.appendChild(copyBtn);
-  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the whole P4 reply here: the card blocks plus the placement map."></textarea>');
+  const popBtn = bsEl('<button type="button" class="copybtn">Copy P4B · popups</button>');
+  popBtn.addEventListener('click', function(){ copyText(ppP4b(s), this); });
+  rowC.appendChild(copyBtn); rowC.appendChild(popBtn);
+  p.appendChild(rowC);
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the P4 or P4B reply here: the blocks plus the placement map. Paste both replies together to render cards and popups in one set."></textarea>');
   p.appendChild(ta);
   p.appendChild(bsWirePaste(ta, st, s, 'cardsDraft'));
   const row0 = bsEl('<div class="bs-row"></div>');
@@ -3855,7 +3920,7 @@ function bsPanelCards(st, s){
     if(!txt.trim()){ alert('Paste the P4 reply first.'); return; }
     const cut = txt.search(/^\s*PLACEMENT MAP/mi);
     const specs = (cut>=0? txt.slice(0,cut) : txt).trim();
-    if(specs.indexOf('===')===-1){ alert('No card blocks found. The paste needs the === CARD lines from P4.'); return; }
+    if(specs.indexOf('===')===-1){ alert('No blocks found. The paste needs the === CARD or === POPUP lines from P4 or P4B.'); return; }
     specEl.value = specs; specEl.dispatchEvent(new Event('input'));
     tagEl.value = s.dossierTag; tagEl.dispatchEvent(new Event('input'));
     s.sections = s.sections || {};
@@ -4080,9 +4145,12 @@ const POPUP_STYLES = {
   "did you know": { label:"DID YOU KNOW", accent:"amber" },
   "tip":          { label:"TIP",          accent:"blue"  },
   "warning":      { label:"HEADS UP",     accent:"red"   },
-  "heads up":     { label:"HEADS UP",     accent:"red"   },
+  "heads up":     { label:"HEADS UP",     accent:"red", alias:true },
   "correction":   { label:"CORRECTION",   accent:"green" }
 };
+/* the names a prompt is expected to offer; "heads up" is accepted as a
+   spelling of warning but is not a fifth choice */
+const POPUP_STYLE_CANON = Object.keys(POPUP_STYLES).filter(k=>!POPUP_STYLES[k].alias);
 const POPUP_W = 960;
 /* one renderer per accepted card type; unknown types fall back to spec.
    The self-test checks these keys against CARD_TYPES in the prompt. */
@@ -4594,6 +4662,14 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     if(!p4txt.includes(t)) fails.push('Prompt P4 no longer names card type "'+t+'"');
     if(!CARD_SNIPPET.includes(t)) fails.push('CARD_SNIPPET no longer names card type "'+t+'"');
   });
+  /* the popup prompt must carry the style names and the machine format,
+     or the syntax ends up being typed by hand again */
+  const p4b = promptText('pp4b');
+  POPUP_STYLE_CANON.forEach(st=>{
+    if(!p4b.includes(st)) fails.push('Prompt P4B no longer names the popup style "'+st+'"');
+  });
+  if(!p4b.includes('=== POPUP')) fails.push('Prompt P4B lost the popup worked example');
+  if(!p4b.includes('type: popup')) fails.push('Prompt P4B lost the popup machine format');
   /* the three writing prompts each carry the voice card and house rules */
   ['pp2a','pp2b','pp2c'].forEach(id=>{
     const t = document.getElementById(id).textContent;
@@ -4602,7 +4678,7 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     if(id!=='pp2c' && !t.includes('Inside The Case."')) fails.push(id+' lost the sign off');
   });
   /* every step prompt must exist and every stage must map to a real section */
-  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp5','pp5c'].forEach(id=>{
+  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp4b','pp5','pp5c'].forEach(id=>{
     if(!document.getElementById(id)) fails.push('step prompt "'+id+'" is missing from the playbook');
   });
   /* filename tokens must actually be substituted, or the AI is told to
