@@ -914,6 +914,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v6.7</b> · Popups carry the channel mark. A small INSIDE THE CASE sits bottom right on every popup, matching the footer the cards have, so a popup screenshotted off the video is still recognisably ours. It sits on its own baseline clear of the source credit, and a footer line in the spec overrides it if you want different wording.</p>
       <p><b>v6.6</b> · Popups got their own prompt. P4 only ever suggested one to three popups alongside the cards, so producing a proper run of them meant typing the style and format into a chat by hand. New P4B writes 6 to 10 popups for a Short, or one every 30 to 45 seconds for long form, working from the dossier surplus rather than the script wording: the number the script rounds, the casting number, the identification tell, the myth there was no time for, the service trap. It carries the machine format and the worked example automatically, picks the right style for what the fact actually is, names the script line each popup lands on, and ends with a cut list for when the edit only has room for half. The load-time self-test now fails if P4B ever loses a style name or the format block.</p>
       <p><b>v6.5</b> · Lessons taken from a real E4OD revision pass, where practice had already outrun the playbook. R8 no longer merges its own findings: R8A now produces a standalone pass document marked NOT CONSOLIDATED, and R8B audits that pass in a second blank chat before consolidating it, because merging what a session just found, in the session that found it, leaves nobody to grade the work but the chat that did it. Failed promotions are now a required output, as a table with the queries and what would settle it, so a dead end is paid for once. The evidence class list gained marketplace or salvage listing, tertiary reference, recall record, and research log, after a real dossier had to invent five UNCLASSIFIABLE classes to describe its own sources. Link checks now record a state rather than pass or fail, including image only with no readable text, which is a file that downloads and can still never be re-verified by search. New: a scatter check that gathers every dated claim into one year spine wherever it is filed, because a window of years can look empty while being fully covered; a narrative verdict section for what the record can and cannot be made to say; precedents, so an evidence class is tiered once instead of per claim; open gaps carry an action type, since a gap filed as searchable when it is really a scanning job never closes; claims can bind to each other with TRAVELS WITH so a caveat cannot be separated from the claim it limits; and every pass now states plainly what it did not attempt.</p>
       <p><b>v6.4</b> · Home and Playbook stopped saying different things. Fixed a real bug: prompts told the AI to save files as ITC_TAG_PLAN.pdf and nothing ever substituted the tag, so every PDF came back literally named TAG. Every filename in every prompt is now a token, and each step names its own output as ITC_TAG_STEP.pdf, so R2 saves ITC_E4OD_R2.pdf and hands ITC_E4OD_R2.pdf to R3. Re-running a step bumps a decimal, R2 then R2.1, with a new revision control on each step. The Playbook tab is now only prompts, one row per step with its Copy button in the row, so a step with nothing to fill in is a single tap and never has to be expanded, plus a tag field for when no job is running. How this works, the dossier schema, the standing rules, the sweeps, and the quick reference all moved to Home as collapsed reference. House rules became editable on Home: sign off wording, runtime targets, figure density, hashtag counts, range wording, the punctuation bans, and a free-text box for your own rules, all riding on every research prompt with a live preview. The tier system, source hierarchy, and evidence classes stay locked on purpose. Packaging split into two: P5 does titles, description, tags, and captions, and the new P5C writes the pinned comment on its own.</p>
@@ -2803,7 +2804,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v6.6';
+const APP_VERSION = 'v6.7';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -4263,7 +4264,11 @@ function renderPopup(ctx,c){
   const MG=36;   /* room around the panel so the shadow fades instead of
                     being sliced off flat at the canvas edge */
   const labelF=font(25,700,false,5), headF=font(42,800,false,0),
-        bodyF=font(34,400,false,0), srcF=font(21,600,true,2);
+        bodyF=font(34,400,false,0), srcF=font(21,600,true,2),
+        markF=font(19,700,false,5);
+  /* the cards footer is long for a block this size, so a popup wears the
+     short form unless a footer line was set explicitly */
+  const mark = ((c.setKeys||[]).includes("footer")? c.footer : "INSIDE THE CASE").toUpperCase();
 
   const headLines = c.headline? wrap(ctx,c.headline.toUpperCase(),headF,maxW) : [];
   const bodyLines = body? wrap(ctx,body,bodyF,maxW) : [];
@@ -4288,6 +4293,15 @@ function renderPopup(ctx,c){
       y += 46;
       if(paint){ setF(ctx,srcF); ctx.fillStyle=C_LABEL;
         ctx.fillText("SOURCE · "+c.source.toUpperCase(),X,y); }
+    }
+    /* brand mark, bottom right, so a popup is still ours once it is
+       screenshotted off the video */
+    y += c.source? 32 : 42;
+    if(paint){
+      setF(ctx,markF); ctx.fillStyle=C_STEEL;
+      ctx.textAlign="right";
+      ctx.fillText(mark, POPUP_W-44, y);
+      ctx.textAlign="left";
     }
     return y + PAD;
   }
