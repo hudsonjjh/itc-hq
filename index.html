@@ -504,8 +504,12 @@ input[type=file]{display:none}
         <tr><td>20</td><td>SPECIMEN REGISTER</td><td>Physical evidence as P1, P2, P3, with what is legible versus transcribed versus inferred.</td></tr>
         <tr><td>21</td><td>SEARCH REGISTER</td><td>One row per query: exact string, date, question targeted, and result.</td></tr>
         <tr><td>22</td><td>BOUNDARY</td><td>What it replaced, what replaced it, what it shares parts with, and what it competed against.</td></tr>
-        <tr><td>23</td><td>CORRECTIONS TO PUBLISHED CONTENT</td><td>Anything this dossier now contradicts that the channel already published. Empty is a valid answer, absent is not.</td></tr>
+        <tr><td>23</td><td>CORRECTIONS TO PUBLISHED CONTENT</td><td>Anything this dossier now contradicts that the channel already published, and anything drafted but not yet posted that is now on hold. Empty is a valid answer, absent is not.</td></tr>
+        <tr><td>24</td><td>PRECEDENTS</td><td>The tiering decision for each evidence class, made once and applied to every claim on it. Two claims on the same class holding different tiers is an inconsistency to settle here, not per claim.</td></tr>
+        <tr><td>25</td><td>NOT ATTEMPTED</td><td>What this pass did not do, named plainly. Silence is not allowed to imply the work happened.</td></tr>
+        <tr><td>26</td><td>WHAT CAN AND CANNOT BE SAID</td><td>The narrative verdict. Which framings the LOCKED record actually supports, and which sound true but are not carried by the evidence.</td></tr>
       </table>
+      <p class="lead">Section 26 exists because a dossier can be entirely accurate claim by claim and still let a script say something the record does not support. "It changed right after 1989" and "Ford changed it every year" can rest on the same claims while only the first one is true.</p>
       <div class="kick">What every claim carries</div>
       <p class="lead">Tier answers how sure. It cannot also answer what kind of statement this is, what the source is allowed to prove, or which years it covers. Those are separate fields, so none of them get re-derived at script time by whoever is writing under pressure.</p>
       <table>
@@ -524,7 +528,10 @@ input[type=file]{display:none}
         <tr><td>STATED PURPOSE</td><td>every change claim</td><td>Why the manufacturer says it changed, or NOT DOCUMENTED.</td></tr>
         <tr><td>FAILURE CONSEQUENCE</td><td>every change claim</td><td>What the source says goes wrong with the wrong part, or NOT DOCUMENTED.</td></tr>
         <tr><td>SERVICE ACTION</td><td>every change claim</td><td>What the source tells the technician to do, or NOT DOCUMENTED.</td></tr>
+        <tr><td>TRAVELS WITH</td><td>any claim with a binding caveat</td><td>Claim IDs that must be carried wherever this one goes, so a limit on how it may be quoted cannot be lost.</td></tr>
       </table>
+      <div class="kick">Open gaps carry an action type</div>
+      <p class="lead">Not every gap is a search problem, and calling one a search problem guarantees it never closes. Every open gap says what would settle it and how it can actually be reached: <b>SEARCHABLE</b>, more or better queries could find it; <b>PHYSICAL ACQUISITION</b>, it exists only in a book or microfiche somebody has to obtain; <b>SCANNING OR PHOTOGRAPHY</b>, the document is in hand but is an image with no readable text; <b>HUMAN READING</b>, it needs a person to read a page and transcribe it; <b>EDITORIAL DECISION</b>, it is a policy question for the operator, not a fact to find.</p>
       <p class="lead">RECORD and PROVENANCE claims need only ID, tier, type, and source. The full field set is required on OBJECT claims, and spoken forms only on the card-ready ones, so the schema does not five times the length of the dossier for claims nobody will ever narrate.</p>
       <div class="kick">The four coverage axes</div>
       <p class="lead">One completeness number invites being quoted as "we know this much about the subject" when it only ever meant "we answered this much of our own question list". Four axes, reported separately, no blended total.</p>
@@ -585,6 +592,37 @@ REBUILDER TECHNICAL, proves field practice, tiered on its sourcing.
 PERIOD PRESS, proves what was reported at the time.
 SPECIMEN, proves one physical example and nothing about the fleet.
 FORUM, a lead only, never proof.
+MARKETPLACE OR SALVAGE LISTING, proves what a seller believes it
+  fits. Repetition across sellers broadens a secondary base, it never
+  changes its class. Never proof of factory allocation.
+TERTIARY REFERENCE, an encyclopedia or aggregator with no primary
+  citation. A lead only, and it never gets spoken.
+RECALL OR CAMPAIGN RECORD, proves the defect and population the
+  campaign covered.
+RESEARCH LOG, a statement about the search itself. Always TYPE
+  RECORD, never card eligible, never counted as an object fact.
+If a source genuinely fits none of these, write UNCLASSIFIABLE
+followed by a short description, and say in the open questions that
+the class list needs extending. Never force a bad fit to make a
+claim look stronger than it is.
+
+LINK CHECK. Recording that a source "resolves" is not enough, because
+a file can download and still be unreadable. Every source carries one
+of these states with the date checked:
+OPENED AND EXTRACTED, the page or file was opened and its text read.
+RESOLVED IN SEARCH ONLY, it appeared in results but was not opened.
+IMAGE ONLY, NO TEXT, it downloads but carries no machine readable
+  text, so nothing in it can ever be re-verified by search. Say so,
+  and route it to a human reading or a photograph.
+DEAD, the URL does not resolve.
+NOT ATTEMPTED, nobody tried this pass.
+Only OPENED AND EXTRACTED may back a LOCKED claim without a note
+explaining why not.
+
+WHAT YOU DID NOT DO. Every pass ends by listing what it did not
+attempt, plainly, rather than leaving silence to imply the work
+happened. An unattempted check recorded honestly is worth more than
+an implied one.
 
 CLAIM TYPE. Every claim carries a type.
 OBJECT = a statement about the subject itself.
@@ -637,8 +675,28 @@ the current session is capped at UNVERIFIED regardless of any tier it
 inherited.
 
 IDS. Sources are S1, S2, S3. Claims are C1, C2, C3. Specimens are P1,
-P2, P3. IDs are permanent. Continue the numbering, never renumber,
-and never reuse a retired ID.</pre>
+P2, P3. Search queries are numbered continuously across every pass,
+so a later pass can cite "query 154" and prove it is not repeating
+work. IDs are permanent. Continue the numbering, never renumber, and
+never reuse a retired ID.
+
+CLAIMS THAT TRAVEL TOGETHER. When one claim can only be used safely
+alongside another, say so on both with TRAVELS WITH and the claim ID.
+A caveat that lives in a note nobody carries forward is not a caveat.
+The usual case is a research log claim that limits how a strong claim
+may be quoted.
+
+PRECEDENT, NOT CASE BY CASE. When an evidence class is first tiered,
+that decision becomes the rule for every claim on that class in this
+dossier, recorded in the precedents section. If two claims on the
+same class hold different tiers, that is an inconsistency to settle
+once, not a judgement to re-make per claim.
+
+A FAILED PROMOTION IS A RESULT. When a claim is attacked for
+promotion and stays where it is, record it: the claim, the tier it
+stays at, what was found, the query numbers, and what would settle
+it. That is what stops the next pass spending its budget rediscovering
+the same dead end.</pre>
       </div>
     </div>
   </details>
@@ -856,6 +914,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v6.5</b> · Lessons taken from a real E4OD revision pass, where practice had already outrun the playbook. R8 no longer merges its own findings: R8A now produces a standalone pass document marked NOT CONSOLIDATED, and R8B audits that pass in a second blank chat before consolidating it, because merging what a session just found, in the session that found it, leaves nobody to grade the work but the chat that did it. Failed promotions are now a required output, as a table with the queries and what would settle it, so a dead end is paid for once. The evidence class list gained marketplace or salvage listing, tertiary reference, recall record, and research log, after a real dossier had to invent five UNCLASSIFIABLE classes to describe its own sources. Link checks now record a state rather than pass or fail, including image only with no readable text, which is a file that downloads and can still never be re-verified by search. New: a scatter check that gathers every dated claim into one year spine wherever it is filed, because a window of years can look empty while being fully covered; a narrative verdict section for what the record can and cannot be made to say; precedents, so an evidence class is tiered once instead of per claim; open gaps carry an action type, since a gap filed as searchable when it is really a scanning job never closes; claims can bind to each other with TRAVELS WITH so a caveat cannot be separated from the claim it limits; and every pass now states plainly what it did not attempt.</p>
       <p><b>v6.4</b> · Home and Playbook stopped saying different things. Fixed a real bug: prompts told the AI to save files as ITC_TAG_PLAN.pdf and nothing ever substituted the tag, so every PDF came back literally named TAG. Every filename in every prompt is now a token, and each step names its own output as ITC_TAG_STEP.pdf, so R2 saves ITC_E4OD_R2.pdf and hands ITC_E4OD_R2.pdf to R3. Re-running a step bumps a decimal, R2 then R2.1, with a new revision control on each step. The Playbook tab is now only prompts, one row per step with its Copy button in the row, so a step with nothing to fill in is a single tap and never has to be expanded, plus a tag field for when no job is running. How this works, the dossier schema, the standing rules, the sweeps, and the quick reference all moved to Home as collapsed reference. House rules became editable on Home: sign off wording, runtime targets, figure density, hashtag counts, range wording, the punctuation bans, and a free-text box for your own rules, all riding on every research prompt with a live preview. The tier system, source hierarchy, and evidence classes stay locked on purpose. Packaging split into two: P5 does titles, description, tags, and captions, and the new P5C writes the pinned comment on its own.</p>
       <p><b>v6.3</b> · New popup card type: small notification blocks for laying over footage, for a piece of trivia, a caution, or a correction that is worth knowing and does not deserve a full card. Four flavours set by one style line, did you know in amber, tip in blue, heads up in red, correction in green, each with the label and colour already chosen. A popup carries no rows, just an optional short headline and one or two sentences of text, and it grows to fit what it holds so it can never overflow. Unlike every other card it exports tight cropped on a transparent background, so it drops straight onto the timeline above a clip with nothing to mask out, and it is styled to read at the top of frame. Same parser, same warnings, same export, share, and package buttons, and popups are named _POPUP_01 so they sort apart from the cards. Prompt P4 now proposes popups alongside cards and places them on the script lines where the voiceover moves on quickly.</p>
       <p><b>v6.2</b> · Reliability revision, aimed at two failures the E4OD dossier exposed. Coverage discovery: the old loop generated its question list from what looked important and then scored completeness against that same list, so a component nobody thought to ask about stayed invisible. New sweeps block generates questions from the object instead: a physical component inventory, a parts catalog and service parts test, an exploded view test, a visual identification sweep, a boring parts test, and fifteen structured attack angles that must be worked before any open ended question. R1 now builds the component inventory, R4 runs the sweeps, R6 marks every component COVERED, THIN, or ABSENT and treats absence as a search trigger rather than silence. Completeness is now four separate axes with no blended total. Production readiness: claims carry type, evidence class, source year, proven span, span basis, and a span risk flag, so a 1997 manual no longer silently reads as 1989 hardware; every card ready claim carries a spoken form; every change claim carries stated purpose, failure consequence, and service action; and the schema gained a terminology register, specimen register with its own P numbers and an automatic UNVERIFIED cap on unattached specimens, search register, boundary section, and corrections to published content. The standing rules and sweeps are now written once and attached to every research prompt at copy time, replacing twenty one duplicated copies. New optional R8 pass re-attacks a finished dossier and rebuilds it, and R7 and R8 emit a machine readable claims companion.</p>
@@ -1403,7 +1462,34 @@ after those structured attacks should you generate open ended
 questions the plan should have included and did not. Search those too,
 same reporting.
 
-STEP 5. THE CASUAL EXPERT TEST. Put yourself in two seats. First,
+STEP 5. THE SCATTER CHECK. A window of years can look empty while
+being fully covered, because the dated facts were filed under the
+components they belong to instead of under the years. That reads as a
+research gap and is not one, and it will send the next pass hunting
+for evidence the dossier already holds.
+
+Sweep every section for anything carrying a date, a model year, or a
+build breakpoint, wherever it lives, and build one year by year spine
+from it. Each row: the year, the claim IDs, the tier, the dated change
+or condition, and the source. Mark plainly which rows are existing
+material being consolidated and which are genuinely new, so the spine
+cannot be mistaken for new evidence.
+
+Then name the years that have nothing dated behind them. A year with
+no dated change is a real finding and belongs in the open questions.
+It is also the difference between a claim a script can make and one it
+cannot.
+
+STEP 6. WHAT CAN AND CANNOT BE SAID. Read the spine as an editor. Two
+framings can rest on exactly the same claims while only one is
+supported: "it started changing right after launch" and "they changed
+it every year" are not the same statement, and a single empty year
+kills the second. Write the narrative verdict: the framings the LOCKED
+record supports, and the ones that sound true but are not carried by
+the evidence. This is what stops a script drifting past its sources
+while every individual claim in it stays true.
+
+STEP 7. THE CASUAL EXPERT TEST. Put yourself in two seats. First,
 somebody who knows this subject well and is about to watch a video on
 it. Second, somebody with the actual part on a bench trying to
 identify what they have. Write the ten questions each would expect
@@ -1413,7 +1499,13 @@ a gap: close it or declare it.
 OUTPUT, in this order:
 1. COVERAGE AUDIT: the full question by question table from step 1,
    plus the component table with every COVERED, THIN, or ABSENT mark.
-2. GAP CLOSURE LOG: every gap from steps 2 through 5 with its result.
+2. GAP CLOSURE LOG: every gap from steps 2 through 7 with its result,
+   and for anything still open, the action type: SEARCHABLE, PHYSICAL
+   ACQUISITION, SCANNING OR PHOTOGRAPHY, HUMAN READING, or EDITORIAL
+   DECISION. A gap called searchable when it is really a scanning job
+   never closes.
+2b. YEAR SPINE from step 5, and WHAT CAN AND CANNOT BE SAID from
+   step 6.
 3. TERMINOLOGY REGISTER: every term from step 3 with its definition,
    tier, and source, or an open question where none was found.
 4. THE COMPLETE UPDATED DOSSIER, restated in full in the current
@@ -1481,6 +1573,20 @@ consistent, units consistent, ranges written as "1994 to 1997".
 Remove duplicated claims, keeping the better sourced one and noting
 the merge.
 
+Settle the precedents while you are here. For every evidence class in
+use, state the tier it earns and apply that to every claim on it. If
+two claims on the same class currently hold different tiers, that is
+an inconsistency you resolve once and record, not a judgement left to
+each claim. Write it into the precedents section.
+
+Then build the year spine. Every claim carrying a date, a model year,
+or a build breakpoint gets gathered into section 02, no matter which
+component section it currently lives under. A window of years can look
+empty while being fully covered, purely because the dated facts were
+filed by component, and that sends the next pass hunting for evidence
+the dossier already holds. Name any year that genuinely holds nothing
+dated: that is a real finding.
+
 3. ROUTE BY TIER. Produce the state of knowledge ledger:
 CARD READY, the LOCKED facts specific and strong enough to put on
 screen. VOICEOVER OR DESCRIPTION ONLY, the LIKELY material, which can
@@ -1504,7 +1610,12 @@ half researched.
 5. DECLARE. Write the dossier's own status: the four coverage axes
 reported separately with no blended total, the three strongest
 sections, the three weakest, what a future session should hit first,
-and the unknown unknowns sentence in full. Verify the URL of every
+and the unknown unknowns sentence in full. Give every open gap an
+action type, because a gap filed as searchable when it is really a
+scanning job or a book somebody has to buy will never close. Then
+write section 26, what can and cannot be said: the framings the LOCKED
+record supports, and the ones that sound true but are not carried by
+the evidence. Verify the URL of every
 source backing a LOCKED claim, record the check date and an archive
 snapshot where one exists, and write a short on screen credit string
 for corner text over footage. Do not claim to have checked a link you
@@ -1556,7 +1667,8 @@ No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       <div class="kick">You provide: a finished dossier, plus anything new that prompted the revision</div>
       <p class="lead"><b>Optional. Not part of a normal build.</b> R1 through R7 produce a finished dossier. R8 exists for when that dossier is already done and something has changed: a gap turned up, a physical part is in front of you, new factory material surfaced, an old dossier needs tightening, or confidence in its completeness has dropped. It keeps every verified claim and attacks the coverage.</p>
       <p class="lead"><b>Do not use R8</b> to build a new dossier, to polish prose, or to chase only the one gap you already noticed. If the subject has never been researched, run R1. If you only want to fix one fact, fix it in the Library by hand.</p>
-      <p class="lead">Two prompts, back to back in the same blank chat. R8A attacks and reports. R8B rebuilds. They are split because one prompt asking for fifty things gets fifty shallow answers, and the whole point of this pass is that it is not shallow.</p>
+      <p class="lead">Two prompts, in <b>two different blank chats</b>. R8A attacks the dossier and produces a standalone pass document that is deliberately not merged. R8B, in a fresh chat that did not write it, audits that pass and only then consolidates it into a replacement dossier.</p>
+      <p class="lead">The separation is the point. Merging what a session just found, in the session that found it, leaves nobody to grade the work but the chat that did it, and that is the one check this whole system rests on. It is also why a failed promotion is written down: a claim attacked and left where it is, with its queries recorded, is a real result that stops the next pass paying for the same dead ends.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R8A <span>·</span> re-attack the coverage</div><div class="spacer"></div><button class="copybtn" data-copy="pr8a">Copy prompt</button></div>
         <pre id="pr8a">CHAT: a brand new blank chat, NOT inside any project or folder, and a
@@ -1667,40 +1779,104 @@ someone who has the part on a bench and is trying to identify it.
 Write the ten questions each would expect answered. Check every one
 against the dossier and close or declare anything it cannot answer.
 
-OUTPUT. A findings report only. Do not rebuild the dossier yet; that
-is R8B, next, in this chat. Report:
-1. QUESTIONS THE DOSSIER NEVER ASKED, from phase 1.
-2. COMPONENT SWEEP TABLE, every component marked COVERED, THIN, or
-   ABSENT.
-3. GAP CLOSURE LOG, every search with its result.
-4. UNDEFINED TERMS, with the definitions you sourced.
-5. SPAN RISK LIST, every claim ID affected.
-6. TIER AND EVIDENCE CHANGES, every claim ID that must move.
-7. CONTRADICTIONS, internal and cross dossier.
-8. NEW MATERIAL, everything found that the dossier does not contain.
-9. SEARCH REGISTER, every query you ran, as a table.
-10. HONEST VERDICT: was the previous completeness assessment
-    materially too optimistic, and by how much.
+OUTPUT. A standalone PASS DOCUMENT. Do not merge anything into the
+dossier and do not rewrite it. Merging what you just found, in the
+same session that found it, destroys the independent check the whole
+system rests on, because nobody is left to grade this work except the
+chat that produced it. The pass document is audited in a different
+chat first, and only then consolidated.
 
-DELIVERY. Reply with "Here you go", attach the findings as one PDF
-named [[OUT]], and put only this in the message: how
-many components came back ABSENT, how many terms were undefined, how
-many claims need a span flag, and whether the old score was too
-optimistic. If you cannot create files, say so in one line and write
-the findings out instead.</pre>
+Head it with: the parent dossier tag and date, this pass's tag, the
+date, what was attacked, counts of new claims and sources, and the
+status line "NOT CONSOLIDATED. Audit required before consolidation."
+
+Then, in this order:
+1. HEADLINE FINDINGS. What changed and what it means, in plain words.
+2. PROMOTIONS. Claims moved up a tier, with the old support, the new
+   support, and what forced the move.
+3. FAILED PROMOTIONS. Claims attacked that stay where they are, as a
+   table: claim, tier it stays at, what was found, query numbers, and
+   what would settle it. This is a real result, and it is what stops
+   the next pass spending its budget on the same dead ends.
+4. NEW CLAIMS, continuing the C numbering, full field set on each.
+5. NEW SOURCES, continuing the S numbering, each with its link check
+   state and on-screen credit.
+6. CHANGED CLAIMS, every ID whose tier, span, or caveat moved.
+7. CONTRADICTIONS, internal and against sibling dossiers, flagged and
+   left unresolved rather than quietly fixed.
+8. YEAR SPINE, every dated claim gathered into one year by year view
+   wherever in the dossier it currently lives, marking which rows
+   consolidate existing material and which are new. Name the years
+   that hold nothing dated.
+9. WHAT CAN AND CANNOT BE SAID, the narrative verdict on that spine.
+10. BLOCKER STATUS per blocked source, distinguishing a dead link
+    from a file that downloads but carries no readable text.
+11. SEARCHED NEGATIVES, with query numbers.
+12. OPEN GAPS, each with what would settle it and its action type:
+    SEARCHABLE, PHYSICAL ACQUISITION, SCANNING OR PHOTOGRAPHY, HUMAN
+    READING, or EDITORIAL DECISION.
+13. SEARCH REGISTER, every query this pass ran, continuing the global
+    numbering.
+14. NOT ATTEMPTED, what you did not do, stated plainly.
+15. NEXT STEPS, including any drafted or published content that must
+    be held until something here resolves, and any content this pass
+    unlocks.
+
+DELIVERY. Reply with "Here you go", attach the pass document as one
+PDF named [[OUT]], and put only this in the message: new claims, new
+sources, promotions earned, promotions failed, whether the previous
+completeness assessment was materially too optimistic, and the words
+NOT CONSOLIDATED. Then paste the pass document as plain text in one
+code block, because the consolidation chat has to read it.</pre>
       </div>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt R8B <span>·</span> rebuild the dossier</div><div class="spacer"></div><button class="copybtn" data-copy="pr8b">Copy prompt</button></div>
-        <pre id="pr8b">CHAT: the same blank chat as R8A, where the findings are above.
+        <div class="phead"><div class="pt">Prompt R8B <span>·</span> audit the pass, then consolidate</div><div class="spacer"></div><button class="copybtn" data-copy="pr8b">Copy prompt</button></div>
+        <pre id="pr8b">CHAT: ANOTHER brand new blank chat, NOT the one that produced the
+pass document, and not inside any folder. This separation is the
+whole point of the step: the pass has to be graded by something that
+did not write it. Running this in the R8A chat gets you a rewrite
+with no independent check, which is the failure this step exists to
+prevent.
 
-Now rebuild the dossier. You are not starting over: you are keeping
-every claim that holds, fixing what does not, folding in what you
-found, and upgrading the whole record to the current schema.
+You have two documents below: the parent dossier, and a revision pass
+document that has NOT been merged into it. Your job is in two halves,
+in this order. Do not start the second half until the first is done.
+
+HALF ONE, AUDIT THE PASS. You did not write it. Assume it overreached.
+- Check every promotion. Does the new source actually carry the claim
+  at the tier it was moved to, or does it only corroborate? A source
+  that repeats an existing secondary claim broadens the base without
+  changing its class, and that is not a promotion.
+- Check every new claim's evidence class against what that class is
+  allowed to prove. A parts catalog proves service fit, never original
+  assembly line allocation. A marketplace listing proves what a seller
+  believes. Repetition across sellers is not corroboration into a
+  higher tier.
+- Check every span and span risk flag.
+- Settle any precedent question the pass raised. If the same evidence
+  class is tiered differently on different claims, decide it once,
+  record the decision in the precedents section, and apply it to every
+  claim on that class, including the ones already in the parent. Do
+  not leave each claim to decide for itself.
+- Reject anything that does not hold, and say why.
+
+HALF TWO, CONSOLIDATE. Only what survives the audit gets merged. You
+are not starting over: you keep every claim that holds, fix what does
+not, fold in what survived, and upgrade the record to the current
+schema.
 
 PRESERVE WHAT HOLDS. FIX WHAT DOES NOT. FIND WHAT IS MISSING.
 TIGHTEN WHAT IS SOFT. DO NOT THROW AWAY VERIFIED WORK.
 
-RULES OF THE REBUILD:
+RULES OF THE CONSOLIDATION:
+- Anything the audit rejected does not enter the dossier. Record it as
+  rejected, with the reason, so the next pass does not resurrect it.
+- Carry the pass's failed promotions, searched negatives, and search
+  register into the dossier's own registers. That work is only worth
+  doing once.
+- Fold the year spine into section 02 so the dated material stops
+  being scattered across component sections.
+- Any claim with a TRAVELS WITH binding keeps it, on both claims.
 - Preserve every existing valid claim ID and source ID. Continue the
   numbering for anything new. Never silently renumber. If structural
   renumbering is genuinely unavoidable, output a mapping table from
@@ -1734,15 +1910,23 @@ RULES OF THE REBUILD:
 
 OUTPUT, in this order.
 
+0. AUDIT VERDICT ON THE PASS, before anything is merged: every
+promotion upheld or rejected with the reason, every new claim
+accepted, re-tiered, or rejected, every precedent question settled,
+and a line reading either "PASS CLEARED FOR CONSOLIDATION" or
+"REJECTED IN PART" with what was thrown out. A pass that survives
+whole is unusual and worth a second look.
+
 1. REVISION REPORT, short and concrete: new claims, new sources,
 claims upgraded, downgraded, corrected, split or merged, spans
 narrowed, claims flagged span risk, terms that had no definition
 before this pass, change claims with no documented purpose or
 consequence, sources with broken or unverifiable links,
 contradictions against other ITC dossiers, published statements now
-needing correction, major newly discovered subject areas, major gaps
-still unresolved, whether the prior completeness assessment was
-materially too optimistic, and the final library ready status.
+needing correction, drafted content now on hold, content this pass
+unlocks, major newly discovered subject areas, major gaps still
+unresolved, whether the prior completeness assessment was materially
+too optimistic, and the final library ready status.
 
 2. NEW COVERAGE FOUND BY R8. Everything the original workflow missed,
 listed plainly before it gets normalised into the dossier, so the miss
@@ -1770,7 +1954,11 @@ dossier as [[OUT]], and the companion as
 the library ready status in the message. Then, below the message,
 paste the complete revised dossier as plain text in one code block,
 and the companion TSV in a second code block, because the app reads
-both. Nothing else in the message.</pre>
+both. Nothing else in the message.
+
+PARENT DOSSIER: [PASTE THE COMPLETE DOSSIER]
+
+REVISION PASS DOCUMENT: [PASTE THE R8A PASS DOCUMENT]</pre>
       </div>
     </div>
   </details>
@@ -2559,7 +2747,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v6.4';
+const APP_VERSION = 'v6.5';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3090,8 +3278,8 @@ const BS_TRACKS = {
      rebuild it. Two steps because one prompt asking for fifty things
      gets fifty shallow answers. */
   revise: [
-    { key:'attack',  label:'Re-attack' },
-    { key:'rebuild', label:'Rebuild' },
+    { key:'attack',  label:'Pass · chat A' },
+    { key:'rebuild', label:'Audit + merge · chat B' },
     { key:'shelved', label:'Shelved' }
   ]
 };
@@ -3224,7 +3412,11 @@ function prR8a(s){
              'WHAT PROMPTED THIS REVISION: ' + (s.reason || 'general tightening'))
     + '\n\nDOSSIER:\n' + bsDossierText(s);
 }
-function prR8b(){ return promptText('pr8b'); }
+/* R8B runs in a different blank chat than R8A, so it carries both the
+   parent dossier and the unmerged pass document with it */
+function prR8b(s){ return promptText('pr8b')
+  .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s))
+  .replace('[PASTE THE R8A PASS DOCUMENT]', '\n' + (s.findings||'')); }
 
 function ppP1(s){ return document.getElementById('pp1').textContent
   .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
@@ -3394,21 +3586,24 @@ function bsPanelAttack(st, s){
   const c = bsEl('<button type="button" class="copybtn">Copy R8A · re-attack, dossier attached</button>');
   c.addEventListener('click', function(){ copyText(prR8a(s), this); });
   row1.appendChild(c); p.appendChild(row1);
-  const ta = bsEl('<textarea class="bs-paste" placeholder="Optional: paste the R8A findings here for your own record. You can also just read the PDF and carry on to R8B in the same chat."></textarea>');
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the complete pass document here. The audit runs in a different chat, so this text is what carries it there."></textarea>');
   p.appendChild(ta);
   p.appendChild(bsWirePaste(ta, st, s, 'findings'));
   const row = bsEl('<div class="bs-row"></div>');
-  const go = bsEl('<button type="button" class="amber">Attack done · on to the rebuild</button>');
-  go.addEventListener('click', ()=>{ s.findings = ta.value; bsAdvance(st, 'rebuild'); });
+  const go = bsEl('<button type="button" class="amber">Pass captured · on to the audit</button>');
+  go.addEventListener('click', ()=>{
+    if(!ta.value.trim()){ alert('Paste the pass document first. The audit chat is separate and receives only what you paste here.'); return; }
+    s.findings = ta.value.trim(); bsAdvance(st, 'rebuild');
+  });
   row.appendChild(go); p.appendChild(row);
   return p;
 }
 function bsPanelRebuild(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note"><b>Same chat as R8A.</b> R8B keeps every claim that holds, folds in what the attack found, and upgrades the record to the current schema. It returns the revised dossier and the machine readable companion. Paste both below and they replace what is on the shelf under <b>'+esc(s.dossierTag)+'</b>.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Another brand new blank chat, not the one that ran R8A.</b> The pass has to be graded by something that did not write it, so R8B audits it first and only then consolidates. The copy below carries both the <b>'+esc(s.dossierTag)+'</b> dossier and the pass document. Paste the result below and it replaces what is on the shelf.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
-  const c = bsEl('<button type="button" class="copybtn">Copy R8B · rebuild</button>');
-  c.addEventListener('click', function(){ copyText(prR8b(), this); });
+  const c = bsEl('<button type="button" class="copybtn">Copy R8B · audit and consolidate</button>');
+  c.addEventListener('click', function(){ copyText(prR8b(s), this); });
   row1.appendChild(c); p.appendChild(row1);
   p.appendChild(bsEl('<div class="kick" style="margin-top:10px">Revised dossier</div>'));
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the complete revised dossier text here."></textarea>');
