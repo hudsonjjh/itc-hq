@@ -238,8 +238,20 @@ details.pbsec>summary .rowcopy{display:flex;gap:6px;flex:none;align-items:center
   padding:10px 11px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;flex:1;min-width:0}
 .lib-form input:focus,.lib-form select:focus{border-color:var(--amber)}
 .lib-form{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
-.bs-head .full{color:var(--steel);font-size:10.5px;font-family:'JetBrains Mono',monospace;text-decoration:none;flex:none}
-.bs-head .full:hover{color:var(--amber)}
+.bs-head .grow{flex:1}
+.bs-subject{color:var(--dim);font-size:12px;line-height:1.5;margin:0 0 10px;word-break:break-word}
+.bs-links{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 10px}
+.bs-links a{color:var(--steel);font-size:11px;font-family:'JetBrains Mono',monospace;
+  text-decoration:none;border-bottom:1px dotted rgba(102,120,142,.5)}
+.bs-links a:hover{color:var(--amber);border-bottom-color:rgba(255,140,22,.6)}
+.jobset{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 12px;margin:0 0 10px}
+.jobset label{display:block;color:var(--steel);font-size:10px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;margin:8px 0 4px}
+.jobset label:first-child{margin-top:0}
+.jobset input,.jobset textarea{width:100%;background:var(--ink);color:var(--txt);border:1px solid var(--line);
+  border-radius:7px;padding:9px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;resize:vertical}
+.jobset input:focus,.jobset textarea:focus{border-color:var(--amber)}
+.jobset textarea{min-height:70px;line-height:1.5}
 .bs-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
 .bs-row>button{flex:1;min-width:130px;min-height:38px}
 .bs-parsed{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:4px 12px 10px;margin-top:8px}
@@ -267,7 +279,7 @@ button.amber:disabled{opacity:.4;cursor:default}
 .histitem .tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--txt);font-weight:700;word-break:break-word}
 .histitem .meta{color:var(--steel);font-size:10.5px;font-family:'JetBrains Mono',monospace;margin-top:2px}
 .histitem .btns{display:flex;gap:6px;align-items:center;flex:none}
-.ghost.sm{padding:7px 11px;font-size:10.5px}
+.ghost.sm{padding:9px 13px;font-size:10.5px;min-height:36px}
 
 .quickrow{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
 .quickrow .copybtn{flex:1;min-width:150px;padding:12px}
@@ -914,6 +926,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v6.8</b> · Fixed a false self-test alarm: a tag containing a hyphen, like 87-91_FSERIRES, produced a perfectly good filename that the guard's own character check rejected. The guard was stricter than the app, the filename was never broken, and the banner wording no longer names a prompt number that has not existed since the renumber. Tags now keep hyphens and digits and strip only what a filename genuinely cannot carry. Home is simpler: the tag sits on its own line with a <b>New</b> button always visible, so starting fresh no longer means hunting through the jobs list, and the subject wraps underneath instead of squeezing the header. New <b>Edit tag and subject</b> panel lets you fix the tag, subject, and direction after a job has started, and the start screen now takes the direction up front, which is what the R1 output box was wrongly being used for. That box now says plainly that it is for what R1 gives back. Set it once, every prompt after carries it.</p>
       <p><b>v6.7</b> · Popups carry the channel mark. A small INSIDE THE CASE sits bottom right on every popup, matching the footer the cards have, so a popup screenshotted off the video is still recognisably ours. It sits on its own baseline clear of the source credit, and a footer line in the spec overrides it if you want different wording.</p>
       <p><b>v6.6</b> · Popups got their own prompt. P4 only ever suggested one to three popups alongside the cards, so producing a proper run of them meant typing the style and format into a chat by hand. New P4B writes 6 to 10 popups for a Short, or one every 30 to 45 seconds for long form, working from the dossier surplus rather than the script wording: the number the script rounds, the casting number, the identification tell, the myth there was no time for, the service trap. It carries the machine format and the worked example automatically, picks the right style for what the fact actually is, names the script line each popup lands on, and ends with a cut list for when the edit only has room for half. The load-time self-test now fails if P4B ever loses a style name or the format block.</p>
       <p><b>v6.5</b> · Lessons taken from a real E4OD revision pass, where practice had already outrun the playbook. R8 no longer merges its own findings: R8A now produces a standalone pass document marked NOT CONSOLIDATED, and R8B audits that pass in a second blank chat before consolidating it, because merging what a session just found, in the session that found it, leaves nobody to grade the work but the chat that did it. Failed promotions are now a required output, as a table with the queries and what would settle it, so a dead end is paid for once. The evidence class list gained marketplace or salvage listing, tertiary reference, recall record, and research log, after a real dossier had to invent five UNCLASSIFIABLE classes to describe its own sources. Link checks now record a state rather than pass or fail, including image only with no readable text, which is a file that downloads and can still never be re-verified by search. New: a scatter check that gathers every dated claim into one year spine wherever it is filed, because a window of years can look empty while being fully covered; a narrative verdict section for what the record can and cannot be made to say; precedents, so an evidence class is tiered once instead of per claim; open gaps carry an action type, since a gap filed as searchable when it is really a scanning job never closes; claims can bind to each other with TRAVELS WITH so a caveat cannot be separated from the claim it limits; and every pass now states plainly what it did not attempt.</p>
@@ -2804,7 +2817,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v6.7';
+const APP_VERSION = 'v6.8';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -2989,10 +3002,15 @@ const STEP_OF = { pr1:'R1', pr2:'R2', pr3:'R3', pr4:'R4', pr5:'R5', pr6:'R6', pr
   pp4:'P4', pp4b:'P4B', pp5:'P5', pp5c:'P5C' };
 const PREV_OF = { pr2:'R1', pr3:'R2', pr4:'R3', pr5:'R4', pr6:'R5', pr7:'R6', pr8b:'R8A' };
 
+/* tags become filenames, so strip only what a filename genuinely cannot
+   carry. Hyphens, digits and underscores are fine and people use them. */
+function cleanTag(t){
+  return String(t||'').trim().toUpperCase().replace(/\s+/g,'_').replace(/[\\/:*?"<>|]/g,'');
+}
 function activeTag(){
   const j = bsState().active;
   const t = j && (j.tag || j.dossierTag);
-  return (t || store.get('pbtag','') || 'TAG').trim().toUpperCase().replace(/\s+/g,'_');
+  return cleanTag(t || store.get('pbtag','') || 'TAG');
 }
 function stepFile(tag, step, runs){
   const n = (runs && runs[step]) || 0;
@@ -3348,6 +3366,54 @@ const BS_STEP_SECTION = { scope:'pb-r1', research:'pb-r2', audit:'pb-r5', finali
 const bsWrap = document.getElementById('bsWrap');
 let bsView = null;
 let bsHistOpen = false;
+let bsSetOpen = false;
+
+/* The tag, subject and direction are set once and carried by every
+   prompt after. Editable here so a typo or a sharpened scope does not
+   mean starting the job again. */
+function bsSettings(st, s){
+  const box = bsEl('<div class="jobset"></div>');
+  const isResearch = s.kind==='research';
+  box.appendChild(bsEl('<label>Tag</label>'));
+  const tagIn = bsEl('<input maxlength="32">');
+  tagIn.value = s.tag || s.dossierTag || '';
+  tagIn.disabled = !isResearch;
+  box.appendChild(tagIn);
+  box.appendChild(bsEl('<p class="bs-note" style="margin:6px 0 0">'+
+    (isResearch
+      ? 'Names every file this job produces, the Writer doc, and the card exports. Changing it renames what comes next, not what you already saved.'
+      : 'Locked to the dossier this job draws from, so the two cannot drift apart.')+'</p>'));
+  box.appendChild(bsEl('<label>Subject</label>'));
+  const nameIn = bsEl('<input placeholder="What this is, in plain words">');
+  nameIn.value = s.name || '';
+  box.appendChild(nameIn);
+  box.appendChild(bsEl('<label>Direction and scope</label>'));
+  const angIn = bsEl('<textarea placeholder="What you want covered, any limits, anything you already know. This rides in R1 and sets the whole coverage plan."></textarea>');
+  angIn.value = s.angle || '';
+  box.appendChild(angIn);
+  box.appendChild(bsEl('<p class="bs-note" style="margin:8px 0 0">Saved on this device as you type. Moving between phone and desktop needs the backup file on this page: nothing here syncs on its own.</p>'));
+  let timer = null;
+  const save = ()=>{
+    clearTimeout(timer);
+    timer = setTimeout(()=>{
+      if(isResearch){
+        const t = cleanTag(tagIn.value);
+        if(t) s.tag = t;
+      }
+      s.name = nameIn.value;
+      s.angle = angIn.value;
+      s.updated = Date.now();
+      bsSave(st);
+      refreshPlaybook();
+      const hd = bsWrap.querySelector('.bs-head .tag');
+      if(hd) hd.textContent = s.tag || s.dossierTag;
+      const sj = bsWrap.querySelector('.bs-subject');
+      if(sj) sj.textContent = (s.kind==='production'? 'make' : s.kind==='revise'? 'revise' : 'research') + (s.name? ' · '+s.name : '');
+    }, 500);
+  };
+  [tagIn, nameIn, angIn].forEach(el=>el.addEventListener('input', save));
+  return box;
+}
 
 /* pre-v6 jobs carried the old single-track statuses; map them onto the
    track they belong to so work in progress survives the restructure */
@@ -3607,9 +3673,9 @@ function bsDocStage(st, s, opt){
 /* ---- research track panels ---- */
 function bsPanelScope(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Chat 1, in your Inside The Case folder.</b> R1 writes the question list this dossier gets measured against, so a missing answer is visible instead of silent. It comes back as a PDF plus the plain text; paste the text below, because the gap hunt runs in a different chat and needs it.',
+    note: '<b>Chat 1, in your Inside The Case folder.</b> R1 writes the question list this dossier gets measured against, so a missing answer is visible instead of silent. Your subject and direction are already inside the copy below, from the job settings above. The box underneath is for what R1 <b>gives back</b>, not for anything you type: it comes back as a PDF plus the plain text, and the gap hunt runs in a different chat that needs that text.',
     copies: [{ label:'Copy R1 · scope and coverage plan', build: prR1 }],
-    placeholder: 'Paste the coverage plan text here: scope, classification, the question list, and the definition of done.',
+    placeholder: 'R1 OUTPUT goes here. Paste the coverage plan text it returns: scope, classification, the question list, and the definition of done.',
     field: 'plan', next: 'Plan captured · start the research', from: 'scope', to: 'research',
     needs: 'Paste the coverage plan first.'
   });
@@ -3982,11 +4048,12 @@ function bsStartProduction(dossierTag){
 }
 function bsStartPanel(st){
   const box = bsEl('<div class="bs-box"></div>');
-  box.appendChild(bsEl('<p class="bs-note">Two tracks. <b>Research a part</b> builds one permanent dossier through R1 to R7 and shelves it in the Library. <b>Make something</b> draws a Short, a long form, or posts out of a dossier you already finished, as many times as you like.</p>'));
+  box.appendChild(bsEl('<p class="bs-note">Nothing running. <b>Research a part</b> builds one permanent dossier through R1 to R7 and shelves it in the Library. <b>Make something</b> draws a Short, a long form, or posts out of a dossier you already finished, as many times as you like. Set the tag once here and every prompt after carries it.</p>'));
   box.appendChild(bsEl('<div class="kick" style="margin-top:6px">Research a part</div>'));
   const form = bsEl('<div class="logform">'+
-    '<div class="r"><input class="i-tag" placeholder="TAG · e.g. E4OD" maxlength="24" style="max-width:150px">'+
+    '<div class="r"><input class="i-tag" placeholder="TAG · e.g. E4OD" maxlength="32" style="max-width:150px">'+
     '<input class="i-name" placeholder="Subject · e.g. E4OD automatic transmission"></div>'+
+    '<div class="r"><textarea class="i-angle bs-paste" style="min-height:70px" placeholder="Direction and scope, optional. What you want covered, any limits, anything you already know. This rides in R1 and shapes the whole coverage plan."></textarea></div>'+
     '<div class="r"><select class="i-type" style="max-width:190px">'+
     '<option value="transmission">transmission</option><option value="axle">axle</option>'+
     '<option value="transfer case">transfer case</option><option value="engine">engine</option>'+
@@ -3995,12 +4062,13 @@ function bsStartPanel(st){
     '<button type="button" class="amber i-start" style="flex:1">Start the research</button></div></div>');
   form.querySelector('.i-type').className = 'i-type';
   form.querySelector('.i-start').addEventListener('click', ()=>{
-    const tag = form.querySelector('.i-tag').value.trim().toUpperCase().replace(/\s+/g,'_');
+    const tag = cleanTag(form.querySelector('.i-tag').value);
     if(!tag){ alert('Give it a tag first. The tag names the dossier, the prompts, and the card files.'); return; }
     st.active = { id:Date.now(), kind:'research', tag, name: form.querySelector('.i-name').value.trim(),
-      type: form.querySelector('.i-type').value, angle:'', status:'scope', created:Date.now(), updated:Date.now(),
+      type: form.querySelector('.i-type').value, angle: form.querySelector('.i-angle').value.trim(),
+      status:'scope', created:Date.now(), updated:Date.now(),
       plan:'', r4doc:'', r6doc:'', finalDoc:'' };
-    bsView = null; bsSave(st); renderShort();
+    bsView = null; bsSetOpen = false; bsSave(st); renderShort();
   });
   box.appendChild(form);
   box.appendChild(bsEl('<div class="kick">Make something from a dossier</div>'));
@@ -4076,12 +4144,32 @@ function renderShort(){
   } else {
     const s = st.active;
     const box = bsEl('<div class="bs-box"></div>');
-    const head = bsEl('<div class="bs-head"><span class="tag"></span><span class="angle"></span><a href="#" class="full">FULL STEP ›</a></div>');
+    /* tag on its own line with the New button always reachable, subject
+       underneath so a long one wraps instead of squeezing the header */
+    const head = bsEl('<div class="bs-head"><span class="tag"></span><span class="grow"></span>'+
+      '<button type="button" class="ghost sm b-new">New</button></div>');
     head.querySelector('.tag').textContent = s.tag || s.dossierTag;
-    head.querySelector('.angle').textContent = (s.kind==='production'? 'make' : s.kind==='revise'? 'revise' : 'research') + (s.name? ' · '+s.name : '');
-    const viewKey = (bsView && bsStageIdx(s, bsView) < bsStageIdx(s, s.status))? bsView : s.status;
-    head.querySelector('.full').addEventListener('click', e=>{ e.preventDefault(); goPlaybook(BS_STEP_SECTION[viewKey] || 'pb-start'); });
+    head.querySelector('.b-new').addEventListener('click', ()=>{
+      if(!confirm('Start something new? This job gets parked in the jobs list, not deleted, so you can pick it back up.')) return;
+      st.history.unshift(st.active); st.history = st.history.slice(0,20); st.active = null;
+      bsView = null; bsSave(st); renderShort();
+    });
     box.appendChild(head);
+    const kind = (s.kind==='production'? 'make' : s.kind==='revise'? 'revise' : 'research');
+    const subj = bsEl('<div class="bs-subject"></div>');
+    subj.textContent = kind + (s.name? ' · '+s.name : '');
+    box.appendChild(subj);
+    const viewKey = (bsView && bsStageIdx(s, bsView) < bsStageIdx(s, s.status))? bsView : s.status;
+    const links = bsEl('<div class="bs-links"><a href="#" class="l-set">EDIT TAG AND SUBJECT</a>'+
+      '<a href="#" class="l-full">FULL STEP ›</a></div>');
+    links.querySelector('.l-full').addEventListener('click', e=>{
+      e.preventDefault(); goPlaybook(BS_STEP_SECTION[viewKey] || 'pb-start');
+    });
+    links.querySelector('.l-set').addEventListener('click', e=>{
+      e.preventDefault(); bsSetOpen = !bsSetOpen; renderShort();
+    });
+    box.appendChild(links);
+    if(bsSetOpen) box.appendChild(bsSettings(st, s));
     box.appendChild(bsStepper(st, s));
     if(viewKey !== s.status){
       const back = bsEl('<p class="bs-note">Reviewing the '+esc(bsLabel(s, viewKey))+' stage. <a href="#" class="bk">Back to the current stage</a></p>');
@@ -4700,9 +4788,11 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
      placeholder TAG is fine: that just means no job is running yet. */
   if(/\[\[[A-Z_]+\]\]/.test(promptText('pr2')))
     fails.push('filename tokens stopped resolving in the prompts');
-  /* shape check, not a re-implementation: tag, step, optional revision */
+  /* shape check, not a re-implementation. Deliberately permissive about
+     what a tag contains: hyphens and digits are perfectly good in a
+     filename, and this guard has no business rejecting them. */
   const f = fillTokens('pr2','[[OUT]]');
-  if(!/^ITC_[A-Z0-9_]+_R2(\.\d+)?\.pdf$/.test(f))
+  if(!/^ITC_.+_R2(\.\d+)?\.pdf$/.test(f))
     fails.push('step filenames are not being built from the tag and step, got "'+f+'"');
   Object.keys(SECTION_PROMPTS).forEach(sec=>{
     if(!document.getElementById(sec)) fails.push('playbook section "'+sec+'" is missing');
@@ -4734,7 +4824,7 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     console.error('ITC HQ self-test FAILED:\n- '+fails.join('\n- '));
     const n = document.createElement('div');
     n.className = 'note';
-    n.innerHTML = '<b>Self-test failed:</b> the card prompt and the card generator have drifted apart. Cards may not render from Prompt 9 output. Open the browser console for details, then hand this file to Claude.';
+    n.innerHTML = '<b>Self-test failed:</b> something in the playbook and the app have drifted apart, so a prompt may produce output the app cannot use. Open the browser console for the specific failure, then hand this file to Claude.';
     const home = document.getElementById('view-home');
     home.insertBefore(n, home.firstChild);
   }
