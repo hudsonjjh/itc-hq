@@ -41,16 +41,37 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is playbook v6.0, two tracks, on both Claude
+- The workflow is playbook v7.0, two tracks, on both Claude
   (Opus/Fable) and ChatGPT. The **research track** (R1 scope and
   coverage plan, R2 deep research, R3 second pass, R4 expansion, R5
   accuracy audit, R6 gap hunt, R7 finalize) builds one permanent
-  dossier per part to the fixed nineteen-section schema and shelves it
+  dossier per part to the fixed schema and shelves it
   in the Library. The **production track** (P1 content plan, P2A/B/C
   write, P3 copy audit, P4 cards, P5 packaging) draws content out of a
   finished dossier, repeatedly. R2 and R3 share one chat; every other
   step runs cold in a fresh chat with its inputs pasted in, ideally
   alternating models between writing and auditing.
+- **The light spine** (R1, then L2, then L3) is the same research track
+  with steps merged, for a subject too small to earn seven prompts. It
+  is allowed to shorten by merging and never by dropping: all six
+  sweeps run, the gap hunt still measures against R1's question list,
+  and L3 still runs cold in a chat that did not write the dossier. The
+  self-test fails if any of those three disappear. A light job is
+  `kind:'research'` with `light:true`, not a separate kind, so
+  everything that asks "is this research" keeps working.
+- **Delta passes.** R3, R5 and R6 return only what changed. Only the
+  last step in a chat restates the whole dossier, which is why R7
+  assembles the R4 base plus the R5 and R6 deltas. Do not "fix" a
+  delta pass by asking it to restate the dossier again.
+- **CORE and REFERENCE.** Every claim is routed. Production prompts
+  receive `CORE_NOTE` via `withDossier()` and write from CORE only;
+  REFERENCE is background. R8 deliberately does not get that note,
+  because a revision pass has to re-attack everything. Keep the note
+  in one place, not copied into the seven P prompts.
+- Every claim carrying a figure carries a verbatim QUOTE, and section
+  27 gathers every figure in the dossier into one ledger. Both exist
+  for the same reason: a wrong digit is invisible in prose and obvious
+  next to the words it came from.
 - Research is the product. A dossier is never scoped to one video, and
   R1's question list plus R6's gap hunt exist so a missing answer is
   visible rather than silent. Do not collapse those two steps, and do
@@ -62,6 +83,11 @@ have it installed as a home-screen app.
   rules back into an individual prompt: that duplication is what the
   v6.2 revision removed, and the load-time self-test now fails if the
   blocks stop attaching.
+- **One surface.** The Playbook and the Home flow must never hand over
+  different text for the same prompt. Playbook copy buttons go through
+  `livePrompt()`, which uses the flow builder whenever a job of the
+  matching kind is running. If you add a prompt, add it to `FLOW_BUILD`
+  too, or that button quietly starts copying an unfilled version again.
 - Coverage and accuracy are different questions. Accuracy asks whether
   the claims are true (R5); coverage asks whether the right questions
   were ever generated (the sweeps, R6). Completeness reports four

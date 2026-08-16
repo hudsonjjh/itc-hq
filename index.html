@@ -248,9 +248,10 @@ details.pbsec>summary .rowcopy{display:flex;gap:6px;flex:none;align-items:center
 .jobset label{display:block;color:var(--steel);font-size:10px;font-weight:700;letter-spacing:.14em;
   text-transform:uppercase;margin:8px 0 4px}
 .jobset label:first-child{margin-top:0}
-.jobset input,.jobset textarea{width:100%;background:var(--ink);color:var(--txt);border:1px solid var(--line);
+.jobset input,.jobset textarea,.jobset select{width:100%;background:var(--ink);color:var(--txt);border:1px solid var(--line);
   border-radius:7px;padding:9px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;resize:vertical}
-.jobset input:focus,.jobset textarea:focus{border-color:var(--amber)}
+.jobset select{min-height:38px}
+.jobset input:focus,.jobset textarea:focus,.jobset select:focus{border-color:var(--amber)}
 .jobset textarea{min-height:70px;line-height:1.5}
 .bs-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
 .bs-row>button{flex:1;min-width:130px;min-height:38px}
@@ -290,6 +291,12 @@ button.amber:disabled{opacity:.4;cursor:default}
 .logform input{flex:1;min-width:0;background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:7px;
   padding:10px 11px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none}
 .logform input:focus{border-color:var(--amber)}
+/* selects were left bare here and browsers render them about 19px tall,
+   under the 36px this app holds every touch target to */
+.logform select{flex:1;min-width:0;min-height:38px;background:var(--panel);color:var(--txt);
+  border:1px solid var(--line);border-radius:7px;padding:8px 9px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;outline:none}
+.logform select:focus{border-color:var(--amber)}
 .loggroup{margin:12px 0}
 .loghead{display:flex;align-items:center;gap:10px;margin:0 0 4px}
 .loghead .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);font-weight:700;letter-spacing:.08em;flex:1}
@@ -490,7 +497,9 @@ input[type=file]{display:none}
   <details class="pbsec" id="pb-schema">
     <summary><span class="sn">·</span><span class="st">The dossier schema</span><span class="chips"><span class="chip tool">Schema version 2</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <p class="lead">Every ITC dossier has the same sections in the same order, whatever the part is. Same shape every time means you can find anything fast, diff two parts against each other, and see a hole at a glance. Sections 19 to 23 were added in schema version 2; a version 1 dossier is still readable and gets upgraded by R8 rather than invalidated.</p>
+      <p class="lead">Every ITC dossier has the same sections in the same order, whatever the part is. Same shape every time means you can find anything fast, diff two parts against each other, and see a hole at a glance.</p>
+      <p class="lead">It reads as two halves. <b>Sections 00 to 15 are the core</b>: what the subject is, and everything that could reach an audience. <b>Sections 16 to 27 are the record</b>: the evidence, the registers, and the proof that the work was done. Production prompts read the core. The record exists so a check is visible and a claim is traceable, not so it can be narrated. A version 1 or 2 dossier stays readable and gets upgraded by R8 rather than invalidated.</p>
+      <div class="kick">Core · sections 00 to 15</div>
       <table>
         <tr><th>#</th><th>Section</th><th>What belongs in it</th></tr>
         <tr><td>00</td><td>DOSSIER HEADER</td><td>Tag, subject, type, dossier version, date, schema version, the coverage scorecard, and a one paragraph summary.</td></tr>
@@ -509,6 +518,10 @@ input[type=file]{display:none}
         <tr><td>13</td><td>MYTHS, RUMORS, AND LORE</td><td>Each with a verdict of CONFIRMED, CONTRADICTED, HALF TRUE, or NOT PROVEN, plus where the lore came from.</td></tr>
         <tr><td>14</td><td>SURPRISES</td><td>Anything counterintuitive, any dated-change trap, any place the obvious answer is wrong.</td></tr>
         <tr><td>15</td><td>OPEN QUESTIONS</td><td>What could not be confirmed, and exactly what document would settle it.</td></tr>
+      </table>
+      <div class="kick">Record · sections 16 to 27</div>
+      <table>
+        <tr><th>#</th><th>Section</th><th>What belongs in it</th></tr>
         <tr><td>16</td><td>SOURCE REGISTRY</td><td>Every source as S1, S2, S3 with title, publisher, year, link, link check date, archive URL, and an on-screen credit string.</td></tr>
         <tr><td>17</td><td>MASTER CLAIM TABLE</td><td>Every claim with the full field set below.</td></tr>
         <tr><td>18</td><td>COVERAGE SCORECARD</td><td>The four coverage axes, what was swept, and what remains unknown.</td></tr>
@@ -520,6 +533,7 @@ input[type=file]{display:none}
         <tr><td>24</td><td>PRECEDENTS</td><td>The tiering decision for each evidence class, made once and applied to every claim on it. Two claims on the same class holding different tiers is an inconsistency to settle here, not per claim.</td></tr>
         <tr><td>25</td><td>NOT ATTEMPTED</td><td>What this pass did not do, named plainly. Silence is not allowed to imply the work happened.</td></tr>
         <tr><td>26</td><td>WHAT CAN AND CANNOT BE SAID</td><td>The narrative verdict. Which framings the LOCKED record actually supports, and which sound true but are not carried by the evidence.</td></tr>
+        <tr><td>27</td><td>FIGURES LEDGER</td><td>Every year, dimension, capacity, torque, ratio, tooth and spline count, part number, casting number and date code in the whole dossier, in one table, with its claim ID, its source and page, and the source's own words. Checking fifty rows in one place catches what hunting them through prose does not, and this is the table that feeds the cross-dossier fitment view.</td></tr>
       </table>
       <p class="lead">Section 26 exists because a dossier can be entirely accurate claim by claim and still let a script say something the record does not support. "It changed right after 1989" and "Ford changed it every year" can rest on the same claims while only the first one is true.</p>
       <div class="kick">What every claim carries</div>
@@ -541,6 +555,8 @@ input[type=file]{display:none}
         <tr><td>FAILURE CONSEQUENCE</td><td>every change claim</td><td>What the source says goes wrong with the wrong part, or NOT DOCUMENTED.</td></tr>
         <tr><td>SERVICE ACTION</td><td>every change claim</td><td>What the source tells the technician to do, or NOT DOCUMENTED.</td></tr>
         <tr><td>TRAVELS WITH</td><td>any claim with a binding caveat</td><td>Claim IDs that must be carried wherever this one goes, so a limit on how it may be quoted cannot be lost.</td></tr>
+        <tr><td>ROUTE</td><td>every claim</td><td>CORE if it could reach an audience, REFERENCE if it was checked and recorded but never will. Only CORE travels to the production prompts.</td></tr>
+        <tr><td>QUOTE</td><td>every claim carrying a figure</td><td>The source's own words for that number, copied not paraphrased. A wrong digit is visible next to the words it came from.</td></tr>
       </table>
       <div class="kick">Open gaps carry an action type</div>
       <p class="lead">Not every gap is a search problem, and calling one a search problem guarantees it never closes. Every open gap says what would settle it and how it can actually be reached: <b>SEARCHABLE</b>, more or better queries could find it; <b>PHYSICAL ACQUISITION</b>, it exists only in a book or microfiche somebody has to obtain; <b>SCANNING OR PHOTOGRAPHY</b>, the document is in hand but is an image with no readable text; <b>HUMAN READING</b>, it needs a person to read a page and transcribe it; <b>EDITORIAL DECISION</b>, it is a policy question for the operator, not a fact to find.</p>
@@ -704,7 +720,31 @@ dossier, recorded in the precedents section. If two claims on the
 same class hold different tiers, that is an inconsistency to settle
 once, not a judgement to re-make per claim.
 
-A FAILED PROMOTION IS A RESULT. When a claim is attacked for
+CORE OR REFERENCE. Every claim is routed as well as tiered. CORE means
+it could carry a script line, a card, or an identification. REFERENCE
+means it was checked and recorded but will never reach an audience: a
+negative finding, an inert component that never changed, a search log,
+a provenance note. Both are kept. Only CORE travels to the production
+prompts, so the writing stage stops wading through material that was
+never going to be said out loud. When in doubt, mark REFERENCE: it is
+cheap to promote later and expensive to have noise in every script.
+
+VERBATIM ON FIGURES. Any claim carrying a year, dimension, capacity,
+torque, ratio, tooth or spline count, part number, casting number or
+date code also carries QUOTE: the source's own words for that figure,
+copied not paraphrased, short. Most wrong numbers are transcription
+slips rather than research failures, and a wrong digit is visible on
+sight next to the words it came from. If the source cannot be quoted,
+say why, and treat that as a reason to doubt the figure.
+
+DELTA PASSES. Restating the whole dossier costs output and introduces
+transcription errors every time it happens, so only the last step in a
+chat restates it. Every step before that returns a DELTA: new claims
+with full fields, claims whose tier, span, route or wording changed
+with the old and new value, claims retired, coverage changes, and the
+searches run. The next step in the same chat reads the delta from
+context. The step that hands off to a different chat restates in full,
+because that chat has nothing else. When a claim is attacked for
 promotion and stays where it is, record it: the claim, the tier it
 stays at, what was found, the query numbers, and what would settle
 it. That is what stops the next pass spending its budget rediscovering
@@ -926,6 +966,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v7.0</b> · The research diet. The full spine still exists unchanged for a subject that earns it, but four things now cut what it costs to run. <b>Delta passes:</b> R3, R5 and R6 no longer restate the whole dossier, they return only what changed, and the last step in each chat writes it out once. <b>A light spine:</b> three prompts instead of seven, R1 then L2 then L3, chosen at the start and switchable mid-job. It shortens by merging steps, never by dropping checks, so all six sweeps, the gap hunt against the R1 plan, and the cold audit in a chat that did not write the dossier all survive. <b>CORE and REFERENCE:</b> every claim is now routed, and the production prompts are told to write from CORE only, which is what stops a script clinging to detail nobody asked for. <b>A figures ledger,</b> section 27: every year, figure, part number and casting number in one table with the source's own words beside it, because fifty numbers side by side expose the wrong digit that fifty numbers scattered through prose do not. Every figure claim now carries a verbatim QUOTE for the same reason. Also: the Playbook and Home stopped contradicting each other. A Playbook copy button now hands you exactly what the Home flow hands you, tag filled in and documents attached, whenever a job is running. And the copy audit now knows what else is on the shelf, so copy that reaches into another dossier's territory comes back marked CROSS-CHECK NEEDED instead of quietly guessing.</p>
       <p><b>v6.8</b> · Fixed a false self-test alarm: a tag containing a hyphen, like 87-91_FSERIRES, produced a perfectly good filename that the guard's own character check rejected. The guard was stricter than the app, the filename was never broken, and the banner wording no longer names a prompt number that has not existed since the renumber. Tags now keep hyphens and digits and strip only what a filename genuinely cannot carry. Home is simpler: the tag sits on its own line with a <b>New</b> button always visible, so starting fresh no longer means hunting through the jobs list, and the subject wraps underneath instead of squeezing the header. New <b>Edit tag and subject</b> panel lets you fix the tag, subject, and direction after a job has started, and the start screen now takes the direction up front, which is what the R1 output box was wrongly being used for. That box now says plainly that it is for what R1 gives back. Set it once, every prompt after carries it.</p>
       <p><b>v6.7</b> · Popups carry the channel mark. A small INSIDE THE CASE sits bottom right on every popup, matching the footer the cards have, so a popup screenshotted off the video is still recognisably ours. It sits on its own baseline clear of the source credit, and a footer line in the spec overrides it if you want different wording.</p>
       <p><b>v6.6</b> · Popups got their own prompt. P4 only ever suggested one to three popups alongside the cards, so producing a proper run of them meant typing the style and format into a chat by hand. New P4B writes 6 to 10 popups for a Short, or one every 30 to 45 seconds for long form, working from the dossier surplus rather than the script wording: the number the script rounds, the casting number, the identification tell, the myth there was no time for, the service trap. It carries the machine format and the worked example automatically, picks the right style for what the fact actually is, names the script line each popup lands on, and ends with a cut list for when the edit only has room for half. The load-time self-test now fails if P4B ever loses a style name or the format block.</p>
@@ -1122,6 +1163,11 @@ hierarchy, the evidence classes, the claim fields, the ID discipline,
 and the search rules. Where sources disagree, say so, present both,
 and tier accordingly. Never guess to fill a gap. Keep figures exact
 with units and never round when the source gives a precise number.
+Every claim carrying a figure also carries QUOTE, the source's own
+words for that number, copied and not paraphrased. Do that as you
+write each claim, not afterwards from memory: a number retyped from
+memory is exactly where a wrong digit enters, and the whole point of
+the field is that the digits sit next to the words they came from.
 
 COVERAGE. Answer the coverage plan question by question, and work
 sweep 1, the physical component inventory, as part of this pass. Every
@@ -1194,8 +1240,12 @@ COVERAGE PLAN: [PASTE THE R1 COVERAGE PLAN]</pre>
         <pre id="pr3">CHAT: the same chat as R1 and R2. Do not start a new one.
 
 Second pass on the dossier you just produced. Push harder than the
-first pass. Output the complete revised dossier, superseding the
-first: the whole thing again, improved, not a diff.
+first pass.
+
+This is a DELTA pass. Do not restate the dossier. It is above you in
+this chat and rewriting it costs a great deal of output and introduces
+a fresh transcription error every time a figure is retyped. Return
+only what changed.
 
 Do all of the following:
 - Attack your own weak points. Take every LIKELY and every
@@ -1213,23 +1263,27 @@ Do all of the following:
   leave half done.
 - Cut anything that drifted off subject.
 
-OUTPUT. The full dossier in the same nineteen section schema, with
-dossier version 2 in section 00, plus two additions at the end:
-19 CHANGES FROM PASS ONE: what was upgraded, downgraded, corrected,
-   added, or removed, with reasoning.
-20 CONFIDENCE ASSESSMENT: where this dossier is strongest, where it
-   is weakest, and what a fact checker should hit hardest.
+OUTPUT, the delta only:
+1. NEW CLAIMS, continuing the C numbering, full field set including
+   route and quote.
+2. CHANGED CLAIMS, by ID, old value and new value, for anything whose
+   tier, span, route, quote or wording moved.
+3. RETIRED CLAIMS, by ID, with the reason.
+4. NEW SOURCES, continuing the S numbering, with link check states.
+5. COVERAGE CHANGES: what this pass closed, and what is still open
+   for the expansion to attack.
+6. SEARCH REGISTER additions, continuing the global query numbering.
+7. CONFIDENCE NOTE: where the dossier is weakest now, and what a fact
+   checker should hit hardest.
 
-Update section 18 COVERAGE LEDGER to reflect this pass.
+The expansion runs next in this same chat and reads this delta from
+context. It is the expansion that restates the whole dossier, because
+the chat after it has nothing else. Continue the S and C numbering
+without gaps.
 
-Every claim keeps its tier, named source, and ID. Continue the S and
-C numbering without gaps.
-
-DELIVERY. Do not write the dossier out in the chat. Reply with "Here
-you go", attach it as one PDF named [[OUT]], and put
-only this in the message: what you upgraded, what you downgraded, and
-what is still weakest. If you cannot create files, say so in one line
-and write it out instead.
+DELIVERY. Reply with "Here you go", attach the delta as one PDF named
+[[OUT]], and put only this in the message: how many claims were
+added, changed, and retired, and what is weakest now.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
@@ -1383,19 +1437,26 @@ Rules of the audit:
   individually, digit by digit.
 - Confirm the S and C numbering is continuous with no duplicates.
 
-OUTPUT: the audit report, every change with reasoning by claim ID,
-and the complete corrected dossier restated in full in the nineteen
-section schema, tiers updated, dossier version 4 in section 00.
+This is a DELTA pass. Do not restate the dossier: it is in this chat
+already, the gap hunt and the finalize step both follow here, and it
+is the finalize step that writes the whole thing out once at the end.
+Rewriting three hundred claims twice more would cost a great deal of
+output and introduce a fresh transcription slip on every figure.
 
-DELIVERY. Do not write either document out in the chat and do not
-explain the audit back to me. Reply with "Here you go", attach both
-as one PDF named [[OUT]], audit report first and the
-corrected dossier after it, and put only this in the message: the
-verdict line, reading either "ACCURACY CLEARED" or "NOT CLEARED:"
-followed by what blocks it, plus the count of claims corrected and
-tiers changed. Keep the corrected dossier in this chat's context for
-the gap hunt that follows. If you cannot create files, say so in one
-line and write both out instead.
+OUTPUT, the delta only:
+1. AUDIT REPORT: every correction with its reasoning, by claim ID.
+2. CHANGED CLAIMS: by ID, old value and new value, for every tier,
+   span, route, quote or wording that moved.
+3. REJECTED CLAIMS: by ID, what failed and why.
+4. NEW SOURCES if the verification turned any up.
+5. SEARCH REGISTER additions, continuing the global numbering.
+6. VERDICT LINE, reading either "ACCURACY CLEARED" or "NOT CLEARED:"
+   followed by what blocks it.
+
+DELIVERY. Do not explain the audit back to me. Reply with "Here you
+go", attach the delta as one PDF named [[OUT]], and put only this in
+the message: the verdict line, and the count of claims corrected and
+tiers changed.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -1523,17 +1584,17 @@ OUTPUT, in this order:
    step 6.
 3. TERMINOLOGY REGISTER: every term from step 3 with its definition,
    tier, and source, or an open question where none was found.
-4. THE COMPLETE UPDATED DOSSIER, restated in full in the current
-   schema with every closed gap folded into the right section,
-   dossier version 5 in section 00, section 21 SEARCH REGISTER
-   carrying every query you ran as a table, and section 18 COVERAGE
-   SCORECARD rewritten on all four axes: question coverage, component
-   coverage, breakpoint coverage, and source confidence, each
-   reported separately with no blended total, ending with the unknown
-   unknowns sentence in full.
-5. REMAINING HOLES: what is still unanswered, why, and what would
-   settle it. This is the honest edge of the record and it belongs in
-   the dossier.
+4. THE DELTA: new claims with the full field set, changed claims by
+   ID with old and new values, new sources, and the search register
+   additions. Do not restate the dossier. The finalize step follows in
+   this same chat and writes the whole thing out once, and it reads
+   this delta from context.
+5. COVERAGE SCORECARD, updated on all four axes: question coverage,
+   component coverage, breakpoint coverage, and source confidence,
+   each reported separately with no blended total, ending with the
+   unknown unknowns sentence in full.
+6. REMAINING HOLES: what is still unanswered, why, what would settle
+   it, and its action type.
 
 Do not fabricate to close a gap. An honest STILL OPEN is worth more
 than a soft answer, and it goes in the pinned comment later instead
@@ -1562,8 +1623,13 @@ COVERAGE PLAN: [PASTE THE R1 COVERAGE PLAN]</pre>
       <p class="lead">Assembly and declaration only. No angle mining happens here, and no new facts enter. This produces the permanent library copy.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R7 <span>·</span> Finalize</div><div class="spacer"></div><button class="copybtn" data-copy="pr7">Copy prompt</button></div>
-        <pre id="pr7">CHAT: the same blank chat as R5 and R6. The gap-hunted dossier is
-above in this chat; work from it.
+        <pre id="pr7">CHAT: the same blank chat as R5 and R6.
+
+This chat holds the expanded dossier from R4, then the audit delta
+from R5, then the gap hunt delta from R6. You are the step that puts
+them together. Apply every delta in order to the base document, so
+the final dossier reflects all of it, and check as you go that no
+change was dropped or applied twice.
 
 You are finalizing an Inside The Case dossier for the permanent
 library. You are not researching and not re-auditing. You accept the
@@ -1593,6 +1659,21 @@ use, state the tier it earns and apply that to every claim on it. If
 two claims on the same class currently hold different tiers, that is
 an inconsistency you resolve once and record, not a judgement left to
 each claim. Write it into the precedents section.
+
+Route every claim CORE or REFERENCE. CORE is anything that could
+carry a script line, a card, or an identification. REFERENCE is
+everything checked and recorded that will never reach an audience.
+Both stay in the dossier; only CORE travels to the production
+prompts, which is what stops the writing stage wading through
+material that was never going to be spoken.
+
+Then write section 27, the figures ledger: every year, dimension,
+capacity, torque, ratio, tooth and spline count, part number, casting
+number and date code in the whole dossier, in one table, each with
+its claim ID, its source and page, and the source's own words. This
+is the single most effective check in the pass, because fifty figures
+side by side expose the one that is wrong in a way the same fifty
+scattered through prose never do.
 
 Then build the year spine. Every claim carrying a date, a model year,
 or a build breakpoint gets gathered into section 02, no matter which
@@ -1673,6 +1754,120 @@ in one line and give the two text blocks alone.
 No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
       <div class="done-banner">DOSSIER DONE · Save it to the Library tab. Every production step reads from it.</div>
+    </div>
+  </details>
+
+  <details class="pbsec" id="pb-rl">
+    <summary><span class="sn">L</span><span class="st">Light spine, for a smaller subject</span><span class="chips"><span class="chip tool">OPTIONAL · R1, then L2, then L3</span></span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <div class="kick">You provide: a subject and a tag, same as R1</div>
+      <p class="lead"><b>Three prompts instead of seven.</b> A wiper motor is not an E4OD, and running the full spine on a small subject burns four extra passes to find nothing. The light spine runs R1 unchanged for the coverage plan, then merges research and expansion into L2, and accuracy, gap hunt and finalize into L3.</p>
+      <p class="lead"><b>It shortens by merging steps, never by dropping checks.</b> All six sweeps still run. The gap hunt still holds the finished dossier against R1's question list. The accuracy audit still happens cold, in a chat that did not write the thing. What you lose is the separate reading of each, which is a real loss: two passes catch more than one pass doing both. That is the trade, and it is the right one only when the subject is genuinely small.</p>
+      <p class="lead"><b>Use the full spine</b> for anything that carries a build history, a year spine worth having, or a part you expect to make several videos from. If a light subject turns out deeper than it looked, the full spine picks up from the dossier L3 produced: run it into R4 and carry on.</p>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt L2 <span>·</span> research and expand</div><div class="spacer"></div><button class="copybtn" data-copy="prl2">Copy prompt</button></div>
+        <pre id="prl2">CHAT: the same chat as R1, in your Inside The Case folder, web search
+on. This is the only research prompt for this subject, so do the work
+of two passes in one reply, in three movements, in order.
+
+MOVEMENT ONE, BUILD. Answer the coverage plan question by question and
+work sweep 1, the physical component inventory. Every component named
+gets an answer or an explicit statement that it was searched and
+nothing was found.
+
+MOVEMENT TWO, ATTACK WHAT YOU JUST WROTE. You wrote it, so you will be
+inclined to trust it. Do not. Take every LIKELY and UNVERIFIED claim
+and try again to confirm or kill it with different search terms.
+Re-verify a sample of the LOCKED claims against a second source. Check
+every year, figure, part number and casting number a second time and
+copy the source's own words into QUOTE rather than paraphrasing,
+because paraphrase is where wrong digits come from.
+
+MOVEMENT THREE, WIDEN. Work sweeps 2 through 5: the parts catalog and
+service parts test, the exploded view test, the visual identification
+sweep, and the boring parts test. Then sweep 6, the structured attack
+angles. Treat your own coverage as unproven: a category you believe is
+already covered gets searched anyway, and if it returns nothing new,
+name the queries you ran.
+
+OUTPUT. The complete dossier in the full schema, restated in full,
+because the audit runs in a chat that has nothing else. Route every
+claim CORE or REFERENCE. Fill section 27, the figures ledger. Fill
+section 18 on all four coverage axes with no blended total. Section 25
+states what you did not attempt and why.
+
+DELIVERY. Reply with "Here you go", attach the dossier as one PDF
+named [[OUT]], and put only this in the message: claim counts by tier,
+which sections came back thin, and what you did not attempt. Then
+paste the complete dossier as plain text in one code block, because
+the audit chat reads that text.
+
+COVERAGE PLAN: [PASTE THE R1 COVERAGE PLAN]</pre>
+      </div>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt L3 <span>·</span> audit, gap hunt, finalize</div><div class="spacer"></div><button class="copybtn" data-copy="prl3">Copy prompt</button></div>
+        <pre id="prl3">CHAT: a brand new blank chat, NOT inside any folder, and a different
+model than the one that researched if you have one. This separation is
+the one that matters most in the light spine: a model that just wrote
+the dossier will agree with itself.
+
+You have the dossier and the coverage plan it was measured against.
+Three movements, in order, in one reply.
+
+MOVEMENT ONE, ACCURACY. Assume it has errors and find them.
+Independently verify every LOCKED claim by searching, not by reasoning
+from what you already know. Correct any tier its source does not
+support. Check that no claim proves more than its evidence class
+allows: a parts catalog proves service fit and never factory
+allocation, a brochure proves what was advertised and never what was
+built. Check every figure digit by digit against its QUOTE. Flag
+internal contradictions and dates that do not line up.
+
+MOVEMENT TWO, COMPLETENESS. Now ask what is missing, which is a
+different question and does not follow from the first. Walk the
+coverage plan question by question and mark each ANSWERED AND LOCKED,
+ANSWERED BUT SOFT, PARTIALLY ANSWERED, or NOT ANSWERED. Walk the
+component inventory by name and mark each COVERED, THIN, or ABSENT. A
+component that appears nowhere is not evidence that it never changed,
+it is evidence that nobody looked, so search it now. Then hunt every
+term used in a claim and defined nowhere and search a definition for
+each. Then run the scatter check: gather every dated claim into one
+year spine wherever it is filed, and name the years that hold nothing.
+
+MOVEMENT THREE, FINALIZE. Settle the precedents so each evidence class
+is tiered once rather than argued per claim. Route every claim CORE or
+REFERENCE. Write the spoken form for every card ready LOCKED claim,
+and the stated purpose, failure consequence and service action for
+every change claim, marking each NOT DOCUMENTED where the record does
+not carry it. Fill the figures ledger. Write what can and cannot be
+said: the framings the LOCKED record supports, and the ones that sound
+true but are not carried by the evidence.
+
+OUTPUT, in this order:
+1. AUDIT AND GAP REPORT: corrections by claim ID with old and new
+   values, the coverage table, the component table, gaps closed, and
+   gaps still open with the action type that would settle each.
+2. THE COMPLETE FINAL DOSSIER in the full schema, marked STATUS:
+   LIBRARY READY, or BLOCKED with the reason.
+3. THE MACHINE READABLE COMPANION as TSV, one row per claim, columns:
+   id, tier, type, route, evidence_class, source_ids, source_year,
+   proven_span, span_basis, span_risk, quote, section, card_ready,
+   screen_only, spoken_form, stated_purpose, failure_consequence,
+   service_action.
+
+DELIVERY. Reply with "Here you go" and attach two files: the dossier
+as [[OUT]] and the companion as [[OUT_TSV]]. Put only the status line,
+the four coverage axes and the weakest sections in the message. Then
+paste the dossier as plain text in one code block and the TSV in a
+second, because the app reads both.
+
+No em dashes. No emojis. Ranges written as "1994 to 1997".
+
+COVERAGE PLAN: [PASTE THE R1 COVERAGE PLAN]
+
+DOSSIER: [PASTE THE COMPLETE L2 DOSSIER]</pre>
+      </div>
+      <div class="done-banner">DOSSIER DONE · Save it to the Library tab, same as a full spine dossier.</div>
     </div>
   </details>
 
@@ -2817,7 +3012,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v6.8';
+const APP_VERSION = 'v7.0';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -2992,15 +3187,16 @@ ${CARD_EXAMPLE}`;
 /* Shared blocks are written once in the playbook and attached at copy
    time, so a cold chat still receives the whole standard while the rules
    themselves live in exactly one place and cannot drift apart. */
-const RULES_PROMPTS  = ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b'];
-const SWEEPS_PROMPTS = ['pr1','pr4','pr6','pr8a'];
+const RULES_PROMPTS  = ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3'];
+const SWEEPS_PROMPTS = ['pr1','pr4','pr6','pr8a','prl2','prl3'];
 /* Every step names its own output file, so a chat hands the next chat a
    document with an unambiguous name instead of "the PDF". A re-run of a
    step bumps a decimal: R2, then R2.1, then R2.2. */
 const STEP_OF = { pr1:'R1', pr2:'R2', pr3:'R3', pr4:'R4', pr5:'R5', pr6:'R6', pr7:'R7',
-  pr8a:'R8A', pr8b:'R8B', pp1:'P1', pp2a:'P2A', pp2b:'P2B', pp2c:'P2C', pp3:'P3',
-  pp4:'P4', pp4b:'P4B', pp5:'P5', pp5c:'P5C' };
-const PREV_OF = { pr2:'R1', pr3:'R2', pr4:'R3', pr5:'R4', pr6:'R5', pr7:'R6', pr8b:'R8A' };
+  pr8a:'R8A', pr8b:'R8B', prl2:'L2', prl3:'L3', pp1:'P1', pp2a:'P2A', pp2b:'P2B',
+  pp2c:'P2C', pp3:'P3', pp4:'P4', pp4b:'P4B', pp5:'P5', pp5c:'P5C' };
+const PREV_OF = { pr2:'R1', pr3:'R2', pr4:'R3', pr5:'R4', pr6:'R5', pr7:'R6', pr8b:'R8A',
+  prl2:'R1', prl3:'L2' };
 
 /* tags become filenames, so strip only what a filename genuinely cannot
    carry. Hyphens, digits and underscores are fine and people use them. */
@@ -3067,7 +3263,9 @@ function styleBlock(over){
 }
 function rulesBlock(){ return document.getElementById('rules').textContent.trim() + '\n\n' + styleBlock(); }
 document.querySelectorAll('.copybtn[data-copy]').forEach(btn=>{
-  btn.addEventListener('click', ()=>copyText(promptText(btn.dataset.copy), btn));
+  btn.addEventListener('click', ()=>copyText(
+    (btn.dataset.copy==='rules' || btn.dataset.copy==='sweeps')
+      ? promptText(btn.dataset.copy) : livePrompt(btn.dataset.copy), btn));
 });
 
 /* ---------------- [PLAYBOOK] compact step rows ----------------
@@ -3076,7 +3274,8 @@ document.querySelectorAll('.copybtn[data-copy]').forEach(btn=>{
    markup so the step list stays defined in one place. */
 const SECTION_PROMPTS = {
   'pb-r1':['pr1'], 'pb-r2':['pr2'], 'pb-r3':['pr3'], 'pb-r4':['pr4'],
-  'pb-r5':['pr5'], 'pb-r6':['pr6'], 'pb-r7':['pr7'], 'pb-r8':['pr8a','pr8b'],
+  'pb-r5':['pr5'], 'pb-r6':['pr6'], 'pb-r7':['pr7'],
+  'pb-rl':['prl2','prl3'], 'pb-r8':['pr8a','pr8b'],
   'pb-p1':['pp1'], 'pb-p2':['pp2a','pp2b','pp2c'], 'pb-p3':['pp3'],
   'pb-p4':['pp4','pp4b'], 'pb-p5':['pp5','pp5c']
 };
@@ -3095,7 +3294,7 @@ Object.keys(SECTION_PROMPTS).forEach(sec=>{
     b.textContent = ids.length>1? STEP_OF[id] : 'Copy';
     b.addEventListener('click', e=>{
       e.preventDefault(); e.stopPropagation();   /* copy without opening the row */
-      copyText(promptText(id), b);
+      copyText(livePrompt(id), b);
     });
     wrap.appendChild(b);
   });
@@ -3113,8 +3312,8 @@ function refreshPlaybook(){
   if(document.activeElement !== tagIn) tagIn.value = activeTag()==='TAG'? '' : activeTag();
   tagIn.disabled = !!(j && (j.tag || j.dossierTag));
   document.getElementById('pbTagNote').textContent = (j && (j.tag||j.dossierTag))
-    ? 'Using the tag from the job running on the Home tab.'
-    : 'No job running, so set the tag here and every prompt names its files with it.';
+    ? 'A job is running on the Home tab, so these prompts copy exactly as they do there: tag filled in, documents attached. Same button, same result, either tab.'
+    : 'No job running, so set the tag here and every prompt names its files with it. Prompts copy blank, with their paste markers left in.';
   pbOutlines.forEach(o=>{
     o.line.innerHTML = '';
     o.ids.forEach(id=>{
@@ -3351,6 +3550,17 @@ const BS_TRACKS = {
     { key:'cards',     label:'Cards' },
     { key:'filed',     label:'Filed' }
   ],
+  /* the light spine for a small subject: the same R1 plan, then the
+     research and expansion merged into one prompt and the audit, gap
+     hunt and finalize merged into another. It is a research job in
+     every other respect, so it carries the same tag, the same schema
+     and the same shelf. */
+  research_light: [
+    { key:'scope',     label:'Scope',                  n:'R1' },
+    { key:'lresearch', label:'Research · chat 1',      n:'L2' },
+    { key:'lfinal',    label:'Audit + finalize · chat 2', n:'L3' },
+    { key:'shelved',   label:'Shelved',                n:'L4' }
+  ],
   /* the optional R8 revision pass: re-attack a finished dossier, then
      rebuild it. Two steps because one prompt asking for fifty things
      gets fifty shallow answers. */
@@ -3361,7 +3571,7 @@ const BS_TRACKS = {
   ]
 };
 const BS_STEP_SECTION = { scope:'pb-r1', research:'pb-r2', audit:'pb-r5', finalize:'pb-r7',
-  attack:'pb-r8', rebuild:'pb-r8',
+  lresearch:'pb-rl', lfinal:'pb-rl', attack:'pb-r8', rebuild:'pb-r8',
   plan:'pb-p1', write:'pb-p2', claims:'pb-p2', copyaudit:'pb-p3', cards:'pb-p4' };
 const bsWrap = document.getElementById('bsWrap');
 let bsView = null;
@@ -3387,6 +3597,27 @@ function bsSettings(st, s){
   const nameIn = bsEl('<input placeholder="What this is, in plain words">');
   nameIn.value = s.name || '';
   box.appendChild(nameIn);
+  if(isResearch){
+    box.appendChild(bsEl('<label>Spine</label>'));
+    const tier = bsEl('<select><option value="full">Full spine · R1 to R7</option>'+
+      '<option value="light">Light spine · R1, L2, L3</option></select>');
+    tier.value = s.light? 'light' : 'full';
+    /* switching mid-job lands on the equivalent stage in the other track,
+       so a subject that turns out deeper than it looked is promoted
+       rather than restarted */
+    const TO_LIGHT = { research:'lresearch', audit:'lfinal', finalize:'lfinal' };
+    const TO_FULL  = { lresearch:'research', lfinal:'audit' };
+    tier.addEventListener('change', ()=>{
+      const light = tier.value==='light';
+      if(light === !!s.light) return;
+      const map = light? TO_LIGHT : TO_FULL;
+      if(map[s.status]) s.status = map[s.status];
+      s.light = light; s.updated = Date.now();
+      bsView = null; bsSave(st); renderShort(); refreshPlaybook();
+    });
+    box.appendChild(tier);
+    box.appendChild(bsEl('<p class="bs-note" style="margin:6px 0 0">Switch any time. Everything already captured is kept and the job lands on the matching step of the other spine.</p>'));
+  }
   box.appendChild(bsEl('<label>Direction and scope</label>'));
   const angIn = bsEl('<textarea placeholder="What you want covered, any limits, anything you already know. This rides in R1 and sets the whole coverage plan."></textarea>');
   angIn.value = s.angle || '';
@@ -3452,7 +3683,13 @@ function bsState(){
   return { active:null, history:[] };
 }
 function bsSave(st){ store.set('shorts', st); }
-function bsTrack(s){ return (s && BS_TRACKS[s.kind]) || BS_TRACKS.research; }
+/* the light spine is a research job with fewer stops, not a different
+   kind of job, so everything that asks "is this research" keeps working
+   and only the stage list changes */
+function bsTrack(s){
+  if(s && s.kind==='research' && s.light) return BS_TRACKS.research_light;
+  return (s && BS_TRACKS[s.kind]) || BS_TRACKS.research;
+}
 function bsStageIdx(s, key){ return bsTrack(s).findIndex(x=>x.key===key); }
 function bsLabel(s, key){ const t = bsTrack(s).find(x=>x.key===key); return t? t.label : key; }
 
@@ -3511,6 +3748,24 @@ function bsFill(preId, s, topic, note){
 }
 function bsDossierText(s){ const d = getDossier(s.dossierTag); return d? (d.text||'') : ''; }
 const P_DOSSIER_MARK = '[PASTE THE COMPLETE DOSSIER]';
+/* A finished dossier holds far more than any video needs, which is how
+   scripts end up clinging to detail nobody asked for. R7 routes every
+   claim CORE or REFERENCE; the production prompts are told to write from
+   CORE and leave the rest as background. Attached here rather than
+   written into seven prompts, so it stays in one place. */
+const CORE_NOTE =
+'HOW TO READ THE DOSSIER. Every claim is routed CORE or REFERENCE. Write\n'+
+'from the CORE claims. REFERENCE claims exist so the record is complete\n'+
+'and were never meant for an audience: read them for context, do not\n'+
+'build a line, a card or a beat on one, and do not let them pull the\n'+
+'writing toward detail nobody needs. If a REFERENCE claim genuinely\n'+
+'belongs on screen, say so in one line and name it rather than quietly\n'+
+'promoting it. A dossier with no routing predates this rule, so treat\n'+
+'every claim in it as CORE.\n';
+function withDossier(text, s){
+  return text.replace('DOSSIER: ' + P_DOSSIER_MARK,
+    CORE_NOTE + '\nDOSSIER:\n' + bsDossierText(s));
+}
 
 function prR1(s){ return bsFill('pr1', s, s.name || s.tag, s.angle); }
 function prR2(s){ return promptText('pr2')
@@ -3522,6 +3777,11 @@ function prR5(s){ return promptText('pr5')
 function prR6(s){ return promptText('pr6')
   .replace('[PASTE THE R1 COVERAGE PLAN]', '\n' + (s.plan||'')); }
 function prR7(){ return promptText('pr7'); }
+function prL2(s){ return promptText('prl2')
+  .replace('[PASTE THE R1 COVERAGE PLAN]', '\n' + (s.plan||'')); }
+function prL3(s){ return promptText('prl3')
+  .replace('[PASTE THE R1 COVERAGE PLAN]', '\n' + (s.plan||''))
+  .replace('[PASTE THE COMPLETE L2 DOSSIER]', '\n' + (s.r4doc||'')); }
 /* R8 is the optional revision pass: it reads a finished dossier out of
    the Library and is told which sibling dossiers exist so it can flag
    cross-dossier contradictions, the most expensive error available. */
@@ -3543,25 +3803,66 @@ function prR8b(s){ return promptText('pr8b')
   .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s))
   .replace('[PASTE THE R8A PASS DOCUMENT]', '\n' + (s.findings||'')); }
 
-function ppP1(s){ return document.getElementById('pp1').textContent
-  .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
+function ppP1(s){ return withDossier(document.getElementById('pp1').textContent, s); }
 function ppP2(id, s){
   const story = s.autoPick? 'pick from the content plan' : (s.story || 'pick from the content plan');
-  return bsFill(id, s, story, s.angle).replace(P_DOSSIER_MARK, '\n' + bsDossierText(s));
+  return withDossier(bsFill(id, s, story, s.angle), s);
 }
-function ppP3(s){ return document.getElementById('pp3').textContent
-  .replace('[PASTE THE FINAL COPY]', '\n' + writerText())
-  .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
-function ppP4(s){ return promptText('pp4')
-  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText())
-  .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
-function ppP4b(s){ return promptText('pp4b')
-  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText())
-  .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s)); }
+/* The copy audit reads one dossier, but the channel now has a shelf of
+   them, and the most expensive error available is copy that contradicts
+   a dossier finished six months ago. Attaching every dossier would be
+   enormous, so P3 gets the shelf list instead and is told to flag what
+   it cannot settle from the one dossier in front of it. */
+function ppSiblingCheck(s){
+  const others = dossierList().filter(d=>d.tag!==(s.dossierTag||s.tag) && dossierReady(d));
+  if(!others.length) return '';
+  return 'CROSS-DOSSIER CHECK. These other dossiers are finished and on\n'+
+    'the shelf: ' + others.map(d=>d.tag + (d.name? ' ('+d.name+')' : '')).join(', ') + '.\n'+
+    'You do not have their text. Read the copy for any claim that reaches\n'+
+    'into one of those subjects, or that would have to agree with one, and\n'+
+    'list it under CROSS-CHECK NEEDED with the dossier that would settle\n'+
+    'it. Do not guess what those dossiers say and do not assume they\n'+
+    'agree. If nothing in the copy touches them, write CROSS-CHECK NEEDED:\n'+
+    'none, which is a real result.\n\n';
+}
+function ppP3(s){
+  const raw = document.getElementById('pp3').textContent
+    .replace('SCRIPT OR POST: [PASTE THE FINAL COPY]',
+             ppSiblingCheck(s) + 'SCRIPT OR POST: [PASTE THE FINAL COPY]')
+    .replace('[PASTE THE FINAL COPY]', '\n' + writerText());
+  return withDossier(raw, s);
+}
+function ppP4(s){ return withDossier(promptText('pp4')
+  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()), s); }
+function ppP4b(s){ return withDossier(promptText('pp4b')
+  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()), s); }
 function ppP5(){ return promptText('pp5')
   .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()); }
 function ppP5c(){ return promptText('pp5c')
   .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()); }
+
+/* ---- one surface ----
+   The Playbook and the Home flow were two ways to copy the same prompt,
+   and only the flow filled in the documents. That is what made them feel
+   contradictory: the same button gave you a different thing depending on
+   which tab you pressed it on. Now the Playbook copy runs through the
+   flow builder whenever a job of the matching kind is running, so both
+   tabs hand over the identical, filled-in prompt. With nothing running
+   the Playbook still copies the blank prompt with its paste markers,
+   which is what you want when you are reading it. */
+const FLOW_BUILD = {
+  research: { pr1:prR1, pr2:prR2, pr3:prR3, pr4:prR4, pr5:prR5, pr6:prR6, pr7:prR7,
+    prl2:prL2, prl3:prL3 },
+  revise:   { pr8a:prR8a, pr8b:prR8b },
+  production: { pp1:ppP1, pp2a:(s)=>ppP2('pp2a',s), pp2b:(s)=>ppP2('pp2b',s),
+    pp2c:(s)=>ppP2('pp2c',s), pp3:ppP3, pp4:ppP4, pp4b:ppP4b, pp5:ppP5, pp5c:ppP5c }
+};
+function livePrompt(id){
+  const j = bsState().active;
+  const fn = j && FLOW_BUILD[j.kind] && FLOW_BUILD[j.kind][id];
+  if(!fn) return promptText(id);
+  try { return fn(j); } catch(e){ return promptText(id); }
+}
 
 /* ---- the write-stage reply splits on its four output headers ---- */
 function bsParsePackage(text){
@@ -3631,7 +3932,8 @@ function bsStepper(st, s){
   const wrap = bsEl('<div class="bs-steps"></div>');
   bsTrack(s).forEach((stg, i)=>{
     const b = bsEl('<button type="button" class="bs-step"><span class="n"></span><span class="t"></span></button>');
-    b.querySelector('.n').textContent = (s.kind==='production'? 'P' : s.kind==='revise'? 'R8.' : 'R') + (i+1);
+    b.querySelector('.n').textContent = stg.n ||
+      ((s.kind==='production'? 'P' : s.kind==='revise'? 'R8.' : 'R') + (i+1));
     b.querySelector('.t').textContent = stg.label;
     if(i < cur){ b.classList.add('done'); b.addEventListener('click', ()=>{ bsView = stg.key; renderShort(); }); }
     else if(i === cur){ b.classList.add('now'); b.addEventListener('click', ()=>{ bsView = null; renderShort(); }); }
@@ -3676,9 +3978,54 @@ function bsPanelScope(st, s){
     note: '<b>Chat 1, in your Inside The Case folder.</b> R1 writes the question list this dossier gets measured against, so a missing answer is visible instead of silent. Your subject and direction are already inside the copy below, from the job settings above. The box underneath is for what R1 <b>gives back</b>, not for anything you type: it comes back as a PDF plus the plain text, and the gap hunt runs in a different chat that needs that text.',
     copies: [{ label:'Copy R1 · scope and coverage plan', build: prR1 }],
     placeholder: 'R1 OUTPUT goes here. Paste the coverage plan text it returns: scope, classification, the question list, and the definition of done.',
-    field: 'plan', next: 'Plan captured · start the research', from: 'scope', to: 'research',
+    field: 'plan', next: 'Plan captured · start the research', from: 'scope',
+    to: s.light? 'lresearch' : 'research',
     needs: 'Paste the coverage plan first.'
   });
+}
+/* ---- light spine panels ---- */
+function bsPanelLResearch(st, s){
+  return bsDocStage(st, s, {
+    note: '<b>Same chat 1, web search on.</b> One prompt does what R2, R3 and R4 do in the full spine: build from the plan, attack what it just wrote, then run every sweep. It replies with a PDF and the dossier as text. Paste that text back, because the audit runs in a chat that has nothing else.',
+    copies: [{ label:'Copy L2 · research and expand', build: prL2 }],
+    placeholder: 'Paste the L2 dossier text here, all sections.',
+    field: 'r4doc', next: 'Dossier captured · on to the audit', from: 'lresearch', to: 'lfinal',
+    needs: 'Paste the L2 dossier first.'
+  });
+}
+function bsPanelLFinal(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note"><b>Chat 2: a brand new blank chat, no folder</b>, different model if you have one, web search on. This is the one separation the light spine cannot give up: the chat that wrote the dossier would agree with itself. L3 audits it, hunts the gaps against the R1 plan, and finalizes, all in one reply. The copy below carries the plan and the dossier for you. Paste back the final dossier and it goes on the shelf under tag <b>'+esc(s.tag)+'</b>.</p>'));
+  const row1 = bsEl('<div class="bs-row"></div>');
+  const c = bsEl('<button type="button" class="copybtn">Copy L3 · audit, gap hunt, finalize</button>');
+  c.addEventListener('click', function(){ copyText(prL3(s), this); });
+  row1.appendChild(c); p.appendChild(row1);
+  p.appendChild(bsEl('<div class="kick" style="margin-top:10px">Final dossier</div>'));
+  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the FINAL DOSSIER section here. This is the copy that lives in the Library."></textarea>');
+  p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'finalDoc'));
+  p.appendChild(bsEl('<div class="kick">Companion file · the claims TSV</div>'));
+  const tb = bsEl('<textarea class="bs-paste" style="min-height:110px" placeholder="Paste the TSV companion here. Optional, but it is what makes the coverage numbers computable later."></textarea>');
+  p.appendChild(tb);
+  p.appendChild(bsWirePaste(tb, st, s, 'claimsTsv'));
+  if(s.status==='lfinal'){
+    const row = bsEl('<div class="bs-row"></div>');
+    const b = bsEl('<button type="button" class="amber">Shelve it in the Library</button>');
+    b.addEventListener('click', ()=>{
+      if(!ta.value.trim()){ alert('Paste the final dossier first.'); return; }
+      const all = dossiers();
+      all[s.tag] = Object.assign(all[s.tag] || { tag:s.tag, created:Date.now() }, {
+        tag:s.tag, name:s.name||s.tag, type:s.type||'other', text:ta.value.trim(),
+        claims:tb.value.trim(), status:'ready', schema:SCHEMA_VERSION, updated:Date.now()
+      });
+      saveDossiers(all);
+      s.finalDoc = ta.value.trim();
+      bsFile(st);
+      alert('Shelved. '+s.tag+' is in the Library and every production prompt can read it now.');
+    });
+    row.appendChild(b); p.appendChild(row);
+  }
+  return p;
 }
 function bsPanelResearch(st, s){
   return bsDocStage(st, s, {
@@ -4048,7 +4395,7 @@ function bsStartProduction(dossierTag){
 }
 function bsStartPanel(st){
   const box = bsEl('<div class="bs-box"></div>');
-  box.appendChild(bsEl('<p class="bs-note">Nothing running. <b>Research a part</b> builds one permanent dossier through R1 to R7 and shelves it in the Library. <b>Make something</b> draws a Short, a long form, or posts out of a dossier you already finished, as many times as you like. Set the tag once here and every prompt after carries it.</p>'));
+  box.appendChild(bsEl('<p class="bs-note">Nothing running. <b>Research a part</b> builds one permanent dossier and shelves it in the Library, on the full spine or the light one. <b>Make something</b> draws a Short, a long form, or posts out of a dossier you already finished, as many times as you like. Set the tag once here and every prompt after carries it.</p>'));
   box.appendChild(bsEl('<div class="kick" style="margin-top:6px">Research a part</div>'));
   const form = bsEl('<div class="logform">'+
     '<div class="r"><input class="i-tag" placeholder="TAG · e.g. E4OD" maxlength="32" style="max-width:150px">'+
@@ -4059,13 +4406,26 @@ function bsStartPanel(st){
     '<option value="transfer case">transfer case</option><option value="engine">engine</option>'+
     '<option value="body and cab">body and cab</option><option value="brake and wheel end">brake and wheel end</option>'+
     '<option value="electrical">electrical</option><option value="other">other</option></select>'+
-    '<button type="button" class="amber i-start" style="flex:1">Start the research</button></div></div>');
+    '<select class="i-tier" style="max-width:210px">'+
+    '<option value="full">Full spine · R1 to R7</option>'+
+    '<option value="light">Light spine · R1, L2, L3</option></select></div>'+
+    '<div class="r"><button type="button" class="amber i-start" style="flex:1">Start the research</button></div></div>');
   form.querySelector('.i-type').className = 'i-type';
+  const tierSel = form.querySelector('.i-tier');
+  const tierNote = bsEl('<p class="bs-note" style="margin:6px 0 0"></p>');
+  const TIER_NOTE = {
+    full: 'Seven prompts across two chats. Use it for anything with a build history worth having, or a part you expect to make more than one video from.',
+    light: 'Three prompts across two chats. Same coverage plan, same sweeps, same cold audit, merged into fewer steps. Use it for a small part. If it turns out deeper than it looked, the full spine can pick up from the dossier it produces.'
+  };
+  const setNote = ()=>{ tierNote.textContent = TIER_NOTE[tierSel.value]; };
+  tierSel.addEventListener('change', setNote); setNote();
+  form.appendChild(tierNote);
   form.querySelector('.i-start').addEventListener('click', ()=>{
     const tag = cleanTag(form.querySelector('.i-tag').value);
     if(!tag){ alert('Give it a tag first. The tag names the dossier, the prompts, and the card files.'); return; }
     st.active = { id:Date.now(), kind:'research', tag, name: form.querySelector('.i-name').value.trim(),
       type: form.querySelector('.i-type').value, angle: form.querySelector('.i-angle').value.trim(),
+      light: tierSel.value==='light',
       status:'scope', created:Date.now(), updated:Date.now(),
       plan:'', r4doc:'', r6doc:'', finalDoc:'' };
     bsView = null; bsSetOpen = false; bsSave(st); renderShort();
@@ -4132,7 +4492,8 @@ function bsHistory(st){
 }
 
 const BS_PANELS = { scope:bsPanelScope, research:bsPanelResearch, audit:bsPanelAudit,
-  finalize:bsPanelFinalize, attack:bsPanelAttack, rebuild:bsPanelRebuild,
+  finalize:bsPanelFinalize, lresearch:bsPanelLResearch, lfinal:bsPanelLFinal,
+  attack:bsPanelAttack, rebuild:bsPanelRebuild,
   plan:bsPanelPlan, write:bsPanelWrite, claims:bsPanelClaims,
   copyaudit:bsPanelCopyAudit, cards:bsPanelCards };
 
@@ -4780,9 +5141,24 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     if(id!=='pp2c' && !t.includes('Inside The Case."')) fails.push(id+' lost the sign off');
   });
   /* every step prompt must exist and every stage must map to a real section */
-  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp4b','pp5','pp5c'].forEach(id=>{
+  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp4b','pp5','pp5c'].forEach(id=>{
     if(!document.getElementById(id)) fails.push('step prompt "'+id+'" is missing from the playbook');
   });
+  /* every stage in every track needs a panel, or a job lands on a step
+     that renders the wrong thing */
+  Object.keys(BS_TRACKS).forEach(k=>{
+    BS_TRACKS[k].forEach(stg=>{
+      if(stg.key==='shelved' || stg.key==='filed') return;
+      if(!BS_PANELS[stg.key]) fails.push('track "'+k+'" stage "'+stg.key+'" has no panel');
+    });
+  });
+  /* the light spine is allowed to be shorter, not to skip the checks the
+     full spine exists for */
+  const l2 = promptText('prl2'), l3 = promptText('prl3');
+  if(!/ITC SWEEPS/.test(l2)) fails.push('the sweeps stopped attaching to the light research prompt');
+  if(!/ITC STANDING RULES/.test(l3)) fails.push('the standing rules stopped attaching to the light finalize prompt');
+  if(!/blank chat/i.test(l3)) fails.push('the light spine lost its cold audit chat, which is the one separation it cannot give up');
+  if(!/COVERAGE PLAN/.test(l3)) fails.push('the light finalize prompt stopped receiving the R1 plan, so it cannot hunt gaps against it');
   /* filename tokens must actually be substituted, or the AI is told to
      save a file with a literal [[OUT]] in its name. The tag being the
      placeholder TAG is fine: that just means no job is running yet. */
