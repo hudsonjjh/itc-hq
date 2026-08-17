@@ -315,7 +315,56 @@ button.amber:disabled{opacity:.4;cursor:default}
 .logitem .del:hover,.histitem .del:hover{color:var(--red)}
 .emptymsg{color:var(--steel);font-size:12.5px;padding:6px 2px}
 
-/* cards view */
+/* cards view · the studio.
+   The spec text stays the source of truth because it is what the AI
+   writes and what the parser reads. The studio is a second way in, not a
+   second format: every control edits the same text. */
+.c-tabs{display:flex;gap:6px;margin:10px 0 0}
+.ctab{flex:1;min-height:38px;background:var(--panel);color:var(--dim);border:1px solid var(--line);
+  border-radius:8px;padding:9px 10px;font-size:11px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;cursor:pointer;font-family:inherit}
+.ctab.on{background:var(--amber);border-color:var(--amber);color:#14100A}
+.c-pane{display:none}
+.c-pane.on{display:block}
+.cardstrip{display:flex;gap:6px;overflow-x:auto;padding:10px 2px 4px;margin:0 -2px}
+.cchip{flex:none;min-width:52px;min-height:44px;background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;color:var(--dim);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 7px}
+.cchip .n{font-weight:700;color:var(--txt)}
+.cchip .k{font-size:8.5px;letter-spacing:.08em;text-transform:uppercase}
+.cchip.on{border-color:var(--amber)}
+.cchip.on .n{color:var(--amber)}
+.cchip.add{color:var(--amber);font-size:19px;justify-content:center}
+.studio{margin-top:4px}
+.sgrp{margin:12px 0 0}
+.sgrp>label{display:block;color:var(--dim);font-size:9.5px;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;margin:0 0 5px}
+.schips{display:flex;gap:6px;flex-wrap:wrap}
+.schip{min-height:36px;background:var(--panel);border:1px solid var(--line);border-radius:7px;color:var(--dim);
+  padding:8px 11px;font-size:11.5px;cursor:pointer;font-family:inherit}
+.schip.on{border-color:var(--amber);color:var(--amber);background:rgba(255,140,22,.09)}
+.sw{width:38px;height:36px;border-radius:7px;border:2px solid var(--line);cursor:pointer;padding:0}
+.sw.on{border-color:#EEF2F7}
+.studio input[type=text]{width:100%;background:var(--panel);color:var(--txt);border:1px solid var(--line);
+  border-radius:7px;padding:9px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;min-height:38px}
+.studio input[type=text]:focus{border-color:var(--amber)}
+.studio textarea{min-height:70px}
+.sline{display:flex;gap:6px;align-items:center}
+.sline input[type=text]{flex:1;min-width:0}
+.snum{max-width:74px !important;text-align:center}
+.srow{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px;margin:6px 0}
+.srow .cells{display:flex;gap:6px;flex-wrap:wrap}
+.srow .cells input{flex:1 1 120px;min-width:0}
+.srow .sub{display:flex;gap:6px;margin-top:5px;padding-left:14px;position:relative}
+.srow .sub::before{content:"›";position:absolute;left:2px;top:9px;color:var(--steel);font-size:13px}
+.srow .acts{display:flex;gap:6px;margin-top:6px}
+.sbtn{min-height:34px;background:transparent;border:1px solid var(--line);border-radius:7px;color:var(--dim);
+  padding:6px 10px;font-size:11px;cursor:pointer;font-family:inherit}
+.sbtn:hover{border-color:var(--steel);color:var(--txt)}
+.sbtn.danger:hover{border-color:var(--red);color:var(--red)}
+.sbtn.wide{flex:1}
+.sacts{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 0}
+.shint{color:var(--steel);font-size:11px;line-height:1.5;margin:5px 0 0}
 .cardsview textarea{width:100%;min-height:230px;background:var(--panel);color:var(--txt);border:1px solid var(--line);
   border-radius:9px;padding:13px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.55;resize:vertical;outline:none}
 .cardsview textarea:focus{border-color:var(--amber)}
@@ -966,6 +1015,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v7.1</b> · The card studio. The Cards tab now opens on a clickable editor instead of a wall of text. Card type, accent colour with a custom hex box, popup style, every line, and the rows themselves are all controls: add a row, add a note under a row, add or drop a table column, reorder rows, duplicate, move or delete whole cards, all with the card redrawing as you type. The spec text is still there on its own tab and is still what the AI writes and the parser reads, and the two stay in step both ways, so you can paste P4's blocks in and then tune them by hand without learning the format. <b>Page numbering is now per card:</b> Auto counts the card inside the deck as before, or turn it off and set it yourself, so a card can read 2 / 4 against a set this deck does not hold. And <b>P4B is now the interesting facts generator</b>: did you know and tip only, no corrections and no warnings, with one test it has to pass, would somebody who already knows this subject stop and say huh. Corrections and warnings still render and are still one click away in the studio when you actually want one.</p>
       <p><b>v7.0</b> · The research diet. The full spine still exists unchanged for a subject that earns it, but four things now cut what it costs to run. <b>Delta passes:</b> R3, R5 and R6 no longer restate the whole dossier, they return only what changed, and the last step in each chat writes it out once. <b>A light spine:</b> three prompts instead of seven, R1 then L2 then L3, chosen at the start and switchable mid-job. It shortens by merging steps, never by dropping checks, so all six sweeps, the gap hunt against the R1 plan, and the cold audit in a chat that did not write the dossier all survive. <b>CORE and REFERENCE:</b> every claim is now routed, and the production prompts are told to write from CORE only, which is what stops a script clinging to detail nobody asked for. <b>A figures ledger,</b> section 27: every year, figure, part number and casting number in one table with the source's own words beside it, because fifty numbers side by side expose the wrong digit that fifty numbers scattered through prose do not. Every figure claim now carries a verbatim QUOTE for the same reason. Also: the Playbook and Home stopped contradicting each other. A Playbook copy button now hands you exactly what the Home flow hands you, tag filled in and documents attached, whenever a job is running. And the copy audit now knows what else is on the shelf, so copy that reaches into another dossier's territory comes back marked CROSS-CHECK NEEDED instead of quietly guessing.</p>
       <p><b>v6.8</b> · Fixed a false self-test alarm: a tag containing a hyphen, like 87-91_FSERIRES, produced a perfectly good filename that the guard's own character check rejected. The guard was stricter than the app, the filename was never broken, and the banner wording no longer names a prompt number that has not existed since the renumber. Tags now keep hyphens and digits and strip only what a filename genuinely cannot carry. Home is simpler: the tag sits on its own line with a <b>New</b> button always visible, so starting fresh no longer means hunting through the jobs list, and the subject wraps underneath instead of squeezing the header. New <b>Edit tag and subject</b> panel lets you fix the tag, subject, and direction after a job has started, and the start screen now takes the direction up front, which is what the R1 output box was wrongly being used for. That box now says plainly that it is for what R1 gives back. Set it once, every prompt after carries it.</p>
       <p><b>v6.7</b> · Popups carry the channel mark. A small INSIDE THE CASE sits bottom right on every popup, matching the footer the cards have, so a popup screenshotted off the video is still recognisably ours. It sits on its own baseline clear of the source credit, and a footer line in the spec overrides it if you want different wording.</p>
@@ -2584,13 +2634,20 @@ SCRIPT: [PASTE THE FINAL SCRIPT]
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt P4B <span>·</span> Popups</div><div class="spacer"></div><button class="copybtn" data-copy="pp4b">Copy prompt</button></div>
-        <pre id="pp4b">CHAT: the same blank chat as P3 and P4.
+        <div class="phead"><div class="pt">Prompt P4B <span>·</span> Interesting facts popups</div><div class="spacer"></div><button class="copybtn" data-copy="pp4b">Copy prompt</button></div>
+        <pre id="pp4b">CHAT: the same blank chat as P3 and P4, or a fresh one if you are
+mining a dossier with no script yet.
 
-Write a run of on-screen popups for this video in the ITC HQ Card
-Generator machine format. The script and the dossier are both below.
-Output popup blocks ready to paste into the generator with zero edits.
-No commentary before, between, or after them.
+Write a run of on-screen popups in the ITC HQ Card Generator machine
+format. Output popup blocks ready to paste into the generator with
+zero edits. No commentary before, between, or after them.
+
+THIS PROMPT PRODUCES INTERESTING FACTS AND NOTHING ELSE. Did you know,
+and the occasional genuinely useful tip. Not corrections, not
+warnings, not housekeeping. Those are real things that sometimes need
+saying, but they are not what this is for, and mixing them in is what
+turns a run of popups into a chore to read. If a fact's only value is
+that somebody got it wrong, it does not belong here.
 
 WHAT A POPUP IS. A small notification block laid over the footage,
 not a full card. It carries one fact worth knowing that does not
@@ -2599,15 +2656,25 @@ the video keeps moving.
 
 WHERE THEY COME FROM. The dossier holds far more than any script can
 say, and that surplus is exactly what popups are for. Work from the
-dossier, not from the script's wording. The best popups come from:
+CORE claims, not from the script's wording. The richest seams are
+section 14 SURPRISES, the myths section 13 settled as CONFIRMED or
+HALF TRUE, and the figures ledger in section 27, because a specific
+number is almost always more interesting than the sentence around it.
+Also good:
 - a number the script rounds, skips, or generalises
 - a casting number, part number, date code, or spline count
 - an identification tell someone could use on a real part
-- a myth the dossier settled that the script has no time to cover
-- a service trap, a do-not-do-this
 - a supplier or origin detail that is interesting but off the spine
-Never restate what the voiceover already says in full. A popup that
-echoes the narration is wasted screen time.
+- a piece of production or market context that reframes the part
+
+THE ONLY TEST THAT MATTERS. Would somebody who already knows this
+subject stop and go "huh, I didn't know that"? If the answer is no, it
+is not a popup, however true it is. A number nobody would repeat, a
+detail that only matters to the person rebuilding one this afternoon,
+a fact that is really just the previous fact restated: cut all of it.
+Being accurate is the floor here, not the bar. Never restate what the
+voiceover already says in full, because a popup that echoes the
+narration is wasted screen time.
 
 HOW MANY. 6 to 10 for a Short, so there is something to cut from.
 Long form scales up, roughly one every 30 to 45 seconds. Over-produce
@@ -2617,9 +2684,10 @@ good one at edit time is not.
 HARD RULES:
 - Only LOCKED facts. LIKELY and UNVERIFIED belong in the pinned
   comment, never on screen.
-- Style is one of: did you know, tip, warning, correction. Pick the
-  one the fact actually is. A caution is not trivia, and a correction
-  is not a tip.
+- Style is one of: did you know, tip. Nothing else. Use tip only when
+  the fact is something a person could act on, and did you know for
+  everything else. If a fact will not sit under either label, that is
+  the format telling you it is not an interesting fact.
 - One idea per popup. If it needs a sentence of setup before the
   point lands, it is a card, not a popup.
 - Keep the text to one or two short sentences.
@@ -2629,12 +2697,12 @@ The full machine format and a worked example are attached below.
 
 OUTPUT, in this order:
 1. The popup blocks, one after another.
-2. PLACEMENT MAP: one line per popup, quoting the script line it
-   lands on, with the claim ID behind it.
-3. CUT LIST: which ones you would drop first if the edit only has
-   room for half, and why.
+2. PLACEMENT MAP: one line per popup with the claim ID behind it, and
+   the script line it lands on if a script was given.
+3. CUT LIST: ranked weakest first, so the edit knows what to drop when
+   there is only room for half. Say what makes each weak one weak.
 
-SCRIPT: [PASTE THE FINAL SCRIPT]
+SCRIPT, if there is one yet: [PASTE THE FINAL SCRIPT]
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
@@ -2782,10 +2850,23 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
 <!-- ================================================================ CARDS -->
 <section class="view cardsview" id="view-cards">
   <div class="c-edit">
-  <label class="small">Card specs · one block per card, separated by === CARD lines · drafts save on this phone</label>
-  <textarea id="spec" spellcheck="false"></textarea>
+  <div class="c-tabs">
+    <button class="ctab on" id="tabStudio" type="button">Studio</button>
+    <button class="ctab" id="tabText" type="button">Spec text</button>
+  </div>
+  <div class="c-pane on" id="pane-studio">
+    <div class="cardstrip" id="cardstrip"></div>
+    <div class="studio" id="studio"></div>
+  </div>
+  <div class="c-pane" id="pane-text">
+    <label class="small">Card specs · one block per card, separated by === CARD lines · drafts save on this phone</label>
+    <textarea id="spec" spellcheck="false"></textarea>
+    <div class="row">
+      <button class="amber" id="render">Render</button>
+    </div>
+    <p class="shint">This is the same cards the Studio edits, in the format the AI writes and the parser reads. Edit either one, the other follows.</p>
+  </div>
   <div class="row">
-    <button class="amber" id="render">Render</button>
     <input type="text" id="tag" value="ITC_TOPIC" aria-label="File tag">
   </div>
   </div>
@@ -2865,6 +2946,7 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
         <div class="item"><code>=== CARD 01</code><div class="d">Any line starting with <code>===</code> begins a new card.</div></div>
         <div class="item"><code>auto-fit</code><div class="d">spec and timeline shrink to fit. table does not, so trim rows if you see an overflow warning.</div></div>
         <div class="item"><code>house rules</code><div class="d">Auto-flagged in the warning box: em or en dashes, emojis, and hyphenated ranges. Write ranges as "1994 to 1997".</div></div>
+        <div class="item"><code>studio</code><div class="d">Everything on this page is also clickable on the <b>Studio</b> tab: type, colour, every line, rows, page number. It edits this same text, so paste an AI's blocks in and then tune them by hand without learning any of it.</div></div>
       </div>
     </div>
   </details>
@@ -3012,7 +3094,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v7.0';
+const APP_VERSION = 'v7.1';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -4601,6 +4683,12 @@ const POPUP_STYLES = {
 /* the names a prompt is expected to offer; "heads up" is accepted as a
    spelling of warning but is not a fifth choice */
 const POPUP_STYLE_CANON = Object.keys(POPUP_STYLES).filter(k=>!POPUP_STYLES[k].alias);
+/* P4B generates interesting facts only. Corrections and warnings still
+   render, and the studio still offers them by hand, but the prompt does
+   not produce them: a run of popups that mixes trivia with housekeeping
+   is a chore to read, and the correction habit is one this channel
+   deliberately dropped. */
+const POPUP_PROMPT_STYLES = ['did you know', 'tip'];
 const POPUP_W = 960;
 /* one renderer per accepted card type; unknown types fall back to spec.
    The self-test checks these keys against CARD_TYPES in the prompt. */
@@ -5128,9 +5216,12 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
   /* the popup prompt must carry the style names and the machine format,
      or the syntax ends up being typed by hand again */
   const p4b = promptText('pp4b');
-  POPUP_STYLE_CANON.forEach(st=>{
+  POPUP_PROMPT_STYLES.forEach(st=>{
+    if(!POPUP_STYLE_CANON.includes(st)) fails.push('P4B offers popup style "'+st+'" that the renderer does not know');
     if(!p4b.includes(st)) fails.push('Prompt P4B no longer names the popup style "'+st+'"');
   });
+  if(!/Style is one of: did you know, tip\./.test(p4b))
+    fails.push('Prompt P4B stopped restricting itself to interesting facts');
   if(!p4b.includes('=== POPUP')) fails.push('Prompt P4B lost the popup worked example');
   if(!p4b.includes('type: popup')) fails.push('Prompt P4B lost the popup machine format');
   /* the three writing prompts each carry the voice card and house rules */
@@ -5221,6 +5312,427 @@ PORTS | metric O-ring, not pipe thread
 highlight: Not stronger, just different. Smaller mains are why high-HP builders still chase the early 14 mm blocks.`;
 specEl.value = store.get('cardspecs', DEMO_SPECS);
 tagEl.value = store.get('cardtag', 'ITC_TOPIC');
+
+/* ================================================================
+   [CARDS] the studio
+   A clickable editor over the same spec text. The text stays the
+   source of truth, because it is what the AI writes and what the
+   parser reads, and a second format would be a second thing to keep
+   in sync. Every control here edits one card's block and hands it
+   straight back to the parser, so what you see on the canvas is
+   always the result of parsing real spec text, never a preview of
+   some parallel model.
+   ================================================================ */
+const CARD_KINDS = { spec:'Spec', timeline:'Time', table:'Table', compare:'Vs', popup:'Popup' };
+/* how many cells a row of each type carries. table is variable, so it
+   is absent here and gets column controls instead. */
+const CELLS_FOR = { spec:2, timeline:2, compare:3 };
+const CELL_HINT = { spec:['LABEL','value'], timeline:['YEAR','event'],
+  compare:['LABEL','left','right'], table:['column','column','column','column'] };
+const FIELD_HELP = {
+  kicker:'Small line up top, e.g. 5.9 CUMMINS · BLOCK ID',
+  headline:'The big title. One to three words reads best.',
+  subhead:'Accent line under the headline.',
+  highlight:'Callout box pinned to the bottom.',
+  source:'Credit above the footer.',
+  footer:'Defaults to INSIDE THE CASE · AUTO.',
+  text:'One or two short sentences, read in about two seconds.'
+};
+const studioEl = document.getElementById('studio');
+const stripEl = document.getElementById('cardstrip');
+let work = null, studioIdx = -1;
+
+function sEl(h){ const d=document.createElement('div'); d.innerHTML=h; return d.firstElementChild; }
+function sGroup(label){
+  const g = sEl('<div class="sgrp"></div>');
+  if(label){ const l=document.createElement('label'); l.textContent=label; g.appendChild(l); }
+  return g;
+}
+function sBtn(label, cls){
+  const b = sEl('<button type="button" class="sbtn'+(cls? ' '+cls : '')+'"></button>');
+  b.textContent = label; return b;
+}
+
+/* ---- spec text as a list of blocks, so one card can be rewritten
+   without touching a byte of any other ---- */
+function specParts(text){
+  const lines = text.split(/\r?\n/);
+  const marks = [];
+  lines.forEach((ln,i)=>{ if(/^\s*===/.test(ln)) marks.push(i); });
+  const parts = [];
+  const add = (head, from, to)=>{
+    const body = lines.slice(from,to).join('\n').replace(/^\s+|\s+$/g,'');
+    if(body) parts.push({ head, body });
+  };
+  if(!marks.length){ add(null, 0, lines.length); return parts; }
+  if(marks[0] > 0) add(null, 0, marks[0]);
+  marks.forEach((m,j)=> add(lines[m], m+1, j+1<marks.length? marks[j+1] : lines.length));
+  return parts;
+}
+function partsText(parts){
+  return parts.map((p,i)=>{
+    const nn = String(i+1).padStart(2,'0');
+    const isPop = /^\s*type\s*:\s*popup\s*$/im.test(p.body);
+    let head = p.head;
+    /* renumber a standard header, and retitle it if the type changed.
+       A header worded any other way is left exactly as written: it is
+       the one place in this format somebody may have put a note. */
+    const m = head && head.match(/^(\s*===\s*)(CARD|POPUP)(\s*)(\d+)(.*)$/i);
+    if(m) head = m[1] + (isPop? 'POPUP' : 'CARD') + (m[3]||' ') + nn + m[5];
+    else if(head == null) head = '=== ' + (isPop? 'POPUP' : 'CARD') + ' ' + nn;
+    return head + '\n' + p.body;
+  }).join('\n\n') + '\n';
+}
+function setSpec(t){ specEl.value = t; store.set('cardspecs', t); }
+
+/* ---- the working copy, and how it serializes back ---- */
+function cloneCard(c){
+  /* A popup with no accent line takes its colour from its style, so the
+     studio must show that colour without writing it down. Writing it
+     down is what would pin the card to amber the moment you opened it. */
+  const setAccent = c.setKeys.includes('accent');
+  const st = POPUP_STYLES[String(c.style||'').toLowerCase()];
+  const accent = (c.type==='popup' && !setAccent && st)? st.accent : c.accent;
+  return { type:c.type, accent:accent, setAccent:setAccent, style:c.style, kicker:c.kicker,
+    counter:c.counter, autoCounter:!c.setKeys.includes('counter'),
+    headline:c.headline, subhead:c.subhead, text:c.text, highlight:c.highlight,
+    source:c.source, footer:c.setKeys.includes('footer')? c.footer : '',
+    rows:c.rows.map(r=>({ cells:r.cells.slice(), subs:r.subs.slice() })) };
+}
+function workToBlock(w){
+  const out = ['type: ' + w.type];
+  const put = (k,v)=>{ if(String(v==null? '' : v).trim()!=='') out.push(k+': '+v); };
+  if(w.setAccent) put('accent', w.accent);
+  if(w.type==='popup') put('style', w.style);
+  put('kicker', w.kicker);
+  if(!w.autoCounter) put('counter', w.counter);
+  put('headline', w.headline);
+  put('subhead', w.subhead);
+  /* text belongs to popups, but it is kept on any type so switching a
+     card back and forth does not quietly destroy a sentence */
+  put('text', w.text);
+  if(w.type!=='popup' && w.rows.length){
+    out.push('rows:');
+    w.rows.forEach(r=>{
+      out.push(r.cells.map(x=>String(x).trim()).join(' | '));
+      r.subs.forEach(s=>{ if(String(s).trim()) out.push('> '+String(s).trim()); });
+    });
+  }
+  put('highlight', w.highlight);
+  put('source', w.source);
+  put('footer', w.footer);
+  return out.join('\n');
+}
+/* rebuild=true when the shape of the form changed and the DOM has to be
+   rebuilt; false for plain typing, where rebuilding would steal focus */
+function studioCommit(rebuild){
+  if(!work) return;
+  const parts = specParts(specEl.value);
+  if(parts[idx]){ parts[idx].body = workToBlock(work); setSpec(partsText(parts)); }
+  cards = parseSpecs(specEl.value);
+  showCard();
+  if(rebuild) studioBuild();
+}
+
+/* ---- the card strip ---- */
+function studioStrip(){
+  stripEl.innerHTML = '';
+  cards.forEach((c,i)=>{
+    const b = sEl('<button type="button" class="cchip"><span class="n"></span><span class="k"></span></button>');
+    b.querySelector('.n').textContent = String(i+1).padStart(2,'0');
+    b.querySelector('.k').textContent = CARD_KINDS[c.type] || 'Spec';
+    if(i===idx) b.classList.add('on');
+    b.addEventListener('click', ()=>{ idx=i; showCard(); });
+    stripEl.appendChild(b);
+  });
+  const add = sEl('<button type="button" class="cchip add" title="Add a card">+</button>');
+  add.addEventListener('click', ()=>{
+    const parts = specParts(specEl.value);
+    parts.push({ head:null, body:'type: spec\naccent: amber\nheadline: NEW CARD\nrows:\nLABEL | value' });
+    setSpec(partsText(parts));
+    cards = parseSpecs(specEl.value);
+    idx = cards.length-1; studioIdx = -1; showCard();
+  });
+  stripEl.appendChild(add);
+}
+
+/* ---- the form ---- */
+function studioBuild(){
+  studioIdx = idx;
+  studioEl.innerHTML = '';
+  if(!cards.length){
+    work = null;
+    /* nothing to show yet, so do not claim this index is built: the
+       first parse after load has to be allowed to rebuild */
+    studioIdx = -1;
+    studioEl.appendChild(sEl('<p class="shint">No cards yet. Press + above to start one, or paste blocks from P4 into the Spec text tab.</p>'));
+    return;
+  }
+  work = cloneCard(cards[idx]);
+  const isPop = work.type==='popup';
+
+  /* type */
+  const tg = sGroup('Card type');
+  const tc = sEl('<div class="schips"></div>');
+  CARD_TYPES.forEach(t=>{
+    const b = sEl('<button type="button" class="schip"></button>');
+    b.textContent = CARD_KINDS[t] || t;
+    if(t===work.type) b.classList.add('on');
+    b.addEventListener('click', ()=>{
+      if(t===work.type) return;
+      if(t==='popup' && work.rows.length &&
+         !confirm('Popups have no rows. Drop the '+work.rows.length+' row'+(work.rows.length>1?'s':'')+' on this card?')) return;
+      if(t==='popup'){ work.rows = []; if(!work.style) work.style = 'did you know'; }
+      else fitRows(t);
+      work.type = t; studioCommit(true);
+    });
+    tc.appendChild(b);
+  });
+  tg.appendChild(tc); studioEl.appendChild(tg);
+
+  /* popup style */
+  if(isPop){
+    const g = sGroup('Popup style');
+    const c = sEl('<div class="schips"></div>');
+    POPUP_STYLE_CANON.forEach(st=>{
+      const b = sEl('<button type="button" class="schip"></button>');
+      b.textContent = POPUP_STYLES[st].label;
+      if(st===String(work.style||'').toLowerCase()) b.classList.add('on');
+      /* picking a style hands the colour back to the style, so the
+         swatches show what it will draw without pinning it there */
+      b.addEventListener('click', ()=>{
+        work.style = st; work.accent = POPUP_STYLES[st].accent; work.setAccent = false;
+        studioCommit(true);
+      });
+      c.appendChild(b);
+    });
+    g.appendChild(c);
+    g.appendChild(sEl('<p class="shint">Sets the label and the colour. P4B only writes DID YOU KNOW and TIP; the other two are here for when you want one by hand.</p>'));
+    studioEl.appendChild(g);
+  }
+
+  /* accent */
+  const ag = sGroup('Accent colour');
+  const ac = sEl('<div class="schips"></div>');
+  Object.keys(ACCENTS).forEach(name=>{
+    const b = sEl('<button type="button" class="sw" title="'+name+'"></button>');
+    b.style.background = ACCENTS[name];
+    if(work.accent===name) b.classList.add('on');
+    b.addEventListener('click', ()=>{ work.accent = name; work.setAccent = true; studioCommit(true); });
+    ac.appendChild(b);
+  });
+  const hex = sEl('<input type="text" placeholder="#FF8C16" style="max-width:120px">');
+  hex.value = /^#/.test(work.accent||'')? work.accent : '';
+  hex.addEventListener('input', ()=>{
+    const v = hex.value.trim();
+    if(/^#[0-9a-f]{3}$|^#[0-9a-f]{6}$/i.test(v)){ work.accent = v; work.setAccent = true; studioCommit(false); }
+  });
+  ac.appendChild(hex);
+  ag.appendChild(ac); studioEl.appendChild(ag);
+
+  /* text fields */
+  const field = (key, label)=>{
+    const g = sGroup(label);
+    const i = sEl('<input type="text">');
+    i.value = work[key] || '';
+    i.placeholder = FIELD_HELP[key] || '';
+    i.addEventListener('input', ()=>{ work[key] = i.value; studioCommit(false); });
+    g.appendChild(i); studioEl.appendChild(g);
+  };
+  field('kicker','Kicker');
+  field('headline','Headline');
+  if(!isPop) field('subhead','Subhead');
+  if(isPop) field('text','Popup text');
+
+  /* page number */
+  if(!isPop){
+    const g = sGroup('Page number');
+    const line = sEl('<div class="sline"></div>');
+    const auto = sEl('<button type="button" class="schip"></button>');
+    auto.textContent = 'Auto';
+    if(work.autoCounter) auto.classList.add('on');
+    auto.addEventListener('click', ()=>{
+      work.autoCounter = !work.autoCounter;
+      if(!work.autoCounter && !String(work.counter||'').trim())
+        work.counter = String(idx+1).padStart(2,'0')+' / '+String(cards.length).padStart(2,'0');
+      studioCommit(true);
+    });
+    line.appendChild(auto);
+    if(work.autoCounter){
+      const now = cards[idx].counter;
+      const t = sEl('<p class="shint" style="margin:0"></p>');
+      t.textContent = 'Numbered ' + now + ' from its place in the deck.';
+      line.appendChild(t);
+    } else {
+      const halves = String(work.counter||'').split('/');
+      const a = sEl('<input type="text" class="snum">'), b = sEl('<input type="text" class="snum">');
+      a.value = (halves[0]||'').trim(); b.value = (halves[1]||'').trim();
+      const sync = ()=>{ work.counter = a.value.trim()+' / '+b.value.trim(); studioCommit(false); };
+      a.addEventListener('input', sync); b.addEventListener('input', sync);
+      line.appendChild(a);
+      line.appendChild(sEl('<span class="shint" style="margin:0">of</span>'));
+      line.appendChild(b);
+    }
+    g.appendChild(line);
+    g.appendChild(sEl('<p class="shint">Auto counts this card inside this deck. Turn it off to number a card against a set the deck does not hold, like 2 / 4 when the other two are already cut.</p>'));
+    studioEl.appendChild(g);
+  }
+
+  /* rows */
+  if(!isPop) studioEl.appendChild(rowsEditor());
+
+  field('highlight','Highlight box');
+  field('source','Source credit');
+  field('footer','Footer');
+
+  /* card actions */
+  const acts = sEl('<div class="sacts"></div>');
+  const dup = sBtn('Duplicate','wide');
+  dup.addEventListener('click', ()=>{
+    const parts = specParts(specEl.value);
+    parts.splice(idx+1, 0, { head:null, body:parts[idx].body });
+    setSpec(partsText(parts)); cards = parseSpecs(specEl.value);
+    idx = idx+1; studioIdx = -1; showCard();
+  });
+  const left = sBtn('‹ Move');
+  left.disabled = idx===0;
+  left.addEventListener('click', ()=>moveCard(-1));
+  const right = sBtn('Move ›');
+  right.disabled = idx>=cards.length-1;
+  right.addEventListener('click', ()=>moveCard(1));
+  const del = sBtn('Delete','danger');
+  del.addEventListener('click', ()=>{
+    if(!confirm('Delete card '+String(idx+1).padStart(2,'0')+'?')) return;
+    const parts = specParts(specEl.value);
+    parts.splice(idx,1);
+    setSpec(parts.length? partsText(parts) : '');
+    cards = parseSpecs(specEl.value);
+    idx = Math.min(idx, Math.max(0,cards.length-1)); studioIdx = -1; showCard();
+  });
+  [dup,left,right,del].forEach(b=>acts.appendChild(b));
+  studioEl.appendChild(acts);
+}
+function moveCard(dir){
+  const parts = specParts(specEl.value);
+  const j = idx+dir;
+  if(j<0 || j>=parts.length) return;
+  const t = parts[idx]; parts[idx]=parts[j]; parts[j]=t;
+  setSpec(partsText(parts)); cards = parseSpecs(specEl.value);
+  idx = j; studioIdx = -1; showCard();
+}
+/* changing type changes how many cells a row carries; pad or trim so
+   the editor never shows a compare card with two thirds of a row */
+function fitRows(type){
+  const n = CELLS_FOR[type];
+  if(!n) return;                       /* table is free-form */
+  work.rows.forEach(r=>{
+    while(r.cells.length < n) r.cells.push('');
+    r.cells.length = n;
+    if(type!=='spec') r.subs = [];
+  });
+}
+function rowsEditor(){
+  const g = sGroup('Rows');
+  const hint = { spec:'Label on the left, value on the right. Wrap text in *asterisks* to colour it.',
+    timeline:'Year on the left, what happened on the right.',
+    table:'First row is the header. Add or remove columns on it.',
+    compare:'First row names the two panels, e.g. SPEC | CHEVY 350 | FORD 351W.' }[work.type];
+  if(hint) g.appendChild(sEl('<p class="shint" style="margin:0 0 6px">'+hint+'</p>'));
+  work.rows.forEach((r,ri)=>{
+    const box = sEl('<div class="srow"></div>');
+    const cells = sEl('<div class="cells"></div>');
+    r.cells.forEach((cell,ci)=>{
+      const i = sEl('<input type="text">');
+      i.value = cell;
+      i.placeholder = (CELL_HINT[work.type]||[])[ci] || 'text';
+      i.addEventListener('input', ()=>{ r.cells[ci]=i.value; studioCommit(false); });
+      cells.appendChild(i);
+    });
+    box.appendChild(cells);
+    r.subs.forEach((s,si)=>{
+      const sub = sEl('<div class="sub"></div>');
+      const i = sEl('<input type="text" placeholder="smaller line under the row">');
+      i.value = s;
+      i.addEventListener('input', ()=>{ r.subs[si]=i.value; studioCommit(false); });
+      const x = sBtn('×');
+      x.addEventListener('click', ()=>{ r.subs.splice(si,1); studioCommit(true); });
+      sub.appendChild(i); sub.appendChild(x);
+      box.appendChild(sub);
+    });
+    const acts = sEl('<div class="acts"></div>');
+    if(work.type==='spec'){
+      const b = sBtn('+ note');
+      b.addEventListener('click', ()=>{ r.subs.push(''); studioCommit(true); });
+      acts.appendChild(b);
+    }
+    if(work.type==='table' && ri===0){
+      const plus = sBtn('+ column');
+      plus.addEventListener('click', ()=>{ work.rows.forEach(x=>x.cells.push('')); studioCommit(true); });
+      const minus = sBtn('− column');
+      minus.disabled = r.cells.length<=2;
+      minus.addEventListener('click', ()=>{ work.rows.forEach(x=>{ if(x.cells.length>2) x.cells.pop(); }); studioCommit(true); });
+      acts.appendChild(plus); acts.appendChild(minus);
+    }
+    if(ri>0){
+      const up = sBtn('↑');
+      up.addEventListener('click', ()=>{ const t=work.rows[ri-1]; work.rows[ri-1]=work.rows[ri]; work.rows[ri]=t; studioCommit(true); });
+      acts.appendChild(up);
+    }
+    if(ri<work.rows.length-1){
+      const dn = sBtn('↓');
+      dn.addEventListener('click', ()=>{ const t=work.rows[ri+1]; work.rows[ri+1]=work.rows[ri]; work.rows[ri]=t; studioCommit(true); });
+      acts.appendChild(dn);
+    }
+    const rm = sBtn('Remove','danger');
+    rm.addEventListener('click', ()=>{ work.rows.splice(ri,1); studioCommit(true); });
+    acts.appendChild(rm);
+    box.appendChild(acts);
+    g.appendChild(box);
+  });
+  const add = sBtn('+ row','wide');
+  add.addEventListener('click', ()=>{
+    const n = CELLS_FOR[work.type] || (work.rows[0]? work.rows[0].cells.length : 3);
+    work.rows.push({ cells:new Array(n).fill(''), subs:[] });
+    studioCommit(true);
+  });
+  const wrapRow = sEl('<div class="sacts"></div>');
+  wrapRow.appendChild(add); g.appendChild(wrapRow);
+  return g;
+}
+
+/* the studio follows the pager, so Prev and Next move both */
+const showCardBase = showCard;
+showCard = function(){
+  showCardBase();
+  studioStrip();
+  if(idx !== studioIdx) studioBuild();
+};
+
+/* editing the raw text rebuilds the studio, so neither side goes stale */
+let specTimer = null;
+specEl.addEventListener('input', ()=>{
+  clearTimeout(specTimer);
+  specTimer = setTimeout(()=>{
+    cards = parseSpecs(specEl.value);
+    if(idx >= cards.length) idx = Math.max(0, cards.length-1);
+    studioIdx = -1; showCard();
+  }, 300);
+});
+(function cardTabs(){
+  const tabs = { studio:document.getElementById('tabStudio'), text:document.getElementById('tabText') };
+  const panes = { studio:document.getElementById('pane-studio'), text:document.getElementById('pane-text') };
+  Object.keys(tabs).forEach(k=>{
+    tabs[k].addEventListener('click', ()=>{
+      Object.keys(tabs).forEach(j=>{
+        tabs[j].classList.toggle('on', j===k);
+        panes[j].classList.toggle('on', j===k);
+      });
+      if(k==='studio'){ studioIdx = -1; showCard(); }
+      store.set('cardpane', k);
+    });
+  });
+  if(store.get('cardpane','studio')==='text') tabs.text.click();
+})();
 
 /* ================================================================
    [WRITER] Case Writer (ported, with on-device autosave)

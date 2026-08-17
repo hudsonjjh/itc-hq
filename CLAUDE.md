@@ -112,3 +112,23 @@ there as high-risk and describe the effect before making them. The
 accepted card types live in CARD_TYPES/RENDERERS and are guarded by the
 load-time self-test; keep prompts, worked example, and renderers in
 sync through those constants.
+
+## Card studio
+
+The v7.1 studio is a second way into the spec text, never a second
+format. The text stays the source of truth because it is what the AI
+writes and what the parser reads. Every control serializes one card's
+block through `workToBlock()`, splices it back with `specParts()` /
+`partsText()`, and re-parses: what the canvas shows is always the
+result of parsing real spec text.
+
+- **A studio round trip must be byte-identical** when nothing was
+  edited. Only emit a key the card actually set, which is what
+  `setKeys` is for. Emitting a default is not harmless: writing
+  `accent:` onto a popup pins it to that colour and silently kills the
+  style preset, which is exactly the bug this rule exists to stop.
+- Rebuild the form only on structural change (`studioCommit(true)`).
+  Rebuilding on every keystroke steals focus mid-word.
+- P4B generates interesting facts only, `POPUP_PROMPT_STYLES`. The
+  renderer and the studio still offer warning and correction by hand;
+  the prompt does not write them, and the self-test enforces that.
