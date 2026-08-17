@@ -238,6 +238,24 @@ details.pbsec>summary .rowcopy{display:flex;gap:6px;flex:none;align-items:center
   padding:10px 11px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;flex:1;min-width:0}
 .lib-form input:focus,.lib-form select:focus{border-color:var(--amber)}
 .lib-form{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+/* across the shelf: one dossier answers questions about one part, and
+   these read every dossier at once */
+.shelf{background:rgba(19,25,38,.45);border:1px solid var(--line);border-radius:12px;padding:12px 13px;margin:10px 0}
+.shelf input[type=text]{width:100%;background:var(--panel);color:var(--txt);border:1px solid var(--line);
+  border-radius:7px;padding:9px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;min-height:38px}
+.shelf input[type=text]:focus{border-color:var(--amber)}
+.shelf .count{color:var(--steel);font-size:10.5px;font-family:'JetBrains Mono',monospace;margin:7px 0 0}
+.shelfout{max-height:52vh;overflow:auto;margin-top:8px}
+.shline{display:flex;gap:9px;align-items:baseline;padding:6px 2px;border-bottom:1px solid var(--line)}
+.shline .t{font-family:'JetBrains Mono',monospace;color:var(--amber);font-size:10px;font-weight:700;
+  letter-spacing:.05em;flex:none;min-width:74px}
+.shline .s{color:var(--steel);font-size:9.5px;font-family:'JetBrains Mono',monospace;flex:none;min-width:26px}
+.shline .x{color:#C9D2DE;font-size:12px;line-height:1.5;flex:1;min-width:0;word-break:break-word}
+.shline .x b{color:var(--amber);font-weight:700}
+.shpick{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.shpick button{min-height:36px;background:var(--panel);border:1px solid var(--line);border-radius:7px;
+  color:var(--dim);padding:8px 11px;font-size:11.5px;cursor:pointer;font-family:'JetBrains Mono',monospace}
+.shpick button.on{border-color:var(--amber);color:var(--amber);background:rgba(255,140,22,.09)}
 .bs-head .grow{flex:1}
 .bs-subject{color:var(--dim);font-size:12px;line-height:1.5;margin:0 0 10px;word-break:break-word}
 .bs-links{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 10px}
@@ -1015,6 +1033,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v7.2</b> · Across the shelf. The Library now reads every finished dossier at once, which is the only way to catch the expensive kind of mistake: two dossiers that are each correct on their own sources and still disagree with each other. <b>Search</b> runs across the whole shelf and shows every matching line with its dossier and section. <b>Figures</b> lines up section 27 from every dossier in one list, so the same dimension recorded two different ways is visible instead of buried. <b>Fitment</b> does the same for applications, mating components and interchange, sections 06, 07 and 08, so you can ask what else on the shelf touches a 1994 F-250. <b>Combine</b> picks two or more dossiers and builds a bundle for the new <b>X1 cross-dossier check</b>, a blank-chat pass that works claim against claim and returns corrections grouped by dossier tag. It defaults to a fitment slice, the seven sections that describe how a part meets other parts, because pasting three complete dossiers into a chat costs a great deal and answers no more. X1 is also what finally settles the CROSS-CHECK NEEDED items the copy audit started raising in v7.0: P3 can see that a line reaches into another dossier's territory but only ever has one dossier, so it can flag and nothing more.</p>
       <p><b>v7.1</b> · The card studio. The Cards tab now opens on a clickable editor instead of a wall of text. Card type, accent colour with a custom hex box, popup style, every line, and the rows themselves are all controls: add a row, add a note under a row, add or drop a table column, reorder rows, duplicate, move or delete whole cards, all with the card redrawing as you type. The spec text is still there on its own tab and is still what the AI writes and the parser reads, and the two stay in step both ways, so you can paste P4's blocks in and then tune them by hand without learning the format. <b>Page numbering is now per card:</b> Auto counts the card inside the deck as before, or turn it off and set it yourself, so a card can read 2 / 4 against a set this deck does not hold. And <b>P4B is now the interesting facts generator</b>: did you know and tip only, no corrections and no warnings, with one test it has to pass, would somebody who already knows this subject stop and say huh. Corrections and warnings still render and are still one click away in the studio when you actually want one.</p>
       <p><b>v7.0</b> · The research diet. The full spine still exists unchanged for a subject that earns it, but four things now cut what it costs to run. <b>Delta passes:</b> R3, R5 and R6 no longer restate the whole dossier, they return only what changed, and the last step in each chat writes it out once. <b>A light spine:</b> three prompts instead of seven, R1 then L2 then L3, chosen at the start and switchable mid-job. It shortens by merging steps, never by dropping checks, so all six sweeps, the gap hunt against the R1 plan, and the cold audit in a chat that did not write the dossier all survive. <b>CORE and REFERENCE:</b> every claim is now routed, and the production prompts are told to write from CORE only, which is what stops a script clinging to detail nobody asked for. <b>A figures ledger,</b> section 27: every year, figure, part number and casting number in one table with the source's own words beside it, because fifty numbers side by side expose the wrong digit that fifty numbers scattered through prose do not. Every figure claim now carries a verbatim QUOTE for the same reason. Also: the Playbook and Home stopped contradicting each other. A Playbook copy button now hands you exactly what the Home flow hands you, tag filled in and documents attached, whenever a job is running. And the copy audit now knows what else is on the shelf, so copy that reaches into another dossier's territory comes back marked CROSS-CHECK NEEDED instead of quietly guessing.</p>
       <p><b>v6.8</b> · Fixed a false self-test alarm: a tag containing a hyphen, like 87-91_FSERIRES, produced a perfectly good filename that the guard's own character check rejected. The guard was stricter than the app, the filename was never broken, and the banner wording no longer names a prompt number that has not existed since the renumber. Tags now keep hyphens and digits and strip only what a filename genuinely cannot carry. Home is simpler: the tag sits on its own line with a <b>New</b> button always visible, so starting fresh no longer means hunting through the jobs list, and the subject wraps underneath instead of squeezing the header. New <b>Edit tag and subject</b> panel lets you fix the tag, subject, and direction after a job has started, and the start screen now takes the direction up front, which is what the R1 output box was wrongly being used for. That box now says plainly that it is for what R1 gives back. Set it once, every prompt after carries it.</p>
@@ -2223,6 +2242,85 @@ REVISION PASS DOCUMENT: [PASTE THE R8A PASS DOCUMENT]</pre>
     </div>
   </details>
 
+  <details class="pbsec" id="pb-x1">
+    <summary><span class="sn">X1</span><span class="st">Cross-dossier check</span><span class="chips"><span class="chip tool">OPTIONAL · blank chat, no folder</span></span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <div class="kick">You provide: two or more finished dossiers, bundled on the Library tab</div>
+      <p class="lead"><b>Optional, and only once the shelf has more than one thing on it.</b> Every dossier is audited against its own sources, and that is exactly why two of them can be individually correct and still disagree with each other. A transmission dossier and a transfer case dossier both describe the same bolt pattern, both from good sources, and only one of them is right about which years it changed.</p>
+      <p class="lead">This is also what settles the <b>CROSS-CHECK NEEDED</b> items P3 raises. The copy audit can see that a line reaches into another dossier's territory, but it is only given one dossier, so it can only flag. X1 is the pass that actually has both.</p>
+      <p class="lead">Build the bundle on the <b>Library tab</b>, under Across the shelf, Combine. The fitment slice is the default and is usually the right one: it carries the sections that actually interact between parts and leaves out the fourteen that do not.</p>
+      <div class="promptbox">
+        <div class="phead"><div class="pt">Prompt X1 <span>·</span> cross-dossier check</div><div class="spacer"></div><button class="copybtn" data-copy="px1">Copy prompt</button></div>
+        <pre id="px1">CHAT: a brand new blank chat, NOT inside any folder, web search on.
+
+You have two or more Inside The Case dossiers below, each finished and
+each audited on its own. Your job is the one question none of those
+audits could ask: do they agree with each other?
+
+Work claim against claim, not impression against impression. A
+disagreement is two claims that cannot both be true, quoted side by
+side with their IDs and their sources. A difference in wording is not
+a disagreement. A gap in one dossier is not a disagreement either, it
+is a gap, and it goes in its own list.
+
+WHAT TO CHECK, in this order:
+1. DIRECT CONTRADICTIONS. The same fact stated differently in two
+   dossiers. Quote both, name both claim IDs, and say which source
+   outranks the other under the standing hierarchy, or say that they
+   are the same rank and the question is open.
+2. SPAN CONFLICTS. The same change dated to different years, or a
+   proven span in one dossier that runs through years another dossier
+   says the part did not exist. These are the most common and the
+   least visible, because each dossier reads fine alone.
+3. FITMENT AND MATING. Where one dossier says a part bolts to, mates
+   with, or interchanges with the subject of another, check that the
+   other dossier says the same thing from its side. A one sided
+   fitment claim is a claim nobody has confirmed from both ends.
+4. FIGURES. Compare the figures ledgers. Any dimension, capacity,
+   ratio, spline count or part number that appears in more than one
+   dossier must match digit for digit. Where they differ, quote both
+   source strings, because that is where the wrong digit shows.
+5. SHARED TERMS. The same name used for two different things, or two
+   names used for the same thing, across the dossiers.
+
+RESOLVE WHAT YOU CAN. Where the source hierarchy settles it, say so
+and give the correction. Where it does not, search: a third source
+that settles a conflict between two dossiers is worth more than
+anything else you could do with this pass. Where nothing settles it,
+say that plainly and give the action type.
+
+Never invent agreement. Two dossiers that were built months apart from
+different sources are supposed to disagree sometimes, and finding
+nothing is a valid result only if you can name what you compared.
+
+OUTPUT, in this order:
+1. WHAT WAS COMPARED: which dossiers, and which axes above you could
+   actually test given what they contain.
+2. CONTRADICTIONS: one entry each, with both claim IDs, both quotes,
+   both sources, the verdict, and the correction if there is one.
+3. SPAN CONFLICTS, same shape.
+4. ONE SIDED FITMENT: claims that only one dossier carries and the
+   other should.
+5. FIGURE MISMATCHES: a table, one row per figure, with the value from
+   each dossier and its source.
+6. TERMINOLOGY COLLISIONS.
+7. CORRECTIONS TO APPLY, grouped by dossier tag, as a delta: claim ID,
+   old value, new value, and why. This is what gets applied on the
+   shelf, so it has to be usable without rereading this whole reply.
+8. STILL OPEN: what a third source would have to say, and the action
+   type for each.
+
+If a CROSS-CHECK NEEDED list from a copy audit is included below,
+answer every item on it by name before anything else.
+
+No em dashes. No emojis. Ranges written as "1994 to 1997".
+
+BUNDLE: [PASTE THE COMBINED BUNDLE]</pre>
+      </div>
+      <div class="note"><b>Then:</b> apply the corrections dossier by dossier on the Library tab. A correction that changes what a dossier claims is worth a note in its section 23, so the next pass knows it was settled here and not by a new source.</div>
+    </div>
+  </details>
+
   <details class="pbsec" id="pb-p1">
     <summary><span class="sn">P1</span><span class="st">Content plan</span><span class="chips"><span class="chip tool">Chat 3 · ITC folder</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
@@ -2843,6 +2941,17 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
     </select>
     <button class="amber" id="libAdd" style="flex:1;min-height:38px">Add dossier</button>
   </div>
+  <div class="shelf" id="shelfTools">
+    <div class="kick" style="margin-top:0">Across the shelf</div>
+    <p class="lead" style="font-size:12px;margin:0 0 8px">One dossier answers questions about one part. These read every finished dossier at once, which is the only way to catch the expensive kind of mistake: two dossiers that disagree, or a figure you already established six months ago.</p>
+    <div class="c-tabs">
+      <button class="ctab on" type="button" data-shelf="search">Search</button>
+      <button class="ctab" type="button" data-shelf="figures">Figures</button>
+      <button class="ctab" type="button" data-shelf="fitment">Fitment</button>
+      <button class="ctab" type="button" data-shelf="combine">Combine</button>
+    </div>
+    <div id="shelfBody"></div>
+  </div>
   <div id="libList"></div>
   <div id="libDetail"></div>
 </section>
@@ -3094,7 +3203,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v7.1';
+const APP_VERSION = 'v7.2';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3269,13 +3378,13 @@ ${CARD_EXAMPLE}`;
 /* Shared blocks are written once in the playbook and attached at copy
    time, so a cold chat still receives the whole standard while the rules
    themselves live in exactly one place and cannot drift apart. */
-const RULES_PROMPTS  = ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3'];
+const RULES_PROMPTS  = ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3','px1'];
 const SWEEPS_PROMPTS = ['pr1','pr4','pr6','pr8a','prl2','prl3'];
 /* Every step names its own output file, so a chat hands the next chat a
    document with an unambiguous name instead of "the PDF". A re-run of a
    step bumps a decimal: R2, then R2.1, then R2.2. */
 const STEP_OF = { pr1:'R1', pr2:'R2', pr3:'R3', pr4:'R4', pr5:'R5', pr6:'R6', pr7:'R7',
-  pr8a:'R8A', pr8b:'R8B', prl2:'L2', prl3:'L3', pp1:'P1', pp2a:'P2A', pp2b:'P2B',
+  pr8a:'R8A', pr8b:'R8B', prl2:'L2', prl3:'L3', px1:'X1', pp1:'P1', pp2a:'P2A', pp2b:'P2B',
   pp2c:'P2C', pp3:'P3', pp4:'P4', pp4b:'P4B', pp5:'P5', pp5c:'P5C' };
 const PREV_OF = { pr2:'R1', pr3:'R2', pr4:'R3', pr5:'R4', pr6:'R5', pr7:'R6', pr8b:'R8A',
   prl2:'R1', prl3:'L2' };
@@ -3357,7 +3466,7 @@ document.querySelectorAll('.copybtn[data-copy]').forEach(btn=>{
 const SECTION_PROMPTS = {
   'pb-r1':['pr1'], 'pb-r2':['pr2'], 'pb-r3':['pr3'], 'pb-r4':['pr4'],
   'pb-r5':['pr5'], 'pb-r6':['pr6'], 'pb-r7':['pr7'],
-  'pb-rl':['prl2','prl3'], 'pb-r8':['pr8a','pr8b'],
+  'pb-rl':['prl2','prl3'], 'pb-r8':['pr8a','pr8b'], 'pb-x1':['px1'],
   'pb-p1':['pp1'], 'pb-p2':['pp2a','pp2b','pp2c'], 'pb-p3':['pp3'],
   'pb-p4':['pp4','pp4b'], 'pb-p5':['pp5','pp5c']
 };
@@ -3548,6 +3657,7 @@ function renderLibrary(){
       if(!all2[d.tag]) return;
       all2[d.tag].text = ta.value; all2[d.tag].updated = Date.now();
       saveDossiers(all2);
+      if(window.__shelfOn) renderShelf();
     }, 700);
   });
   box.appendChild(count);
@@ -3592,6 +3702,9 @@ function renderLibrary(){
   r2.appendChild(bUse); r2.appendChild(bDel);
   box.appendChild(r2);
   detail.appendChild(box);
+  /* the shelf tools read the same dossiers, so they follow any change
+     here. Guarded because the library renders once before they exist. */
+  if(window.__shelfOn) renderShelf();
 }
 document.getElementById('libAdd').addEventListener('click', ()=>{
   const tagEl2 = document.getElementById('libNewTag'), nameEl = document.getElementById('libNewName');
@@ -3606,6 +3719,238 @@ document.getElementById('libAdd').addEventListener('click', ()=>{
   libOpen = tag; renderLibrary();
 });
 renderLibrary();
+
+/* ================================================================
+   [LIBRARY] across the shelf
+   Every dossier is audited against its own sources, which is exactly
+   why two of them can each be correct and still disagree. These tools
+   read the whole shelf at once: search it, line up the figures, line
+   up the fitment, and bundle two or more for the X1 cross check.
+   The dossier text is prose, so the only structure relied on is the
+   numbered section headers the schema fixes. Anything that cannot be
+   found is reported as not found, never guessed at.
+   ================================================================ */
+/* sections that actually interact between two parts. The other
+   nineteen describe one part to itself, and shipping them into a
+   cross-dossier chat is most of the cost for none of the answer. */
+const FIT_SECTIONS  = ['02','03','06','07','08','22','27'];
+const FITMENT_VIEW  = ['06','07','08'];
+const FIGURES_VIEW  = ['27'];
+
+/* the schema numbers its sections, so a header is two digits then a
+   capitalised title on its own line. Markdown decoration is stripped
+   first because models reliably add it. */
+function sectionMap(text){
+  const lines = String(text||'').split(/\r?\n/);
+  const marks = [];
+  lines.forEach((ln,i)=>{
+    const clean = ln.replace(/[*_#`]/g,'').trim();
+    const m = clean.match(/^(\d{2})[.\s]\s*([A-Z][A-Z0-9 ,\/&-]{3,})$/);
+    if(m) marks.push({ n:m[1], title:m[2].trim(), line:i });
+  });
+  const out = {};
+  marks.forEach((mk,j)=>{
+    const end = (j+1 < marks.length)? marks[j+1].line : lines.length;
+    /* a section repeated later in the document extends the first one
+       rather than replacing it, so a split table is not half lost */
+    const body = lines.slice(mk.line+1, end);
+    if(out[mk.n]) out[mk.n].lines = out[mk.n].lines.concat(body);
+    else out[mk.n] = { title:mk.title, lines:body };
+  });
+  return out;
+}
+function shelfReady(){ return dossierList().filter(dossierReady); }
+/* one row per line, tagged with its dossier and the section it sits in,
+   so every tool below renders through the same shape */
+function shelfLines(pick){
+  const rows = [];
+  shelfReady().forEach(d=>{
+    const map = sectionMap(d.text);
+    /* sorted, because a two digit key like "22" is an array index to
+       JavaScript and jumps ahead of "00" in insertion order */
+    const nums = pick? pick.filter(n=>map[n]) : Object.keys(map).sort();
+    if(pick && !nums.length) rows.push({ tag:d.tag, sec:'', text:'', missing:true });
+    nums.forEach(n=>{
+      map[n].lines.forEach(ln=>{
+        const t = ln.trim();
+        if(!t) return;
+        if(/^[|\s:+-]*$/.test(t)) return;          /* markdown table rules */
+        rows.push({ tag:d.tag, sec:n, text:t });
+      });
+    });
+  });
+  return rows;
+}
+function shelfDraw(box, rows, query, emptyMsg){
+  box.innerHTML = '';
+  const q = String(query||'').trim();
+  const terms = q? q.split(/\s+/).filter(Boolean) : [];
+  const hit = rows.filter(r=>{
+    if(r.missing) return false;
+    if(!terms.length) return true;
+    const low = r.text.toLowerCase();
+    return terms.every(t=>low.includes(t.toLowerCase()));
+  });
+  const missing = rows.filter(r=>r.missing).map(r=>r.tag);
+  if(!hit.length){
+    box.appendChild(bsEl('<div class="emptymsg">'+esc(emptyMsg)+'</div>'));
+  } else {
+    hit.slice(0,400).forEach(r=>{
+      const el = bsEl('<div class="shline"><span class="t"></span><span class="s"></span><span class="x"></span></div>');
+      el.querySelector('.t').textContent = r.tag;
+      el.querySelector('.s').textContent = r.sec;
+      const x = el.querySelector('.x');
+      if(terms.length){
+        /* highlight without letting dossier text become markup */
+        let html = esc(r.text);
+        terms.forEach(t=>{
+          const re = new RegExp('('+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig');
+          html = html.replace(re,'<b>$1</b>');
+        });
+        x.innerHTML = html;
+      } else x.textContent = r.text;
+      box.appendChild(el);
+    });
+  }
+  const note = bsEl('<div class="count"></div>');
+  note.textContent = hit.length.toLocaleString() + ' line' + (hit.length===1?'':'s') +
+    ' across ' + new Set(hit.map(r=>r.tag)).size + ' dossier' + (new Set(hit.map(r=>r.tag)).size===1?'':'s') +
+    (hit.length>400? ' · showing the first 400' : '') +
+    (missing.length? ' · nothing found in ' + missing.join(', ') : '');
+  box.appendChild(note);
+}
+function shelfFilter(placeholder, rows, emptyMsg, hint){
+  const wrap = bsEl('<div></div>');
+  const inp = bsEl('<input type="text">');
+  inp.placeholder = placeholder;
+  wrap.appendChild(inp);
+  if(hint) wrap.appendChild(bsEl('<p class="count">'+esc(hint)+'</p>'));
+  const out = bsEl('<div class="shelfout"></div>');
+  wrap.appendChild(out);
+  const run = ()=>shelfDraw(out, rows, inp.value, emptyMsg);
+  let t=null;
+  inp.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(run,150); });
+  run();
+  return wrap;
+}
+/* the bundle: the whole shelf is too much to paste, and the fitment
+   slice is what a cross check actually reads */
+function shelfBundle(tags, slice){
+  const parts = ['CROSS-DOSSIER BUNDLE',
+    'Dossiers: ' + tags.join(', '),
+    slice? 'Sections included: ' + FIT_SECTIONS.join(', ') + ' only. The rest of each dossier describes its own part and was left out on purpose.'
+         : 'Complete text of each dossier.', ''];
+  tags.forEach(tag=>{
+    const d = getDossier(tag); if(!d) return;
+    parts.push('===== ' + tag + (d.name? ' · ' + d.name : '') + ' =====');
+    if(!slice){ parts.push(String(d.text||'').trim()); parts.push(''); return; }
+    const map = sectionMap(d.text);
+    const got = FIT_SECTIONS.filter(n=>map[n]);
+    if(!got.length){
+      parts.push('This dossier has no numbered sections this app could find, so its full text follows.');
+      parts.push(String(d.text||'').trim());
+    } else {
+      got.forEach(n=>{
+        parts.push(n + ' ' + map[n].title);
+        parts.push(map[n].lines.join('\n').trim());
+        parts.push('');
+      });
+      const absent = FIT_SECTIONS.filter(n=>!map[n]);
+      if(absent.length) parts.push('Not present in this dossier: sections ' + absent.join(', ') + '.');
+    }
+    parts.push('');
+  });
+  return parts.join('\n');
+}
+let shelfTab = 'search', shelfPick = [], shelfSlice = true;
+function renderShelf(){
+  const body = document.getElementById('shelfBody');
+  body.innerHTML = '';
+  const ready = shelfReady();
+  if(ready.length < 1){
+    body.appendChild(bsEl('<div class="emptymsg">Nothing on the shelf yet. Finish a dossier and these turn on.</div>'));
+    return;
+  }
+  if(shelfTab==='search'){
+    body.appendChild(shelfFilter('Type anything: 1350, spline, 1994, casting',
+      shelfLines(null),
+      'No line on the shelf carries all of those words.',
+      'Reads every finished dossier, whole. All words must appear on the same line.'));
+  }
+  if(shelfTab==='figures'){
+    const rows = shelfLines(FIGURES_VIEW);
+    body.appendChild(shelfFilter('Filter the figures',
+      rows,
+      'No figures ledger found. Section 27 arrived with v7.0, so a dossier finished before that will not have one until R8 rebuilds it.',
+      'Section 27 from every dossier, in one list. Two dossiers holding the same figure differently is what this is for.'));
+  }
+  if(shelfTab==='fitment'){
+    body.appendChild(shelfFilter('Filter by vehicle, year, or part',
+      shelfLines(FITMENT_VIEW),
+      'Nothing matches. Sections 06, 07 and 08 are what this reads.',
+      'Applications, mating components and interchange, sections 06, 07 and 08, from every dossier at once.'));
+  }
+  if(shelfTab==='combine'){
+    if(ready.length < 2){
+      body.appendChild(bsEl('<div class="emptymsg">Combining needs at least two finished dossiers. There is one on the shelf.</div>'));
+      return;
+    }
+    body.appendChild(bsEl('<p class="count" style="margin:8px 0 0">Pick the dossiers to check against each other, then copy X1 into a blank chat.</p>'));
+    const pick = bsEl('<div class="shpick"></div>');
+    ready.forEach(d=>{
+      const b = bsEl('<button type="button"></button>');
+      b.textContent = d.tag;
+      if(shelfPick.includes(d.tag)) b.classList.add('on');
+      b.addEventListener('click', ()=>{
+        const i = shelfPick.indexOf(d.tag);
+        if(i>=0) shelfPick.splice(i,1); else shelfPick.push(d.tag);
+        renderShelf();
+      });
+      pick.appendChild(b);
+    });
+    body.appendChild(pick);
+    const modes = bsEl('<div class="shpick"></div>');
+    [['Fitment slice',true],['Full text',false]].forEach(([label,val])=>{
+      const b = bsEl('<button type="button"></button>');
+      b.textContent = label;
+      if(shelfSlice===val) b.classList.add('on');
+      b.addEventListener('click', ()=>{ shelfSlice = val; renderShelf(); });
+      modes.appendChild(b);
+    });
+    body.appendChild(modes);
+    /* drop any tag that has left the shelf since it was picked */
+    shelfPick = shelfPick.filter(t=>ready.some(d=>d.tag===t));
+    const size = bsEl('<p class="count"></p>');
+    const acts = bsEl('<div class="lib-form" style="margin-top:10px"></div>');
+    const bX1 = bsEl('<button type="button" class="amber" style="flex:1;min-height:38px">Copy X1 · cross-dossier check</button>');
+    const bBun = bsEl('<button type="button" class="ghost" style="flex:1;min-height:38px">Copy the bundle only</button>');
+    const enough = shelfPick.length >= 2;
+    bX1.disabled = !enough; bBun.disabled = !enough;
+    const bundle = enough? shelfBundle(shelfPick, shelfSlice) : '';
+    const words = (bundle.trim().match(/\S+/g)||[]).length;
+    size.textContent = enough
+      ? words.toLocaleString() + ' words · ' + bundle.length.toLocaleString() + ' characters' +
+        (shelfSlice? ' · sections ' + FIT_SECTIONS.join(', ') + ' only' : ' · everything')
+      : 'Pick at least two.';
+    bX1.addEventListener('click', function(){
+      copyText(promptText('px1').replace('[PASTE THE COMBINED BUNDLE]', '\n' + shelfBundle(shelfPick, shelfSlice)), this);
+    });
+    bBun.addEventListener('click', function(){ copyText(shelfBundle(shelfPick, shelfSlice), this); });
+    acts.appendChild(bX1); acts.appendChild(bBun);
+    body.appendChild(size);
+    body.appendChild(acts);
+    body.appendChild(bsEl('<p class="count" style="margin-top:8px">The fitment slice carries sections '+FIT_SECTIONS.join(', ')+': the ones that describe how a part meets other parts. Full text carries everything and gets large fast.</p>'));
+  }
+}
+document.querySelectorAll('#shelfTools .ctab[data-shelf]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    shelfTab = b.dataset.shelf;
+    document.querySelectorAll('#shelfTools .ctab[data-shelf]').forEach(o=>o.classList.toggle('on', o===b));
+    renderShelf();
+  });
+});
+window.__shelfOn = true;
+renderShelf();
 
 /* ---------------- [HOME] build: two tracks ----------------
    itc_shorts = { active: job|null, history: [job] }
@@ -5232,7 +5577,7 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     if(id!=='pp2c' && !t.includes('Inside The Case."')) fails.push(id+' lost the sign off');
   });
   /* every step prompt must exist and every stage must map to a real section */
-  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp4b','pp5','pp5c'].forEach(id=>{
+  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3','px1','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp4b','pp5','pp5c'].forEach(id=>{
     if(!document.getElementById(id)) fails.push('step prompt "'+id+'" is missing from the playbook');
   });
   /* every stage in every track needs a panel, or a job lands on a step
@@ -5250,6 +5595,23 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
   if(!/ITC STANDING RULES/.test(l3)) fails.push('the standing rules stopped attaching to the light finalize prompt');
   if(!/blank chat/i.test(l3)) fails.push('the light spine lost its cold audit chat, which is the one separation it cannot give up');
   if(!/COVERAGE PLAN/.test(l3)) fails.push('the light finalize prompt stopped receiving the R1 plan, so it cannot hunt gaps against it');
+  /* the cross-dossier check is only worth running if the bundle the
+     Library builds actually lands inside the prompt */
+  if(!promptText('px1').includes('[PASTE THE COMBINED BUNDLE]'))
+    fails.push('prompt X1 lost the marker the Library bundle is spliced into');
+  FIT_SECTIONS.concat(FIGURES_VIEW, FITMENT_VIEW).forEach(n=>{
+    if(!/^\d{2}$/.test(n)) fails.push('shelf section "'+n+'" is not a two digit schema number');
+  });
+  /* the shelf slice has to carry what the figures and fitment views
+     read, or the bundle answers questions the app just asked */
+  FIGURES_VIEW.concat(FITMENT_VIEW).forEach(n=>{
+    if(!FIT_SECTIONS.includes(n)) fails.push('shelf section '+n+' is shown on the Library but left out of the bundle');
+  });
+  (function(){
+    const probe = sectionMap('junk\n27 FIGURES LEDGER\nC1 | 31 spline | S3 p14\n\n06 APPLICATIONS AND FITMENT\n1994 F-250');
+    if(!probe['27'] || !probe['06']) fails.push('the dossier section reader stopped finding numbered sections');
+    if(probe['27'] && probe['27'].title !== 'FIGURES LEDGER') fails.push('the dossier section reader is misreading section titles');
+  })();
   /* filename tokens must actually be substituted, or the AI is told to
      save a file with a literal [[OUT]] in its name. The tag being the
      placeholder TAG is fine: that just means no job is running yet. */

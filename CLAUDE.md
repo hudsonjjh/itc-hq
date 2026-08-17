@@ -94,6 +94,17 @@ have it installed as a home-screen app.
   separate axes and deliberately has no blended total, because a
   single number gets quoted as "we know this much about the subject"
   when it only ever meant "we answered our own question list".
+- **Across the shelf** (Library, v7.2) reads every finished dossier at
+  once. The only structure it relies on is the schema's numbered
+  section headers, parsed by `sectionMap()`; anything it cannot find
+  is reported as not found, never guessed at. `FIT_SECTIONS` is the
+  slice that describes how a part meets other parts and is what the
+  X1 bundle carries by default; if you renumber a schema section,
+  that constant and the self-test move with it.
+- **X1 is optional and needs two or more finished dossiers.** It is
+  the only pass that can answer a `CROSS-CHECK NEEDED` item, because
+  P3 is deliberately given one dossier and can therefore only flag.
+  Do not solve that by pasting every dossier into P3.
 - R8 is optional and only for a dossier that is already finished.
   Do not route new subjects through it. Every step output
   must stand alone. Keep all prompt copy model-agnostic; do not write
