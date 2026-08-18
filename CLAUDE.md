@@ -143,6 +143,13 @@ result of parsing real spec text.
 - P4B generates interesting facts only, `POPUP_PROMPT_STYLES`. The
   renderer and the studio still offer warning and correction by hand;
   the prompt does not write them, and the self-test enforces that.
+- **A popup label has three states, not two.** No `kicker` line means
+  the style names itself (what P4B writes); a `kicker` line left blank
+  means no label row at all and the block shortens; a filled one wins.
+  `setKeys` is what separates the first two, so the studio carries
+  `setKicker` alongside the value. Do not "simplify" this to empty
+  string equals no label: that silently strips the label off every
+  popup the prompt has ever produced.
 - **Popups export at `popupScale()`**, default 3x, chosen next to the
   file tag. The layout constants stay in layout units and the scale is
   applied once, as the canvas size and a matching `setTransform`, so

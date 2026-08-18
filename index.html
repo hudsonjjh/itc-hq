@@ -1038,6 +1038,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v7.5</b> · A popup can start at the headline. Clearing the Label field on a popup now removes that line completely, tick and all, and everything below moves up so there is no gap where it used to be. The block gets shorter, it does not get a hole in it. Two ways to say it, and they mean different things on purpose: <b>no kicker line at all</b> still lets the style name itself, DID YOU KNOW or TIP, which is what P4B writes and why nothing you already have has changed; <b>a kicker line left blank</b> means no label. In the Studio that is the <b>No label</b> button or just emptying the field, and a <b>Use TIP</b> button puts the style label back. The field also shows the style's label as its placeholder now, so an empty box no longer looks like it will draw nothing when it will.</p>
       <p><b>v7.4</b> · Popups export at real resolution. They used to come out at their layout size, 960 pixels wide, which is roughly 1:1 against a 1080 frame and leaves nothing at all for scaling one up in the edit, so any enlargement went soft. Nothing in a popup is a pasted image, it is all drawn, so the canvas and the drawing are now multiplied together and you get genuinely more pixels rather than a bigger blurry one. The default is <b>3x</b>, which is 3096 wide and about 190 KB, with 2x and 4x next to the file tag if you want less or more. The layout is untouched: same block, same spacing, same crop, just drawn finer. The studio tells you the exact pixel size a popup will export at and how much room that leaves you on a 1080 frame, so you never have to guess again. Full cards were always 1080 by 1920 and are unchanged.</p>
       <p><b>v7.3</b> · Popup text alignment, per line. Label, headline, body, source and the ITC mark can each sit left, centred or right, set on the Studio tab or written as <code>align</code> for all four content lines and <code>alignkicker</code>, <code>alignheadline</code>, <code>aligntext</code>, <code>alignsource</code>, <code>alignfooter</code> to overrule it line by line. Every line is laid inside the same column, so a centred headline lines up with centred body text rather than drifting against the panel edge, and the label keeps its tick attached and moves as one piece. A faint button in the studio shows what a line does now without being set, and pressing a lit button clears the choice rather than making you guess which one was the default. The mark keeps to the right on its own and has its own key, because centring a popup is not usually a request to move the small mark in the corner. Alignment is popup only: the full 1080x1920 cards hang their text off fixed geometry, so a card that sets it says so in the warning box instead of quietly doing nothing.</p>
       <p><b>v7.2</b> · Across the shelf. The Library now reads every finished dossier at once, which is the only way to catch the expensive kind of mistake: two dossiers that are each correct on their own sources and still disagree with each other. <b>Search</b> runs across the whole shelf and shows every matching line with its dossier and section. <b>Figures</b> lines up section 27 from every dossier in one list, so the same dimension recorded two different ways is visible instead of buried. <b>Fitment</b> does the same for applications, mating components and interchange, sections 06, 07 and 08, so you can ask what else on the shelf touches a 1994 F-250. <b>Combine</b> picks two or more dossiers and builds a bundle for the new <b>X1 cross-dossier check</b>, a blank-chat pass that works claim against claim and returns corrections grouped by dossier tag. It defaults to a fitment slice, the seven sections that describe how a part meets other parts, because pasting three complete dossiers into a chat costs a great deal and answers no more. X1 is also what finally settles the CROSS-CHECK NEEDED items the copy audit started raising in v7.0: P3 can see that a line reaches into another dossier's territory but only ever has one dossier, so it can flag and nothing more.</p>
@@ -3029,7 +3030,7 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
         <div class="item"><code>tip</code><div class="d"><span class="swatchchip" style="background:#7EA6D9"></span>Label reads TIP, blue.</div></div>
         <div class="item"><code>warning</code><div class="d"><span class="swatchchip" style="background:#E8604C"></span>Label reads HEADS UP, red.</div></div>
         <div class="item"><code>correction</code><div class="d"><span class="swatchchip" style="background:#6FCF8F"></span>Label reads CORRECTION, green.</div></div>
-        <div class="item"><code>kicker</code><div class="d">Set it to override the style's label with your own wording.</div></div>
+        <div class="item"><code>kicker</code><div class="d">Set it to override the style's label with your own wording. <b>Leave the line out</b> and the style names itself, DID YOU KNOW and so on. <b>Write <code>kicker:</code> with nothing after it</b> and there is no label line at all: the popup starts at the headline, and the tick goes with it. In the Studio that is the No label button, or just clear the field.</div></div>
         <div class="item"><code>align</code><div class="d">Popups only. <code>left</code>, <code>center</code>, or <code>right</code> for the label, headline, body and source together.</div></div>
         <div class="item"><code>alignheadline</code><div class="d">And <code>alignkicker</code>, <code>aligntext</code>, <code>alignsource</code>, <code>alignfooter</code>. Each overrules <code>align</code> for its own line. The ITC mark stays right unless <code>alignfooter</code> moves it. All of it is clickable on the Studio tab.</div></div>
       </div>
@@ -3098,6 +3099,7 @@ footer: INSIDE THE CASE · AUTO
 === POPUP 05                      <span class="k">popup: no rows, transparent, tight cropped</span>
 type: popup
 style: did you know               <span class="k">did you know, tip, warning, or correction</span>
+kicker:                           <span class="k">blank on purpose: no label line, start at the headline</span>
 align: left                       <span class="k">left, center, or right. Popups only, optional</span>
 alignheadline: center             <span class="k">per line: alignkicker/headline/text/source/footer</span>
 headline: STILL A C6 INSIDE       <span class="k">optional short bold line</span>
@@ -3220,7 +3222,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v7.4';
+const APP_VERSION = 'v7.5';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -5198,7 +5200,14 @@ function renderPopup(ctx,c,scale){
   const accent = (c.setKeys||[]).includes("accent")
     ? (ACCENTS[c.accent] || (/^#/.test(c.accent)? c.accent : ACCENTS.amber))
     : (st? ACCENTS[st.accent] : ACCENTS.amber);
-  const label = (c.kicker || (st? st.label : "DID YOU KNOW")).toUpperCase();
+  /* No kicker line at all means the style names itself, which is what a
+     popup written by P4B wants. A kicker line left deliberately blank
+     means no label at all: the block starts at the headline, tick and
+     all. The two have to stay distinguishable or one of them is
+     unreachable. */
+  const kickSet = (c.setKeys||[]).includes("kicker");
+  const label = (c.kicker || (kickSet? "" : (st? st.label : "DID YOU KNOW"))).toUpperCase();
+  const showLabel = !!label.trim();
   const body  = c.text || c.highlight || c.subhead || "";
   const PAD=40, BAR=10, X=BAR+34, maxW=POPUP_W-X-44;
   const MG=36;   /* room around the panel so the shadow fades instead of
@@ -5230,30 +5239,40 @@ function renderPopup(ctx,c,scale){
 
   /* one cursor walk, measured first then repeated to paint, so the block
      is always exactly as tall as what is in it */
+  /* whatever comes first sits at the top of the block, and each font
+     needs its own first baseline or a big headline clips into the
+     padding where a small label would have cleared it */
+  const FIRST = { label:26, head:40, body:32, source:26 };
   function walk(paint){
-    let y = PAD + 26;
-    if(paint){
-      /* the tick and its label move as one block, so a centred kicker
-         is the pair centred, not the text centred around a fixed tick */
-      setF(ctx,labelF);
-      const lw = Math.max(0, ctx.measureText(label).width - (labelF.ls||0));
-      const blockW = 26 + lw;
-      let left = X;
-      if(A.kicker==='center') left = X + (maxW - blockW)/2;
-      else if(A.kicker==='right') left = X + maxW - blockW;
-      ctx.fillStyle=accent; rr(ctx,left,y-13,13,13,3); ctx.fill();
-      ctx.textAlign='left'; ctx.fillStyle=accent; ctx.fillText(label, left+26, y);
+    let y = PAD, placed = false;
+    if(showLabel){
+      y += FIRST.label; placed = true;
+      if(paint){
+        /* the tick and its label move as one block, so a centred kicker
+           is the pair centred, not the text centred around a fixed tick */
+        setF(ctx,labelF);
+        const lw = Math.max(0, ctx.measureText(label).width - (labelF.ls||0));
+        const blockW = 26 + lw;
+        let left = X;
+        if(A.kicker==='center') left = X + (maxW - blockW)/2;
+        else if(A.kicker==='right') left = X + maxW - blockW;
+        ctx.fillStyle=accent; rr(ctx,left,y-13,13,13,3); ctx.fill();
+        ctx.textAlign='left'; ctx.fillStyle=accent; ctx.fillText(label, left+26, y);
+      }
     }
     headLines.forEach((ln,i)=>{
-      y += i? 50 : 54;
+      if(!placed){ y += FIRST.head; placed = true; }
+      else y += i? 50 : 54;
       if(paint) put(ln, headF, "#F4F6F9", A.headline, y);
     });
     bodyLines.forEach((ln,i)=>{
-      y += i? 46 : (headLines.length? 52 : 48);
+      if(!placed){ y += FIRST.body; placed = true; }
+      else y += i? 46 : (headLines.length? 52 : 48);
       if(paint) put(ln, bodyF, "#E4E9F0", A.text, y);
     });
     if(c.source){
-      y += 46;
+      if(!placed){ y += FIRST.source; placed = true; }
+      else y += 46;
       if(paint) put("SOURCE · "+c.source.toUpperCase(), srcF, C_LABEL, A.source, y);
     }
     /* brand mark, bottom right, so a popup is still ours once it is
@@ -5660,6 +5679,25 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
   if(!/Style is one of: did you know, tip\./.test(p4b))
     fails.push('Prompt P4B stopped restricting itself to interesting facts');
   if(!p4b.includes('=== POPUP')) fails.push('Prompt P4B lost the popup worked example');
+  /* a missing kicker line and a blank one mean different things, and the
+     block has to get shorter when the label goes rather than leaving a
+     hole where it used to be */
+  (function(){
+    const probe = document.createElement('canvas').getContext('2d');
+    const NL = String.fromCharCode(10);
+    const mk = (kick)=>parseSpecs('=== P'+NL+'type: popup'+NL+'style: tip'+NL+
+      'headline: A HEADLINE'+NL+'text: One sentence of body.'+(kick===null? '' : NL+'kicker:'+kick))[0];
+    const noLine = mk(null), blank = mk(''), named = mk(' MY OWN LABEL');
+    renderPopup(probe, noLine, 2); const hStyle = probe.canvas.height;
+    renderPopup(probe, blank, 2);  const hBlank = probe.canvas.height;
+    renderPopup(probe, named, 2);  const hNamed = probe.canvas.height;
+    if(hStyle !== hNamed)
+      fails.push('a popup changes height when the label is renamed, so the label row is not one row');
+    if(!(hBlank < hStyle))
+      fails.push('a blank kicker line no longer removes the popup label row');
+    if(hStyle - hBlank < 40)
+      fails.push('the popup label row is being hidden but its space is still reserved');
+  })();
   /* the export multiplier has to reach the canvas, and the layout has to
      be unchanged by it: same block, more pixels, never a different crop */
   (function(){
@@ -5890,8 +5928,11 @@ function cloneCard(c){
   const st = POPUP_STYLES[String(c.style||'').toLowerCase()];
   const accent = (c.type==='popup' && !setAccent && st)? st.accent : c.accent;
   const al = {}; ALIGN_FIELDS.forEach(f=>{ al[f] = String(c['align'+f]||'').trim().toLowerCase(); });
+  /* an empty kicker means two different things depending on whether the
+     line exists, so the studio has to carry that distinction too */
+  const setKicker = c.setKeys.includes('kicker');
   return { type:c.type, accent:accent, setAccent:setAccent, style:c.style, kicker:c.kicker,
-    align:String(c.align||'').trim().toLowerCase(), al:al,
+    setKicker:setKicker, align:String(c.align||'').trim().toLowerCase(), al:al,
     counter:c.counter, autoCounter:!c.setKeys.includes('counter'),
     headline:c.headline, subhead:c.subhead, text:c.text, highlight:c.highlight,
     source:c.source, footer:c.setKeys.includes('footer')? c.footer : '',
@@ -5908,7 +5949,13 @@ function workToBlock(w){
     if(ALIGNS.includes(w.align)) put('align', w.align);
     ALIGN_FIELDS.forEach(f=>{ if(ALIGNS.includes(w.al[f])) put('align'+f, w.al[f]); });
   }
-  put('kicker', w.kicker);
+  /* on a popup an empty kicker line is a real instruction, so it is
+     written out. Anywhere else it would just be a dead line. */
+  if(w.type==='popup' && w.setKicker){
+    const k = String(w.kicker||'').trim();
+    out.push(k? 'kicker: ' + k : 'kicker:');
+  }
+  else put('kicker', w.kicker);
   if(!w.autoCounter) put('counter', w.counter);
   put('headline', w.headline);
   put('subhead', w.subhead);
@@ -6079,7 +6126,42 @@ function studioBuild(){
     i.addEventListener('input', ()=>{ work[key] = i.value; studioCommit(false); });
     g.appendChild(i); studioEl.appendChild(g);
   };
-  field('kicker','Kicker');
+  if(isPop){
+    const g = sGroup('Label');
+    const i = sEl('<input type="text">');
+    i.value = work.kicker || '';
+    i.placeholder = (POPUP_STYLES[String(work.style||'').toLowerCase()] || {}).label || 'DID YOU KNOW';
+    const note = sEl('<p class="shint" style="margin:5px 0 0"></p>');
+    const styleLabel = ()=>(POPUP_STYLES[String(work.style||'').toLowerCase()] || {}).label || 'DID YOU KNOW';
+    const say = ()=>{
+      const typed = String(work.kicker||'').trim();
+      note.textContent = typed
+        ? 'Showing ' + typed.toUpperCase() + '.'
+        : (work.setKicker
+            ? 'Empty, so there is no label line at all. The popup starts at the headline and the tick goes with it.'
+            : 'Empty, so the style names itself: ' + styleLabel() + '. Type something to replace it, or clear this field once to drop the line entirely.');
+    };
+    i.addEventListener('input', ()=>{
+      work.kicker = i.value;
+      /* touching the field at all is a decision, including emptying it */
+      work.setKicker = true;
+      say(); studioCommit(false);
+    });
+    g.appendChild(i); g.appendChild(note); say();
+    const row = sEl('<div class="sacts" style="margin-top:8px"></div>');
+    const useStyle = sBtn('Use ' + styleLabel());
+    useStyle.addEventListener('click', ()=>{
+      work.kicker = ''; work.setKicker = false; studioCommit(true);
+    });
+    const drop = sBtn('No label');
+    drop.addEventListener('click', ()=>{
+      work.kicker = ''; work.setKicker = true; studioCommit(true);
+    });
+    if(String(work.kicker||'').trim() || work.setKicker) row.appendChild(useStyle);
+    if(!work.setKicker || String(work.kicker||'').trim()) row.appendChild(drop);
+    if(row.children.length) g.appendChild(row);
+    studioEl.appendChild(g);
+  } else field('kicker','Kicker');
   field('headline','Headline');
   if(!isPop) field('subhead','Subhead');
   if(isPop) field('text','Popup text');
