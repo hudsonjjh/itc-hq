@@ -369,6 +369,14 @@ button.amber:disabled{opacity:.4;cursor:default}
   border-radius:7px;padding:9px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;min-height:38px}
 .studio input[type=text]:focus{border-color:var(--amber)}
 .studio textarea{min-height:70px}
+.studio input[type=range]{flex:1;min-width:0;height:36px;background:transparent;
+  -webkit-appearance:none;appearance:none;outline:none;cursor:pointer}
+.studio input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:var(--line)}
+.studio input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:var(--line)}
+.studio input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:22px;height:22px;border-radius:50%;background:var(--amber);border:none;margin-top:-9px}
+.studio input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;
+  background:var(--amber);border:none}
 .sline{display:flex;gap:6px;align-items:center}
 .sline input[type=text]{flex:1;min-width:0}
 .snum{max-width:74px !important;text-align:center}
@@ -1038,6 +1046,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v7.6</b> · Popups have a shape. Two sliders on the Studio tab: <b>Width</b>, 520 to 1600 pixels, and <b>Text size</b>, 60 to 160 percent, both redrawing as you drag. Width drives the wrap, so the text genuinely reflows into whatever column you give it rather than being clipped or floating in a fixed one, and a narrow popup gets taller instead of losing words. Text size moves the type and the line spacing together, so nothing collides at either end. There is also a typeface switch between <b>Poppins</b> and <b>JetBrains Mono</b>, the two faces built into this file, and a Back to default shape button. The live note tells you what share of a 1080 frame the current width covers, which is the number you actually want when you are placing one over footage. All three are popup only, in keys <code>width</code>, <code>textsize</code> and <code>font</code>: full cards are 1080 by 1920 by definition, and a card that sets one now says so in the warning box.</p>
       <p><b>v7.5</b> · A popup can start at the headline. Clearing the Label field on a popup now removes that line completely, tick and all, and everything below moves up so there is no gap where it used to be. The block gets shorter, it does not get a hole in it. Two ways to say it, and they mean different things on purpose: <b>no kicker line at all</b> still lets the style name itself, DID YOU KNOW or TIP, which is what P4B writes and why nothing you already have has changed; <b>a kicker line left blank</b> means no label. In the Studio that is the <b>No label</b> button or just emptying the field, and a <b>Use TIP</b> button puts the style label back. The field also shows the style's label as its placeholder now, so an empty box no longer looks like it will draw nothing when it will.</p>
       <p><b>v7.4</b> · Popups export at real resolution. They used to come out at their layout size, 960 pixels wide, which is roughly 1:1 against a 1080 frame and leaves nothing at all for scaling one up in the edit, so any enlargement went soft. Nothing in a popup is a pasted image, it is all drawn, so the canvas and the drawing are now multiplied together and you get genuinely more pixels rather than a bigger blurry one. The default is <b>3x</b>, which is 3096 wide and about 190 KB, with 2x and 4x next to the file tag if you want less or more. The layout is untouched: same block, same spacing, same crop, just drawn finer. The studio tells you the exact pixel size a popup will export at and how much room that leaves you on a 1080 frame, so you never have to guess again. Full cards were always 1080 by 1920 and are unchanged.</p>
       <p><b>v7.3</b> · Popup text alignment, per line. Label, headline, body, source and the ITC mark can each sit left, centred or right, set on the Studio tab or written as <code>align</code> for all four content lines and <code>alignkicker</code>, <code>alignheadline</code>, <code>aligntext</code>, <code>alignsource</code>, <code>alignfooter</code> to overrule it line by line. Every line is laid inside the same column, so a centred headline lines up with centred body text rather than drifting against the panel edge, and the label keeps its tick attached and moves as one piece. A faint button in the studio shows what a line does now without being set, and pressing a lit button clears the choice rather than making you guess which one was the default. The mark keeps to the right on its own and has its own key, because centring a popup is not usually a request to move the small mark in the corner. Alignment is popup only: the full 1080x1920 cards hang their text off fixed geometry, so a card that sets it says so in the warning box instead of quietly doing nothing.</p>
@@ -3068,6 +3077,9 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
       <div class="grp">
         <h4>Good to know</h4>
         <div class="item"><code>=== CARD 01</code><div class="d">Any line starting with <code>===</code> begins a new card.</div></div>
+        <div class="item"><code>width</code><div class="d">Popups only. Panel width in pixels, 520 to 1600, default 960. <b>The text wraps to it</b>, so a narrower popup reflows rather than clipping. Slider on the Studio tab.</div></div>
+        <div class="item"><code>textsize</code><div class="d">Popups only. A percentage, 60 to 160, default 100. Moves the type and the line spacing together so nothing collides.</div></div>
+        <div class="item"><code>font</code><div class="d">Popups only. <code>poppins</code> or <code>mono</code>. Those are the two typefaces built into this file, and nothing is fetched from the web.</div></div>
         <div class="item"><code>popup size</code><div class="d">Popups are drawn, not pasted, so the export multiplier next to the file tag gives real pixels. 3x is the default and leaves plenty of room to scale one up over footage. The layout never changes, only how finely it is drawn.</div></div>
         <div class="item"><code>auto-fit</code><div class="d">spec and timeline shrink to fit. table does not, so trim rows if you see an overflow warning.</div></div>
         <div class="item"><code>house rules</code><div class="d">Auto-flagged in the warning box: em or en dashes, emojis, and hyphenated ranges. Write ranges as "1994 to 1997".</div></div>
@@ -3100,6 +3112,9 @@ footer: INSIDE THE CASE · AUTO
 type: popup
 style: did you know               <span class="k">did you know, tip, warning, or correction</span>
 kicker:                           <span class="k">blank on purpose: no label line, start at the headline</span>
+width: 960                        <span class="k">panel width, 520 to 1600. Text wraps to it</span>
+textsize: 100                     <span class="k">percent, 60 to 160</span>
+font: poppins                     <span class="k">poppins or mono</span>
 align: left                       <span class="k">left, center, or right. Popups only, optional</span>
 alignheadline: center             <span class="k">per line: alignkicker/headline/text/source/footer</span>
 headline: STILL A C6 INSIDE       <span class="k">optional short bold line</span>
@@ -3222,7 +3237,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v7.5';
+const APP_VERSION = 'v7.6';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -5035,7 +5050,8 @@ restoreInput.addEventListener('change', ()=>{
    ================================================================ */
 const ACCENTS = { amber:"#FF8C16", red:"#E8604C", green:"#6FCF8F", blue:"#7EA6D9" };
 const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer","source","text","style",
-  "align","alignkicker","alignheadline","aligntext","alignsource","alignfooter"];
+  "align","alignkicker","alignheadline","aligntext","alignsource","alignfooter",
+  "width","textsize","font"];
 /* Alignment is a popup-only control. The full 1080x1920 layouts hang
    text off fixed geometry, the accent rule down the left, the underline
    bar, the row dots, so moving the text away from that geometry breaks
@@ -5080,6 +5096,24 @@ const POPUP_W = 960;
    edit. Everything in a popup is drawn, not pasted, so multiplying the
    canvas and the transform together gives genuinely more pixels rather
    than a bigger blurry one. The layout numbers below never change. */
+/* A popup is the one card that does not have to be a fixed size: it sits
+   over footage rather than filling a frame. Width drives the wrap, so
+   text reflows into whatever column you give it, and the text scale
+   moves the type and the line spacing together so nothing collides. */
+const POPUP_W_RANGE = [520, 1600];
+const POPUP_T_RANGE = [60, 160];
+const POPUP_FAMS = { poppins:'Poppins', mono:'JetBrains Mono' };
+/* JetBrains Mono ships at 400 and 700 only, so a weight is mapped to
+   one that exists rather than left to the browser to synthesise */
+const MONO_WEIGHT = { 400:400, 500:400, 600:700, 700:700, 800:700 };
+function popupNum(v, fb, lo, hi){
+  const n = parseFloat(String(v==null? '' : v).replace(/[^0-9.]/g,''));
+  if(!isFinite(n) || n<=0) return fb;
+  return Math.max(lo, Math.min(hi, Math.round(n)));
+}
+function popupWidth(c){ return popupNum(c && c.width, POPUP_W, POPUP_W_RANGE[0], POPUP_W_RANGE[1]); }
+function popupTextScale(c){ return popupNum(c && c.textsize, 100, POPUP_T_RANGE[0], POPUP_T_RANGE[1]) / 100; }
+function popupFam(c){ return String((c && c.font)||'').trim().toLowerCase()==='mono'; }
 const POPUP_SCALES = [2,3,4];
 function popupScale(){
   const n = parseInt(store.get('popupscale', '3'), 10);
@@ -5097,7 +5131,8 @@ function parseSpecs(text){
     const c = { type:"spec", accent:"amber", kicker:"", counter:"", headline:"",
                 subhead:"", rows:[], highlight:"", footer:"INSIDE THE CASE · AUTO", source:"",
                 text:"", style:"", align:"", alignkicker:"", alignheadline:"",
-                aligntext:"", alignsource:"", alignfooter:"", setKeys:[], warnings:[] };
+                aligntext:"", alignsource:"", alignfooter:"", width:"", textsize:"",
+                font:"", setKeys:[], warnings:[] };
     let inRows = false;
     for(const raw of block.split(/\r?\n/)){
       const line = raw.trimEnd();
@@ -5134,6 +5169,26 @@ function parseSpecs(text){
     });
     if(c.type!=="popup" && (c.setKeys||[]).some(k=>k==='align' || k.indexOf('align')===0))
       c.warnings.push('Alignment only applies to popup cards. This '+c.type+' card keeps its fixed layout.');
+    /* width, text size and typeface are popup shape, and a full card is
+       1080 by 1920 by definition */
+    ['width','textsize','font'].forEach(k=>{
+      if(c.type!=="popup" && (c.setKeys||[]).includes(k))
+        c.warnings.push('"'+k+'" only applies to popup cards. Full cards are always 1080 by 1920.');
+    });
+    if((c.setKeys||[]).includes('width')){
+      const w = popupNum(c.width, 0, POPUP_W_RANGE[0], POPUP_W_RANGE[1]);
+      if(!w) c.warnings.push('Could not read width "'+c.width+'". Give it a number of pixels, '+POPUP_W_RANGE[0]+' to '+POPUP_W_RANGE[1]+'.');
+      else if(String(popupNum(c.width, 0, 1, 99999)) !== String(w))
+        c.warnings.push('Width clamped to '+w+'. The range is '+POPUP_W_RANGE[0]+' to '+POPUP_W_RANGE[1]+' pixels.');
+    }
+    if((c.setKeys||[]).includes('textsize')){
+      const t = popupNum(c.textsize, 0, POPUP_T_RANGE[0], POPUP_T_RANGE[1]);
+      if(!t) c.warnings.push('Could not read textsize "'+c.textsize+'". Give it a percentage, '+POPUP_T_RANGE[0]+' to '+POPUP_T_RANGE[1]+'.');
+      else if(String(popupNum(c.textsize, 0, 1, 99999)) !== String(t))
+        c.warnings.push('Text size clamped to '+t+' percent. The range is '+POPUP_T_RANGE[0]+' to '+POPUP_T_RANGE[1]+'.');
+    }
+    if((c.setKeys||[]).includes('font') && !Object.keys(POPUP_FAMS).includes(String(c.font||'').trim().toLowerCase()))
+      c.warnings.push('Unknown font "'+c.font+'". Use '+Object.keys(POPUP_FAMS).join(' or ')+'.');
     if(c.type!=="spec" && c.rows.some(r=>r.subs.length))
       c.warnings.push('Sub-lines only draw on spec cards. This '+c.type+' card has '+
         c.rows.reduce((n,r)=>n+r.subs.length,0)+' that will not appear. Fold them into a row or move them to the highlight.');
@@ -5209,12 +5264,22 @@ function renderPopup(ctx,c,scale){
   const label = (c.kicker || (kickSet? "" : (st? st.label : "DID YOU KNOW"))).toUpperCase();
   const showLabel = !!label.trim();
   const body  = c.text || c.highlight || c.subhead || "";
-  const PAD=40, BAR=10, X=BAR+34, maxW=POPUP_W-X-44;
+  /* width drives the wrap, so the text reflows into whatever column it
+     is given rather than being clipped or floated inside a fixed one */
+  const PW = popupWidth(c), T = popupTextScale(c), MONO = popupFam(c);
+  const V = (n)=>Math.round(n*T);          /* vertical rhythm moves with the type */
+  const PAD=V(40), BAR=10, X=BAR+34, maxW=PW-X-44;
   const MG=36;   /* room around the panel so the shadow fades instead of
                     being sliced off flat at the canvas edge */
-  const labelF=font(25,700,false,5), headF=font(42,800,false,0),
-        bodyF=font(34,400,false,0), srcF=font(21,600,true,2),
-        markF=font(19,700,false,5);
+  /* one font builder for the block, so the text scale and the typeface
+     reach every line and nothing is left at its original size */
+  const pf = (px,w,mono,ls)=>{
+    const m = MONO || mono;
+    return font(Math.max(6,Math.round(px*T)), m? (MONO_WEIGHT[w]||400) : w, m, (ls||0)*T);
+  };
+  const labelF=pf(25,700,false,5), headF=pf(42,800,false,0),
+        bodyF=pf(34,400,false,0), srcF=pf(21,600,true,2),
+        markF=pf(19,700,false,5);
   /* the cards footer is long for a block this size, so a popup wears the
      short form unless a footer line was set explicitly */
   const mark = ((c.setKeys||[]).includes("footer")? c.footer : "INSIDE THE CASE").toUpperCase();
@@ -5242,9 +5307,10 @@ function renderPopup(ctx,c,scale){
   /* whatever comes first sits at the top of the block, and each font
      needs its own first baseline or a big headline clips into the
      padding where a small label would have cleared it */
-  const FIRST = { label:26, head:40, body:32, source:26 };
+  const FIRST = { label:V(26), head:V(40), body:V(32), source:V(26) };
   function walk(paint){
     let y = PAD, placed = false;
+    const TICK = Math.round(13*T), GAP = Math.round(26*T);
     if(showLabel){
       y += FIRST.label; placed = true;
       if(paint){
@@ -5252,32 +5318,32 @@ function renderPopup(ctx,c,scale){
            is the pair centred, not the text centred around a fixed tick */
         setF(ctx,labelF);
         const lw = Math.max(0, ctx.measureText(label).width - (labelF.ls||0));
-        const blockW = 26 + lw;
+        const blockW = GAP + lw;
         let left = X;
         if(A.kicker==='center') left = X + (maxW - blockW)/2;
         else if(A.kicker==='right') left = X + maxW - blockW;
-        ctx.fillStyle=accent; rr(ctx,left,y-13,13,13,3); ctx.fill();
-        ctx.textAlign='left'; ctx.fillStyle=accent; ctx.fillText(label, left+26, y);
+        ctx.fillStyle=accent; rr(ctx,left,y-TICK,TICK,TICK,3*T); ctx.fill();
+        ctx.textAlign='left'; ctx.fillStyle=accent; ctx.fillText(label, left+GAP, y);
       }
     }
     headLines.forEach((ln,i)=>{
       if(!placed){ y += FIRST.head; placed = true; }
-      else y += i? 50 : 54;
+      else y += i? V(50) : V(54);
       if(paint) put(ln, headF, "#F4F6F9", A.headline, y);
     });
     bodyLines.forEach((ln,i)=>{
       if(!placed){ y += FIRST.body; placed = true; }
-      else y += i? 46 : (headLines.length? 52 : 48);
+      else y += i? V(46) : (headLines.length? V(52) : V(48));
       if(paint) put(ln, bodyF, "#E4E9F0", A.text, y);
     });
     if(c.source){
       if(!placed){ y += FIRST.source; placed = true; }
-      else y += 46;
+      else y += V(46);
       if(paint) put("SOURCE · "+c.source.toUpperCase(), srcF, C_LABEL, A.source, y);
     }
     /* brand mark, bottom right, so a popup is still ours once it is
        screenshotted off the video */
-    y += c.source? 32 : 42;
+    y += c.source? V(32) : V(42);
     if(paint) put(mark, markF, C_STEEL, A.footer, y);
     return y + PAD;
   }
@@ -5290,7 +5356,7 @@ function renderPopup(ctx,c,scale){
      localStorage. A stray third argument from some other call shape can
      only ever be ignored, never silently resize an export. */
   const S = POPUP_SCALES.includes(scale)? scale : popupScale();
-  ctx.canvas.width  = Math.round((POPUP_W + MG*2) * S);
+  ctx.canvas.width  = Math.round((PW + MG*2) * S);
   ctx.canvas.height = Math.round((h + MG*2) * S);
   ctx.setTransform(S,0,0,S,0,0);
   ctx.textAlign="left"; ctx.textBaseline="alphabetic";
@@ -5298,12 +5364,12 @@ function renderPopup(ctx,c,scale){
   /* soft shadow so the block still reads over bright footage */
   ctx.save();
   ctx.shadowColor="rgba(0,0,0,0.55)"; ctx.shadowBlur=28; ctx.shadowOffsetY=8;
-  ctx.fillStyle="#141A25"; rr(ctx,0,0,POPUP_W,h,26); ctx.fill();
+  ctx.fillStyle="#141A25"; rr(ctx,0,0,PW,h,26); ctx.fill();
   ctx.restore();
   ctx.strokeStyle="rgba(255,255,255,0.07)"; ctx.lineWidth=2;
-  rr(ctx,1,1,POPUP_W-2,h-2,25); ctx.stroke();
+  rr(ctx,1,1,PW-2,h-2,25); ctx.stroke();
   /* accent bar down the left, rounded outside and square inside */
-  ctx.save(); rr(ctx,0,0,POPUP_W,h,26); ctx.clip();
+  ctx.save(); rr(ctx,0,0,PW,h,26); ctx.clip();
   ctx.fillStyle=accent; ctx.fillRect(0,0,BAR,h); ctx.restore();
   walk(true);
   ctx.setTransform(1,0,0,1,0,0);
@@ -5679,6 +5745,41 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
   if(!/Style is one of: did you know, tip\./.test(p4b))
     fails.push('Prompt P4B stopped restricting itself to interesting facts');
   if(!p4b.includes('=== POPUP')) fails.push('Prompt P4B lost the popup worked example');
+  /* width has to drive the wrap, not just the panel: a narrower popup
+     must reflow into more lines and get taller, never crop. And the text
+     scale has to move the rhythm with the type, or lines collide. */
+  (function(){
+    const probe = document.createElement('canvas').getContext('2d');
+    const NL = String.fromCharCode(10);
+    const body = 'A body sentence long enough that the column it is given genuinely changes how many lines it takes.';
+    const mk = (extra)=>parseSpecs(['=== P','type: popup','style: tip','headline: A HEADLINE',
+      'text: '+body].concat(extra).join(NL))[0];
+    const at = (extra)=>{ renderPopup(probe, mk(extra), 2);
+      return { w:probe.canvas.width, h:probe.canvas.height }; };
+    const wide = at(['width: 1400']), std = at([]), narrow = at(['width: 600']);
+    if(!(narrow.w < std.w && std.w < wide.w))
+      fails.push('the popup width setting is not reaching the canvas');
+    /* a narrow column must cost lines; a wide one only has to not cost
+       any. Demanding that 1400 be shorter than 960 asks the text to wrap
+       differently when it already fits, which is the guard being wrong
+       rather than the renderer. */
+    if(!(narrow.h > std.h))
+      fails.push('popup text is not reflowing to the width, so a narrow popup crops instead of wrapping');
+    if(wide.h > std.h)
+      fails.push('a wider popup is getting taller, so the wrap is not following the width');
+    const big = at(['textsize: 150']), small = at(['textsize: 70']);
+    if(!(big.h > std.h && small.h < std.h))
+      fails.push('the popup text size is not moving the block height with the type');
+    if(big.w !== std.w)
+      fails.push('the popup text size is changing the panel width, which is the width setting’s job');
+    if(at(['width: 99999']).w !== at(['width: '+POPUP_W_RANGE[1]]).w)
+      fails.push('an out of range popup width is not being clamped');
+    const badFont = mk(['font: comic']);
+    if(!badFont.warnings.length) fails.push('an unknown popup font stopped warning');
+    const onCard = parseSpecs('=== C'+NL+'type: spec'+NL+'headline: X'+NL+'width: 600')[0];
+    if(!onCard.warnings.some(w=>/only applies to popup/.test(w)))
+      fails.push('width on a full card stopped warning that it does nothing');
+  })();
   /* a missing kicker line and a blank one mean different things, and the
      block has to get shorter when the label goes rather than leaving a
      hole where it used to be */
@@ -5931,8 +6032,13 @@ function cloneCard(c){
   /* an empty kicker means two different things depending on whether the
      line exists, so the studio has to carry that distinction too */
   const setKicker = c.setKeys.includes('kicker');
+  const shape = { width:popupWidth(c), textsize:Math.round(popupTextScale(c)*100),
+    font:(popupFam(c)? 'mono' : 'poppins'),
+    setWidth:c.setKeys.includes('width'), setTextsize:c.setKeys.includes('textsize'),
+    setFont:c.setKeys.includes('font') };
   return { type:c.type, accent:accent, setAccent:setAccent, style:c.style, kicker:c.kicker,
-    setKicker:setKicker, align:String(c.align||'').trim().toLowerCase(), al:al,
+    setKicker:setKicker, shape:shape,
+    align:String(c.align||'').trim().toLowerCase(), al:al,
     counter:c.counter, autoCounter:!c.setKeys.includes('counter'),
     headline:c.headline, subhead:c.subhead, text:c.text, highlight:c.highlight,
     source:c.source, footer:c.setKeys.includes('footer')? c.footer : '',
@@ -5946,6 +6052,10 @@ function workToBlock(w){
     put('style', w.style);
     /* only write an alignment that was actually chosen, so a popup left
        alone keeps a clean two line block instead of six default lines */
+    const sh = w.shape || {};
+    if(sh.setWidth || sh.width !== POPUP_W) put('width', sh.width);
+    if(sh.setTextsize || sh.textsize !== 100) put('textsize', sh.textsize);
+    if(sh.setFont || sh.font !== 'poppins') put('font', sh.font);
     if(ALIGNS.includes(w.align)) put('align', w.align);
     ALIGN_FIELDS.forEach(f=>{ if(ALIGNS.includes(w.al[f])) put('align'+f, w.al[f]); });
   }
@@ -6086,6 +6196,57 @@ function studioBuild(){
   });
   ac.appendChild(hex);
   ag.appendChild(ac); studioEl.appendChild(ag);
+
+  /* shape, popups only. A popup sits over footage rather than filling a
+     frame, so it is the one card whose size is a choice. */
+  if(isPop){
+    const sh = work.shape;
+    const g = sGroup('Popup shape');
+    const slider = (label, key, setKey, lo, hi, step, unit, say)=>{
+      const line = sEl('<div class="sline" style="margin:0 0 4px"></div>');
+      const cap = sEl('<span class="shint" style="margin:0;flex:none;min-width:74px"></span>');
+      cap.textContent = label;
+      const r = sEl('<input type="range">');
+      r.min=lo; r.max=hi; r.step=step; r.value=sh[key];
+      const val = sEl('<span class="shint" style="margin:0;flex:none;min-width:70px;text-align:right"></span>');
+      const show = ()=>{ val.textContent = sh[key] + unit; if(say) say(); };
+      r.addEventListener('input', ()=>{
+        sh[key] = parseInt(r.value,10); sh[setKey] = true;
+        show(); studioCommit(false);
+      });
+      show();
+      line.appendChild(cap); line.appendChild(r); line.appendChild(val);
+      return line;
+    };
+    const note = sEl('<p class="shint" style="margin:6px 0 0"></p>');
+    const say = ()=>{
+      note.textContent = 'The text wraps to the width, so it reflows as you drag. ' +
+        'At ' + sh.width + ' wide a popup covers ' + Math.round(sh.width/1080*100) +
+        ' percent of a 1080 frame.';
+    };
+    g.appendChild(slider('Width','width','setWidth', POPUP_W_RANGE[0], POPUP_W_RANGE[1], 20, ' px', say));
+    g.appendChild(slider('Text size','textsize','setTextsize', POPUP_T_RANGE[0], POPUP_T_RANGE[1], 5, ' %'));
+    g.appendChild(note); say();
+    const fams = sEl('<div class="schips" style="margin-top:8px"></div>');
+    Object.keys(POPUP_FAMS).forEach(k=>{
+      const b = sEl('<button type="button" class="schip"></button>');
+      b.textContent = POPUP_FAMS[k];
+      if(sh.font===k) b.classList.add('on');
+      b.addEventListener('click', ()=>{ sh.font=k; sh.setFont=true; studioCommit(true); });
+      fams.appendChild(b);
+    });
+    g.appendChild(fams);
+    const reset = sEl('<div class="sacts"></div>');
+    const rb = sBtn('Back to default shape','wide');
+    rb.addEventListener('click', ()=>{
+      sh.width=POPUP_W; sh.textsize=100; sh.font='poppins';
+      sh.setWidth=false; sh.setTextsize=false; sh.setFont=false;
+      studioCommit(true);
+    });
+    if(sh.setWidth||sh.setTextsize||sh.setFont||sh.width!==POPUP_W||sh.textsize!==100||sh.font!=='poppins')
+      { reset.appendChild(rb); g.appendChild(reset); }
+    studioEl.appendChild(g);
+  }
 
   /* alignment, popups only */
   if(isPop){

@@ -143,6 +143,12 @@ result of parsing real spec text.
 - P4B generates interesting facts only, `POPUP_PROMPT_STYLES`. The
   renderer and the studio still offer warning and correction by hand;
   the prompt does not write them, and the self-test enforces that.
+- **Popup shape is `width`, `textsize`, `font`, popup only.** Width sets
+  the panel *and* `maxW`, so text reflows rather than crops; the guard
+  asserts a narrower popup gets taller. `textsize` scales every font
+  and every vertical advance together through `V()` and `pf()` -- scale
+  one without the other and lines collide. Mono has only 400 and 700,
+  so weights map through `MONO_WEIGHT` instead of being synthesised.
 - **A popup label has three states, not two.** No `kicker` line means
   the style names itself (what P4B writes); a `kicker` line left blank
   means no label row at all and the block shortens; a filled one wins.
