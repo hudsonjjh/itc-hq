@@ -392,6 +392,9 @@ button.amber:disabled{opacity:.4;cursor:default}
 .cardsview input[type=text]{background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:7px;
   padding:9px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;flex:1;min-width:120px}
 .cardsview input[type=text]:focus{border-color:var(--amber)}
+.cardsview select{background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:7px;
+  padding:9px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;min-height:38px;flex:none}
+.cardsview select:focus{border-color:var(--amber)}
 label.small{display:block;color:var(--dim);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin:10px 0 5px}
 .pager{display:flex;align-items:center;gap:12px;justify-content:center;margin:10px 0}
 .pager .pg{font-family:'JetBrains Mono',monospace;color:var(--dim);font-size:12px;min-width:66px;text-align:center}
@@ -1035,6 +1038,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v7.4</b> · Popups export at real resolution. They used to come out at their layout size, 960 pixels wide, which is roughly 1:1 against a 1080 frame and leaves nothing at all for scaling one up in the edit, so any enlargement went soft. Nothing in a popup is a pasted image, it is all drawn, so the canvas and the drawing are now multiplied together and you get genuinely more pixels rather than a bigger blurry one. The default is <b>3x</b>, which is 3096 wide and about 190 KB, with 2x and 4x next to the file tag if you want less or more. The layout is untouched: same block, same spacing, same crop, just drawn finer. The studio tells you the exact pixel size a popup will export at and how much room that leaves you on a 1080 frame, so you never have to guess again. Full cards were always 1080 by 1920 and are unchanged.</p>
       <p><b>v7.3</b> · Popup text alignment, per line. Label, headline, body, source and the ITC mark can each sit left, centred or right, set on the Studio tab or written as <code>align</code> for all four content lines and <code>alignkicker</code>, <code>alignheadline</code>, <code>aligntext</code>, <code>alignsource</code>, <code>alignfooter</code> to overrule it line by line. Every line is laid inside the same column, so a centred headline lines up with centred body text rather than drifting against the panel edge, and the label keeps its tick attached and moves as one piece. A faint button in the studio shows what a line does now without being set, and pressing a lit button clears the choice rather than making you guess which one was the default. The mark keeps to the right on its own and has its own key, because centring a popup is not usually a request to move the small mark in the corner. Alignment is popup only: the full 1080x1920 cards hang their text off fixed geometry, so a card that sets it says so in the warning box instead of quietly doing nothing.</p>
       <p><b>v7.2</b> · Across the shelf. The Library now reads every finished dossier at once, which is the only way to catch the expensive kind of mistake: two dossiers that are each correct on their own sources and still disagree with each other. <b>Search</b> runs across the whole shelf and shows every matching line with its dossier and section. <b>Figures</b> lines up section 27 from every dossier in one list, so the same dimension recorded two different ways is visible instead of buried. <b>Fitment</b> does the same for applications, mating components and interchange, sections 06, 07 and 08, so you can ask what else on the shelf touches a 1994 F-250. <b>Combine</b> picks two or more dossiers and builds a bundle for the new <b>X1 cross-dossier check</b>, a blank-chat pass that works claim against claim and returns corrections grouped by dossier tag. It defaults to a fitment slice, the seven sections that describe how a part meets other parts, because pasting three complete dossiers into a chat costs a great deal and answers no more. X1 is also what finally settles the CROSS-CHECK NEEDED items the copy audit started raising in v7.0: P3 can see that a line reaches into another dossier's territory but only ever has one dossier, so it can flag and nothing more.</p>
       <p><b>v7.1</b> · The card studio. The Cards tab now opens on a clickable editor instead of a wall of text. Card type, accent colour with a custom hex box, popup style, every line, and the rows themselves are all controls: add a row, add a note under a row, add or drop a table column, reorder rows, duplicate, move or delete whole cards, all with the card redrawing as you type. The spec text is still there on its own tab and is still what the AI writes and the parser reads, and the two stay in step both ways, so you can paste P4's blocks in and then tune them by hand without learning the format. <b>Page numbering is now per card:</b> Auto counts the card inside the deck as before, or turn it off and set it yourself, so a card can read 2 / 4 against a set this deck does not hold. And <b>P4B is now the interesting facts generator</b>: did you know and tip only, no corrections and no warnings, with one test it has to pass, would somebody who already knows this subject stop and say huh. Corrections and warnings still render and are still one click away in the studio when you actually want one.</p>
@@ -2980,6 +2984,11 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
   </div>
   <div class="row">
     <input type="text" id="tag" value="ITC_TOPIC" aria-label="File tag">
+    <select id="popupScale" aria-label="Popup export size" title="How many pixels a popup exports at">
+      <option value="2">Popups 2x</option>
+      <option value="3">Popups 3x</option>
+      <option value="4">Popups 4x</option>
+    </select>
   </div>
   </div>
   <div class="c-preview">
@@ -3058,6 +3067,7 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
       <div class="grp">
         <h4>Good to know</h4>
         <div class="item"><code>=== CARD 01</code><div class="d">Any line starting with <code>===</code> begins a new card.</div></div>
+        <div class="item"><code>popup size</code><div class="d">Popups are drawn, not pasted, so the export multiplier next to the file tag gives real pixels. 3x is the default and leaves plenty of room to scale one up over footage. The layout never changes, only how finely it is drawn.</div></div>
         <div class="item"><code>auto-fit</code><div class="d">spec and timeline shrink to fit. table does not, so trim rows if you see an overflow warning.</div></div>
         <div class="item"><code>house rules</code><div class="d">Auto-flagged in the warning box: em or en dashes, emojis, and hyphenated ranges. Write ranges as "1994 to 1997".</div></div>
         <div class="item"><code>studio</code><div class="d">Everything on this page is also clickable on the <b>Studio</b> tab: type, colour, every line, rows, page number. It edits this same text, so paste an AI's blocks in and then tune them by hand without learning any of it.</div></div>
@@ -3210,7 +3220,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v7.3';
+const APP_VERSION = 'v7.4';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -5063,6 +5073,16 @@ const POPUP_STYLE_CANON = Object.keys(POPUP_STYLES).filter(k=>!POPUP_STYLES[k].a
    deliberately dropped. */
 const POPUP_PROMPT_STYLES = ['did you know', 'tip'];
 const POPUP_W = 960;
+/* Popups used to export at their layout size, 960 wide, which is about
+   1:1 against a 1080 frame and leaves nothing for scaling up in the
+   edit. Everything in a popup is drawn, not pasted, so multiplying the
+   canvas and the transform together gives genuinely more pixels rather
+   than a bigger blurry one. The layout numbers below never change. */
+const POPUP_SCALES = [2,3,4];
+function popupScale(){
+  const n = parseInt(store.get('popupscale', '3'), 10);
+  return POPUP_SCALES.includes(n)? n : 3;
+}
 /* one renderer per accepted card type; unknown types fall back to spec.
    The self-test checks these keys against CARD_TYPES in the prompt. */
 const RENDERERS = { spec: renderSpec, timeline: renderTimeline, table: renderTable,
@@ -5170,7 +5190,7 @@ function rr(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); }
    no full frame, sizes itself to its own text, and exports on a
    transparent background, so the PNG is tight to the block. Designed to
    read at the top of frame, clear of the Shorts title bar. */
-function renderPopup(ctx,c){
+function renderPopup(ctx,c,scale){
   const st = POPUP_STYLES[(c.style||"").trim().toLowerCase()];
   /* an accent line always wins; otherwise the style picks the colour.
      c.accent carries the "amber" default, so the explicit check has to
@@ -5244,8 +5264,16 @@ function renderPopup(ctx,c){
   }
 
   const h = Math.round(walk(false));
-  ctx.canvas.width = POPUP_W + MG*2;                   /* resizing clears it */
-  ctx.canvas.height = h + MG*2;
+  /* measured in layout units above, painted at scale below. Resizing
+     clears the canvas and resets the context, so the transform goes on
+     after it, not before. */
+  /* an explicit scale wins, so this can be exercised without a working
+     localStorage. A stray third argument from some other call shape can
+     only ever be ignored, never silently resize an export. */
+  const S = POPUP_SCALES.includes(scale)? scale : popupScale();
+  ctx.canvas.width  = Math.round((POPUP_W + MG*2) * S);
+  ctx.canvas.height = Math.round((h + MG*2) * S);
+  ctx.setTransform(S,0,0,S,0,0);
   ctx.textAlign="left"; ctx.textBaseline="alphabetic";
   ctx.translate(MG, MG);
   /* soft shadow so the block still reads over bright footage */
@@ -5518,6 +5546,15 @@ document.getElementById("next").addEventListener('click', ()=>{ idx++; showCard(
 
 specEl.addEventListener('input', ()=>store.set('cardspecs', specEl.value));
 tagEl.addEventListener('input', ()=>store.set('cardtag', tagEl.value));
+const psEl = document.getElementById('popupScale');
+psEl.value = String(popupScale());
+psEl.addEventListener('change', ()=>{
+  store.set('popupscale', psEl.value);
+  /* redraw so the preview and the studio's size readout both agree with
+     the setting the moment it changes. The readout is built with the
+     form, so the form has to be rebuilt, not just repainted. */
+  if(cards.length){ studioIdx = -1; showCard(); }
+});
 
 function fname(i){
   const kind = (cards[i] && cards[i].type==="popup")? "_POPUP_" : "_CARD_";
@@ -5623,6 +5660,26 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
   if(!/Style is one of: did you know, tip\./.test(p4b))
     fails.push('Prompt P4B stopped restricting itself to interesting facts');
   if(!p4b.includes('=== POPUP')) fails.push('Prompt P4B lost the popup worked example');
+  /* the export multiplier has to reach the canvas, and the layout has to
+     be unchanged by it: same block, more pixels, never a different crop */
+  (function(){
+    const probe = document.createElement('canvas').getContext('2d');
+    const one = parseSpecs('=== P' + String.fromCharCode(10) + 'type: popup' +
+      String.fromCharCode(10) + 'text: A sentence long enough to wrap onto a second line here.')[0];
+    const seen = {};
+    POPUP_SCALES.forEach(n=>{
+      renderPopup(probe, one, n);
+      seen[n] = { w:probe.canvas.width, h:probe.canvas.height };
+    });
+    POPUP_SCALES.forEach(n=>{
+      const r = seen[n].w / seen[POPUP_SCALES[0]].w;
+      const want = n / POPUP_SCALES[0];
+      if(Math.abs(r - want) > 0.02)
+        fails.push('the popup export multiplier is not reaching the canvas at ' + n + 'x');
+      if(Math.abs(seen[n].w / seen[n].h - seen[POPUP_SCALES[0]].w / seen[POPUP_SCALES[0]].h) > 0.02)
+        fails.push('the popup layout changes shape at ' + n + 'x, so it is being redrawn rather than scaled');
+    });
+  })();
   /* alignment has to survive the parser and reach the resolver, or the
      studio writes keys that quietly do nothing */
   (function(){
@@ -5955,6 +6012,12 @@ function studioBuild(){
     });
     g.appendChild(c);
     g.appendChild(sEl('<p class="shint">Sets the label and the colour. P4B only writes DID YOU KNOW and TIP; the other two are here for when you want one by hand.</p>'));
+    /* the one number you want before dropping this over footage */
+    const px = sEl('<p class="shint" style="margin-top:6px"></p>');
+    px.textContent = 'Exports at ' + cv.width + ' by ' + cv.height + ' pixels, at the ' +
+      popupScale() + 'x setting next to the file tag. A 1080 wide frame gives you ' +
+      (cv.width/1080).toFixed(1) + 'x to scale into.';
+    g.appendChild(px);
     studioEl.appendChild(g);
   }
 

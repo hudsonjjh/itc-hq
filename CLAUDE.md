@@ -143,6 +143,13 @@ result of parsing real spec text.
 - P4B generates interesting facts only, `POPUP_PROMPT_STYLES`. The
   renderer and the studio still offer warning and correction by hand;
   the prompt does not write them, and the self-test enforces that.
+- **Popups export at `popupScale()`**, default 3x, chosen next to the
+  file tag. The layout constants stay in layout units and the scale is
+  applied once, as the canvas size and a matching `setTransform`, so
+  more pixels never means a different crop. `renderPopup` takes the
+  scale as an optional third argument: the self-test drives it that
+  way because `localStorage` is unavailable under `data:` and a guard
+  that needs writable storage fails on a perfectly healthy app.
 - **Alignment is popup only** (`ALIGNS`, `ALIGN_FIELDS`,
   `ALIGN_DEFAULT`, resolved by `alignOf()`). The 1080x1920 layouts hang
   text off fixed geometry, the accent rule, the underline bar, the row
