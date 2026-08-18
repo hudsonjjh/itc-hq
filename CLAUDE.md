@@ -143,3 +143,11 @@ result of parsing real spec text.
 - P4B generates interesting facts only, `POPUP_PROMPT_STYLES`. The
   renderer and the studio still offer warning and correction by hand;
   the prompt does not write them, and the self-test enforces that.
+- **Alignment is popup only** (`ALIGNS`, `ALIGN_FIELDS`,
+  `ALIGN_DEFAULT`, resolved by `alignOf()`). The 1080x1920 layouts hang
+  text off fixed geometry, the accent rule, the underline bar, the row
+  dots, so alignment there would break the card rather than restyle it,
+  and a full card that sets it gets a warning instead of silence. All
+  five lines are laid inside one column, X to X+maxW, so the three
+  alignments share a ruler. The ITC mark defaults right and does not
+  follow the blanket `align` line.

@@ -361,6 +361,8 @@ button.amber:disabled{opacity:.4;cursor:default}
 .schip{min-height:36px;background:var(--panel);border:1px solid var(--line);border-radius:7px;color:var(--dim);
   padding:8px 11px;font-size:11.5px;cursor:pointer;font-family:inherit}
 .schip.on{border-color:var(--amber);color:var(--amber);background:rgba(255,140,22,.09)}
+/* what a line does without being set: shown, but clearly not a choice */
+.schip.ghosted{border-color:rgba(255,140,22,.28);color:rgba(255,140,22,.6)}
 .sw{width:38px;height:36px;border-radius:7px;border:2px solid var(--line);cursor:pointer;padding:0}
 .sw.on{border-color:#EEF2F7}
 .studio input[type=text]{width:100%;background:var(--panel);color:var(--txt);border:1px solid var(--line);
@@ -1033,6 +1035,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v7.3</b> · Popup text alignment, per line. Label, headline, body, source and the ITC mark can each sit left, centred or right, set on the Studio tab or written as <code>align</code> for all four content lines and <code>alignkicker</code>, <code>alignheadline</code>, <code>aligntext</code>, <code>alignsource</code>, <code>alignfooter</code> to overrule it line by line. Every line is laid inside the same column, so a centred headline lines up with centred body text rather than drifting against the panel edge, and the label keeps its tick attached and moves as one piece. A faint button in the studio shows what a line does now without being set, and pressing a lit button clears the choice rather than making you guess which one was the default. The mark keeps to the right on its own and has its own key, because centring a popup is not usually a request to move the small mark in the corner. Alignment is popup only: the full 1080x1920 cards hang their text off fixed geometry, so a card that sets it says so in the warning box instead of quietly doing nothing.</p>
       <p><b>v7.2</b> · Across the shelf. The Library now reads every finished dossier at once, which is the only way to catch the expensive kind of mistake: two dossiers that are each correct on their own sources and still disagree with each other. <b>Search</b> runs across the whole shelf and shows every matching line with its dossier and section. <b>Figures</b> lines up section 27 from every dossier in one list, so the same dimension recorded two different ways is visible instead of buried. <b>Fitment</b> does the same for applications, mating components and interchange, sections 06, 07 and 08, so you can ask what else on the shelf touches a 1994 F-250. <b>Combine</b> picks two or more dossiers and builds a bundle for the new <b>X1 cross-dossier check</b>, a blank-chat pass that works claim against claim and returns corrections grouped by dossier tag. It defaults to a fitment slice, the seven sections that describe how a part meets other parts, because pasting three complete dossiers into a chat costs a great deal and answers no more. X1 is also what finally settles the CROSS-CHECK NEEDED items the copy audit started raising in v7.0: P3 can see that a line reaches into another dossier's territory but only ever has one dossier, so it can flag and nothing more.</p>
       <p><b>v7.1</b> · The card studio. The Cards tab now opens on a clickable editor instead of a wall of text. Card type, accent colour with a custom hex box, popup style, every line, and the rows themselves are all controls: add a row, add a note under a row, add or drop a table column, reorder rows, duplicate, move or delete whole cards, all with the card redrawing as you type. The spec text is still there on its own tab and is still what the AI writes and the parser reads, and the two stay in step both ways, so you can paste P4's blocks in and then tune them by hand without learning the format. <b>Page numbering is now per card:</b> Auto counts the card inside the deck as before, or turn it off and set it yourself, so a card can read 2 / 4 against a set this deck does not hold. And <b>P4B is now the interesting facts generator</b>: did you know and tip only, no corrections and no warnings, with one test it has to pass, would somebody who already knows this subject stop and say huh. Corrections and warnings still render and are still one click away in the studio when you actually want one.</p>
       <p><b>v7.0</b> · The research diet. The full spine still exists unchanged for a subject that earns it, but four things now cut what it costs to run. <b>Delta passes:</b> R3, R5 and R6 no longer restate the whole dossier, they return only what changed, and the last step in each chat writes it out once. <b>A light spine:</b> three prompts instead of seven, R1 then L2 then L3, chosen at the start and switchable mid-job. It shortens by merging steps, never by dropping checks, so all six sweeps, the gap hunt against the R1 plan, and the cold audit in a chat that did not write the dossier all survive. <b>CORE and REFERENCE:</b> every claim is now routed, and the production prompts are told to write from CORE only, which is what stops a script clinging to detail nobody asked for. <b>A figures ledger,</b> section 27: every year, figure, part number and casting number in one table with the source's own words beside it, because fifty numbers side by side expose the wrong digit that fifty numbers scattered through prose do not. Every figure claim now carries a verbatim QUOTE for the same reason. Also: the Playbook and Home stopped contradicting each other. A Playbook copy button now hands you exactly what the Home flow hands you, tag filled in and documents attached, whenever a job is running. And the copy audit now knows what else is on the shelf, so copy that reaches into another dossier's territory comes back marked CROSS-CHECK NEEDED instead of quietly guessing.</p>
@@ -3018,6 +3021,8 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
         <div class="item"><code>warning</code><div class="d"><span class="swatchchip" style="background:#E8604C"></span>Label reads HEADS UP, red.</div></div>
         <div class="item"><code>correction</code><div class="d"><span class="swatchchip" style="background:#6FCF8F"></span>Label reads CORRECTION, green.</div></div>
         <div class="item"><code>kicker</code><div class="d">Set it to override the style's label with your own wording.</div></div>
+        <div class="item"><code>align</code><div class="d">Popups only. <code>left</code>, <code>center</code>, or <code>right</code> for the label, headline, body and source together.</div></div>
+        <div class="item"><code>alignheadline</code><div class="d">And <code>alignkicker</code>, <code>aligntext</code>, <code>alignsource</code>, <code>alignfooter</code>. Each overrules <code>align</code> for its own line. The ITC mark stays right unless <code>alignfooter</code> moves it. All of it is clickable on the Studio tab.</div></div>
       </div>
       <div class="div"></div>
       <div class="grp">
@@ -3083,6 +3088,8 @@ footer: INSIDE THE CASE · AUTO
 === POPUP 05                      <span class="k">popup: no rows, transparent, tight cropped</span>
 type: popup
 style: did you know               <span class="k">did you know, tip, warning, or correction</span>
+align: left                       <span class="k">left, center, or right. Popups only, optional</span>
+alignheadline: center             <span class="k">per line: alignkicker/headline/text/source/footer</span>
 headline: STILL A C6 INSIDE       <span class="k">optional short bold line</span>
 text: One or two sentences, read in a couple of seconds.
 source: Ford workshop manual      <span class="k">optional small credit</span></pre>
@@ -3203,7 +3210,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this file to Claude and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v7.2';
+const APP_VERSION = 'v7.3';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -5015,7 +5022,28 @@ restoreInput.addEventListener('change', ()=>{
    [CARDS] parser + canvas renderer (ported from Card Generator v1.1)
    ================================================================ */
 const ACCENTS = { amber:"#FF8C16", red:"#E8604C", green:"#6FCF8F", blue:"#7EA6D9" };
-const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer","source","text","style"];
+const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer","source","text","style",
+  "align","alignkicker","alignheadline","aligntext","alignsource","alignfooter"];
+/* Alignment is a popup-only control. The full 1080x1920 layouts hang
+   text off fixed geometry, the accent rule down the left, the underline
+   bar, the row dots, so moving the text away from that geometry breaks
+   the card rather than restyling it. A popup has no such furniture
+   beyond its own bar, so each of its lines can sit where it reads best. */
+const ALIGNS = ["left","center","right"];
+const ALIGN_FIELDS = ["kicker","headline","text","source","footer"];
+/* the brand mark sits right by default and does not follow the blanket
+   align line: nobody centring a popup means to move the small mark in
+   the corner, and it has its own key when they do */
+const ALIGN_DEFAULT = { kicker:"left", headline:"left", text:"left", source:"left", footer:"right" };
+function alignOf(c, field){
+  const one = String(c["align"+field] || "").trim().toLowerCase();
+  if(ALIGNS.includes(one)) return one;
+  if(field !== "footer"){
+    const all = String(c.align || "").trim().toLowerCase();
+    if(ALIGNS.includes(all)) return all;
+  }
+  return ALIGN_DEFAULT[field];
+}
 /* popup flavours: the style line sets the label and the default accent,
    so a popup is one line to write and still reads consistently */
 const POPUP_STYLES = {
@@ -5046,7 +5074,8 @@ function parseSpecs(text){
   for(const block of blocks){
     const c = { type:"spec", accent:"amber", kicker:"", counter:"", headline:"",
                 subhead:"", rows:[], highlight:"", footer:"INSIDE THE CASE · AUTO", source:"",
-                text:"", style:"", setKeys:[], warnings:[] };
+                text:"", style:"", align:"", alignkicker:"", alignheadline:"",
+                aligntext:"", alignsource:"", alignfooter:"", setKeys:[], warnings:[] };
     let inRows = false;
     for(const raw of block.split(/\r?\n/)){
       const line = raw.trimEnd();
@@ -5074,6 +5103,15 @@ function parseSpecs(text){
     c.type = String(c.type||"spec").trim().toLowerCase();
     if(!CARD_TYPES.includes(c.type))
       c.warnings.push('Unknown type "'+c.type+'". Accepted: '+CARD_TYPES.join(', ')+'. Rendered as spec.');
+    /* an alignment nobody recognises would otherwise fall back to the
+       default and look like the key was ignored */
+    ['align'].concat(ALIGN_FIELDS.map(f=>'align'+f)).forEach(k=>{
+      const v = String(c[k]||"").trim().toLowerCase();
+      if(v && !ALIGNS.includes(v))
+        c.warnings.push('Unknown '+k+' "'+c[k].trim()+'". Use left, center, or right.');
+    });
+    if(c.type!=="popup" && (c.setKeys||[]).some(k=>k==='align' || k.indexOf('align')===0))
+      c.warnings.push('Alignment only applies to popup cards. This '+c.type+' card keeps its fixed layout.');
     if(c.type!=="spec" && c.rows.some(r=>r.subs.length))
       c.warnings.push('Sub-lines only draw on spec cards. This '+c.type+' card has '+
         c.rows.reduce((n,r)=>n+r.subs.length,0)+' that will not appear. Fold them into a row or move them to the highlight.');
@@ -5154,37 +5192,54 @@ function renderPopup(ctx,c){
 
   const headLines = c.headline? wrap(ctx,c.headline.toUpperCase(),headF,maxW) : [];
   const bodyLines = body? wrap(ctx,body,bodyF,maxW) : [];
+  /* every line is laid inside the same column, X to X+maxW, so the three
+     alignments share one ruler and a centred headline lines up with
+     centred body text rather than with the panel */
+  const A = {}; ALIGN_FIELDS.forEach(f=>{ A[f] = alignOf(c,f); });
+  function lay(a){
+    if(a==='center') return { x:X + maxW/2, al:'center' };
+    if(a==='right')  return { x:X + maxW,   al:'right'  };
+    return { x:X, al:'left' };
+  }
+  function put(text, f, colour, a, y){
+    const at = lay(a);
+    setF(ctx,f); ctx.fillStyle=colour; ctx.textAlign=at.al;
+    ctx.fillText(text, at.x, y);
+    ctx.textAlign='left';
+  }
 
   /* one cursor walk, measured first then repeated to paint, so the block
      is always exactly as tall as what is in it */
   function walk(paint){
     let y = PAD + 26;
     if(paint){
-      ctx.fillStyle=accent; rr(ctx,X,y-13,13,13,3); ctx.fill();
-      setF(ctx,labelF); ctx.fillStyle=accent; ctx.fillText(label, X+26, y);
+      /* the tick and its label move as one block, so a centred kicker
+         is the pair centred, not the text centred around a fixed tick */
+      setF(ctx,labelF);
+      const lw = Math.max(0, ctx.measureText(label).width - (labelF.ls||0));
+      const blockW = 26 + lw;
+      let left = X;
+      if(A.kicker==='center') left = X + (maxW - blockW)/2;
+      else if(A.kicker==='right') left = X + maxW - blockW;
+      ctx.fillStyle=accent; rr(ctx,left,y-13,13,13,3); ctx.fill();
+      ctx.textAlign='left'; ctx.fillStyle=accent; ctx.fillText(label, left+26, y);
     }
     headLines.forEach((ln,i)=>{
       y += i? 50 : 54;
-      if(paint){ setF(ctx,headF); ctx.fillStyle="#F4F6F9"; ctx.fillText(ln,X,y); }
+      if(paint) put(ln, headF, "#F4F6F9", A.headline, y);
     });
     bodyLines.forEach((ln,i)=>{
       y += i? 46 : (headLines.length? 52 : 48);
-      if(paint){ setF(ctx,bodyF); ctx.fillStyle="#E4E9F0"; ctx.fillText(ln,X,y); }
+      if(paint) put(ln, bodyF, "#E4E9F0", A.text, y);
     });
     if(c.source){
       y += 46;
-      if(paint){ setF(ctx,srcF); ctx.fillStyle=C_LABEL;
-        ctx.fillText("SOURCE · "+c.source.toUpperCase(),X,y); }
+      if(paint) put("SOURCE · "+c.source.toUpperCase(), srcF, C_LABEL, A.source, y);
     }
     /* brand mark, bottom right, so a popup is still ours once it is
        screenshotted off the video */
     y += c.source? 32 : 42;
-    if(paint){
-      setF(ctx,markF); ctx.fillStyle=C_STEEL;
-      ctx.textAlign="right";
-      ctx.fillText(mark, POPUP_W-44, y);
-      ctx.textAlign="left";
-    }
+    if(paint) put(mark, markF, C_STEEL, A.footer, y);
     return y + PAD;
   }
 
@@ -5568,6 +5623,28 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
   if(!/Style is one of: did you know, tip\./.test(p4b))
     fails.push('Prompt P4B stopped restricting itself to interesting facts');
   if(!p4b.includes('=== POPUP')) fails.push('Prompt P4B lost the popup worked example');
+  /* alignment has to survive the parser and reach the resolver, or the
+     studio writes keys that quietly do nothing */
+  (function(){
+    const spec = (rest)=>`=== P
+type: popup
+text: x
+${rest}`;
+    const a = parseSpecs(spec('align: center' + String.fromCharCode(10) + 'alignsource: right'))[0];
+    if(alignOf(a,'headline')!=='center') fails.push('the blanket align line stopped reaching the popup renderer');
+    if(alignOf(a,'source')!=='right') fails.push('a per line alignment stopped overruling the blanket one');
+    if(alignOf(a,'footer')!=='right') fails.push('the popup mark stopped defaulting to the right');
+    if(a.warnings.length) fails.push('a valid alignment is being flagged: '+a.warnings.join(' '));
+    const b = parseSpecs(spec('align: middle'))[0];
+    if(!b.warnings.length) fails.push('a misspelled alignment stopped warning');
+    if(alignOf(b,'text')!=='left') fails.push('a bad alignment no longer falls back to left');
+    const c = parseSpecs(`=== C
+type: spec
+headline: x
+align: center`)[0];
+    if(!c.warnings.some(w=>/only applies to popup/.test(w)))
+      fails.push('alignment on a full card stopped warning that it does nothing');
+  })();
   if(!p4b.includes('type: popup')) fails.push('Prompt P4B lost the popup machine format');
   /* the three writing prompts each carry the voice card and house rules */
   ['pp2a','pp2b','pp2c'].forEach(id=>{
@@ -5755,7 +5832,9 @@ function cloneCard(c){
   const setAccent = c.setKeys.includes('accent');
   const st = POPUP_STYLES[String(c.style||'').toLowerCase()];
   const accent = (c.type==='popup' && !setAccent && st)? st.accent : c.accent;
+  const al = {}; ALIGN_FIELDS.forEach(f=>{ al[f] = String(c['align'+f]||'').trim().toLowerCase(); });
   return { type:c.type, accent:accent, setAccent:setAccent, style:c.style, kicker:c.kicker,
+    align:String(c.align||'').trim().toLowerCase(), al:al,
     counter:c.counter, autoCounter:!c.setKeys.includes('counter'),
     headline:c.headline, subhead:c.subhead, text:c.text, highlight:c.highlight,
     source:c.source, footer:c.setKeys.includes('footer')? c.footer : '',
@@ -5765,7 +5844,13 @@ function workToBlock(w){
   const out = ['type: ' + w.type];
   const put = (k,v)=>{ if(String(v==null? '' : v).trim()!=='') out.push(k+': '+v); };
   if(w.setAccent) put('accent', w.accent);
-  if(w.type==='popup') put('style', w.style);
+  if(w.type==='popup'){
+    put('style', w.style);
+    /* only write an alignment that was actually chosen, so a popup left
+       alone keeps a clean two line block instead of six default lines */
+    if(ALIGNS.includes(w.align)) put('align', w.align);
+    ALIGN_FIELDS.forEach(f=>{ if(ALIGNS.includes(w.al[f])) put('align'+f, w.al[f]); });
+  }
   put('kicker', w.kicker);
   if(!w.autoCounter) put('counter', w.counter);
   put('headline', w.headline);
@@ -5891,6 +5976,36 @@ function studioBuild(){
   });
   ac.appendChild(hex);
   ag.appendChild(ac); studioEl.appendChild(ag);
+
+  /* alignment, popups only */
+  if(isPop){
+    const g = sGroup('Text alignment');
+    const LABELS = { kicker:'Label', headline:'Headline', text:'Body text', source:'Source', footer:'ITC mark' };
+    const NAMES  = { left:'Left', center:'Centre', right:'Right' };
+    const rowFor = (key, name, current, effective, onPick)=>{
+      const line = sEl('<div class="sline" style="margin:0 0 6px"></div>');
+      const lab = sEl('<span class="shint" style="margin:0;flex:none;min-width:88px"></span>');
+      lab.textContent = name;
+      line.appendChild(lab);
+      ALIGNS.forEach(a=>{
+        const b = sEl('<button type="button" class="schip" style="flex:1;padding:8px 4px"></button>');
+        b.textContent = NAMES[a];
+        if(current===a) b.classList.add('on');
+        else if(!current && effective===a) b.classList.add('ghosted');
+        b.addEventListener('click', ()=>{ onPick(current===a? '' : a); studioCommit(true); });
+        line.appendChild(b);
+      });
+      return line;
+    };
+    g.appendChild(rowFor('align','All lines', work.align, '', v=>{ work.align = v; }));
+    g.appendChild(sEl('<p class="shint" style="margin:2px 0 8px">Sets the four content lines at once. Each one below can still overrule it, and pressing a lit button again clears that choice.</p>'));
+    ALIGN_FIELDS.forEach(f=>{
+      g.appendChild(rowFor('align'+f, LABELS[f], work.al[f], alignOf(cards[idx], f),
+        v=>{ work.al[f] = v; }));
+    });
+    g.appendChild(sEl('<p class="shint" style="margin:6px 0 0">A faint button is what that line does now without being set. The ITC mark keeps to the right on its own, because centring a popup is not usually a request to move the mark in the corner.</p>'));
+    studioEl.appendChild(g);
+  }
 
   /* text fields */
   const field = (key, label)=>{
