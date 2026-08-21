@@ -59,7 +59,7 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is playbook v8.4, two tracks, on both Claude
+- The workflow is playbook v8.5, two tracks, on both Claude
   (Opus/Fable) and ChatGPT. The **research track** (R1 scope and
   coverage plan, R2 deep research, R3 second pass, R4 expansion, R5
   accuracy audit, R6 gap hunt, R7 finalize) builds one permanent
@@ -76,6 +76,10 @@ have it installed as a home-screen app.
   Every Work research checkpoint loads those files with `bsArtifactField()`;
   the collapsed textarea is only a review and manual fallback surface. Do not
   restore PDF outputs or require users to copy artifact text out of chat.
+  `artifactContract()` prepends the exact filename, extension, encoding, MIME
+  type, and forbidden formats before the task instructions. Keep the matching
+  delivery instruction at the end as a second guard. R7 and R8B are explicitly
+  self-tested as TXT plus TSV two-file outputs.
 - **The light spine** (R1, then L2, then L3) is the same research track
   with steps merged, for a subject too small to earn seven prompts. It
   is allowed to shorten by merging and never by dropping: all six
@@ -128,7 +132,7 @@ have it installed as a home-screen app.
   X1 bundle carries by default; if you renumber a schema section,
   that constant and the self-test move with it.
 - **The v8 Library is portable and verified.** App version, dossier schema,
-  and package schema are independent (`v8.4`, dossier schema 2, package schema
+  and package schema are independent (`v8.5`, dossier schema 2, package schema
   1). IndexedDB is canonical when available; `file://` and unsupported
   browsers fall back to localStorage. Every migration, import, and save is
   read back and checked. Real `.itc-library.json` packages are private data

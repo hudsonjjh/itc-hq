@@ -1050,6 +1050,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.5</b> · Every research prompt now opens with a non-negotiable output contract before any task instructions: exact filenames, literal TXT and TSV extensions, UTF-8 encoding, MIME types, and an explicit prohibition on PDF, DOCX, document artifacts, and pasted chat output. The same contract remains at the bottom. R7 and R8B are guarded as two-file outputs at load time so a future edit cannot silently turn either dossier back into a PDF.</p>
       <p><b>v8.4</b> · Research is file-first. R1 through R8 now request downloadable UTF-8 TXT artifacts instead of PDFs and forbid dumping the document into the chat. R7, L3 and R8B return a TXT dossier plus the required TSV claims companion. Every research checkpoint has an Attach file button; the old text boxes remain collapsed as a manual fallback and review surface. This removes PDF page numbers and formatting from the Library and eliminates long pasted replies.</p>
       <p><b>v8.3</b> · R8A and R8B now live in a permanent, unmistakable box at the top of Work, even while another job is open and even when the Library is empty. Both prompts have their own direct Copy button. Standalone R8A includes a clear dossier paste marker; standalone R8B includes markers for both the parent dossier and the R8A pass. Importing a dossier remains optional convenience: choose it in the same box to have the full parent attached automatically and use the guided two-chat handoff.</p>
       <p><b>v8.2</b> · R8 is now visible from the main Work screen. A dedicated "Revise an existing dossier with R8" section selects any completed or imported dossier and opens the separate two-prompt R8A to R8B route; it never sends an existing dossier through R1 to R7. R8A copies with the complete parent dossier already attached, and pasting its pass unlocks R8B. The Library action now says "Open R8A + R8B" so the same route is discoverable from either place.</p>
@@ -3176,7 +3177,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v8.4';
+const APP_VERSION = 'v8.5';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3365,6 +3366,7 @@ const PREV_OF = { pr2:'R1', pr3:'R2', pr4:'R3', pr5:'R4', pr6:'R5', pr7:'R6', pr
 const TEXT_ARTIFACT_PROMPTS = new Set([
   'pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3'
 ]);
+const TWO_FILE_ARTIFACT_PROMPTS = new Set(['pr7','pr8b','prl3']);
 
 /* tags become filenames, so strip only what a filename genuinely cannot
    carry. Hyphens, digits and underscores are fine and people use them. */
@@ -3402,7 +3404,24 @@ function withBlocks(id, text){
   if(SWEEPS_PROMPTS.includes(id)) text += '\n\n' + document.getElementById('sweeps').textContent;
   return fillTokens(id, text);
 }
-function promptText(id){ return withBlocks(id, document.getElementById(id).textContent); }
+function artifactContract(id){
+  if(!TEXT_ARTIFACT_PROMPTS.has(id)) return '';
+  const two = TWO_FILE_ARTIFACT_PROMPTS.has(id);
+  return 'NON-NEGOTIABLE OUTPUT FILE CONTRACT. READ THIS BEFORE THE TASK.\n'+
+    'Create a real downloadable file. The filename and extension are literal.\n'+
+    'FILE 1: [[OUT]]\n'+
+    '- Format: UTF-8 plain text. MIME type: text/plain; charset=utf-8.\n'+
+    '- The filename MUST end in .txt. It must not be PDF or DOCX.\n'+
+    (two? 'FILE 2: [[OUT_TSV]]\n'+
+      '- Format: UTF-8 tab-separated values. MIME type: text/tab-separated-values; charset=utf-8.\n'+
+      '- The filename MUST end in .tsv. It must not be PDF, XLSX, or CSV.\n' : '')+
+    'FORBIDDEN: PDF output, a document/canvas artifact that exports as PDF, '+
+    'pasting the artifact into chat, or wrapping it in a code block.\n'+
+    'If the platform defaults to PDF, override that default and create the '+
+    'literal TXT'+(two? ' and TSV files':' file')+' instead.\n'+
+    'The visible chat reply must contain only "'+(two? 'Files':'File')+' attached."\n\n';
+}
+function promptText(id){ return withBlocks(id, artifactContract(id) + document.getElementById(id).textContent); }
 
 /* House style is yours to set; the tier system, source hierarchy, and
    evidence classes are not, because a typo there quietly changes what
@@ -6391,7 +6410,7 @@ align: center`)[0];
       let rejected=false; try{ recordsFromPackage(bad); }catch(e){ rejected=true; }
       if(!rejected) fails.push('a damaged library package stopped failing its integrity check');
     }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
-    if(APP_VERSION!=='v8.4') fails.push('the v8.4 code is running under a different APP_VERSION');
+    if(APP_VERSION!=='v8.5') fails.push('the v8.5 code is running under a different APP_VERSION');
     if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
   /* filename tokens must actually be substituted, or the AI is told to
@@ -6415,6 +6434,14 @@ align: center`)[0];
   });
   ['pr7','prl3','pr8b'].forEach(id=>{
     if(!/_CLAIMS\.tsv/.test(promptText(id))) fails.push(id+' lost the required claims TSV output');
+  });
+  ['pr7','pr8b'].forEach(id=>{
+    const t=promptText(id);
+    if(!t.startsWith('NON-NEGOTIABLE OUTPUT FILE CONTRACT.')) fails.push(id+' lost its top-of-prompt file contract');
+    if(!/FILE 1: ITC_.+\.txt/.test(t) || !/FILE 2: ITC_.+_CLAIMS\.tsv/.test(t))
+      fails.push(id+' no longer opens with exact TXT and TSV filenames');
+    if(!/MIME type: text\/plain; charset=utf-8/.test(t) || !/MIME type: text\/tab-separated-values; charset=utf-8/.test(t))
+      fails.push(id+' lost its TXT or TSV MIME requirement');
   });
   Object.keys(SECTION_PROMPTS).forEach(sec=>{
     if(!document.getElementById(sec)) fails.push('playbook section "'+sec+'" is missing');
