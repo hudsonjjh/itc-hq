@@ -1050,6 +1050,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.3</b> · R8A and R8B now live in a permanent, unmistakable box at the top of Work, even while another job is open and even when the Library is empty. Both prompts have their own direct Copy button. Standalone R8A includes a clear dossier paste marker; standalone R8B includes markers for both the parent dossier and the R8A pass. Importing a dossier remains optional convenience: choose it in the same box to have the full parent attached automatically and use the guided two-chat handoff.</p>
       <p><b>v8.2</b> · R8 is now visible from the main Work screen. A dedicated "Revise an existing dossier with R8" section selects any completed or imported dossier and opens the separate two-prompt R8A to R8B route; it never sends an existing dossier through R1 to R7. R8A copies with the complete parent dossier already attached, and pasting its pass unlocks R8B. The Library action now says "Open R8A + R8B" so the same route is discoverable from either place.</p>
       <p><b>v8.1</b> · One guided workflow. Home is now Work, and the separate Playbook route has been removed so there is only one place to create a dossier or make a video. Full research shows R1 through R7 as individual stops. Production now follows the way the channel actually works: content plan, choose or combine ideas, write and revise in AI, final audit, cards, then upload the edited transcript for YouTube and Facebook details. Packaging is no longer a formal production step. The Library now explains that a package is only a portable carrying case and that R8 is for improving legacy, blocked, or incomplete research, not for making an otherwise current dossier importable.</p>
       <p><b>v8.0</b> · The knowledge-folder release. The Library now uses IndexedDB with verified writes, while preserving the untouched v7 localStorage library as a fallback. First launch copies and verifies old dossiers instead of replacing them. A single private <code>.itc-library.json</code> package moves the full shelf, claims TSV companions, content plans, status, blockers, and relationships between devices or AI workspaces; backup files include the same durable library. Production jobs can select multiple related dossiers, and every P prompt receives one bounded production bundle made from sections 00 to 15, 26 and 27 plus namespaced claims such as <code>FSERIES_92_97:C123</code>. The primary dossier stays selected, related tags are surfaced, unselected shelf subjects still trigger P3 cross-check warnings, and X1 remains the pass that settles actual conflicts. R8 still receives one complete dossier because revision cannot use the compact production slice. Import, migration, parser, package, namespace, and bundle rules now have synthetic public-safe fixtures and load-time guards. Claude Code and Codex share committed repository instructions, while real research packages remain outside the public repo.</p>
@@ -1985,7 +1986,7 @@ DOSSIER: [PASTE THE COMPLETE L2 DOSSIER]</pre>
         <div class="phead"><div class="pt">Prompt R8A <span>·</span> re-attack the coverage</div><div class="spacer"></div><button class="copybtn" data-copy="pr8a">Copy prompt</button></div>
         <pre id="pr8a">CHAT: a brand new blank chat, NOT inside any project or folder, and a
 different model than the one that built the dossier if you have one.
-R8B follows in this same chat.
+R8B follows in a different brand new blank chat.
 
 You are re-attacking a finished Inside The Case dossier. Your posture
 is: THIS DOSSIER HAS GAPS. It went through a full multi stage process,
@@ -3190,7 +3191,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v8.2';
+const APP_VERSION = 'v8.3';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -4615,6 +4616,14 @@ function livePrompt(id){
   try { return fn(j); } catch(e){ return promptText(id); }
 }
 
+/* These two copies are intentionally usable without starting a job or
+   importing a Library package. The guided route replaces the markers with
+   the saved parent dossier; the direct route leaves them for manual paste. */
+function standaloneR8a(){
+  return promptText('pr8a') + '\n\nDOSSIER:\n[PASTE THE COMPLETE DOSSIER]';
+}
+function standaloneR8b(){ return promptText('pr8b'); }
+
 /* ---- the write-stage reply splits on its four output headers ---- */
 function bsParsePackage(text){
   const lines = text.split(/\r?\n/);
@@ -5225,7 +5234,41 @@ function bsPanelPublish(st, s){
   return p;
 }
 
-/* ---- start panel and history ---- */
+/* ---- permanent R8 desk, start panel, and history ---- */
+function bsR8Desk(st){
+  const box = bsEl('<div class="bs-box"></div>');
+  box.appendChild(bsEl('<div class="kick" style="margin-top:0">R8A + R8B PROMPTS · COPY HERE</div>'));
+  box.appendChild(bsEl('<p class="bs-note" style="margin-top:0"><b>These are always available.</b> They do not run R1 through R7 and you do not need to start a job. Copy R8A into chat A. Copy R8B into a different blank chat after R8A is finished.</p>'));
+  const copyRow = bsEl('<div class="bs-row"></div>');
+  const a = bsEl('<button type="button" class="copybtn amber" style="flex:1;min-height:48px">COPY R8A PROMPT</button>');
+  a.addEventListener('click', function(){ copyText(standaloneR8a(), this); });
+  const b = bsEl('<button type="button" class="copybtn" style="flex:1;min-height:48px">COPY R8B PROMPT</button>');
+  b.addEventListener('click', function(){ copyText(standaloneR8b(), this); });
+  copyRow.appendChild(a); copyRow.appendChild(b); box.appendChild(copyRow);
+  box.appendChild(bsEl('<p class="bs-note" style="margin:4px 0 0">The direct copies contain paste markers. Paste the complete old dossier into R8A; then paste both the old dossier and the R8A pass into R8B.</p>'));
+
+  const ready = dossierList().filter(dossierReady);
+  box.appendChild(bsEl('<div class="kick">Or attach a Library dossier automatically</div>'));
+  if(!ready.length){
+    const row = bsEl('<div class="bs-row"></div>');
+    const lib = bsEl('<button type="button" class="ghost">Import a dossier in Library</button>');
+    lib.addEventListener('click', ()=>showView('library'));
+    row.appendChild(lib); box.appendChild(row);
+  } else {
+    const pick = bsEl('<div class="logform"><div class="r"><select class="i-r8-doss" style="flex:1"></select>'+
+      '<button type="button" class="amber i-r8-go">OPEN GUIDED R8A</button></div></div>');
+    const sel = pick.querySelector('.i-r8-doss');
+    ready.forEach(d=>{
+      const o = document.createElement('option');
+      o.value = d.tag; o.textContent = d.tag + (d.name? ' · '+d.name : '');
+      sel.appendChild(o);
+    });
+    pick.querySelector('.i-r8-go').addEventListener('click', ()=>bsStartRevision(sel.value));
+    box.appendChild(pick);
+  }
+  return box;
+}
+
 function bsStartRevision(dossierTag){
   const st = bsState();
   const d = getDossier(dossierTag);
@@ -5287,27 +5330,6 @@ function bsStartPanel(st){
   });
   box.appendChild(form);
   const ready = dossierList().filter(dossierReady);
-  box.appendChild(bsEl('<div class="kick">Revise an existing dossier with R8</div>'));
-  box.appendChild(bsEl('<p class="bs-note" style="margin-top:0">This is a separate two-prompt route. It does <b>not</b> run R1 through R7. Choose a dossier, open R8A, copy it with the complete dossier already attached, then paste the R8A pass back to unlock R8B.</p>'));
-  if(!ready.length){
-    const empty = bsEl('<div class="emptymsg">Import or finish a dossier first. R8 needs the complete parent dossier so it can attach it to R8A automatically.</div>');
-    box.appendChild(empty);
-    const row = bsEl('<div class="bs-row"></div>');
-    const lib = bsEl('<button type="button" class="ghost">Open Library to import</button>');
-    lib.addEventListener('click', ()=>showView('library'));
-    row.appendChild(lib); box.appendChild(row);
-  } else {
-    const pick = bsEl('<div class="logform"><div class="r"><select class="i-r8-doss" style="flex:1"></select>'+
-      '<button type="button" class="amber i-r8-go">Open R8A</button></div></div>');
-    const sel = pick.querySelector('.i-r8-doss');
-    ready.forEach(d=>{
-      const o = document.createElement('option');
-      o.value = d.tag; o.textContent = d.tag + (d.name? ' · '+d.name : '');
-      sel.appendChild(o);
-    });
-    pick.querySelector('.i-r8-go').addEventListener('click', ()=>bsStartRevision(sel.value));
-    box.appendChild(pick);
-  }
   box.appendChild(bsEl('<div class="kick">Make something from a dossier</div>'));
   if(!ready.length){
     box.appendChild(bsEl('<div class="emptymsg">No finished dossiers yet. Research one first, or add it by hand on the Library tab.</div>'));
@@ -5377,6 +5399,7 @@ const BS_PANELS = { scope:bsPanelScope, deep:bsPanelDeep, second:bsPanelSecond, 
 function renderShort(){
   const st = bsState();
   bsWrap.innerHTML = '';
+  bsWrap.appendChild(bsR8Desk(st));
   if(!st.active){
     bsWrap.appendChild(bsStartPanel(st));
   } else {
@@ -6326,7 +6349,7 @@ align: center`)[0];
       let rejected=false; try{ recordsFromPackage(bad); }catch(e){ rejected=true; }
       if(!rejected) fails.push('a damaged library package stopped failing its integrity check');
     }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
-    if(APP_VERSION!=='v8.2') fails.push('the v8.2 code is running under a different APP_VERSION');
+    if(APP_VERSION!=='v8.3') fails.push('the v8.3 code is running under a different APP_VERSION');
     if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
   /* filename tokens must actually be substituted, or the AI is told to
