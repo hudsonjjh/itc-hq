@@ -59,7 +59,7 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is playbook v8.2, two tracks, on both Claude
+- The workflow is playbook v8.3, two tracks, on both Claude
   (Opus/Fable) and ChatGPT. The **research track** (R1 scope and
   coverage plan, R2 deep research, R3 second pass, R4 expansion, R5
   accuracy audit, R6 gap hunt, R7 finalize) builds one permanent
@@ -122,7 +122,7 @@ have it installed as a home-screen app.
   X1 bundle carries by default; if you renumber a schema section,
   that constant and the self-test move with it.
 - **The v8 Library is portable and verified.** App version, dossier schema,
-  and package schema are independent (`v8.2`, dossier schema 2, package schema
+  and package schema are independent (`v8.3`, dossier schema 2, package schema
   1). IndexedDB is canonical when available; `file://` and unsupported
   browsers fall back to localStorage. Every migration, import, and save is
   read back and checked. Real `.itc-library.json` packages are private data
@@ -138,9 +138,11 @@ have it installed as a home-screen app.
   dossier the user selected for production and only a tag list for the rest;
   it flags an omitted boundary instead of guessing. Do not solve that by
   pasting every dossier on the shelf into P3.
-- R8 is optional and only for a dossier that is already finished. It is a
-  separate, visible two-prompt route on Work: choose an imported or finished
-  dossier, copy R8A with the parent attached, paste the pass, then copy R8B.
+- R8 is optional and only for a dossier that is already finished. R8A and R8B
+  have permanent direct Copy buttons at the top of Work, even with an active
+  job or empty Library. Those standalone prompts carry manual paste markers.
+  The guided route selects an imported or finished dossier, copies R8A with
+  the parent attached, accepts the pass, then copies R8B with both documents.
   It never requires R1 through R7. Do not route new subjects through it.
   Every step output must stand alone. Keep all prompt copy model-agnostic; do not write
   Claude-only instructions, and do not reintroduce the correction
