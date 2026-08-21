@@ -59,7 +59,7 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is playbook v8.5, two tracks, on both Claude
+- The workflow is playbook v8.6, two tracks, on both Claude
   (Opus/Fable) and ChatGPT. The **research track** (R1 scope and
   coverage plan, R2 deep research, R3 second pass, R4 expansion, R5
   accuracy audit, R6 gap hunt, R7 finalize) builds one permanent
@@ -132,11 +132,17 @@ have it installed as a home-screen app.
   X1 bundle carries by default; if you renumber a schema section,
   that constant and the self-test move with it.
 - **The v8 Library is portable and verified.** App version, dossier schema,
-  and package schema are independent (`v8.5`, dossier schema 2, package schema
+  and package schema are independent (`v8.6`, dossier schema 2, package schema
   1). IndexedDB is canonical when available; `file://` and unsupported
   browsers fall back to localStorage. Every migration, import, and save is
   read back and checked. Real `.itc-library.json` packages are private data
   and never belong in this repository.
+- **A finished dossier imports from its real final artifacts.** The primary
+  Library import accepts the matching final TXT and claims TSV from R7, L3,
+  or R8B, validates the filenames and required claim columns, lets the user
+  confirm the tag and subject, then saves and verifies one dossier. JSON
+  library packages remain whole-shelf backup and restore files. Do not make a
+  user build JSON merely to add one completed dossier.
 - **Production can use multiple dossiers.** A job keeps a primary
   `dossierTag` for compatibility and a `dossierTags` array for the full
   selection. `productionBundle()` carries sections 00 to 15, 26 and 27 plus
