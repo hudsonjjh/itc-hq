@@ -1050,6 +1050,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.2</b> · R8 is now visible from the main Work screen. A dedicated "Revise an existing dossier with R8" section selects any completed or imported dossier and opens the separate two-prompt R8A to R8B route; it never sends an existing dossier through R1 to R7. R8A copies with the complete parent dossier already attached, and pasting its pass unlocks R8B. The Library action now says "Open R8A + R8B" so the same route is discoverable from either place.</p>
       <p><b>v8.1</b> · One guided workflow. Home is now Work, and the separate Playbook route has been removed so there is only one place to create a dossier or make a video. Full research shows R1 through R7 as individual stops. Production now follows the way the channel actually works: content plan, choose or combine ideas, write and revise in AI, final audit, cards, then upload the edited transcript for YouTube and Facebook details. Packaging is no longer a formal production step. The Library now explains that a package is only a portable carrying case and that R8 is for improving legacy, blocked, or incomplete research, not for making an otherwise current dossier importable.</p>
       <p><b>v8.0</b> · The knowledge-folder release. The Library now uses IndexedDB with verified writes, while preserving the untouched v7 localStorage library as a fallback. First launch copies and verifies old dossiers instead of replacing them. A single private <code>.itc-library.json</code> package moves the full shelf, claims TSV companions, content plans, status, blockers, and relationships between devices or AI workspaces; backup files include the same durable library. Production jobs can select multiple related dossiers, and every P prompt receives one bounded production bundle made from sections 00 to 15, 26 and 27 plus namespaced claims such as <code>FSERIES_92_97:C123</code>. The primary dossier stays selected, related tags are surfaced, unselected shelf subjects still trigger P3 cross-check warnings, and X1 remains the pass that settles actual conflicts. R8 still receives one complete dossier because revision cannot use the compact production slice. Import, migration, parser, package, namespace, and bundle rules now have synthetic public-safe fixtures and load-time guards. Claude Code and Codex share committed repository instructions, while real research packages remain outside the public repo.</p>
       <p><b>v7.6</b> · Popups have a shape. Two sliders on the Studio tab: <b>Width</b>, 520 to 1600 pixels, and <b>Text size</b>, 60 to 160 percent, both redrawing as you drag. Width drives the wrap, so the text genuinely reflows into whatever column you give it rather than being clipped or floating in a fixed one, and a narrow popup gets taller instead of losing words. Text size moves the type and the line spacing together, so nothing collides at either end. There is also a typeface switch between <b>Poppins</b> and <b>JetBrains Mono</b>, the two faces built into this file, and a Back to default shape button. The live note tells you what share of a 1080 frame the current width covers, which is the number you actually want when you are placing one over footage. All three are popup only, in keys <code>width</code>, <code>textsize</code> and <code>font</code>: full cards are 1080 by 1920 by definition, and a card that sets one now says so in the warning box.</p>
@@ -3189,7 +3190,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v8.1';
+const APP_VERSION = 'v8.2';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3831,7 +3832,7 @@ function renderLibrary(){
     if(!dossierReady(getDossier(d.tag))){ alert('This dossier has no text in it yet. Paste the finished dossier first.'); return; }
     bsStartProduction(d.tag);
   });
-  const bRev = bsEl('<button type="button" class="ghost">Revise with R8</button>');
+  const bRev = bsEl('<button type="button" class="ghost">Open R8A + R8B</button>');
   bRev.addEventListener('click', ()=>{
     if(!dossierReady(getDossier(d.tag))){ alert('This dossier has no text in it yet.'); return; }
     bsStartRevision(d.tag);
@@ -4271,8 +4272,8 @@ const BS_TRACKS = {
      rebuild it. Two steps because one prompt asking for fifty things
      gets fifty shallow answers. */
   revise: [
-    { key:'attack',  label:'Pass · chat A' },
-    { key:'rebuild', label:'Audit + merge · chat B' },
+    { key:'attack',  label:'Re-attack · chat A',     n:'R8A' },
+    { key:'rebuild', label:'Audit + merge · chat B', n:'R8B' },
     { key:'shelved', label:'Shelved', n:'✓' }
   ]
 };
@@ -5249,7 +5250,7 @@ function bsStartProduction(dossierTag){
 }
 function bsStartPanel(st){
   const box = bsEl('<div class="bs-box"></div>');
-  box.appendChild(bsEl('<p class="bs-note">Nothing running. <b>Research a part</b> builds one permanent dossier and shelves it in the Library, on the full spine or the light one. <b>Make something</b> draws a Short, a long form, or posts out of a dossier you already finished, as many times as you like. Set the tag once here and every prompt after carries it.</p>'));
+  box.appendChild(bsEl('<p class="bs-note">Nothing running. <b>Research a part</b> builds a new permanent dossier. <b>Revise with R8</b> opens only R8A and R8B for a dossier already in the Library. <b>Make something</b> draws a Short, long video, or post from finished dossiers.</p>'));
   box.appendChild(bsEl('<div class="kick" style="margin-top:6px">Research a part</div>'));
   const form = bsEl('<div class="logform">'+
     '<div class="r"><input class="i-tag" placeholder="TAG · e.g. E4OD" maxlength="32" style="max-width:150px">'+
@@ -5285,8 +5286,29 @@ function bsStartPanel(st){
     bsView = null; bsSetOpen = false; bsSave(st); renderShort();
   });
   box.appendChild(form);
-  box.appendChild(bsEl('<div class="kick">Make something from a dossier</div>'));
   const ready = dossierList().filter(dossierReady);
+  box.appendChild(bsEl('<div class="kick">Revise an existing dossier with R8</div>'));
+  box.appendChild(bsEl('<p class="bs-note" style="margin-top:0">This is a separate two-prompt route. It does <b>not</b> run R1 through R7. Choose a dossier, open R8A, copy it with the complete dossier already attached, then paste the R8A pass back to unlock R8B.</p>'));
+  if(!ready.length){
+    const empty = bsEl('<div class="emptymsg">Import or finish a dossier first. R8 needs the complete parent dossier so it can attach it to R8A automatically.</div>');
+    box.appendChild(empty);
+    const row = bsEl('<div class="bs-row"></div>');
+    const lib = bsEl('<button type="button" class="ghost">Open Library to import</button>');
+    lib.addEventListener('click', ()=>showView('library'));
+    row.appendChild(lib); box.appendChild(row);
+  } else {
+    const pick = bsEl('<div class="logform"><div class="r"><select class="i-r8-doss" style="flex:1"></select>'+
+      '<button type="button" class="amber i-r8-go">Open R8A</button></div></div>');
+    const sel = pick.querySelector('.i-r8-doss');
+    ready.forEach(d=>{
+      const o = document.createElement('option');
+      o.value = d.tag; o.textContent = d.tag + (d.name? ' · '+d.name : '');
+      sel.appendChild(o);
+    });
+    pick.querySelector('.i-r8-go').addEventListener('click', ()=>bsStartRevision(sel.value));
+    box.appendChild(pick);
+  }
+  box.appendChild(bsEl('<div class="kick">Make something from a dossier</div>'));
   if(!ready.length){
     box.appendChild(bsEl('<div class="emptymsg">No finished dossiers yet. Research one first, or add it by hand on the Library tab.</div>'));
   } else {
@@ -6304,7 +6326,7 @@ align: center`)[0];
       let rejected=false; try{ recordsFromPackage(bad); }catch(e){ rejected=true; }
       if(!rejected) fails.push('a damaged library package stopped failing its integrity check');
     }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
-    if(APP_VERSION!=='v8.1') fails.push('the v8.1 code is running under a different APP_VERSION');
+    if(APP_VERSION!=='v8.2') fails.push('the v8.2 code is running under a different APP_VERSION');
     if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
   /* filename tokens must actually be substituted, or the AI is told to
