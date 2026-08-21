@@ -59,7 +59,7 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is playbook v8.3, two tracks, on both Claude
+- The workflow is playbook v8.4, two tracks, on both Claude
   (Opus/Fable) and ChatGPT. The **research track** (R1 scope and
   coverage plan, R2 deep research, R3 second pass, R4 expansion, R5
   accuracy audit, R6 gap hunt, R7 finalize) builds one permanent
@@ -70,6 +70,12 @@ have it installed as a home-screen app.
   cards, and P5 upload details from the transcript of the edited video.
   R1 through R4 share one research chat; R5 through R7 share a separate
   blank audit chat. The final script audit should run cold when practical.
+- **Research is file-first.** R1 through R8, including L2 and L3, return
+  downloadable UTF-8 `.txt` artifacts instead of PDFs or long pasted chat
+  replies. R7, L3 and R8B also return a required `.tsv` claims companion.
+  Every Work research checkpoint loads those files with `bsArtifactField()`;
+  the collapsed textarea is only a review and manual fallback surface. Do not
+  restore PDF outputs or require users to copy artifact text out of chat.
 - **The light spine** (R1, then L2, then L3) is the same research track
   with steps merged, for a subject too small to earn seven prompts. It
   is allowed to shorten by merging and never by dropping: all six
@@ -122,7 +128,7 @@ have it installed as a home-screen app.
   X1 bundle carries by default; if you renumber a schema section,
   that constant and the self-test move with it.
 - **The v8 Library is portable and verified.** App version, dossier schema,
-  and package schema are independent (`v8.3`, dossier schema 2, package schema
+  and package schema are independent (`v8.4`, dossier schema 2, package schema
   1). IndexedDB is canonical when available; `file://` and unsupported
   browsers fall back to localStorage. Every migration, import, and save is
   read back and checked. Real `.itc-library.json` packages are private data
@@ -140,7 +146,8 @@ have it installed as a home-screen app.
   pasting every dossier on the shelf into P3.
 - R8 is optional and only for a dossier that is already finished. R8A and R8B
   have permanent direct Copy buttons at the top of Work, even with an active
-  job or empty Library. Those standalone prompts carry manual paste markers.
+  job or empty Library. Those standalone prompts tell the user which TXT files
+  to attach to the AI chat; they do not require pasting the full documents.
   The guided route selects an imported or finished dossier, copies R8A with
   the parent attached, accepts the pass, then copies R8B with both documents.
   It never requires R1 through R7. Do not route new subjects through it.
