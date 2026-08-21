@@ -1,0 +1,38 @@
+{
+  "format": "itc-library-package",
+  "packageSchema": 1,
+  "appVersion": "v8.0-test",
+  "exportedAt": "2026-08-21T00:00:00.000Z",
+  "dossiers": [
+    {
+      "manifest": {
+        "tag": "TEST-GEARBOX",
+        "name": "Synthetic Gearbox",
+        "type": "transmission",
+        "status": "LIBRARY READY",
+        "dossierSchema": 2,
+        "years": "1990 to 1994",
+        "relatedTags": ["TEST-AXLE"]
+      },
+      "dossierText": "# 00 DOSSIER CONTROL\nStatus: LIBRARY READY\n\n## 01 IDENTITY\nA synthetic gearbox used only for tests. This paragraph is deliberately long enough to make the synthetic record pass the same finished-dossier threshold as a real record. It contains no real component, vehicle, source, figure, or private research. Repeating that boundary keeps this fixture useful for production-flow testing while making it impossible to mistake for channel research. The gearbox, years, ratios, and applications in this file are imaginary.\n\n06 APPLICATIONS\n1990 to 1994 test vehicles.\n\n22 MATING COMPONENTS\nPairs with TEST-AXLE.\n\n26 CORE ROUTING\nC1 is CORE.\n\n27 FIGURE LEDGER\nC1 | 4 ratios | synthetic source",
+      "claimsTsv": "id\ttier\ttype\tevidence_class\tsource_ids\tsource_year\tproven_span\tspan_basis\tspan_risk\tsection\tcard_ready\tscreen_only\tspoken_form\tstated_purpose\tfailure_consequence\tservice_action\nC1\tLOCKED\tFIGURE\tSYNTHETIC\tS1\t2026\t1990 to 1994\ttest fixture\tLOW\t27\tYES\tNO\tThe test gearbox has four ratios.\tFour ratios.\tNone.\tNone.",
+      "contentPlanText": "Synthetic plan only.",
+      "integrity": {}
+    },
+    {
+      "manifest": {
+        "tag": "TEST-AXLE",
+        "name": "Synthetic Axle",
+        "type": "axle",
+        "status": "LIBRARY READY",
+        "dossierSchema": 2,
+        "years": "1992 to 1996",
+        "relatedTags": ["TEST-GEARBOX"]
+      },
+      "dossierText": "00: DOSSIER CONTROL\nStatus: LIBRARY READY\n\n01 - IDENTITY\nA synthetic axle used only for tests. This paragraph is deliberately long enough to make the synthetic record pass the same finished-dossier threshold as a real record. It contains no real component, vehicle, source, figure, or private research. Repeating that boundary keeps this fixture useful for production-flow testing while making it impossible to mistake for channel research. The axle, years, teeth, and applications in this file are imaginary.\n\n06 APPLICATIONS\n1992 to 1996 test vehicles.\n\n22 MATING COMPONENTS\nPairs with TEST-GEARBOX.\n\n26 CORE ROUTING\nC1 is CORE.\n\n27 FIGURE LEDGER\nC1 | 9 teeth | synthetic source",
+      "claimsTsv": "id\ttier\ttype\tevidence_class\tsource_ids\tsource_year\tproven_span\tspan_basis\tspan_risk\tsection\tcard_ready\tscreen_only\tspoken_form\tstated_purpose\tfailure_consequence\tservice_action\nC1\tLOCKED\tFIGURE\tSYNTHETIC\tS2\t2026\t1992 to 1996\ttest fixture\tLOW\t27\tYES\tNO\tThe test axle has nine teeth.\tNine teeth.\tNone.\tNone.",
+      "contentPlanText": "",
+      "integrity": {}
+    }
+  ]
+}

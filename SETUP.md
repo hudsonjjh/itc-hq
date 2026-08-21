@@ -14,7 +14,7 @@ One-time setup is about ten minutes. After that, updates are: replace a file, do
    - `icon-192.png`
    - `icon-512.png`
    - `icon-maskable.png`
-   - `CLAUDE.md` (conventions file so Claude Code knows the repo's rules)
+   - `CLAUDE.md` and `AGENTS.md` (shared rules for Claude Code and Codex)
 4. Commit the upload.
 5. Go to **Settings → Pages**. Under Build and deployment, set Source to **Deploy from a branch**, branch **main**, folder **/ (root)**. Save.
 6. Wait a minute or two. The page will show the live URL, something like:
@@ -30,15 +30,16 @@ Both phones now have an ITC HQ icon that opens full screen and works offline.
 
 ## 3 · Updating the app later
 
-1. Ask Claude for the change ("add X to the playbook", "change prompt 4"). Claude edits `index.html`.
-   - If the change touches `index.html`, the `CACHE_VERSION` line at the top of `sw.js` must be bumped too (v3.0 → v3.1). Claude will do this if you mention it, and Claude Code does it automatically when working in the repo.
+1. Ask Claude Code or Codex for the change ("add X to the playbook", "change prompt 4"). It edits `index.html`.
+   - If the change touches `index.html`, the `CACHE_VERSION` line at the top of `sw.js` must be bumped too. The committed repository instructions require this automatically.
 2. On github.com, open the repo, click the changed file, click the pencil (or re-upload via **Add file → Upload files**), commit.
 3. Both phones pick up the new version the next time the app is opened with a connection. No reinstall.
 
-**Better long-term:** point Claude Code at the repo (`git clone`, describe the change, it edits, bumps the cache version, commits, and pushes). GitHub Pages redeploys automatically on every push.
+**Better long-term:** point Claude Code or Codex at the repo (`git clone`, describe the change, review it, then push). GitHub Pages redeploys automatically on every push to `main`.
 
 ## Notes
 
 - The single `index.html` also works as a plain local file opened in Chrome on a computer — handy as a backup. Only the install/offline features need the hosted URL.
-- Everything typed into the app (QC checklist, corrections inbox, card drafts, Writer document) saves to that phone only. It never leaves the device.
+- Everything typed into the app stays on that device. The v8 Library uses durable browser storage and can be moved as one private `.itc-library.json` package. Backups include the Library plus drafts and settings. Nothing uploads automatically.
+- Never add a real library package, dossier, claims TSV, or backup to this public repository. The app's `tests` folder contains synthetic data only.
 - Keep a copy of these files in `PLAYBOOK/` on Drive as the master backup.

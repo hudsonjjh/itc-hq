@@ -1035,17 +1035,18 @@ happened and that the check is visible.</pre>
   <div class="card">
     <div class="k">Version</div>
     <h4 id="verline"></h4>
-    <p>One file, four tools: the Playbook, the Card Generator, Case Writer, and this dashboard. Everything in progress saves to this device. To change anything, hand the file (or the GitHub repo) back to Claude and describe the change.</p>
+    <p>One file, four tools: the Playbook, the Card Generator, Case Writer, and this dashboard. Work stays on this device. The Library uses durable browser storage and exports as one portable knowledge package. Claude Code and Codex share the repository rules, so either can safely work on the playbook.</p>
     <div class="bs-row">
       <button class="ghost" id="backupBtn">Back up data</button>
       <button class="ghost" id="restoreBtn">Restore backup</button>
     </div>
-    <p style="font-size:11px;color:var(--steel)">Backup downloads everything this device has saved (Shorts, drafts, the writer doc) as one JSON file. Restore loads that file back in and overwrites what is here.</p>
+    <p style="font-size:11px;color:var(--steel)">Backup downloads the durable Library plus every local draft and setting as one JSON file. Library-only packages live on the Library tab. Nothing uploads or syncs by itself.</p>
   </div>
   <input type="file" id="restoreInput" accept=".json,application/json">
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.0</b> · The knowledge-folder release. The Library now uses IndexedDB with verified writes, while preserving the untouched v7 localStorage library as a fallback. First launch copies and verifies old dossiers instead of replacing them. A single private <code>.itc-library.json</code> package moves the full shelf, claims TSV companions, content plans, status, blockers, and relationships between devices or AI workspaces; backup files include the same durable library. Production jobs can select multiple related dossiers, and every P prompt receives one bounded production bundle made from sections 00 to 15, 26 and 27 plus namespaced claims such as <code>FSERIES_92_97:C123</code>. The primary dossier stays selected, related tags are surfaced, unselected shelf subjects still trigger P3 cross-check warnings, and X1 remains the pass that settles actual conflicts. R8 still receives one complete dossier because revision cannot use the compact production slice. Import, migration, parser, package, namespace, and bundle rules now have synthetic public-safe fixtures and load-time guards. Claude Code and Codex share committed repository instructions, while real research packages remain outside the public repo.</p>
       <p><b>v7.6</b> · Popups have a shape. Two sliders on the Studio tab: <b>Width</b>, 520 to 1600 pixels, and <b>Text size</b>, 60 to 160 percent, both redrawing as you drag. Width drives the wrap, so the text genuinely reflows into whatever column you give it rather than being clipped or floating in a fixed one, and a narrow popup gets taller instead of losing words. Text size moves the type and the line spacing together, so nothing collides at either end. There is also a typeface switch between <b>Poppins</b> and <b>JetBrains Mono</b>, the two faces built into this file, and a Back to default shape button. The live note tells you what share of a 1080 frame the current width covers, which is the number you actually want when you are placing one over footage. All three are popup only, in keys <code>width</code>, <code>textsize</code> and <code>font</code>: full cards are 1080 by 1920 by definition, and a card that sets one now says so in the warning box.</p>
       <p><b>v7.5</b> · A popup can start at the headline. Clearing the Label field on a popup now removes that line completely, tick and all, and everything below moves up so there is no gap where it used to be. The block gets shorter, it does not get a hole in it. Two ways to say it, and they mean different things on purpose: <b>no kicker line at all</b> still lets the style name itself, DID YOU KNOW or TIP, which is what P4B writes and why nothing you already have has changed; <b>a kicker line left blank</b> means no label. In the Studio that is the <b>No label</b> button or just emptying the field, and a <b>Use TIP</b> button puts the style label back. The field also shows the style's label as its placeholder now, so an empty box no longer looks like it will draw nothing when it will.</p>
       <p><b>v7.4</b> · Popups export at real resolution. They used to come out at their layout size, 960 pixels wide, which is roughly 1:1 against a 1080 frame and leaves nothing at all for scaling one up in the edit, so any enlargement went soft. Nothing in a popup is a pasted image, it is all drawn, so the canvas and the drawing are now multiplied together and you get genuinely more pixels rather than a bigger blurry one. The default is <b>3x</b>, which is 3096 wide and about 190 KB, with 2x and 4x next to the file tag if you want less or more. The layout is untouched: same block, same spacing, same crop, just drawn finer. The studio tells you the exact pixel size a popup will export at and how much room that leaves you on a 1080 frame, so you never have to guess again. Full cards were always 1080 by 1920 and are unchanged.</p>
@@ -2264,7 +2265,7 @@ REVISION PASS DOCUMENT: [PASTE THE R8A PASS DOCUMENT]</pre>
     <div class="secbody">
       <div class="kick">You provide: two or more finished dossiers, bundled on the Library tab</div>
       <p class="lead"><b>Optional, and only once the shelf has more than one thing on it.</b> Every dossier is audited against its own sources, and that is exactly why two of them can be individually correct and still disagree with each other. A transmission dossier and a transfer case dossier both describe the same bolt pattern, both from good sources, and only one of them is right about which years it changed.</p>
-      <p class="lead">This is also what settles the <b>CROSS-CHECK NEEDED</b> items P3 raises. The copy audit can see that a line reaches into another dossier's territory, but it is only given one dossier, so it can only flag. X1 is the pass that actually has both.</p>
+      <p class="lead">This is also what settles the <b>CROSS-CHECK NEEDED</b> items P3 raises. The copy audit receives every dossier selected for the production job, plus the tag list for the rest of the shelf. It flags an omitted boundary; X1 is the pass that actually compares the conflicting records.</p>
       <p class="lead">Build the bundle on the <b>Library tab</b>, under Across the shelf, Combine. The fitment slice is the default and is usually the right one: it carries the sections that actually interact between parts and leaves out the fourteen that do not.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt X1 <span>·</span> cross-dossier check</div><div class="spacer"></div><button class="copybtn" data-copy="px1">Copy prompt</button></div>
@@ -2940,7 +2941,19 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
 <!-- ================================================================ LIBRARY -->
 <section class="view" id="view-library">
   <div class="kick">Library · the dossier shelf</div>
-  <p class="lead" style="font-size:12.5px">Every finished research dossier lives here, one per part or topic. Production prompts read straight from the selected dossier, so nothing gets pasted by hand. Dossiers are included in the backup file on the Home tab.</p>
+  <p class="lead" style="font-size:12.5px">Every finished research dossier lives here, one per part or topic. A production job can use one dossier or every related dossier together. The app builds one bounded knowledge bundle and attaches it to each production prompt, so nothing gets pasted by hand.</p>
+  <div class="lib-detail" style="margin-bottom:12px">
+    <div class="top"><span class="tag">V8 LIBRARY</span><span class="lib-badge" id="libStorageBadge">STARTING</span></div>
+    <p class="lead" id="libStorageStatus" style="font-size:12px;margin:7px 0 2px">Opening the durable library…</p>
+    <p class="count" id="libStorageMeta" style="margin:0 0 9px"></p>
+    <div class="lib-form">
+      <button class="ghost" id="libExportPackage" type="button" style="flex:1;min-height:38px">Export library package</button>
+      <button class="ghost" id="libImportPackage" type="button" style="flex:1;min-height:38px">Import package</button>
+      <button class="ghost" id="libRetryStorage" type="button" style="min-height:38px;display:none">Retry</button>
+    </div>
+    <input id="libImportInput" type="file" accept=".json,.itc-library.json,application/json" style="display:none">
+    <p class="count" style="margin:8px 0 0">The package is the portable knowledge folder for another phone, browser, Claude Code, or Codex. Keep real packages private; this site never uploads them.</p>
+  </div>
   <div class="lib-form">
     <input id="libNewTag" placeholder="TAG · e.g. E4OD" maxlength="24" style="max-width:150px">
     <input id="libNewName" placeholder="Subject · e.g. E4OD automatic transmission">
@@ -2965,7 +2978,7 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
       <button class="ctab on" type="button" data-shelf="search">Search</button>
       <button class="ctab" type="button" data-shelf="figures">Figures</button>
       <button class="ctab" type="button" data-shelf="fitment">Fitment</button>
-      <button class="ctab" type="button" data-shelf="combine">Combine</button>
+      <button class="ctab" type="button" data-shelf="combine">Bundles</button>
     </div>
     <div id="shelfBody"></div>
   </div>
@@ -3234,17 +3247,17 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    [PLAYBOOK] slots/search  [HOME] build-a-short v5.0 pipeline,
    quick copy, backup/restore
    [CARDS] parser+renderer+export+share  [WRITER] editor
-   To modify: hand this file to Claude and describe the change.
+   To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v7.6';
+const APP_VERSION = 'v8.0';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
 /* ---------------- [STORE] tiny localStorage helpers ---------------- */
 const store = {
   get(k, fb){ try{ const v = localStorage.getItem('itc_'+k); return v===null? fb : JSON.parse(v); }catch(e){ return fb; } },
-  set(k, v){ try{ localStorage.setItem('itc_'+k, JSON.stringify(v)); }catch(e){} }
+  set(k, v){ try{ localStorage.setItem('itc_'+k, JSON.stringify(v)); return true; }catch(e){ return false; } }
 };
 
 /* ---------------- [SHELL] tab navigation ---------------- */
@@ -3635,8 +3648,170 @@ function goPlaybook(secId){
    sections plus the per-claim type, evidence class, and span fields. A v1
    dossier stays readable and is upgraded by R8, never invalidated. */
 const SCHEMA_VERSION = 2;
-function dossiers(){ const d = store.get('dossiers', {}); return (d && typeof d==='object')? d : {}; }
-function saveDossiers(d){ store.set('dossiers', d); }
+const LIBRARY_PACKAGE_SCHEMA = 1;
+const LIBRARY_DB_NAME = 'itc_hq';
+const LIBRARY_DB_VERSION = 1;
+let libraryDb = null;
+let libraryMode = 'starting';
+let libraryError = '';
+let libraryWrite = Promise.resolve();
+let legacyLibrary = store.get('dossiers', {});
+let libraryCache = (legacyLibrary && typeof legacyLibrary==='object')? legacyLibrary : {};
+
+/* A small deterministic hash catches truncated saves and bad imports. It
+   is an integrity check, not cryptography, and works under file://. */
+function libraryHash(value){
+  const s = String(value==null? '' : value);
+  let h = 2166136261;
+  for(let i=0;i<s.length;i++){
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return ('00000000'+(h>>>0).toString(16)).slice(-8);
+}
+function claimRowCount(tsv){
+  const rows = String(tsv||'').split(/\r?\n/).filter(x=>x.trim());
+  return rows.length>1? rows.length-1 : 0;
+}
+function dossierIntegrity(d){
+  const text = String(d&&d.text||''), claims = String(d&&d.claims||'');
+  const plan = String(d&&(d.plan||d.contentPlan)||'');
+  return { textChars:text.length, claimRows:claimRowCount(claims),
+    hash:libraryHash([d&&d.tag||'',text,claims,plan].join('\n\u241e\n')) };
+}
+function preparedDossier(d){
+  const out = Object.assign({}, d);
+  out.tag = String(out.tag||'').trim().toUpperCase();
+  out.updated = out.updated || Date.now();
+  out.integrity = dossierIntegrity(out);
+  return out;
+}
+function dossiers(){ return libraryCache; }
+function librarySetStatus(mode, message){
+  libraryMode = mode;
+  libraryError = mode==='error'? message : '';
+  const status = document.getElementById('libStorageStatus');
+  const badge = document.getElementById('libStorageBadge');
+  const retry = document.getElementById('libRetryStorage');
+  if(status) status.textContent = message;
+  if(badge){
+    badge.textContent = mode==='idb'? 'DURABLE' : mode==='error'? 'CHECK' : mode==='starting'? 'STARTING' : 'LOCAL';
+    badge.className = 'lib-badge ' + (mode==='error'? 'draft':'ready');
+  }
+  if(retry) retry.style.display = mode==='error'? '' : 'none';
+  libraryStorageMeta();
+}
+async function libraryStorageMeta(){
+  const el = document.getElementById('libStorageMeta'); if(!el) return;
+  const count = Object.keys(libraryCache).length;
+  let tail = '';
+  try{
+    if(navigator.storage && navigator.storage.estimate){
+      const e = await navigator.storage.estimate();
+      const used = e.usage||0, quota=e.quota||0;
+      tail = quota? ' · '+(used/1048576).toFixed(1)+' of '+(quota/1048576).toFixed(0)+' MB browser storage used' : '';
+    }
+  }catch(e){}
+  el.textContent = count+' dossier'+(count===1?'':'s')+' · '+
+    (libraryMode==='idb'? 'IndexedDB with verified writes' : 'localStorage compatibility mode')+tail;
+}
+function idbRequest(req){
+  return new Promise((resolve,reject)=>{ req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error||new Error('Database request failed.')); });
+}
+function openLibraryDb(){
+  return new Promise((resolve,reject)=>{
+    if(!('indexedDB' in window)){ reject(new Error('IndexedDB is not available in this browser.')); return; }
+    const req = indexedDB.open(LIBRARY_DB_NAME, LIBRARY_DB_VERSION);
+    req.onupgradeneeded = ()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains('dossiers')) db.createObjectStore('dossiers',{keyPath:'tag'});
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error('The durable library could not be opened.'));
+    req.onblocked=()=>reject(new Error('Another ITC HQ tab is blocking the library upgrade. Close it, then retry.'));
+  });
+}
+function idbAll(){
+  return idbRequest(libraryDb.transaction('dossiers','readonly').objectStore('dossiers').getAll());
+}
+function idbReplace(records){
+  return new Promise((resolve,reject)=>{
+    const tx=libraryDb.transaction('dossiers','readwrite'), os=tx.objectStore('dossiers');
+    os.clear(); records.forEach(d=>os.put(preparedDossier(d)));
+    tx.oncomplete=()=>resolve();
+    tx.onerror=()=>reject(tx.error||new Error('The durable library write failed.'));
+    tx.onabort=()=>reject(tx.error||new Error('The durable library write was cancelled.'));
+  });
+}
+function libraryFingerprint(records){
+  return libraryHash(records.slice().sort((a,b)=>String(a.tag).localeCompare(String(b.tag)))
+    .map(d=>d.tag+':'+dossierIntegrity(d).hash).join('|'));
+}
+function verifyRecordSets(want, got){
+  const have={}; got.forEach(d=>{ have[d.tag]=d; });
+  const errors=[];
+  want.forEach(d=>{
+    const x=have[d.tag];
+    if(!x) errors.push(d.tag+' is missing');
+    else if(dossierIntegrity(d).hash!==dossierIntegrity(x).hash) errors.push(d.tag+' did not verify');
+  });
+  return errors;
+}
+async function libraryInit(){
+  librarySetStatus('starting','Opening the durable library…');
+  try{
+    if(libraryDb){ try{ libraryDb.close(); }catch(e){} libraryDb=null; }
+    libraryDb = await openLibraryDb();
+    let rows = await idbAll();
+    const legacy = Object.values((legacyLibrary&&typeof legacyLibrary==='object')? legacyLibrary : {}).map(preparedDossier);
+    const migrated = store.get('libraryMigration', null);
+    const fingerprint = libraryFingerprint(legacy);
+    if(legacy.length && (!migrated || migrated.fingerprint!==fingerprint)){
+      const byTag={}; rows.forEach(d=>{byTag[d.tag]=d;});
+      const conflicts=legacy.filter(d=>byTag[d.tag] && dossierIntegrity(d).hash!==dossierIntegrity(byTag[d.tag]).hash);
+      if(conflicts.length) throw new Error('Migration paused because '+conflicts.map(d=>d.tag).join(', ')+' differs between v7 and v8. Export a backup, then retry.');
+      legacy.forEach(d=>{ if(!byTag[d.tag]) byTag[d.tag]=d; });
+      await idbReplace(Object.values(byTag));
+      rows = await idbAll();
+      const errors=verifyRecordSets(legacy,rows);
+      if(errors.length) throw new Error('Migration verification failed: '+errors.join('; ')+'.');
+      store.set('libraryMigration',{version:1,fingerprint,verifiedAt:new Date().toISOString(),count:legacy.length});
+    }
+    const cache={}; rows.forEach(d=>{cache[d.tag]=d;});
+    libraryCache=cache;
+    librarySetStatus('idb', legacy.length && (!migrated || migrated.fingerprint!==fingerprint)
+      ? 'v7 library copied and verified. The original v7 data is still untouched.'
+      : 'Durable library ready. Every save is verified in browser storage.');
+    renderLibrary(); if(window.__shelfOn) renderShelf();
+    if(typeof renderShort==='function') renderShort();
+  }catch(e){
+    libraryDb=null;
+    libraryCache=(legacyLibrary&&typeof legacyLibrary==='object')? legacyLibrary : libraryCache;
+    librarySetStatus('error',(e&&e.message? e.message : 'Durable storage is unavailable.')+' The v7 local library remains active.');
+    renderLibrary(); if(window.__shelfOn) renderShelf();
+    if(typeof renderShort==='function') renderShort();
+  }
+}
+function saveDossiers(d){
+  libraryCache=d;
+  const snapshot=Object.values(d).map(preparedDossier);
+  libraryCache={}; snapshot.forEach(x=>{libraryCache[x.tag]=x;});
+  libraryWrite=libraryWrite.then(async()=>{
+    if(libraryDb){
+      await idbReplace(snapshot);
+      const got=await idbAll(), errors=verifyRecordSets(snapshot,got);
+      if(errors.length || got.length!==snapshot.length) throw new Error('Saved library did not verify. '+errors.join('; '));
+      librarySetStatus('idb','Saved and verified in the durable library.');
+    }else{
+      if(!store.set('dossiers',libraryCache)) throw new Error('This browser refused the local save, usually because storage is full.');
+      legacyLibrary=libraryCache;
+      librarySetStatus('legacy','Saved in local compatibility mode. Export a package or backup for safety.');
+    }
+  }).catch(e=>{
+    librarySetStatus('error',(e&&e.message?e.message:'Library save failed.')+' Export a package before closing this page.');
+  });
+  return libraryWrite;
+}
 function dossierList(){ return Object.values(dossiers()).sort((a,b)=>(b.updated||0)-(a.updated||0)); }
 function getDossier(tag){ return dossiers()[tag] || null; }
 function dossierReady(x){ return !!(x && x.text && x.text.trim().length > 400); }
@@ -3752,7 +3927,81 @@ document.getElementById('libAdd').addEventListener('click', ()=>{
   tagEl2.value=''; nameEl.value='';
   libOpen = tag; renderLibrary();
 });
+
+/* One portable file is the knowledge folder. Manifest fields are kept
+   separate from the large text fields so tools can inspect the catalog
+   without loading every dossier into an AI context. */
+function libraryPackage(records){
+  return {
+    format:'itc-library-package', packageSchema:LIBRARY_PACKAGE_SCHEMA,
+    appVersion:APP_VERSION, exportedAt:new Date().toISOString(),
+    dossiers:records.map(raw=>{
+      const d=preparedDossier(raw), manifest=Object.assign({},d);
+      delete manifest.text; delete manifest.claims; delete manifest.plan;
+      delete manifest.contentPlan; delete manifest.integrity;
+      return { manifest,
+        dossierText:String(d.text||''), claimsTsv:String(d.claims||''),
+        contentPlanText:String(d.plan||d.contentPlan||''), integrity:dossierIntegrity(d) };
+    })
+  };
+}
+function recordsFromPackage(obj){
+  if(!obj || obj.format!=='itc-library-package' || Number(obj.packageSchema)!==LIBRARY_PACKAGE_SCHEMA || !Array.isArray(obj.dossiers))
+    throw new Error('That is not an ITC library package schema 1 file.');
+  const seen={}, records=[];
+  obj.dossiers.forEach((entry,i)=>{
+    if(!entry || typeof entry!=='object') throw new Error('Package dossier '+(i+1)+' is not a record.');
+    const d=Object.assign({},entry.manifest||{});
+    d.tag=String(d.tag||'').trim().toUpperCase().replace(/\s+/g,'_');
+    if(!/^[A-Z0-9][A-Z0-9_-]{0,63}$/.test(d.tag)) throw new Error('Package dossier '+(i+1)+' has an invalid tag.');
+    if(seen[d.tag]) throw new Error('The package contains duplicate tag '+d.tag+'.');
+    seen[d.tag]=true;
+    d.text=String(entry.dossierText||''); d.claims=String(entry.claimsTsv||'');
+    d.plan=String(entry.contentPlanText||''); d.updated=d.updated||Date.now();
+    d.schema=d.schema||d.dossierSchema||SCHEMA_VERSION;
+    const actual=dossierIntegrity(d), want=entry.integrity||{};
+    if(want.hash && want.hash!==actual.hash) throw new Error(d.tag+' failed its package integrity check.');
+    if(want.textChars!=null && Number(want.textChars)!==actual.textChars) throw new Error(d.tag+' has a truncated dossier text.');
+    if(want.claimRows!=null && Number(want.claimRows)!==actual.claimRows) throw new Error(d.tag+' has a truncated claims file.');
+    records.push(preparedDossier(d));
+  });
+  return records;
+}
+async function importLibraryPackage(obj, ask){
+  const incoming=recordsFromPackage(obj), existing=dossiers();
+  const duplicates=incoming.filter(d=>existing[d.tag]).map(d=>d.tag);
+  if(ask && duplicates.length && !confirm('Replace '+duplicates.length+' existing dossier'+(duplicates.length===1?'':'s')+': '+duplicates.join(', ')+'? The package version wins.')) return false;
+  const merged=Object.assign({},existing);
+  incoming.forEach(d=>{ merged[d.tag]=d; });
+  await saveDossiers(merged);
+  if(libraryMode==='error') throw new Error(libraryError||'The imported library could not be saved.');
+  const errors=verifyRecordSets(incoming,Object.values(dossiers()));
+  if(errors.length) throw new Error('Import verification failed: '+errors.join('; '));
+  libOpen=incoming.length? incoming[0].tag : libOpen;
+  renderLibrary(); if(window.__shelfOn) renderShelf();
+  return true;
+}
+document.getElementById('libExportPackage').addEventListener('click', ()=>{
+  const payload=JSON.stringify(libraryPackage(dossierList()),null,2);
+  const stamp=new Date().toISOString().slice(0,10).replace(/-/g,'');
+  saveBlob(new Blob([payload],{type:'application/json'}),'ITC_LIBRARY_'+stamp+'.itc-library.json');
+});
+const libImportInput=document.getElementById('libImportInput');
+document.getElementById('libImportPackage').addEventListener('click',()=>libImportInput.click());
+libImportInput.addEventListener('change',()=>{
+  const f=libImportInput.files[0]; libImportInput.value=''; if(!f) return;
+  const reader=new FileReader();
+  reader.onload=async e=>{
+    try{
+      const obj=JSON.parse(e.target.result);
+      if(await importLibraryPackage(obj,true)) alert('Imported and verified '+obj.dossiers.length+' dossier'+(obj.dossiers.length===1?'':'s')+'.');
+    }catch(err){ alert(err&&err.message?err.message:'That library package could not be imported.'); }
+  };
+  reader.readAsText(f);
+});
+document.getElementById('libRetryStorage').addEventListener('click',libraryInit);
 renderLibrary();
+libraryInit();
 
 /* ================================================================
    [LIBRARY] across the shelf
@@ -3770,6 +4019,7 @@ renderLibrary();
 const FIT_SECTIONS  = ['02','03','06','07','08','22','27'];
 const FITMENT_VIEW  = ['06','07','08'];
 const FIGURES_VIEW  = ['27'];
+const PRODUCTION_SECTIONS = ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','26','27'];
 
 /* the schema numbers its sections, so a header is two digits then a
    capitalised title on its own line. Markdown decoration is stripped
@@ -3779,7 +4029,7 @@ function sectionMap(text){
   const marks = [];
   lines.forEach((ln,i)=>{
     const clean = ln.replace(/[*_#`]/g,'').trim();
-    const m = clean.match(/^(\d{2})[.\s]\s*([A-Z][A-Z0-9 ,\/&-]{3,})$/);
+    const m = clean.match(/^(\d{2})(?:[.\s:-]+)\s*([A-Z][A-Z0-9 ,\/&()'-]{3,80})$/);
     if(m) marks.push({ n:m[1], title:m[2].trim(), line:i });
   });
   const out = {};
@@ -3896,6 +4146,61 @@ function shelfBundle(tags, slice){
   });
   return parts.join('\n');
 }
+
+/* A tag makes a claim ID globally unambiguous. Both the prose slice and
+   the TSV companion are normalized at bundle time; the stored dossier is
+   never rewritten merely to satisfy a prompt. */
+function namespaceClaimIds(tag, text){
+  const safe=String(tag||'').replace(/[^A-Z0-9_-]/gi,'_').toUpperCase();
+  return String(text||'').replace(/(^|[^A-Z0-9_:-])C(\d+)\b/gi,(m,p,n)=>p+safe+':C'+n);
+}
+function claimsForBundle(d){
+  const text=String(d&&d.claims||'').trim(); if(!text) return '';
+  const lines=text.split(/\r?\n/), head=lines[0].split('\t');
+  const id=head.findIndex(x=>String(x).trim().toLowerCase()==='id');
+  if(id<0) return namespaceClaimIds(d.tag,text);
+  const out=[lines[0]];
+  lines.slice(1).forEach(line=>{
+    if(!line.trim()) return;
+    const cols=line.split('\t');
+    if(/^C\d+$/i.test(String(cols[id]||'').trim())) cols[id]=d.tag+':'+String(cols[id]).trim().toUpperCase();
+    out.push(cols.join('\t'));
+  });
+  return out.join('\n');
+}
+function productionBundle(tags){
+  const chosen=[];
+  (tags||[]).forEach(tag=>{ const d=getDossier(tag); if(d&&dossierReady(d)&&!chosen.some(x=>x.tag===d.tag)) chosen.push(d); });
+  const parts=['ITC PRODUCTION KNOWLEDGE BUNDLE',
+    'DOSSIERS USED: '+chosen.map(d=>d.tag).join(', '),
+    'Claim IDs are namespaced TAG:C123. Treat LIBRARY READY as canonical; honor every blocker and open question. If dossiers conflict, flag CROSS-CHECK NEEDED and do not guess.',
+    'Sections included: '+PRODUCTION_SECTIONS.join(', ')+'. Source registries and the full master tables stay in the stored library to keep this prompt bounded.',''];
+  chosen.forEach(d=>{
+    const status=String(d.status||'ready').toUpperCase();
+    parts.push('===== '+d.tag+(d.name?' · '+d.name:'')+' =====');
+    parts.push('STATUS: '+status+' · DOSSIER SCHEMA: '+(d.schema||d.dossierSchema||1));
+    if(d.years) parts.push('YEARS: '+d.years);
+    if(d.blockers && (Array.isArray(d.blockers)?d.blockers.length:String(d.blockers).trim()))
+      parts.push('BLOCKERS: '+(Array.isArray(d.blockers)?d.blockers.join('; '):d.blockers));
+    const map=sectionMap(d.text), got=PRODUCTION_SECTIONS.filter(n=>map[n]);
+    if(!got.length){
+      parts.push('Numbered production sections were not found. Complete dossier follows.');
+      parts.push(namespaceClaimIds(d.tag,String(d.text||'').trim()));
+    }else{
+      got.forEach(n=>{
+        parts.push(n+' '+map[n].title);
+        parts.push(namespaceClaimIds(d.tag,map[n].lines.join('\n').trim()));
+        parts.push('');
+      });
+      const absent=PRODUCTION_SECTIONS.filter(n=>!map[n]);
+      if(absent.length) parts.push('NOT PRESENT: sections '+absent.join(', ')+'.');
+    }
+    const claims=claimsForBundle(d);
+    if(claims){ parts.push('CLAIMS COMPANION (TSV)'); parts.push(claims); }
+    parts.push('');
+  });
+  return parts.join('\n');
+}
 let shelfTab = 'search', shelfPick = [], shelfSlice = true;
 function renderShelf(){
   const body = document.getElementById('shelfBody');
@@ -3925,11 +4230,7 @@ function renderShelf(){
       'Applications, mating components and interchange, sections 06, 07 and 08, from every dossier at once.'));
   }
   if(shelfTab==='combine'){
-    if(ready.length < 2){
-      body.appendChild(bsEl('<div class="emptymsg">Combining needs at least two finished dossiers. There is one on the shelf.</div>'));
-      return;
-    }
-    body.appendChild(bsEl('<p class="count" style="margin:8px 0 0">Pick the dossiers to check against each other, then copy X1 into a blank chat.</p>'));
+    body.appendChild(bsEl('<p class="count" style="margin:8px 0 0">Pick every dossier that touches the subject. Copy a production bundle for writing, or select two or more and run X1 to settle conflicts first.</p>'));
     const pick = bsEl('<div class="shpick"></div>');
     ready.forEach(d=>{
       const b = bsEl('<button type="button"></button>');
@@ -3957,23 +4258,29 @@ function renderShelf(){
     const size = bsEl('<p class="count"></p>');
     const acts = bsEl('<div class="lib-form" style="margin-top:10px"></div>');
     const bX1 = bsEl('<button type="button" class="amber" style="flex:1;min-height:38px">Copy X1 · cross-dossier check</button>');
-    const bBun = bsEl('<button type="button" class="ghost" style="flex:1;min-height:38px">Copy the bundle only</button>');
+    const bBun = bsEl('<button type="button" class="ghost" style="flex:1;min-height:38px">Copy X1 bundle only</button>');
+    const bProd = bsEl('<button type="button" class="ghost" style="flex:1;min-height:38px">Copy production bundle</button>');
     const enough = shelfPick.length >= 2;
     bX1.disabled = !enough; bBun.disabled = !enough;
     const bundle = enough? shelfBundle(shelfPick, shelfSlice) : '';
+    const prod = shelfPick.length? productionBundle(shelfPick) : '';
     const words = (bundle.trim().match(/\S+/g)||[]).length;
-    size.textContent = enough
-      ? words.toLocaleString() + ' words · ' + bundle.length.toLocaleString() + ' characters' +
-        (shelfSlice? ' · sections ' + FIT_SECTIONS.join(', ') + ' only' : ' · everything')
-      : 'Pick at least two.';
+    const prodWords=(prod.trim().match(/\S+/g)||[]).length;
+    size.textContent = shelfPick.length
+      ? prodWords.toLocaleString()+' production words · '+prod.length.toLocaleString()+' characters'+
+        (enough? ' · X1 is ready at '+words.toLocaleString()+' words' : ' · pick one more to enable X1')+
+        (enough? (shelfSlice? ' · X1 sections ' + FIT_SECTIONS.join(', ') : ' · X1 full text') : '')
+      : 'Pick at least one for production, or two for X1.';
     bX1.addEventListener('click', function(){
       copyText(promptText('px1').replace('[PASTE THE COMBINED BUNDLE]', '\n' + shelfBundle(shelfPick, shelfSlice)), this);
     });
     bBun.addEventListener('click', function(){ copyText(shelfBundle(shelfPick, shelfSlice), this); });
-    acts.appendChild(bX1); acts.appendChild(bBun);
+    bProd.addEventListener('click', function(){ copyText(productionBundle(shelfPick), this); });
+    bProd.disabled=!shelfPick.length;
+    acts.appendChild(bProd); acts.appendChild(bX1); acts.appendChild(bBun);
     body.appendChild(size);
     body.appendChild(acts);
-    body.appendChild(bsEl('<p class="count" style="margin-top:8px">The fitment slice carries sections '+FIT_SECTIONS.join(', ')+': the ones that describe how a part meets other parts. Full text carries everything and gets large fast.</p>'));
+    body.appendChild(bsEl('<p class="count" style="margin-top:8px">Production carries sections '+PRODUCTION_SECTIONS.join(', ')+' plus the namespaced claims TSV. X1 fitment mode carries sections '+FIT_SECTIONS.join(', ')+'. Full X1 text gets large fast.</p>'));
   }
 }
 document.querySelectorAll('#shelfTools .ctab[data-shelf]').forEach(b=>{
@@ -3991,8 +4298,8 @@ renderShelf();
    A job is either a research job, which builds one dossier through
    R1 to R7 and shelves it in the Library, or a production job, which
    draws a Short, a long form, or posts out of a finished dossier
-   through P1 to P5. The dossier rides inside every production prompt
-   automatically, so nothing is pasted by hand.
+   through P1 to P5. The selected dossier bundle rides inside every
+   production prompt automatically, so nothing is pasted by hand.
    The NEW CLAIMS gate is enforced in bsAdvance and bsFile.
    ---------------------------------------------------------------- */
 const BS_TRACKS = {
@@ -4054,6 +4361,7 @@ function bsSettings(st, s){
     (isResearch
       ? 'Names every file this job produces, the Writer doc, and the card exports. Changing it renames what comes next, not what you already saved.'
       : 'Locked to the dossier this job draws from, so the two cannot drift apart.')+'</p>'));
+  if(s.kind==='production') box.appendChild(bsDossierPicker(st,s));
   box.appendChild(bsEl('<label>Subject</label>'));
   const nameIn = bsEl('<input placeholder="What this is, in plain words">');
   nameIn.value = s.name || '';
@@ -4107,6 +4415,43 @@ function bsSettings(st, s){
   return box;
 }
 
+function selectedDossierTags(s){
+  const primary=s.dossierTag||s.tag, out=[];
+  [primary].concat(Array.isArray(s.dossierTags)?s.dossierTags:[]).forEach(tag=>{
+    if(tag && getDossier(tag) && dossierReady(getDossier(tag)) && !out.includes(tag)) out.push(tag);
+  });
+  return out;
+}
+function bsDossierPicker(st,s){
+  const wrap=bsEl('<div></div>');
+  wrap.appendChild(bsEl('<label>Dossiers used by every production prompt</label>'));
+  const pick=bsEl('<div class="shpick"></div>'), selected=selectedDossierTags(s);
+  const primary=s.dossierTag||s.tag, main=getDossier(primary);
+  const related=main&&Array.isArray(main.relatedTags)?main.relatedTags:[];
+  const ready=shelfReady().sort((a,b)=>{
+    const score=d=>d.tag===primary?0:related.includes(d.tag)?1:2;
+    return score(a)-score(b)||a.tag.localeCompare(b.tag);
+  });
+  ready.forEach(d=>{
+    const b=bsEl('<button type="button"></button>');
+    b.textContent=d.tag+(related.includes(d.tag)?' · related':'');
+    if(selected.includes(d.tag)) b.classList.add('on');
+    if(d.tag===primary) b.disabled=true;
+    b.addEventListener('click',()=>{
+      const now=selectedDossierTags(s), i=now.indexOf(d.tag);
+      if(i>=0) now.splice(i,1); else now.push(d.tag);
+      s.dossierTags=[primary].concat(now.filter(t=>t!==primary));
+      s.updated=Date.now(); bsSave(st); renderShort(); refreshPlaybook();
+    });
+    pick.appendChild(b);
+  });
+  wrap.appendChild(pick);
+  const bundle=productionBundle(selected);
+  const words=(bundle.match(/\S+/g)||[]).length;
+  wrap.appendChild(bsEl('<p class="bs-note" style="margin:6px 0 0">Primary stays selected. Add every dossier that overlaps the story, years, vehicle, engine, transmission, axle, transfer case, or mating component. Current bundle: <b>'+selected.map(esc).join(', ')+'</b> · '+words.toLocaleString()+' words.</p>'));
+  return wrap;
+}
+
 /* pre-v6 jobs carried the old single-track statuses; map them onto the
    track they belong to so work in progress survives the restructure */
 const BS_LEGACY = { research:['research','research'], audit:['research','audit'],
@@ -4132,6 +4477,13 @@ function bsNorm(s){
     s.status = BS_FOLDED[s.status];
     if(s.r3doc && !s.r4doc) s.r4doc = s.r3doc;
     if(s.r5doc && !s.r6doc) s.r6doc = s.r5doc;
+  }
+  if(s.kind==='production'){
+    const primary=s.dossierTag||s.tag, tags=[];
+    [primary].concat(Array.isArray(s.dossierTags)?s.dossierTags:[]).forEach(tag=>{
+      if(tag && !tags.includes(tag)) tags.push(tag);
+    });
+    s.dossierTags=tags;
   }
   return s;
 }
@@ -4208,6 +4560,7 @@ function bsFill(preId, s, topic, note){
   return withBlocks(preId, pre.textContent);
 }
 function bsDossierText(s){ const d = getDossier(s.dossierTag); return d? (d.text||'') : ''; }
+function bsProductionText(s){ return productionBundle(selectedDossierTags(s)); }
 const P_DOSSIER_MARK = '[PASTE THE COMPLETE DOSSIER]';
 /* A finished dossier holds far more than any video needs, which is how
    scripts end up clinging to detail nobody asked for. R7 routes every
@@ -4225,7 +4578,7 @@ const CORE_NOTE =
 'every claim in it as CORE.\n';
 function withDossier(text, s){
   return text.replace('DOSSIER: ' + P_DOSSIER_MARK,
-    CORE_NOTE + '\nDOSSIER:\n' + bsDossierText(s));
+    CORE_NOTE + '\n' + bsProductionText(s));
 }
 
 function prR1(s){ return bsFill('pr1', s, s.name || s.tag, s.angle); }
@@ -4269,13 +4622,12 @@ function ppP2(id, s){
   const story = s.autoPick? 'pick from the content plan' : (s.story || 'pick from the content plan');
   return withDossier(bsFill(id, s, story, s.angle), s);
 }
-/* The copy audit reads one dossier, but the channel now has a shelf of
-   them, and the most expensive error available is copy that contradicts
-   a dossier finished six months ago. Attaching every dossier would be
-   enormous, so P3 gets the shelf list instead and is told to flag what
-   it cannot settle from the one dossier in front of it. */
+/* The copy audit reads the selected production bundle. Unselected shelf
+   subjects still travel as a tag list so P3 can flag a boundary the user
+   may have missed without silently attaching the whole library. */
 function ppSiblingCheck(s){
-  const others = dossierList().filter(d=>d.tag!==(s.dossierTag||s.tag) && dossierReady(d));
+  const used=selectedDossierTags(s);
+  const others = dossierList().filter(d=>!used.includes(d.tag) && dossierReady(d));
   if(!others.length) return '';
   return 'CROSS-DOSSIER CHECK. These other dossiers are finished and on\n'+
     'the shelf: ' + others.map(d=>d.tag + (d.name? ' ('+d.name+')' : '')).join(', ') + '.\n'+
@@ -4472,14 +4824,15 @@ function bsPanelLFinal(st, s){
   if(s.status==='lfinal'){
     const row = bsEl('<div class="bs-row"></div>');
     const b = bsEl('<button type="button" class="amber">Shelve it in the Library</button>');
-    b.addEventListener('click', ()=>{
+    b.addEventListener('click', async ()=>{
       if(!ta.value.trim()){ alert('Paste the final dossier first.'); return; }
       const all = dossiers();
       all[s.tag] = Object.assign(all[s.tag] || { tag:s.tag, created:Date.now() }, {
         tag:s.tag, name:s.name||s.tag, type:s.type||'other', text:ta.value.trim(),
         claims:tb.value.trim(), status:'ready', schema:SCHEMA_VERSION, updated:Date.now()
       });
-      saveDossiers(all);
+      await saveDossiers(all);
+      if(libraryMode==='error'){ alert('The dossier is still in this page, but the Library save did not verify. Export a package before closing.'); return; }
       s.finalDoc = ta.value.trim();
       bsFile(st);
       alert('Shelved. '+s.tag+' is in the Library and every production prompt can read it now.');
@@ -4552,7 +4905,7 @@ function bsPanelRebuild(st, s){
   if(s.status==='rebuild'){
     const row = bsEl('<div class="bs-row"></div>');
     const b = bsEl('<button type="button" class="amber">Replace the shelved dossier</button>');
-    b.addEventListener('click', ()=>{
+    b.addEventListener('click', async ()=>{
       if(!ta.value.trim()){ alert('Paste the revised dossier first.'); return; }
       const all = dossiers();
       if(!all[s.dossierTag]){ alert('That dossier is no longer in the Library.'); return; }
@@ -4560,7 +4913,8 @@ function bsPanelRebuild(st, s){
       all[s.dossierTag].claims = tb.value.trim();
       all[s.dossierTag].schema = SCHEMA_VERSION;
       all[s.dossierTag].updated = Date.now();
-      saveDossiers(all);
+      await saveDossiers(all);
+      if(libraryMode==='error'){ alert('The revision is still in this page, but the Library save did not verify. Export a package before closing.'); return; }
       s.finalDoc = ta.value.trim();
       bsFile(st);
       alert('Revised. '+s.dossierTag+' on the shelf now carries the R8 version'+(tb.value.trim()? ' and its claims companion.' : '.'));
@@ -4580,17 +4934,22 @@ function bsPanelFinalize(st, s){
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the FINAL DOSSIER section here. This is the copy that lives in the Library."></textarea>');
   p.appendChild(ta);
   p.appendChild(bsWirePaste(ta, st, s, 'finalDoc'));
+  p.appendChild(bsEl('<div class="kick">Companion file · the claims TSV</div>'));
+  const tb = bsEl('<textarea class="bs-paste" style="min-height:110px" placeholder="Paste the R7 claims TSV companion here. This is what lets v8 namespace and retrieve claims across dossiers."></textarea>');
+  p.appendChild(tb);
+  p.appendChild(bsWirePaste(tb, st, s, 'claimsTsv'));
   if(s.status==='finalize'){
     const row = bsEl('<div class="bs-row"></div>');
     const b = bsEl('<button type="button" class="amber">Shelve it in the Library</button>');
-    b.addEventListener('click', ()=>{
+    b.addEventListener('click', async ()=>{
       if(!ta.value.trim()){ alert('Paste the final dossier first.'); return; }
       const all = dossiers();
       all[s.tag] = Object.assign(all[s.tag] || { tag:s.tag, created:Date.now() }, {
         tag:s.tag, name:s.name||s.tag, type:s.type||'other', text:ta.value.trim(),
-        status:'ready', schema:SCHEMA_VERSION, updated:Date.now()
+        claims:tb.value.trim(), status:'ready', schema:SCHEMA_VERSION, updated:Date.now()
       });
-      saveDossiers(all);
+      await saveDossiers(all);
+      if(libraryMode==='error'){ alert('The dossier is still in this page, but the Library save did not verify. Export a package before closing.'); return; }
       s.finalDoc = ta.value.trim();
       bsFile(st);
       alert('Shelved. '+s.tag+' is in the Library and every production prompt can read it now.');
@@ -4604,9 +4963,10 @@ function bsPanelFinalize(st, s){
 function bsPanelPlan(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   const d = getDossier(s.dossierTag);
-  p.appendChild(bsEl('<p class="bs-note"><b>Chat 3, in your Inside The Case folder.</b> Reading from the <b>'+esc(s.dossierTag)+'</b> dossier'+(d&&d.name? ', '+esc(d.name):'')+'. P1 walks every section of it and mines each one, so the slate is broad instead of whatever looked shiny. Run it once per dossier; the slate is saved with it. Already have a plan? Skip straight to the write stage.</p>'));
+  const used=selectedDossierTags(s);
+  p.appendChild(bsEl('<p class="bs-note"><b>Chat 3, in your Inside The Case folder.</b> Reading the production bundle for <b>'+used.map(esc).join(', ')+'</b>. P1 mines the selected shelf together, so a story can cross a vehicle, engine, transmission, axle, or mating component without losing the facts established in its companion dossiers. Change the selection in Job settings at any stage.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
-  const c = bsEl('<button type="button" class="copybtn">Copy P1 · content plan, dossier attached</button>');
+  const c = bsEl('<button type="button" class="copybtn">Copy P1 · content plan, knowledge bundle attached</button>');
   c.addEventListener('click', function(){ copyText(ppP1(s), this); });
   row1.appendChild(c); p.appendChild(row1);
   const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the whole content plan here: the per-section mine, the ranked slate, series candidates, and the coverage report."></textarea>');
@@ -4754,7 +5114,7 @@ function bsPanelCopyAudit(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   p.appendChild(bsEl('<p class="bs-note"><b>Chat 4: a brand new blank chat, no folder</b>, different model if you have one, web search on. A chat that just wrote the copy will defend it. Rewrite in the <b>Writer</b> first if you want; the copy below always carries the current Writer text plus the <b>'+esc(s.dossierTag)+'</b> dossier. Paste the corrected copy back, or continue if it came back clean.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
-  const c3 = bsEl('<button type="button" class="copybtn">Copy P3 · copy + dossier attached</button>');
+  const c3 = bsEl('<button type="button" class="copybtn">Copy P3 · copy + knowledge bundle attached</button>');
   c3.addEventListener('click', function(){ copyText(ppP3(s), this); });
   const w = bsEl('<button type="button" class="ghost">Open Writer</button>');
   w.addEventListener('click', ()=>showView('writer'));
@@ -4848,7 +5208,7 @@ function bsStartProduction(dossierTag){
   const d = getDossier(dossierTag);
   if(!d){ alert('That dossier is not in the Library.'); return; }
   if(st.active) st.history.unshift(st.active);
-  st.active = { id:Date.now(), kind:'production', dossierTag, tag:dossierTag, name:d.name||dossierTag,
+  st.active = { id:Date.now(), kind:'production', dossierTag, dossierTags:[dossierTag], tag:dossierTag, name:d.name||dossierTag,
     story:'', angle:'', autoPick:false, format:'pp2a', status:'plan', created:Date.now(), updated:Date.now(),
     contentPlan: d.plan||'', sections:{}, claims:[], claimsNone:false, claimsMissing:false };
   st.history = st.history.slice(0,20);
@@ -4982,7 +5342,7 @@ function renderShort(){
     subj.textContent = kind + (s.name? ' · '+s.name : '');
     box.appendChild(subj);
     const viewKey = (bsView && bsStageIdx(s, bsView) < bsStageIdx(s, s.status))? bsView : s.status;
-    const links = bsEl('<div class="bs-links"><a href="#" class="l-set">EDIT TAG AND SUBJECT</a>'+
+    const links = bsEl('<div class="bs-links"><a href="#" class="l-set">EDIT JOB AND DOSSIERS</a>'+
       '<a href="#" class="l-full">FULL STEP ›</a></div>');
     links.querySelector('.l-full').addEventListener('click', e=>{
       e.preventDefault(); goPlaybook(BS_STEP_SECTION[viewKey] || 'pb-start');
@@ -5021,7 +5381,8 @@ document.getElementById('backupBtn').addEventListener('click', ()=>{
     const k = localStorage.key(i);
     if(k && k.indexOf('itc_')===0) data[k] = localStorage.getItem(k);
   }
-  const payload = JSON.stringify({ app:'ITC HQ', version:APP_VERSION, exported:new Date().toISOString(), data }, null, 1);
+  const payload = JSON.stringify({ app:'ITC HQ', version:APP_VERSION, exported:new Date().toISOString(), data,
+    library:libraryPackage(dossierList()) }, null, 1);
   const d = new Date();
   const stamp = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
   saveBlob(new Blob([payload], {type:'application/json'}), 'ITC_HQ_backup_'+stamp+'.json');
@@ -5032,15 +5393,21 @@ restoreInput.addEventListener('change', ()=>{
   const f = restoreInput.files[0]; restoreInput.value = '';
   if(!f) return;
   const reader = new FileReader();
-  reader.onload = e=>{
+  reader.onload = async e=>{
     let obj = null;
     try{ obj = JSON.parse(e.target.result); }catch(err){}
     if(!obj || !obj.data || typeof obj.data !== 'object'){ alert('That does not look like an ITC HQ backup file.'); return; }
     const keys = Object.keys(obj.data).filter(k=>k.indexOf('itc_')===0);
-    if(!keys.length){ alert('No ITC HQ data found in that file.'); return; }
-    if(!confirm('Restore '+keys.length+' saved items from '+(obj.exported? obj.exported.slice(0,10) : 'this backup')+'? What is on this device now gets overwritten.')) return;
-    keys.forEach(k=>{ try{ localStorage.setItem(k, obj.data[k]); }catch(err){} });
-    location.reload();
+    const libCount=obj.library&&Array.isArray(obj.library.dossiers)?obj.library.dossiers.length:0;
+    if(!keys.length && !libCount){ alert('No ITC HQ data found in that file.'); return; }
+    if(!confirm('Restore '+keys.length+' saved settings and '+libCount+' durable dossier'+(libCount===1?'':'s')+' from '+(obj.exported? obj.exported.slice(0,10) : 'this backup')+'? Matching data on this device gets overwritten.')) return;
+    let localOk=true;
+    keys.forEach(k=>{ try{ localStorage.setItem(k, obj.data[k]); }catch(err){ localOk=false; } });
+    try{
+      if(obj.library) await importLibraryPackage(obj.library,false);
+      if(!localOk) throw new Error('Some small app settings could not be restored because browser storage is full.');
+      location.reload();
+    }catch(err){ alert((err&&err.message?err.message:'Restore failed.')+' The page has not reloaded, so export the current library before trying again.'); }
   };
   reader.readAsText(f);
 });
@@ -5881,9 +6248,39 @@ align: center`)[0];
     if(!FIT_SECTIONS.includes(n)) fails.push('shelf section '+n+' is shown on the Library but left out of the bundle');
   });
   (function(){
-    const probe = sectionMap('junk\n27 FIGURES LEDGER\nC1 | 31 spline | S3 p14\n\n06 APPLICATIONS AND FITMENT\n1994 F-250');
+    const probe = sectionMap('junk\n## 27: FIGURES LEDGER\nC1 | 31 spline | S3 p14\n\n06 - APPLICATIONS AND FITMENT\n1994 F-250');
     if(!probe['27'] || !probe['06']) fails.push('the dossier section reader stopped finding numbered sections');
     if(probe['27'] && probe['27'].title !== 'FIGURES LEDGER') fails.push('the dossier section reader is misreading section titles');
+  })();
+  /* v8 guards: portable records round-trip without losing unknown
+     manifest fields, two dossiers share a bounded bundle, and a bare
+     claim ID can never collide after bundling. */
+  (function(){
+    const claimHead='id\ttier\tsection\tcard_ready';
+    const one={tag:'TEST_A',name:'Synthetic A',type:'other',status:'LIBRARY READY',schema:2,
+      futureField:'keep me',text:'00 DOSSIER HEADER\nReady\n\n01 ORIGIN AND DEVELOPMENT\nC1 is synthetic. '+('Synthetic context. '.repeat(24))+'\n\n26 WHAT CAN AND CANNOT BE SAID\nC1 is CORE.',
+      claims:claimHead+'\nC1\tLOCKED\t01\tYES',plan:'Plan A'};
+    const two={tag:'TEST_B',name:'Synthetic B',type:'other',status:'BLOCKED',schema:2,
+      blockers:['synthetic blocker'],text:'00: DOSSIER HEADER\nBlocked\n\n01 - ORIGIN AND DEVELOPMENT\nC1 is also synthetic. '+('Synthetic context. '.repeat(24)),
+      claims:claimHead+'\nC1\tLOCKED\t01\tYES',plan:''};
+    try{
+      const round=recordsFromPackage(libraryPackage([one,two]));
+      if(round.length!==2 || round[0].futureField!=='keep me' || round[0].text!==one.text || round[0].claims!==one.claims)
+        fails.push('a v8 library package no longer round-trips every dossier field');
+      const before=libraryCache;
+      libraryCache={TEST_A:one,TEST_B:two};
+      const bundle=productionBundle(['TEST_A','TEST_B']);
+      libraryCache=before;
+      if(!/DOSSIERS USED: TEST_A, TEST_B/.test(bundle)) fails.push('the production bundle stopped naming every selected dossier');
+      if(!bundle.includes('TEST_A:C1') || !bundle.includes('TEST_B:C1')) fails.push('multi-dossier claims stopped receiving tag namespaces');
+      if(/(^|[^:A-Z0-9_])C1\b/m.test(bundle)) fails.push('a bare claim ID survived in the multi-dossier bundle');
+      if(!bundle.includes('synthetic blocker')) fails.push('a blocked dossier lost its caveat in the production bundle');
+      const bad=libraryPackage([one]); bad.dossiers[0].dossierText+='x';
+      let rejected=false; try{ recordsFromPackage(bad); }catch(e){ rejected=true; }
+      if(!rejected) fails.push('a damaged library package stopped failing its integrity check');
+    }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
+    if(APP_VERSION!=='v8.0') fails.push('the v8 code is running under a different APP_VERSION');
+    if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
   /* filename tokens must actually be substituted, or the AI is told to
      save a file with a literal [[OUT]] in its name. The tag being the
@@ -5926,7 +6323,7 @@ align: center`)[0];
     console.error('ITC HQ self-test FAILED:\n- '+fails.join('\n- '));
     const n = document.createElement('div');
     n.className = 'note';
-    n.innerHTML = '<b>Self-test failed:</b> something in the playbook and the app have drifted apart, so a prompt may produce output the app cannot use. Open the browser console for the specific failure, then hand this file to Claude.';
+    n.innerHTML = '<b>Self-test failed:</b> something in the playbook and the app have drifted apart, so a prompt may produce output the app cannot use. Open the browser console for the specific failure, then hand this repository to Claude Code or Codex.';
     const home = document.getElementById('view-home');
     home.insertBefore(n, home.firstChild);
   }

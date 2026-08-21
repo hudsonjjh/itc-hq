@@ -1,5 +1,24 @@
 # ITC HQ — repo conventions for Claude Code
 
+## Shared AI workspace
+
+Codex and Claude Code use this repository together. `CLAUDE.md` remains the
+shared source of truth for product and repository conventions; `AGENTS.md`
+is the Codex entry point and refers back here.
+
+When this checkout is inside the Inside The Case research workspace, the
+private knowledge base lives at `../../ITC KNOWLEDGE BASE/`. Before changing
+dossier storage, retrieval, research prompts, production prompts,
+cross-dossier tools, imports, exports, or backup behavior, read:
+
+1. `../../ITC KNOWLEDGE BASE/00 START HERE/AI_START_HERE.md`
+2. `../../ITC KNOWLEDGE BASE/00 START HERE/CATALOG.md`
+
+This GitHub repository is public. Never commit dossier text, claims TSV
+files, scripts, sources, backup JSON, or other private knowledge-base data.
+Keep those outside the repo and design explicit local import/export paths.
+Work on feature branches because every push to `main` deploys the live app.
+
 This repo is a single-file PWA: `index.html` is the entire app (Playbook,
 Card Generator, Case Writer, Home dashboard for the Inside The Case Auto
 YouTube channel). It deploys automatically via GitHub Pages on every push
@@ -21,13 +40,12 @@ have it installed as a home-screen app.
 4. **Embedded fonts stay embedded.** The giant base64 @font-face blocks
    at the top of `index.html` are intentional (offline + pixel-identical
    card exports). Never replace them with CDN links or delete them.
-5. **localStorage keys are user data.** Keys are prefixed `itc_`
-   (`itc_dossiers` is the research library, `itc_shorts` the job
-   queue, plus card drafts and the writer doc). Do not rename keys
-   without migrating old values, or people lose their saved work.
-   Dossiers are the most valuable thing in there: they represent hours
-   of research per part and are only on the device plus the backup
-   file.
+5. **Stored data is user data.** Small settings and the v7 fallback use
+   `localStorage` keys prefixed `itc_`; v8 dossiers use IndexedDB database
+   `itc_hq`, object store `dossiers`. Never rename, clear, or overwrite either
+   layer without a copy-and-verify migration. The legacy `itc_dossiers` value
+   stays untouched after a successful migration. Dossiers represent hours of
+   research and may exist only on the device plus an exported package.
 6. **Mobile first.** Primary viewport is a phone in portrait. Touch
    targets stay at least 36px. Test reasoning against a ~400px width.
 7. **file:// must keep working.** The app doubles as a plain local file:
@@ -101,10 +119,23 @@ have it installed as a home-screen app.
   slice that describes how a part meets other parts and is what the
   X1 bundle carries by default; if you renumber a schema section,
   that constant and the self-test move with it.
+- **The v8 Library is portable and verified.** App version, dossier schema,
+  and package schema are independent (`v8.0`, dossier schema 2, package schema
+  1). IndexedDB is canonical when available; `file://` and unsupported
+  browsers fall back to localStorage. Every migration, import, and save is
+  read back and checked. Real `.itc-library.json` packages are private data
+  and never belong in this repository.
+- **Production can use multiple dossiers.** A job keeps a primary
+  `dossierTag` for compatibility and a `dossierTags` array for the full
+  selection. `productionBundle()` carries sections 00 to 15, 26 and 27 plus
+  the claims companion, and namespaces every claim as `TAG:C123`. Do not
+  replace that bounded retrieval with the complete shelf. R8 still receives
+  the complete single parent dossier.
 - **X1 is optional and needs two or more finished dossiers.** It is
-  the only pass that can answer a `CROSS-CHECK NEEDED` item, because
-  P3 is deliberately given one dossier and can therefore only flag.
-  Do not solve that by pasting every dossier into P3.
+  the pass that can answer a `CROSS-CHECK NEEDED` item. P3 receives every
+  dossier the user selected for production and only a tag list for the rest;
+  it flags an omitted boundary instead of guessing. Do not solve that by
+  pasting every dossier on the shelf into P3.
 - R8 is optional and only for a dossier that is already finished.
   Do not route new subjects through it. Every step output
   must stand alone. Keep all prompt copy model-agnostic; do not write

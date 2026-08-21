@@ -1,0 +1,7 @@
+# Private user data must never enter the public playbook repository.
+*.itc-library.json
+!tests/library-v1.itc-library.json
+ITC_HQ_backup_*.json
+*_DOSSIER.txt
+*_CLAIMS.tsv
+
