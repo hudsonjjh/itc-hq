@@ -519,20 +519,23 @@ input[type=file]{display:none}
   <div class="spacer"></div>
 </header>
 
-<!-- ================================================================ HOME -->
+<!-- ================================================================ WORK -->
 <section class="view on" id="view-home">
 
   <div class="note" id="setupnote" style="display:none"><b>One-time install:</b> open this page in Chrome (Android) or Safari (iPhone), then use the browser menu and pick <b>Add to Home Screen</b>. It installs like an app, works offline after the first load, and updates itself when a new version is published. <a href="#" id="dismissSetup">Got it, hide this</a></div>
 
-  <div class="kick">Build · research a part, or make something from one</div>
+  <div class="kick">Work · one guided step at a time</div>
   <div id="bsWrap"></div>
 
-  <div class="kick">Quick copy · outside the flow</div>
-  <div class="quickrow">
-    <button class="copybtn" id="qcopy1">R1 · Scope and coverage plan</button>
-    <button class="copybtn" id="qcopy10">P5 · Packaging</button>
-  </div>
-  <p class="lead" style="font-size:12px;margin-top:2px">For one-off use. The flow above copies each stage's prompt with the documents already inside it.</p>
+  <details class="pbsec">
+    <summary><span class="sn">?</span><span class="st">Existing dossiers and library packages</span><span class="arrow">›</span></summary>
+    <div class="secbody">
+      <p class="lead"><b>A package is only the carrying case for your Library.</b> It does not rewrite a dossier, improve its research, or create a second format you have to maintain. Import a <code>.itc-library.json</code> file on the Library tab and every dossier inside becomes available to the production workflow.</p>
+      <div class="card"><div class="k">Import as-is</div><h4>Current, complete dossiers</h4><p>If a dossier already follows the current schema and has a clear status, import it. Do not run R8 merely to make it uploadable.</p></div>
+      <div class="card"><div class="k">Revise first</div><h4>Legacy, blocked, or incomplete dossiers</h4><p>Use R8A and R8B when the research itself needs upgrading, blockers need resolving, or a claims companion needs rebuilding. An unfinished revision pass is not a replacement dossier.</p></div>
+      <div class="bs-row"><button class="ghost" type="button" data-open-library>Open the Library</button></div>
+    </div>
+  </details>
 
   <div class="kick">How it works · reference</div>
   <details class="pbsec" id="pb-start">
@@ -550,15 +553,15 @@ input[type=file]{display:none}
       <div class="kick">Style rules</div>
       <p class="lead">No em dashes in any script or card copy. No emojis. Ranges written as "1994 to 1997". Voice: direct, mechanical, short sentences, a little personality, no hype, no filler. Sign off: "Inside The Case." or "Thanks for watching, Inside The Case."</p>
       <div class="kick">How every step replies</div>
-      <p class="lead">Every step hands back a finished file, not a wall of text. The reply is "Here you go", the complete output attached as one PDF, and only the notes that actually need saying: a verdict, a count, what is still open. No writing the document out in the chat, no explaining it back to you. Where this app has to read the output to carry it forward, the step adds the plain text in one code block underneath, with nothing wrapped around it. That is three places in the whole pipeline: the R1 plan, the R7 final dossier, and the production track's short outputs.</p>
+      <p class="lead">Research steps hand back a finished file plus the plain text this Work surface asks you to paste into the next checkpoint. Production stays conversational: copy the prepared prompt, make as many adjustments in AI as you need, then paste the settled script back here for the audit and cards.</p>
       <div class="kick">Which chat, and why</div>
-      <p class="lead">Four chats total, not twelve. Chat jumping only buys something where a model would otherwise be grading its own homework, and that is exactly two places: the accuracy audit and the copy audit. Everywhere else, stay put.</p>
+      <p class="lead">Change chats when independence matters. Research stays in one chat through R4, then moves to a blank audit chat for R5 to R7. Script writing can stay conversational in your preferred AI; run the final factual audit in a fresh chat or a different model when practical.</p>
       <table>
         <tr><th>Chat</th><th>Where</th><th>Steps</th></tr>
         <tr><td>1 · Research</td><td>Your <b>Inside The Case</b> folder</td><td>R1, R2, R3, R4 all in one chat. The plan and every pass stay in context, which is what makes the second pass and the expansion work.</td></tr>
         <tr><td>2 · Audit</td><td><b>New blank chat, no folder</b>, different model if you have one</td><td>R5, R6, R7. The auditor must meet the dossier cold. The folder carries your standing context, so being outside it is the whole point.</td></tr>
-        <tr><td>3 · Write</td><td>Your <b>Inside The Case</b> folder</td><td>P1, P2. The folder's context helps the voice here.</td></tr>
-        <tr><td>4 · Check</td><td><b>New blank chat, no folder</b>, different model if you have one</td><td>P3, P4, P5. The copy audit cannot run in the chat that wrote the copy.</td></tr>
+        <tr><td>3 · Create</td><td>Your preferred AI workspace</td><td>Generate the content plan, choose or combine ideas yourself, then write and revise the script through normal back-and-forth.</td></tr>
+        <tr><td>4 · Check</td><td><b>New blank chat</b>, different model if practical</td><td>Audit the settled script, then generate cards. After editing the video, use its actual transcript for YouTube and Facebook details.</td></tr>
       </table>
       <p class="lead">If chat 1 gets slow or starts truncating, that is the only good reason to split it: run R4 in its own chat and paste the dossier in. Otherwise one chat per column, top to bottom.</p>
       <div class="kick">The pipeline</div>
@@ -568,7 +571,7 @@ input[type=file]{display:none}
         <div class="lbl">Optional · re-attack a dossier that is already finished</div>
         <div class="row"><span class="pnode"><span class="pn">R8</span> Revise</span></div>
         <div class="lbl">Production track · draws content out of a finished dossier, any number of times</div>
-        <div class="row"><span class="pnode"><span class="pn">P1</span> Content plan</span><span class="parrow">›</span><span class="pnode"><span class="pn">P2</span> Write</span><span class="parrow">›</span><span class="pnode"><span class="pn">P3</span> Copy audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">P4</span> Cards</span><span class="parrow">›</span><span class="pnode"><span class="pn">P5</span> Packaging</span></div>
+        <div class="row"><span class="pnode"><span class="pn">1</span> Content plan</span><span class="parrow">›</span><span class="pnode"><span class="pn">2</span> Choose ideas</span><span class="parrow">›</span><span class="pnode"><span class="pn">3</span> Write + revise</span><span class="parrow">›</span><span class="pnode"><span class="pn">4</span> Audit</span><span class="parrow">›</span><span class="pnode"><span class="pn">5</span> Cards</span><span class="parrow">›</span><span class="pnode"><span class="pn">6</span> Transcript details</span></div>
       </div>
       <div class="note"><b>The Library tab</b> holds every finished dossier on this device. Production prompts pull the selected dossier in automatically, so you never paste a research document by hand again.</div>
     </div>
@@ -976,10 +979,10 @@ happened and that the check is visible.</pre>
         <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
         <tr><td>R1 Scope</td><td>1 · ITC folder</td><td>Coverage plan PDF, plus its text for the app</td></tr>
         <tr><td>R2 Research</td><td>1 · same chat</td><td>Dossier v1 PDF, nineteen sections</td></tr>
-        <tr><td>R3 Second pass</td><td>1 · same chat</td><td>Dossier v2 PDF, self-critiqued</td></tr>
+        <tr><td>R3 Second pass</td><td>1 · same chat</td><td>Delta PDF plus its text for the Work checkpoint</td></tr>
         <tr><td>R4 Expansion</td><td>1 · same chat</td><td>Dossier v3 PDF, plus its text for the audit chat</td></tr>
-        <tr><td>R5 Accuracy audit</td><td>2 · blank, no folder</td><td>Dossier v4 PDF, accuracy verdict in the message</td></tr>
-        <tr><td>R6 Gap hunt</td><td>2 · same chat</td><td>Dossier v5 PDF, holes closed or declared</td></tr>
+        <tr><td>R5 Accuracy audit</td><td>2 · blank, no folder</td><td>Audit delta PDF plus its text and the accuracy verdict</td></tr>
+        <tr><td>R6 Gap hunt</td><td>2 · same chat</td><td>Gap-hunt delta PDF plus its text, holes closed or declared</td></tr>
         <tr><td>R7 Finalize</td><td>2 · same chat</td><td>Dossier PDF, plus the full text and claims TSV for the Library</td></tr>
         <tr><td>R8 Revise</td><td>blank, no folder</td><td><b>Optional.</b> R8A findings PDF, then R8B returns the revised dossier and companion. For a finished dossier that needs re-attacking, not for a new one.</td></tr>
       </table>
@@ -987,10 +990,11 @@ happened and that the check is visible.</pre>
       <table>
         <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
         <tr><td>P1 Content plan</td><td>3 · ITC folder</td><td>Plan PDF, plus the ranked slate text</td></tr>
-        <tr><td>P2 Write</td><td>3 · same chat</td><td>Text under its headers, so the app can split it</td></tr>
-        <tr><td>P3 Copy audit</td><td>4 · blank, no folder</td><td>Audit PDF, plus the corrected copy as text</td></tr>
+        <tr><td>Choose ideas</td><td>You</td><td>One typed idea or a combination chosen from the content plan</td></tr>
+        <tr><td>P2 Write + revise</td><td>3 · same chat</td><td>A script you shape through normal back-and-forth until it is settled</td></tr>
+        <tr><td>P3 Final audit</td><td>4 · blank chat</td><td>A clean verdict or corrected final script</td></tr>
         <tr><td>P4 Cards</td><td>4 · same chat</td><td>Card blocks plus placement map. P4B writes a run of popups the same way.</td></tr>
-        <tr><td>P5 Packaging</td><td>4 · same chat</td><td>Titles, description, tags, captions. P5C writes the pinned comment on its own.</td></tr>
+        <tr><td>P5 Video details</td><td>After editing</td><td>YouTube and Facebook details built from the finished video's transcript</td></tr>
       </table>
       <p class="lead">Four chats, and only two of them are about independence: the audit chat and the check chat, both outside any folder so the auditor meets the work cold. The Library tab holds finished dossiers and feeds them into every production prompt automatically.</p>
     </div>
@@ -1035,7 +1039,7 @@ happened and that the check is visible.</pre>
   <div class="card">
     <div class="k">Version</div>
     <h4 id="verline"></h4>
-    <p>One file, four tools: the Playbook, the Card Generator, Case Writer, and this dashboard. Work stays on this device. The Library uses durable browser storage and exports as one portable knowledge package. Claude Code and Codex share the repository rules, so either can safely work on the playbook.</p>
+    <p>One guided Work surface plus the Library, Card Generator, and Case Writer. The prompts still live inside the app, but there is no separate Playbook route to compete with the guided steps. Work stays on this device. Claude Code and Codex share the repository rules, so either can safely work on the app.</p>
     <div class="bs-row">
       <button class="ghost" id="backupBtn">Back up data</button>
       <button class="ghost" id="restoreBtn">Restore backup</button>
@@ -1046,6 +1050,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.1</b> · One guided workflow. Home is now Work, and the separate Playbook route has been removed so there is only one place to create a dossier or make a video. Full research shows R1 through R7 as individual stops. Production now follows the way the channel actually works: content plan, choose or combine ideas, write and revise in AI, final audit, cards, then upload the edited transcript for YouTube and Facebook details. Packaging is no longer a formal production step. The Library now explains that a package is only a portable carrying case and that R8 is for improving legacy, blocked, or incomplete research, not for making an otherwise current dossier importable.</p>
       <p><b>v8.0</b> · The knowledge-folder release. The Library now uses IndexedDB with verified writes, while preserving the untouched v7 localStorage library as a fallback. First launch copies and verifies old dossiers instead of replacing them. A single private <code>.itc-library.json</code> package moves the full shelf, claims TSV companions, content plans, status, blockers, and relationships between devices or AI workspaces; backup files include the same durable library. Production jobs can select multiple related dossiers, and every P prompt receives one bounded production bundle made from sections 00 to 15, 26 and 27 plus namespaced claims such as <code>FSERIES_92_97:C123</code>. The primary dossier stays selected, related tags are surfaced, unselected shelf subjects still trigger P3 cross-check warnings, and X1 remains the pass that settles actual conflicts. R8 still receives one complete dossier because revision cannot use the compact production slice. Import, migration, parser, package, namespace, and bundle rules now have synthetic public-safe fixtures and load-time guards. Claude Code and Codex share committed repository instructions, while real research packages remain outside the public repo.</p>
       <p><b>v7.6</b> · Popups have a shape. Two sliders on the Studio tab: <b>Width</b>, 520 to 1600 pixels, and <b>Text size</b>, 60 to 160 percent, both redrawing as you drag. Width drives the wrap, so the text genuinely reflows into whatever column you give it rather than being clipped or floating in a fixed one, and a narrow popup gets taller instead of losing words. Text size moves the type and the line spacing together, so nothing collides at either end. There is also a typeface switch between <b>Poppins</b> and <b>JetBrains Mono</b>, the two faces built into this file, and a Back to default shape button. The live note tells you what share of a 1080 frame the current width covers, which is the number you actually want when you are placing one over footage. All three are popup only, in keys <code>width</code>, <code>textsize</code> and <code>font</code>: full cards are 1080 by 1920 by definition, and a card that sets one now says so in the warning box.</p>
       <p><b>v7.5</b> · A popup can start at the headline. Clearing the Label field on a popup now removes that line completely, tick and all, and everything below moves up so there is no gap where it used to be. The block gets shorter, it does not get a hole in it. Two ways to say it, and they mean different things on purpose: <b>no kicker line at all</b> still lets the style name itself, DID YOU KNOW or TIP, which is what P4B writes and why nothing you already have has changed; <b>a kicker line left blank</b> means no label. In the Studio that is the <b>No label</b> button or just emptying the field, and a <b>Use TIP</b> button puts the style label back. The field also shows the style's label as its placeholder now, so an empty box no longer looks like it will draw nothing when it will.</p>
@@ -1370,7 +1375,11 @@ without gaps.
 
 DELIVERY. Reply with "Here you go", attach the delta as one PDF named
 [[OUT]], and put only this in the message: how many claims were
-added, changed, and retired, and what is weakest now.
+added, changed, and retired, and what is weakest now. Then paste the
+complete delta as plain text in one code block underneath, with
+nothing wrapped around it, because the Work surface records every
+checkpoint. If you cannot create files, say so in one line and give
+the plain-text delta alone.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
@@ -1543,7 +1552,10 @@ OUTPUT, the delta only:
 DELIVERY. Do not explain the audit back to me. Reply with "Here you
 go", attach the delta as one PDF named [[OUT]], and put only this in
 the message: the verdict line, and the count of claims corrected and
-tiers changed.
+tiers changed. Then paste the complete audit delta as plain text in
+one code block underneath, with nothing wrapped around it, because
+the Work surface records every checkpoint. If you cannot create
+files, say so in one line and give the plain-text delta alone.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -1687,14 +1699,16 @@ Do not fabricate to close a gap. An honest STILL OPEN is worth more
 than a soft answer, and it goes in the pinned comment later instead
 of the script.
 
-DELIVERY. Do not write any of it out in the chat. Reply with "Here
+DELIVERY. Do not explain the gap hunt back to me. Reply with "Here
 you go", attach the whole thing as one PDF named
 [[OUT]], ordered coverage audit, gap closure log,
 updated dossier, remaining holes, and put only this in the message:
 how many questions were unanswered or soft, how many you closed, and
-what is still open. Keep the updated dossier in this chat's context
-for the finalize step. If you cannot create files, say so in one line
-and write it out instead.
+what is still open. Then paste the complete gap-hunt delta as plain
+text in one code block underneath, with nothing wrapped around it,
+because the Work surface records every checkpoint. Keep the updated
+dossier in this chat's context for the finalize step. If you cannot
+create files, say so in one line and give the plain-text delta alone.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -2827,109 +2841,36 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
   </details>
 
   <details class="pbsec" id="pb-p5">
-    <summary><span class="sn">P5</span><span class="st">Packaging</span><span class="chips"><span class="chip tool">Chat 4 · same chat</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">P5</span><span class="st">Transcript to video details</span><span class="chips"><span class="chip tool">After the edit</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <div class="kick">You provide: the final script, the format, and the platforms</div>
+      <div class="kick">You provide: the transcript from the finished edit</div>
       <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt P5 <span>·</span> Packaging</div><div class="spacer"></div><button class="copybtn" data-copy="pp5">Copy prompt</button></div>
-        <pre id="pp5">CHAT: the same blank chat as P3 and P4.
+        <div class="phead"><div class="pt">Prompt P5 <span>·</span> Video details</div><div class="spacer"></div><button class="copybtn" data-copy="pp5">Copy prompt</button></div>
+        <pre id="pp5">The video is fully edited. Use its final transcript below as the factual ceiling and help me prepare the upload details.
 
-Build the publishing package for this video. The script is below.
-Everything must be copy ready and clearly labeled so each block drops
-straight into its platform. Scale the packaging to the video: a five
-minute shop fix does not get sold like a full teardown.
+VIDEO FORMAT: [THE APP FILLS THIS IN]
+PLATFORMS: YouTube and Facebook
 
-FORMAT: [Short or long form, and runtime]
-PLATFORMS: [YouTube, plus Facebook, Instagram, TikTok as needed]
-
-PLATFORM LIMITS, verified August 2026. Respect the hard caps, and
-write to the fold, which is where the platform hides the rest.
-- YouTube title: 100 character cap, but only about 70 show in search
-  and suggested tiles. Put the hook in the first 60.
-- YouTube description: 5,000 character cap. Only the first 157
-  characters on desktop, about 100 on mobile, show before "Show
-  more". Front-load what the video actually covers.
-- YouTube tags: 500 characters total across all tags combined.
-- Instagram caption: 2,200 cap, first 125 characters visible. Cap of
-  30 hashtags, but 3 to 5 focused ones perform better than a stack.
-- TikTok caption: keep under 2,200 characters. Same hashtag rule, 3
-  to 5 focused tags.
-
-FOR A SHORT:
-- 10 title options, no hashtags
-- 2 description options
-- 3 thumbnail text options, 1 to 3 words, readable on mobile
-- Tags: one comma separated line, under 500 characters, strictly on
-  topic, no random viral tags
-
-FOR LONG FORM:
-- 8 title options, one recommended with reasoning
-- Description
-- Chapters with timestamps. If the script carries bracketed chapter
-  titles, build the chapter list from those, in script order, with
-  the first chapter at 0:00.
-- Pinned comment
-- Thumbnail text ideas
-- Facebook details when asked
-
-ALWAYS:
-- Facebook and Instagram Reels caption, slightly more casual,
-  hashtags fine
-- TikTok caption plus tags tied to the real topic
-- Recommend one title, balancing curiosity, accuracy, and search
-  value
-- Titles create curiosity without dishonest clickbait. Style
-  reference: "Why This Engine Lasted", "What Actually Changed
-  Inside", "This Wasn't About Horsepower", "Simple, Mechanical, And
-  Built To Work"
-- State the character count on every title, description, and caption
-
-Leave the pinned comment out. It is its own prompt, because it is the
-one piece of packaging that has to be argued carefully.
-
-DELIVERY. Reply with "Here you go", attach the package as one PDF
-named [[OUT]], and paste the titles, description, and tags as plain
-text underneath so they can be copied straight into the upload page.
-
-SCRIPT: [PASTE THE FINAL SCRIPT]</pre>
-      </div>
-      <div class="promptbox">
-        <div class="phead"><div class="pt">Prompt P5C <span>·</span> Pinned comment</div><div class="spacer"></div><button class="copybtn" data-copy="pp5c">Copy prompt</button></div>
-        <pre id="pp5c">CHAT: the same blank chat as P3 and P4.
-
-Write the pinned comment for this video. One comment, nothing else.
-
-The pinned comment does three jobs, in this order of importance:
-1. It owns anything the script simplified, rounded, or could not
-   confirm, before a commenter finds it. This is where LIKELY and
-   UNVERIFIED material is allowed to live, clearly framed as not
-   fully confirmed, with the source named.
-2. It preempts the predictable technical objection. Name the thing a
-   knowledgeable viewer is about to type, and answer it calmly with
-   the record. Never combative, never defensive, and never pretend
-   the objection is stupid.
-3. It invites the correction the channel actually wants: people who
-   have the part in hand, the document, or the build sheet.
+Create:
+1. A short plain-language summary of what the finished video actually covers.
+2. YouTube title options, then recommend the strongest one. Keep the hook honest and front-loaded.
+3. A copy-ready YouTube description. Put the useful explanation before any call to action.
+4. A focused comma-separated YouTube tag line. Do not add unrelated viral terms.
+5. Thumbnail text options, 1 to 4 words each.
+6. A copy-ready Facebook title and post/caption in a slightly more conversational voice.
+7. A pinned-comment option that invites useful corrections or firsthand evidence without manufacturing uncertainty.
+8. For long form only, add chapters if the transcript includes trustworthy timestamps. If it has no timestamps, omit chapters instead of inventing them.
 
 RULES:
-- Facts stated as fact must be LOCKED. Anything softer is labelled as
-  such in plain words, for example "the record points to this but
-  does not confirm it".
-- If the dossier holds an open question relevant to this video, say
-  so. Honesty about the edge of the record is the channel's brand,
-  and it converts a potential correction into a reason to comment.
-- Short paragraphs, line breaks between them. Nobody reads a wall.
-- No em dashes, no emojis, ranges written as "1994 to 1997".
-- If a correction to something already published is needed, put it
-  first and state it plainly.
+- Do not introduce facts, dates, fitment, figures, claims, or conclusions that are not in the transcript.
+- Do not exaggerate certainty or use dishonest clickbait.
+- No em dashes. No emojis unless I ask for them.
+- Write ranges as "1994 to 1997".
+- Keep every output clearly labeled and ready to paste.
+- State the character count for each title and caption.
 
-OUTPUT: the pinned comment, ready to paste, then its character count.
-Nothing else in the reply.
-
-SCRIPT: [PASTE THE FINAL SCRIPT]
-
-OPEN QUESTIONS AND SOFT MATERIAL FROM THE DOSSIER: [PASTE THE OPEN
-QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
+FINAL VIDEO TRANSCRIPT:
+[PASTE THE FINAL VIDEO TRANSCRIPT]</pre>
       </div>
     </div>
   </details>
@@ -2952,7 +2893,7 @@ QUESTIONS AND ANY LIKELY OR UNVERIFIED CLAIMS THIS VIDEO TOUCHES]</pre>
       <button class="ghost" id="libRetryStorage" type="button" style="min-height:38px;display:none">Retry</button>
     </div>
     <input id="libImportInput" type="file" accept=".json,.itc-library.json,application/json" style="display:none">
-    <p class="count" style="margin:8px 0 0">The package is the portable knowledge folder for another phone, browser, Claude Code, or Codex. Keep real packages private; this site never uploads them.</p>
+    <p class="count" style="margin:8px 0 0"><b>The package is only a portable carrying case.</b> It moves dossiers and companions between this app, another browser, Claude Code, or Codex. It does not rewrite the research. Current dossiers import as-is; use R8 only when a dossier itself is legacy, blocked, incomplete, or missing a companion you want rebuilt. Keep real packages private; this site never uploads them.</p>
   </div>
   <div class="lib-form">
     <input id="libNewTag" placeholder="TAG · e.g. E4OD" maxlength="24" style="max-width:150px">
@@ -3228,10 +3169,8 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
 
 <!-- ================================================================ TAB BAR -->
 <nav class="tabbar">
-  <button data-view="home" class="on" aria-label="Home">
-    <svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/></svg>Home</button>
-  <button data-view="playbook" aria-label="Playbook">
-    <svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/></svg>Playbook</button>
+  <button data-view="home" class="on" aria-label="Work">
+    <svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/></svg>Work</button>
   <button data-view="library" aria-label="Library">
     <svg viewBox="0 0 24 24"><path d="M4 4h5v16H4z"/><path d="M10.5 4h4v16h-4z"/><path d="M16.5 5.2l3.6.9-3.4 14-3.6-.9"/></svg>Library</button>
   <button data-view="cards" aria-label="Cards">
@@ -3244,13 +3183,13 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
 /* ================================================================
    ITC HQ · single-file app
    Sections: [SHELL] tabs+mode  [STORE] localStorage  [COPY] clipboard
-   [PLAYBOOK] slots/search  [HOME] build-a-short v5.0 pipeline,
-   quick copy, backup/restore
+   [PLAYBOOK] hidden prompt engine  [WORK] guided research and production,
+   backup/restore
    [CARDS] parser+renderer+export+share  [WRITER] editor
    To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v8.0';
+const APP_VERSION = 'v8.1';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3271,7 +3210,8 @@ function showView(name){
   window.scrollTo(0,0);
 }
 tabBtns.forEach(b=>b.addEventListener('click', ()=>showView(b.dataset.view)));
-showView(store.get('lastview','home'));
+const savedView = store.get('lastview','home');
+showView(savedView==='playbook' || !views[savedView]? 'home' : savedView);
 
 /* ---------------- [SHELL] setup note, dismissible ---------------- */
 const setupnote = document.getElementById('setupnote');
@@ -3432,7 +3372,7 @@ const SWEEPS_PROMPTS = ['pr1','pr4','pr6','pr8a','prl2','prl3'];
    step bumps a decimal: R2, then R2.1, then R2.2. */
 const STEP_OF = { pr1:'R1', pr2:'R2', pr3:'R3', pr4:'R4', pr5:'R5', pr6:'R6', pr7:'R7',
   pr8a:'R8A', pr8b:'R8B', prl2:'L2', prl3:'L3', px1:'X1', pp1:'P1', pp2a:'P2A', pp2b:'P2B',
-  pp2c:'P2C', pp3:'P3', pp4:'P4', pp4b:'P4B', pp5:'P5', pp5c:'P5C' };
+  pp2c:'P2C', pp3:'P3', pp4:'P4', pp4b:'P4B', pp5:'P5' };
 const PREV_OF = { pr2:'R1', pr3:'R2', pr4:'R3', pr5:'R4', pr6:'R5', pr7:'R6', pr8b:'R8A',
   prl2:'R1', prl3:'L2' };
 
@@ -3515,7 +3455,7 @@ const SECTION_PROMPTS = {
   'pb-r5':['pr5'], 'pb-r6':['pr6'], 'pb-r7':['pr7'],
   'pb-rl':['prl2','prl3'], 'pb-r8':['pr8a','pr8b'], 'pb-x1':['px1'],
   'pb-p1':['pp1'], 'pb-p2':['pp2a','pp2b','pp2c'], 'pb-p3':['pp3'],
-  'pb-p4':['pp4','pp4b'], 'pb-p5':['pp5','pp5c']
+  'pb-p4':['pp4','pp4b'], 'pb-p5':['pp5']
 };
 const pbOutlines = [];
 Object.keys(SECTION_PROMPTS).forEach(sec=>{
@@ -3632,12 +3572,6 @@ document.getElementById('pbsearch').addEventListener('input', function(){
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function writerText(){ return document.getElementById('page').innerText; }
 function bsEl(html){ const d = document.createElement('div'); d.innerHTML = html; return d.firstElementChild; }
-function goPlaybook(secId){
-  showView('playbook');
-  const sec = document.getElementById(secId);
-  if(sec){ sec.open = true; setTimeout(()=>sec.scrollIntoView({behavior:'smooth', block:'start'}), 60); }
-}
-
 /* ================================================================
    [LIBRARY] the dossier shelf
    itc_dossiers = { TAG: {tag,name,type,text,plan,status,created,updated} }
@@ -4293,30 +4227,34 @@ document.querySelectorAll('#shelfTools .ctab[data-shelf]').forEach(b=>{
 window.__shelfOn = true;
 renderShelf();
 
-/* ---------------- [HOME] build: two tracks ----------------
+/* ---------------- [WORK] two guided tracks ----------------
    itc_shorts = { active: job|null, history: [job] }
    A job is either a research job, which builds one dossier through
    R1 to R7 and shelves it in the Library, or a production job, which
-   draws a Short, a long form, or posts out of a finished dossier
-   through P1 to P5. The selected dossier bundle rides inside every
-   production prompt automatically, so nothing is pasted by hand.
-   The NEW CLAIMS gate is enforced in bsAdvance and bsFile.
+   draws a Short, a long form, or posts out of finished dossiers.
+   The selected dossier bundle rides inside every production prompt;
+   the user chooses ideas and revises conversationally before the
+   final audit, cards, and transcript-based video details.
    ---------------------------------------------------------------- */
 const BS_TRACKS = {
   research: [
-    { key:'scope',    label:'Scope' },
-    { key:'research', label:'Research · chat 1' },
-    { key:'audit',    label:'Audit · chat 2' },
-    { key:'finalize', label:'Finalize' },
-    { key:'shelved',  label:'Shelved' }
+    { key:'scope',    label:'Scope',           n:'R1' },
+    { key:'deep',     label:'Deep research',   n:'R2' },
+    { key:'second',   label:'Second pass',     n:'R3' },
+    { key:'expand',   label:'Expansion',       n:'R4' },
+    { key:'accuracy', label:'Accuracy audit',  n:'R5' },
+    { key:'gap',      label:'Gap hunt',        n:'R6' },
+    { key:'finalize', label:'Finalize',        n:'R7' },
+    { key:'shelved',  label:'Shelved',         n:'✓' }
   ],
   production: [
-    { key:'plan',      label:'Content plan' },
-    { key:'write',     label:'Write' },
-    { key:'claims',    label:'Review claims' },
-    { key:'copyaudit', label:'Copy audit' },
-    { key:'cards',     label:'Cards' },
-    { key:'filed',     label:'Filed' }
+    { key:'plan',    label:'Content plan',       n:'1' },
+    { key:'idea',    label:'Choose ideas',       n:'2' },
+    { key:'script',  label:'Write and revise',   n:'3' },
+    { key:'audit',   label:'Final audit',        n:'4' },
+    { key:'cards',   label:'Cards',              n:'5' },
+    { key:'publish', label:'Video details',      n:'6' },
+    { key:'filed',   label:'Done',               n:'✓' }
   ],
   /* the light spine for a small subject: the same R1 plan, then the
      research and expansion merged into one prompt and the audit, gap
@@ -4327,7 +4265,7 @@ const BS_TRACKS = {
     { key:'scope',     label:'Scope',                  n:'R1' },
     { key:'lresearch', label:'Research · chat 1',      n:'L2' },
     { key:'lfinal',    label:'Audit + finalize · chat 2', n:'L3' },
-    { key:'shelved',   label:'Shelved',                n:'L4' }
+    { key:'shelved',   label:'Shelved',                n:'✓' }
   ],
   /* the optional R8 revision pass: re-attack a finished dossier, then
      rebuild it. Two steps because one prompt asking for fifty things
@@ -4335,12 +4273,12 @@ const BS_TRACKS = {
   revise: [
     { key:'attack',  label:'Pass · chat A' },
     { key:'rebuild', label:'Audit + merge · chat B' },
-    { key:'shelved', label:'Shelved' }
+    { key:'shelved', label:'Shelved', n:'✓' }
   ]
 };
-const BS_STEP_SECTION = { scope:'pb-r1', research:'pb-r2', audit:'pb-r5', finalize:'pb-r7',
+const BS_STEP_SECTION = { scope:'pb-r1', deep:'pb-r2', second:'pb-r3', expand:'pb-r4', accuracy:'pb-r5', gap:'pb-r6', finalize:'pb-r7',
   lresearch:'pb-rl', lfinal:'pb-rl', attack:'pb-r8', rebuild:'pb-r8',
-  plan:'pb-p1', write:'pb-p2', claims:'pb-p2', copyaudit:'pb-p3', cards:'pb-p4' };
+  plan:'pb-p1', idea:'pb-p2', script:'pb-p2', audit:'pb-p3', cards:'pb-p4', publish:'pb-p5' };
 const bsWrap = document.getElementById('bsWrap');
 let bsView = null;
 let bsHistOpen = false;
@@ -4374,8 +4312,8 @@ function bsSettings(st, s){
     /* switching mid-job lands on the equivalent stage in the other track,
        so a subject that turns out deeper than it looked is promoted
        rather than restarted */
-    const TO_LIGHT = { research:'lresearch', audit:'lfinal', finalize:'lfinal' };
-    const TO_FULL  = { lresearch:'research', lfinal:'audit' };
+    const TO_LIGHT = { deep:'lresearch', second:'lresearch', expand:'lresearch', accuracy:'lfinal', gap:'lfinal', finalize:'lfinal' };
+    const TO_FULL  = { lresearch:'deep', lfinal:'accuracy' };
     tier.addEventListener('change', ()=>{
       const light = tier.value==='light';
       if(light === !!s.light) return;
@@ -4454,12 +4392,13 @@ function bsDossierPicker(st,s){
 
 /* pre-v6 jobs carried the old single-track statuses; map them onto the
    track they belong to so work in progress survives the restructure */
-const BS_LEGACY = { research:['research','research'], audit:['research','audit'],
-  consolidation:['research','finalize'], package:['production','write'], script:['production','write'],
-  scriptaudit:['production','copyaudit'] };
-/* v6.1 folded expansion into the research chat and the gap hunt into the
-   audit chat, so those stages no longer exist as their own steps */
-const BS_FOLDED = { expansion:'research', accuracy:'audit', gaphunt:'audit' };
+const BS_LEGACY = { research:['research','deep'], audit:['research','accuracy'],
+  consolidation:['research','finalize'], package:['production','idea'], script:['production','idea'],
+  scriptaudit:['production','audit'] };
+/* v8.1 unfolds the full research spine and simplifies old production
+   jobs without discarding any text they already captured. */
+const BS_RESEARCH_MIGRATE = { research:'deep', audit:'accuracy', expansion:'expand', gaphunt:'gap' };
+const BS_PRODUCTION_MIGRATE = { write:'idea', claims:'audit', copyaudit:'audit' };
 function bsNorm(s){
   if(!s) return s;
   if(!s.kind){
@@ -4473,12 +4412,9 @@ function bsNorm(s){
     if(s.consolidated && !s.contentPlan) s.contentPlan = s.consolidated;
     if(s.kind==='production' && !s.dossierTag) s.dossierTag = s.tag;
   }
-  if(s.kind==='research' && BS_FOLDED[s.status]){
-    s.status = BS_FOLDED[s.status];
-    if(s.r3doc && !s.r4doc) s.r4doc = s.r3doc;
-    if(s.r5doc && !s.r6doc) s.r6doc = s.r5doc;
-  }
+  if(s.kind==='research' && BS_RESEARCH_MIGRATE[s.status]) s.status = BS_RESEARCH_MIGRATE[s.status];
   if(s.kind==='production'){
+    if(BS_PRODUCTION_MIGRATE[s.status]) s.status = BS_PRODUCTION_MIGRATE[s.status];
     const primary=s.dossierTag||s.tag, tags=[];
     [primary].concat(Array.isArray(s.dossierTags)?s.dossierTags:[]).forEach(tag=>{
       if(tag && !tags.includes(tag)) tags.push(tag);
@@ -4531,7 +4467,8 @@ function bsClaimsResolved(s){
 }
 function bsAdvance(st, to){
   const s = st.active; if(!s) return;
-  if(s.kind==='production' && bsStageIdx(s,to) > bsStageIdx(s,'claims') && !bsClaimsResolved(s)){
+  const claimsGate = bsStageIdx(s,'claims');
+  if(s.kind==='production' && claimsGate>=0 && bsStageIdx(s,to) > claimsGate && !bsClaimsResolved(s)){
     alert('The NEW CLAIMS gate is not cleared. Every claim needs "Confirmed · source checked" or "Cut from script" first.');
     return;
   }
@@ -4540,7 +4477,8 @@ function bsAdvance(st, to){
 }
 function bsFile(st){
   const s = st.active; if(!s) return;
-  if(s.kind==='production' && !bsClaimsResolved(s)){
+  const claimsGate = bsStageIdx(s,'claims');
+  if(s.kind==='production' && claimsGate>=0 && !bsClaimsResolved(s)){
     alert('The NEW CLAIMS gate is not cleared. Every claim needs "Confirmed · source checked" or "Cut from script" first.');
     return;
   }
@@ -4638,37 +4576,36 @@ function ppSiblingCheck(s){
     'agree. If nothing in the copy touches them, write CROSS-CHECK NEEDED:\n'+
     'none, which is a real result.\n\n';
 }
+function bsScriptText(s){
+  return ((s && s.finalScript) || '').trim() || writerText();
+}
 function ppP3(s){
   const raw = document.getElementById('pp3').textContent
     .replace('SCRIPT OR POST: [PASTE THE FINAL COPY]',
              ppSiblingCheck(s) + 'SCRIPT OR POST: [PASTE THE FINAL COPY]')
-    .replace('[PASTE THE FINAL COPY]', '\n' + writerText());
+    .replace('[PASTE THE FINAL COPY]', '\n' + bsScriptText(s));
   return withDossier(raw, s);
 }
 function ppP4(s){ return withDossier(promptText('pp4')
-  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()), s); }
+  .replace('[PASTE THE FINAL SCRIPT]', '\n' + bsScriptText(s)), s); }
 function ppP4b(s){ return withDossier(promptText('pp4b')
-  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()), s); }
-function ppP5(){ return promptText('pp5')
-  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()); }
-function ppP5c(){ return promptText('pp5c')
-  .replace('[PASTE THE FINAL SCRIPT]', '\n' + writerText()); }
-
+  .replace('[PASTE THE FINAL SCRIPT]', '\n' + bsScriptText(s)), s); }
+function ppP5(s){
+  const format = (s && s.videoFormat) || ((s && s.format)==='pp2b'? 'Long form' : 'Short');
+  return promptText('pp5')
+    .replace('[THE APP FILLS THIS IN]', format)
+    .replace('[PASTE THE FINAL VIDEO TRANSCRIPT]', '\n' + (((s && s.transcript) || '').trim()));
+}
 /* ---- one surface ----
-   The Playbook and the Home flow were two ways to copy the same prompt,
-   and only the flow filled in the documents. That is what made them feel
-   contradictory: the same button gave you a different thing depending on
-   which tab you pressed it on. Now the Playbook copy runs through the
-   flow builder whenever a job of the matching kind is running, so both
-   tabs hand over the identical, filled-in prompt. With nothing running
-   the Playbook still copies the blank prompt with its paste markers,
-   which is what you want when you are reading it. */
+   The visible Work flow owns every copy button. The old Playbook markup
+   remains as the prompt engine and reference source, but it has no route
+   in the navigation and therefore cannot compete with the guided steps. */
 const FLOW_BUILD = {
   research: { pr1:prR1, pr2:prR2, pr3:prR3, pr4:prR4, pr5:prR5, pr6:prR6, pr7:prR7,
     prl2:prL2, prl3:prL3 },
   revise:   { pr8a:prR8a, pr8b:prR8b },
   production: { pp1:ppP1, pp2a:(s)=>ppP2('pp2a',s), pp2b:(s)=>ppP2('pp2b',s),
-    pp2c:(s)=>ppP2('pp2c',s), pp3:ppP3, pp4:ppP4, pp4b:ppP4b, pp5:ppP5, pp5c:ppP5c }
+    pp2c:(s)=>ppP2('pp2c',s), pp3:ppP3, pp4:ppP4, pp4b:ppP4b, pp5:ppP5 }
 };
 function livePrompt(id){
   const j = bsState().active;
@@ -4792,7 +4729,7 @@ function bsPanelScope(st, s){
     copies: [{ label:'Copy R1 · scope and coverage plan', build: prR1 }],
     placeholder: 'R1 OUTPUT goes here. Paste the coverage plan text it returns: scope, classification, the question list, and the definition of done.',
     field: 'plan', next: 'Plan captured · start the research', from: 'scope',
-    to: s.light? 'lresearch' : 'research',
+    to: s.light? 'lresearch' : 'deep',
     needs: 'Paste the coverage plan first.'
   });
 }
@@ -4841,25 +4778,49 @@ function bsPanelLFinal(st, s){
   }
   return p;
 }
-function bsPanelResearch(st, s){
+function bsPanelDeep(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Same chat 1, web search on.</b> Send R2, then R3, then R4, one after another in that one chat. Each replies with a PDF and a short note. Only the last one needs pasting back: R4 ends with the dossier as plain text, and that is what the audit chat gets.',
-    copies: [{ label:'Copy R2 · deep research', build: prR2 },
-             { label:'Copy R3 · second pass', build: prR3 },
-             { label:'Copy R4 · expansion', build: prR4 }],
-    placeholder: 'Paste the R4 dossier text here, all nineteen sections.',
-    field: 'r4doc', next: 'Dossier captured · on to the audit', from: 'research', to: 'audit',
+    note: '<b>Step R2. Stay in chat 1 and turn web search on.</b> The prompt already carries the R1 coverage plan. Paste the complete R2 dossier reply below so the next checkpoint stays visible here too.',
+    copies: [{ label:'Copy R2 · deep research', build: prR2 }],
+    placeholder: 'Paste the complete R2 dossier text here.',
+    field: 'r2doc', next: 'R2 captured · continue to R3', from: 'deep', to: 'second',
+    needs: 'Paste the R2 dossier first.'
+  });
+}
+function bsPanelSecond(st, s){
+  return bsDocStage(st, s, {
+    note: '<b>Step R3. Stay in the same research chat.</b> R3 attacks the first pass while its searches and assumptions are still in context. This is a delta pass, so paste the complete R3 delta below. R4 will assemble it with the dossier already in that chat.',
+    copies: [{ label:'Copy R3 · second pass', build: prR3 }],
+    placeholder: 'Paste the complete R3 delta text here.',
+    field: 'r3doc', next: 'R3 captured · continue to R4', from: 'second', to: 'expand',
+    needs: 'Paste the R3 dossier first.'
+  });
+}
+function bsPanelExpand(st, s){
+  return bsDocStage(st, s, {
+    note: '<b>Step R4. Stay in the same research chat.</b> R4 expands the dossier with the full sweeps. Paste the resulting complete dossier below. This is the copy the independent audit will receive.',
+    copies: [{ label:'Copy R4 · expansion', build: prR4 }],
+    placeholder: 'Paste the complete R4 dossier text here, all sections.',
+    field: 'r4doc', next: 'R4 captured · start the independent audit', from: 'expand', to: 'accuracy',
     needs: 'Paste the R4 dossier first.'
   });
 }
-function bsPanelAudit(st, s){
+function bsPanelAccuracy(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Chat 2: a brand new blank chat, no folder</b>, different model if you have one, web search on. This is the one hand-off that matters for accuracy. Send R5, then R6 in the same chat. R5 carries the dossier for you; R6 carries the R1 plan. Paste back the dossier R6 returns.',
-    copies: [{ label:'Copy R5 · accuracy audit, dossier attached', build: prR5 },
-             { label:'Copy R6 · gap hunt, plan attached', build: prR6 }],
-    placeholder: 'Paste the gap-hunted dossier text here, remaining holes included.',
-    field: 'r6doc', next: 'Audited and gap hunted · on to finalize', from: 'audit', to: 'finalize',
-    needs: 'Paste the audited dossier first.'
+    note: '<b>Step R5. Open a brand new blank chat, outside the folder</b>, and use a different model if you have one. This separation matters because the chat that wrote the dossier should not grade its own work. The copied prompt carries the R4 dossier. R5 returns an audit delta, not another full dossier.',
+    copies: [{ label:'Copy R5 · accuracy audit, dossier attached', build: prR5 }],
+    placeholder: 'Paste the complete R5 audit delta text here.',
+    field: 'r5doc', next: 'R5 captured · continue to R6', from: 'accuracy', to: 'gap',
+    needs: 'Paste the R5 audit delta first.'
+  });
+}
+function bsPanelGap(st, s){
+  return bsDocStage(st, s, {
+    note: '<b>Step R6. Stay in the audit chat.</b> R6 compares the work against the original R1 plan and hunts what is still missing. The copied prompt carries the plan. Paste back the complete gap-hunt delta, including the remaining holes. R7 assembles the R4 base plus both deltas.',
+    copies: [{ label:'Copy R6 · gap hunt, plan attached', build: prR6 }],
+    placeholder: 'Paste the complete R6 gap-hunt delta text here.',
+    field: 'r6doc', next: 'R6 captured · continue to R7', from: 'gap', to: 'finalize',
+    needs: 'Paste the R6 gap-hunt delta first.'
   });
 }
 /* ---- R8 revision panels ---- */
@@ -4979,18 +4940,68 @@ function bsPanelPlan(st, s){
   ta.addEventListener('input', ()=>{ upd(); clearTimeout(timer); timer=setTimeout(()=>{ s.contentPlan=ta.value; bsSave(st); },600); });
   p.appendChild(meta);
   const row = bsEl('<div class="bs-row"></div>');
-  const go = bsEl('<button type="button" class="amber">Save the slate · on to writing</button>');
+  const go = bsEl('<button type="button" class="amber">Save the content plan · choose ideas</button>');
   go.addEventListener('click', ()=>{
     s.contentPlan = ta.value.trim();
     if(s.contentPlan){
       const all = dossiers();
       if(all[s.dossierTag]){ all[s.dossierTag].plan = s.contentPlan; all[s.dossierTag].updated = Date.now(); saveDossiers(all); }
     }
-    bsAdvance(st, 'write');
+    bsAdvance(st, 'idea');
   });
   const skip = bsEl('<button type="button" class="ghost">Skip · I know what I am making</button>');
-  skip.addEventListener('click', ()=>bsAdvance(st, 'write'));
+  skip.addEventListener('click', ()=>bsAdvance(st, 'idea'));
   row.appendChild(go); row.appendChild(skip); p.appendChild(row);
+  return p;
+}
+function bsPanelIdea(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note"><b>Comb through the content plan yourself.</b> Choose one idea, combine several, or type a completely specific direction below. This is the hand-written brief the script prompt receives. It is intentionally not an automatic picker.</p>'));
+  if((s.contentPlan||'').trim()){
+    const det = bsEl('<details class="pbsec"><summary><span class="sn">1</span><span class="st">Review the saved content plan</span><span class="arrow">›</span></summary><div class="secbody"><div class="bs-pre"></div></div></details>');
+    det.querySelector('.bs-pre').textContent = s.contentPlan;
+    p.appendChild(det);
+  }
+  p.appendChild(bsEl('<label class="small">The idea, or combination of ideas, you decided on</label>'));
+  const ta = bsEl('<textarea class="bs-paste" style="min-height:150px" placeholder="Type the story you want made. Combine ideas freely. Include the angle, what must be explained, what to leave out, and any opening thought you already have."></textarea>');
+  p.appendChild(ta);
+  p.appendChild(bsWirePaste(ta, st, s, 'story'));
+  p.appendChild(bsEl('<label class="small">What are you making?</label>'));
+  const format = bsEl('<select><option value="pp2a">Short video</option><option value="pp2b">Long video</option><option value="pp2c">Facebook and YouTube posts</option></select>');
+  format.value = s.format || 'pp2a';
+  format.addEventListener('change', ()=>{ s.format=format.value; s.updated=Date.now(); bsSave(st); });
+  p.appendChild(format);
+  const row = bsEl('<div class="bs-row"></div>');
+  const go = bsEl('<button type="button" class="amber">Save my choice · write the script</button>');
+  go.addEventListener('click', ()=>{
+    if(!ta.value.trim()){ alert('Type the idea or combination of ideas you chose first.'); return; }
+    s.story=ta.value.trim(); s.format=format.value; bsAdvance(st,'script');
+  });
+  row.appendChild(go); p.appendChild(row);
+  return p;
+}
+function bsPanelScript(st, s){
+  const p = bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note"><b>Copy the prompt into your AI chat and work back and forth normally.</b> Ask for changes, rewrite sections, combine versions, and keep going until the script sounds right. When it is settled, paste only the final script below. The audit and card prompts will use that saved copy.</p>'));
+  const row1 = bsEl('<div class="bs-row"></div>');
+  [['Copy Short script prompt','pp2a'],['Copy long-video script prompt','pp2b'],['Copy post prompt','pp2c']].forEach(pair=>{
+    const b=bsEl('<button type="button" class="copybtn"></button>');
+    b.textContent=pair[0];
+    if((s.format||'pp2a')===pair[1]) b.classList.add('amber');
+    b.addEventListener('click', function(){ s.format=pair[1]; bsSave(st); copyText(ppP2(pair[1],s),this); });
+    row1.appendChild(b);
+  });
+  p.appendChild(row1);
+  p.appendChild(bsEl('<label class="small">Final script after your revisions</label>'));
+  const ta=bsEl('<textarea class="bs-paste" style="min-height:250px" placeholder="Paste the final script here after you finish the back-and-forth in AI."></textarea>');
+  p.appendChild(ta); p.appendChild(bsWirePaste(ta,st,s,'finalScript'));
+  const row=bsEl('<div class="bs-row"></div>');
+  const go=bsEl('<button type="button" class="amber">Save final script · audit it</button>');
+  go.addEventListener('click',()=>{
+    if(!ta.value.trim()){ alert('Paste the final script first.'); return; }
+    s.finalScript=ta.value.trim(); bsSetScript(s,s.finalScript); bsAdvance(st,'audit');
+  });
+  row.appendChild(go); p.appendChild(row);
   return p;
 }
 function bsParseSummary(st, s){
@@ -5110,24 +5121,22 @@ function bsPanelClaims(st, s){
   }
   return p;
 }
-function bsPanelCopyAudit(st, s){
+function bsPanelProductionAudit(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note"><b>Chat 4: a brand new blank chat, no folder</b>, different model if you have one, web search on. A chat that just wrote the copy will defend it. Rewrite in the <b>Writer</b> first if you want; the copy below always carries the current Writer text plus the <b>'+esc(s.dossierTag)+'</b> dossier. Paste the corrected copy back, or continue if it came back clean.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Now check the script for mistakes.</b> Use a new blank chat and a different model if practical. The audit prompt carries the final script plus every selected dossier. You can also ask the AI plainly to check the script, then use this prompt for the formal factual pass. Paste back the corrected script, or continue if it came back clean.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
   const c3 = bsEl('<button type="button" class="copybtn">Copy P3 · copy + knowledge bundle attached</button>');
   c3.addEventListener('click', function(){ copyText(ppP3(s), this); });
-  const w = bsEl('<button type="button" class="ghost">Open Writer</button>');
-  w.addEventListener('click', ()=>showView('writer'));
-  row1.appendChild(c3); row1.appendChild(w); p.appendChild(row1);
-  const ta = bsEl('<textarea class="bs-paste" placeholder="Paste the CORRECTED COPY section here to replace the Writer text."></textarea>');
+  row1.appendChild(c3); p.appendChild(row1);
+  const ta = bsEl('<textarea class="bs-paste" style="min-height:220px" placeholder="Paste the corrected final script here. Leave this blank if the audit came back clean."></textarea>');
   p.appendChild(ta);
   p.appendChild(bsWirePaste(ta, st, s, 'auditDraft'));
-  if(s.status==='copyaudit'){
+  if(s.status==='audit'){
     const row = bsEl('<div class="bs-row"></div>');
     const apply = bsEl('<button type="button" class="amber">Apply corrected copy · on to Cards</button>');
     apply.addEventListener('click', ()=>{
       if(!ta.value.trim()){ alert('Paste the corrected copy first, or use "clean" below.'); return; }
-      bsSetScript(s, ta.value.trim()); s.auditDraft=''; bsAdvance(st,'cards');
+      s.finalScript=ta.value.trim(); bsSetScript(s,s.finalScript); s.auditDraft=''; bsAdvance(st,'cards');
     });
     const clean = bsEl('<button type="button" class="ghost">Came back clean · continue</button>');
     clean.addEventListener('click', ()=>bsAdvance(st,'cards'));
@@ -5137,7 +5146,7 @@ function bsPanelCopyAudit(st, s){
 }
 function bsPanelCards(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note"><b>Same chat 4</b>, where the copy was just audited. P4 carries the final script, the dossier, and the card machine format; P5 packages it. Paste the P4 reply and the card blocks route to the Cards tab with file tag "'+esc(s.dossierTag)+'". Posts skip the cards.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Generate the cards after the script is accurate.</b> P4 and P4B carry the audited final script, the selected knowledge bundle, and the card format. Paste the reply below to route the blocks into the Cards tab. If this video needs no cards, continue to the transcript step.</p>'));
   const rowC = bsEl('<div class="bs-row"></div>');
   const copyBtn = bsEl('<button type="button" class="copybtn">Copy P4 · cards</button>');
   copyBtn.addEventListener('click', function(){ copyText(ppP4(s), this); });
@@ -5172,22 +5181,46 @@ function bsPanelCards(st, s){
   const row1 = bsEl('<div class="bs-row"></div>');
   const oc = bsEl('<button type="button" class="ghost">Open Cards tab</button>');
   oc.addEventListener('click', ()=>showView('cards'));
-  const sp = bsEl('<button type="button" class="ghost">Share the whole package</button>');
-  sp.addEventListener('click', ()=>{ showView('cards'); document.getElementById('sharePack').click(); });
-  row1.appendChild(oc); row1.appendChild(sp); p.appendChild(row1);
-  p.appendChild(bsEl('<div class="kick" style="margin-top:12px">Packaging · two prompts</div>'));
-  const row2 = bsEl('<div class="bs-row"></div>');
-  const c5 = bsEl('<button type="button" class="copybtn">Copy P5 · titles, description, tags</button>');
-  c5.addEventListener('click', function(){ copyText(ppP5(), this); });
-  const c5c = bsEl('<button type="button" class="copybtn">Copy P5C · pinned comment</button>');
-  c5c.addEventListener('click', function(){ copyText(ppP5c(), this); });
-  row2.appendChild(c5); row2.appendChild(c5c); p.appendChild(row2);
+  row1.appendChild(oc); p.appendChild(row1);
   if(s.status==='cards'){
     const row = bsEl('<div class="bs-row"></div>');
-    const b = bsEl('<button type="button" class="amber">Done · mark this Filed</button>');
-    b.addEventListener('click', ()=>bsFile(st));
+    const b = bsEl('<button type="button" class="amber">Cards handled · continue to the finished video</button>');
+    b.addEventListener('click', ()=>bsAdvance(st,'publish'));
     row.appendChild(b); p.appendChild(row);
   }
+  return p;
+}
+function bsPanelPublish(st, s){
+  const p=bsEl('<div class="bs-stage"></div>');
+  p.appendChild(bsEl('<p class="bs-note"><b>Come back after the video is edited.</b> Export or copy the transcript from the finished video, not the earlier script. The actual edit may have cuts, additions, or different wording. Paste the transcript here or load a TXT, SRT, or VTT file, then copy one prompt for the YouTube and Facebook details.</p>'));
+  const format=bsEl('<select><option value="Short">Short video</option><option value="Long form">Long video</option></select>');
+  format.value=s.videoFormat || (s.format==='pp2b'?'Long form':'Short');
+  format.addEventListener('change',()=>{s.videoFormat=format.value;s.updated=Date.now();bsSave(st);});
+  p.appendChild(format);
+  const ta=bsEl('<textarea class="bs-paste" style="min-height:260px" placeholder="Paste the transcript from the finished video here."></textarea>');
+  p.appendChild(ta); p.appendChild(bsWirePaste(ta,st,s,'transcript'));
+  const file=bsEl('<input type="file" accept=".txt,.srt,.vtt,text/plain" style="display:none">');
+  const row1=bsEl('<div class="bs-row"></div>');
+  const load=bsEl('<button type="button" class="ghost">Load transcript file</button>');
+  load.addEventListener('click',()=>file.click());
+  file.addEventListener('change',()=>{
+    const f=file.files[0]; file.value=''; if(!f) return;
+    const reader=new FileReader();
+    reader.onload=e=>{ta.value=String(e.target.result||'');ta.dispatchEvent(new Event('input'));};
+    reader.readAsText(f);
+  });
+  row1.appendChild(load); row1.appendChild(file); p.appendChild(row1);
+  const row2=bsEl('<div class="bs-row"></div>');
+  const copy=bsEl('<button type="button" class="copybtn">Copy YouTube + Facebook details prompt</button>');
+  copy.addEventListener('click',function(){
+    if(!ta.value.trim()){alert('Paste or load the finished-video transcript first.');return;}
+    s.transcript=ta.value.trim(); s.videoFormat=format.value; bsSave(st); copyText(ppP5(s),this);
+  });
+  row2.appendChild(copy); p.appendChild(row2);
+  const row3=bsEl('<div class="bs-row"></div>');
+  const done=bsEl('<button type="button" class="amber">Upload details handled · finish this job</button>');
+  done.addEventListener('click',()=>bsFile(st));
+  row3.appendChild(done); p.appendChild(row3);
   return p;
 }
 
@@ -5312,11 +5345,12 @@ function bsHistory(st){
   return det;
 }
 
-const BS_PANELS = { scope:bsPanelScope, research:bsPanelResearch, audit:bsPanelAudit,
+const BS_PANELS = { scope:bsPanelScope, deep:bsPanelDeep, second:bsPanelSecond, expand:bsPanelExpand,
+  accuracy:bsPanelAccuracy, gap:bsPanelGap,
   finalize:bsPanelFinalize, lresearch:bsPanelLResearch, lfinal:bsPanelLFinal,
   attack:bsPanelAttack, rebuild:bsPanelRebuild,
-  plan:bsPanelPlan, write:bsPanelWrite, claims:bsPanelClaims,
-  copyaudit:bsPanelCopyAudit, cards:bsPanelCards };
+  plan:bsPanelPlan, idea:bsPanelIdea, script:bsPanelScript, audit:bsPanelProductionAudit,
+  cards:bsPanelCards, publish:bsPanelPublish };
 
 function renderShort(){
   const st = bsState();
@@ -5342,11 +5376,7 @@ function renderShort(){
     subj.textContent = kind + (s.name? ' · '+s.name : '');
     box.appendChild(subj);
     const viewKey = (bsView && bsStageIdx(s, bsView) < bsStageIdx(s, s.status))? bsView : s.status;
-    const links = bsEl('<div class="bs-links"><a href="#" class="l-set">EDIT JOB AND DOSSIERS</a>'+
-      '<a href="#" class="l-full">FULL STEP ›</a></div>');
-    links.querySelector('.l-full').addEventListener('click', e=>{
-      e.preventDefault(); goPlaybook(BS_STEP_SECTION[viewKey] || 'pb-start');
-    });
+    const links = bsEl('<div class="bs-links"><a href="#" class="l-set">EDIT JOB AND DOSSIERS</a></div>');
     links.querySelector('.l-set').addEventListener('click', e=>{
       e.preventDefault(); bsSetOpen = !bsSetOpen; renderShort();
     });
@@ -5366,13 +5396,8 @@ function renderShort(){
 }
 renderShort();
 
-/* ---------------- [HOME] quick copy ---------------- */
-document.getElementById('qcopy1').addEventListener('click', function(){
-  copyText(document.getElementById('pr1').textContent, this);
-});
-document.getElementById('qcopy10').addEventListener('click', function(){
-  copyText(document.getElementById('pp5').textContent, this);
-});
+/* ---------------- [WORK] direct utility links ---------------- */
+document.querySelectorAll('[data-open-library]').forEach(b=>b.addEventListener('click', ()=>showView('library')));
 
 /* ---------------- [HOME] backup and restore, every itc_ key ---------------- */
 document.getElementById('backupBtn').addEventListener('click', ()=>{
@@ -6217,7 +6242,7 @@ align: center`)[0];
     if(id!=='pp2c' && !t.includes('Inside The Case."')) fails.push(id+' lost the sign off');
   });
   /* every step prompt must exist and every stage must map to a real section */
-  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3','px1','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp4b','pp5','pp5c'].forEach(id=>{
+  ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3','px1','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp4b','pp5'].forEach(id=>{
     if(!document.getElementById(id)) fails.push('step prompt "'+id+'" is missing from the playbook');
   });
   /* every stage in every track needs a panel, or a job lands on a step
@@ -6279,7 +6304,7 @@ align: center`)[0];
       let rejected=false; try{ recordsFromPackage(bad); }catch(e){ rejected=true; }
       if(!rejected) fails.push('a damaged library package stopped failing its integrity check');
     }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
-    if(APP_VERSION!=='v8.0') fails.push('the v8 code is running under a different APP_VERSION');
+    if(APP_VERSION!=='v8.1') fails.push('the v8.1 code is running under a different APP_VERSION');
     if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
   /* filename tokens must actually be substituted, or the AI is told to

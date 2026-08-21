@@ -19,8 +19,8 @@ files, scripts, sources, backup JSON, or other private knowledge-base data.
 Keep those outside the repo and design explicit local import/export paths.
 Work on feature branches because every push to `main` deploys the live app.
 
-This repo is a single-file PWA: `index.html` is the entire app (Playbook,
-Card Generator, Case Writer, Home dashboard for the Inside The Case Auto
+This repo is a single-file PWA: `index.html` is the entire app (guided Work
+surface, Library, Card Generator, and Case Writer for the Inside The Case Auto
 YouTube channel). It deploys automatically via GitHub Pages on every push
 to main. Two phones (a Samsung running Chrome, an iPhone running Safari)
 have it installed as a home-screen app.
@@ -59,16 +59,17 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is playbook v7.0, two tracks, on both Claude
+- The workflow is playbook v8.1, two tracks, on both Claude
   (Opus/Fable) and ChatGPT. The **research track** (R1 scope and
   coverage plan, R2 deep research, R3 second pass, R4 expansion, R5
   accuracy audit, R6 gap hunt, R7 finalize) builds one permanent
   dossier per part to the fixed schema and shelves it
-  in the Library. The **production track** (P1 content plan, P2A/B/C
-  write, P3 copy audit, P4 cards, P5 packaging) draws content out of a
-  finished dossier, repeatedly. R2 and R3 share one chat; every other
-  step runs cold in a fresh chat with its inputs pasted in, ideally
-  alternating models between writing and auditing.
+  in the Library. The **production track** follows the channel's real work:
+  P1 content plan, a user-written choice or combination of ideas, P2A/B/C
+  writing with unrestricted conversational revision, P3 final audit, P4
+  cards, and P5 upload details from the transcript of the edited video.
+  R1 through R4 share one research chat; R5 through R7 share a separate
+  blank audit chat. The final script audit should run cold when practical.
 - **The light spine** (R1, then L2, then L3) is the same research track
   with steps merged, for a subject too small to earn seven prompts. It
   is allowed to shorten by merging and never by dropping: all six
@@ -101,11 +102,12 @@ have it installed as a home-screen app.
   rules back into an individual prompt: that duplication is what the
   v6.2 revision removed, and the load-time self-test now fails if the
   blocks stop attaching.
-- **One surface.** The Playbook and the Home flow must never hand over
-  different text for the same prompt. Playbook copy buttons go through
-  `livePrompt()`, which uses the flow builder whenever a job of the
-  matching kind is running. If you add a prompt, add it to `FLOW_BUILD`
-  too, or that button quietly starts copying an unfilled version again.
+- **One visible surface.** Work is the only guided route for research and
+  production. The old Playbook DOM remains hidden as the prompt engine and
+  reference source, with no navigation tab and no `FULL STEP` escape hatch.
+  Work buttons use the builders in `FLOW_BUILD`, which inject saved documents
+  and selected dossiers. If you add a prompt, keep its builder and Work stage
+  together so an unfilled copy can never become a second workflow.
 - Coverage and accuracy are different questions. Accuracy asks whether
   the claims are true (R5); coverage asks whether the right questions
   were ever generated (the sweeps, R6). Completeness reports four
@@ -120,7 +122,7 @@ have it installed as a home-screen app.
   X1 bundle carries by default; if you renumber a schema section,
   that constant and the self-test move with it.
 - **The v8 Library is portable and verified.** App version, dossier schema,
-  and package schema are independent (`v8.0`, dossier schema 2, package schema
+  and package schema are independent (`v8.1`, dossier schema 2, package schema
   1). IndexedDB is canonical when available; `file://` and unsupported
   browsers fall back to localStorage. Every migration, import, and save is
   read back and checked. Real `.itc-library.json` packages are private data
