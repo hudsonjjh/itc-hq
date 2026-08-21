@@ -530,7 +530,7 @@ input[type=file]{display:none}
   <details class="pbsec">
     <summary><span class="sn">?</span><span class="st">Existing dossiers and library packages</span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <p class="lead"><b>A package is only the carrying case for your Library.</b> It does not rewrite a dossier, improve its research, or create a second format you have to maintain. Import a <code>.itc-library.json</code> file on the Library tab and every dossier inside becomes available to the production workflow.</p>
+      <p class="lead"><b>To add one finished dossier, use the files R7 actually gives you.</b> On the Library tab choose the final dossier TXT and matching claims TSV together. The app checks the pair and adds it to the shelf. A JSON Library backup is only for moving or restoring the entire shelf.</p>
       <div class="card"><div class="k">Import as-is</div><h4>Current, complete dossiers</h4><p>If a dossier already follows the current schema and has a clear status, import it. Do not run R8 merely to make it uploadable.</p></div>
       <div class="card"><div class="k">Revise first</div><h4>Legacy, blocked, or incomplete dossiers</h4><p>Use R8A and R8B when the research itself needs upgrading, blockers need resolving, or a claims companion needs rebuilding. An unfinished revision pass is not a replacement dossier.</p></div>
       <div class="bs-row"><button class="ghost" type="button" data-open-library>Open the Library</button></div>
@@ -1050,6 +1050,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.6</b> · The Library now imports the files the research workflow actually produces. Choose the final R7 TXT and matching R7_CLAIMS TSV together, review the detected tag and subject, and the app saves and verifies both as one dossier. L3 and R8B final pairs work the same way. Whole-Library JSON files remain available as clearly labeled backup and restore tools instead of being presented as the normal dossier import.</p>
       <p><b>v8.5</b> · Every research prompt now opens with a non-negotiable output contract before any task instructions: exact filenames, literal TXT and TSV extensions, UTF-8 encoding, MIME types, and an explicit prohibition on PDF, DOCX, document artifacts, and pasted chat output. The same contract remains at the bottom. R7 and R8B are guarded as two-file outputs at load time so a future edit cannot silently turn either dossier back into a PDF.</p>
       <p><b>v8.4</b> · Research is file-first. R1 through R8 now request downloadable UTF-8 TXT artifacts instead of PDFs and forbid dumping the document into the chat. R7, L3 and R8B return a TXT dossier plus the required TSV claims companion. Every research checkpoint has an Attach file button; the old text boxes remain collapsed as a manual fallback and review surface. This removes PDF page numbers and formatting from the Library and eliminates long pasted replies.</p>
       <p><b>v8.3</b> · R8A and R8B now live in a permanent, unmistakable box at the top of Work, even while another job is open and even when the Library is empty. Both prompts have their own direct Copy button. Standalone R8A includes a clear dossier paste marker; standalone R8B includes markers for both the parent dossier and the R8A pass. Importing a dossier remains optional convenience: choose it in the same box to have the full parent attached automatically and use the guided two-chat handoff.</p>
@@ -2876,12 +2877,34 @@ FINAL VIDEO TRANSCRIPT:
     <p class="lead" id="libStorageStatus" style="font-size:12px;margin:7px 0 2px">Opening the durable library…</p>
     <p class="count" id="libStorageMeta" style="margin:0 0 9px"></p>
     <div class="lib-form">
-      <button class="ghost" id="libExportPackage" type="button" style="flex:1;min-height:38px">Export library package</button>
-      <button class="ghost" id="libImportPackage" type="button" style="flex:1;min-height:38px">Import package</button>
+      <button class="amber" id="libImportFinal" type="button" style="flex:1;min-height:44px">Import final TXT + claims TSV</button>
       <button class="ghost" id="libRetryStorage" type="button" style="min-height:38px;display:none">Retry</button>
     </div>
+    <div class="lib-form">
+      <button class="ghost" id="libExportPackage" type="button" style="flex:1;min-height:38px">Export whole Library backup</button>
+      <button class="ghost" id="libImportPackage" type="button" style="flex:1;min-height:38px">Restore Library backup</button>
+    </div>
+    <input id="libImportFinalInput" type="file" multiple accept=".txt,.tsv,text/plain,text/tab-separated-values" style="display:none">
     <input id="libImportInput" type="file" accept=".json,.itc-library.json,application/json" style="display:none">
-    <p class="count" style="margin:8px 0 0"><b>The package is only a portable carrying case.</b> It moves dossiers and companions between this app, another browser, Claude Code, or Codex. It does not rewrite the research. Current dossiers import as-is; use R8 only when a dossier itself is legacy, blocked, incomplete, or missing a companion you want rebuilt. Keep real packages private; this site never uploads them.</p>
+    <div class="lib-detail" id="libImportFinalReview" style="display:none;margin:10px 0 0">
+      <div class="kick" style="margin-top:0">Check the finished dossier</div>
+      <p class="count" id="libImportFinalFiles" style="margin:0 0 8px"></p>
+      <div class="lib-form">
+        <input id="libImportFinalTag" placeholder="Library tag" maxlength="64" style="max-width:180px">
+        <input id="libImportFinalName" placeholder="Subject name">
+      </div>
+      <div class="lib-form">
+        <select id="libImportFinalType" aria-label="Dossier type" style="max-width:190px">
+          <option value="transmission">transmission</option><option value="axle">axle</option>
+          <option value="transfer case">transfer case</option><option value="engine">engine</option>
+          <option value="body and cab">body and cab</option><option value="brake and wheel end">brake and wheel end</option>
+          <option value="electrical">electrical</option><option value="other">other</option>
+        </select>
+        <button class="amber" id="libImportFinalConfirm" type="button" style="flex:1;min-height:42px">Add both files to Library</button>
+      </div>
+      <button class="ghost" id="libImportFinalCancel" type="button" style="min-height:38px">Cancel</button>
+    </div>
+    <p class="count" style="margin:8px 0 0"><b>Normal dossier import:</b> select the final R7 TXT and matching R7_CLAIMS TSV together. L3 and R8B final pairs work too. The JSON Library backup is only for moving or restoring the entire shelf. These files stay on this device and are never uploaded.</p>
   </div>
   <div class="lib-form">
     <input id="libNewTag" placeholder="TAG · e.g. E4OD" maxlength="24" style="max-width:150px">
@@ -3177,7 +3200,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v8.5';
+const APP_VERSION = 'v8.6';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3872,6 +3895,57 @@ document.getElementById('libAdd').addEventListener('click', ()=>{
   libOpen = tag; renderLibrary();
 });
 
+const FINAL_CLAIM_COLUMNS = ['id','tier','type','evidence_class','source_ids','source_year','proven_span',
+  'span_basis','span_risk','section','card_ready','screen_only','spoken_form','stated_purpose',
+  'failure_consequence','service_action'];
+function finalArtifactName(filename, claims){
+  const re = claims
+    ? /^ITC_(.+)_(R7(?:\.\d+)?|L3(?:\.\d+)?|R8B(?:\.\d+)?)_CLAIMS\.tsv$/i
+    : /^ITC_(.+)_(R7(?:\.\d+)?|L3(?:\.\d+)?|R8B(?:\.\d+)?)\.txt$/i;
+  const m=String(filename||'').trim().match(re);
+  if(!m) return null;
+  return { tag:m[1].trim().toUpperCase().replace(/\s+/g,'_'), step:m[2].toUpperCase() };
+}
+function finalDossierTitle(text, tag){
+  const lines=String(text||'').replace(/^\uFEFF/,'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  const title=lines.find(x=>/^ITC\s+.+\|\s*(R7|L3|R8B)\b/i.test(x));
+  if(title) return title.replace(/^ITC\s+/i,'').replace(/\s*\|\s*(R7|L3|R8B).*$/i,'').trim();
+  const mark=lines.findIndex(x=>/^INSIDE THE CASE$/i.test(x));
+  if(mark>=0 && lines[mark+1] && !/^\d+\s+DOSSIER\s+HEADER/i.test(lines[mark+1])) return lines[mark+1];
+  return String(tag||'').replace(/_/g,' ');
+}
+function finalDossierStatus(text){
+  const m=String(text||'').match(/\bSTATUS\s*:\s*(LIBRARY READY|BLOCKED|LEGACY[^.\r\n]*|PENDING[^.\r\n]*)/i);
+  return m? m[1].trim().toUpperCase() : 'LIBRARY READY';
+}
+function finalDossierRecord(dossierName, dossierText, claimsName, claimsText, fields){
+  const dossierFile=finalArtifactName(dossierName,false), claimsFile=finalArtifactName(claimsName,true);
+  if(!dossierFile) throw new Error('The dossier must be the downloadable ITC_[TAG]_R7.txt file. L3 and R8B final TXT files also work.');
+  if(!claimsFile) throw new Error('The claims file must be the matching ITC_[TAG]_R7_CLAIMS.tsv file.');
+  if(dossierFile.tag!==claimsFile.tag || dossierFile.step!==claimsFile.step)
+    throw new Error('Those files are not a matching pair. Select the TXT and claims TSV from the same final step.');
+  const text=String(dossierText||'').replace(/^\uFEFF/,''), claims=String(claimsText||'').replace(/^\uFEFF/, '');
+  if(text.trim().length<400) throw new Error('The final dossier TXT looks empty or incomplete. Nothing was imported.');
+  const header=(claims.split(/\r?\n/).find(x=>x.trim())||'').split('\t').map(x=>x.trim().toLowerCase());
+  if(header.length!==FINAL_CLAIM_COLUMNS.length || FINAL_CLAIM_COLUMNS.some((x,i)=>header[i]!==x))
+    throw new Error('The TSV does not have the required R7 claims columns. Select the R7_CLAIMS.tsv file returned with the dossier.');
+  if(claimRowCount(claims)<1) throw new Error('The claims TSV has no claim rows. Nothing was imported.');
+  const given=fields||{}, tag=String(given.tag||dossierFile.tag).trim().toUpperCase().replace(/\s+/g,'_');
+  if(!/^[A-Z0-9][A-Z0-9_-]{0,63}$/.test(tag)) throw new Error('Use a tag made from letters, numbers, underscores, or hyphens.');
+  return preparedDossier({ tag,
+    name:String(given.name||finalDossierTitle(text,tag)).trim(), type:String(given.type||'other'),
+    text, claims, plan:'', status:finalDossierStatus(text), schema:SCHEMA_VERSION,
+    created:Date.now(), updated:Date.now(), importedFrom:dossierFile.step });
+}
+function readLocalText(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=e=>resolve(String(e.target.result||''));
+    reader.onerror=()=>reject(reader.error||new Error('That file could not be read.'));
+    reader.readAsText(file);
+  });
+}
+
 /* One portable file is the knowledge folder. Manifest fields are kept
    separate from the large text fields so tools can inspect the catalog
    without loading every dossier into an AI context. */
@@ -3911,10 +3985,10 @@ function recordsFromPackage(obj){
   });
   return records;
 }
-async function importLibraryPackage(obj, ask){
-  const incoming=recordsFromPackage(obj), existing=dossiers();
+async function importDossierRecords(incoming, ask, winner){
+  const existing=dossiers();
   const duplicates=incoming.filter(d=>existing[d.tag]).map(d=>d.tag);
-  if(ask && duplicates.length && !confirm('Replace '+duplicates.length+' existing dossier'+(duplicates.length===1?'':'s')+': '+duplicates.join(', ')+'? The package version wins.')) return false;
+  if(ask && duplicates.length && !confirm('Replace '+duplicates.length+' existing dossier'+(duplicates.length===1?'':'s')+': '+duplicates.join(', ')+'? '+(winner||'The imported version wins.'))) return false;
   const merged=Object.assign({},existing);
   incoming.forEach(d=>{ merged[d.tag]=d; });
   await saveDossiers(merged);
@@ -3925,10 +3999,58 @@ async function importLibraryPackage(obj, ask){
   renderLibrary(); if(window.__shelfOn) renderShelf();
   return true;
 }
+async function importLibraryPackage(obj, ask){
+  return importDossierRecords(recordsFromPackage(obj),ask,'The Library backup wins.');
+}
 document.getElementById('libExportPackage').addEventListener('click', ()=>{
   const payload=JSON.stringify(libraryPackage(dossierList()),null,2);
   const stamp=new Date().toISOString().slice(0,10).replace(/-/g,'');
   saveBlob(new Blob([payload],{type:'application/json'}),'ITC_LIBRARY_'+stamp+'.itc-library.json');
+});
+const libImportFinalInput=document.getElementById('libImportFinalInput');
+const libImportFinalReview=document.getElementById('libImportFinalReview');
+let pendingFinalImport=null;
+document.getElementById('libImportFinal').addEventListener('click',()=>libImportFinalInput.click());
+document.getElementById('libImportFinalCancel').addEventListener('click',()=>{
+  pendingFinalImport=null; libImportFinalReview.style.display='none'; libImportFinalInput.value='';
+});
+libImportFinalInput.addEventListener('change',async()=>{
+  const files=Array.from(libImportFinalInput.files||[]); libImportFinalInput.value='';
+  if(!files.length) return;
+  try{
+    if(files.length!==2) throw new Error('Select exactly two files together: the final dossier TXT and its matching claims TSV.');
+    const dossierFile=files.find(f=>/\.txt$/i.test(f.name));
+    const claimsFile=files.find(f=>/\.tsv$/i.test(f.name));
+    if(!dossierFile || !claimsFile) throw new Error('Select one TXT dossier and one TSV claims file together.');
+    const values=await Promise.all([readLocalText(dossierFile),readLocalText(claimsFile)]);
+    const record=finalDossierRecord(dossierFile.name,values[0],claimsFile.name,values[1]);
+    pendingFinalImport={dossierName:dossierFile.name,dossierText:values[0],claimsName:claimsFile.name,claimsText:values[1]};
+    document.getElementById('libImportFinalTag').value=record.tag;
+    document.getElementById('libImportFinalName').value=record.name;
+    document.getElementById('libImportFinalType').value='other';
+    document.getElementById('libImportFinalFiles').textContent=dossierFile.name+' + '+claimsFile.name+' · '+
+      claimRowCount(record.claims)+' claims · status '+record.status;
+    libImportFinalReview.style.display='';
+  }catch(err){
+    pendingFinalImport=null; libImportFinalReview.style.display='none';
+    alert(err&&err.message?err.message:'Those final dossier files could not be read.');
+  }
+});
+document.getElementById('libImportFinalConfirm').addEventListener('click',async()=>{
+  if(!pendingFinalImport){ alert('Choose the final dossier TXT and claims TSV first.'); return; }
+  try{
+    const record=finalDossierRecord(pendingFinalImport.dossierName,pendingFinalImport.dossierText,
+      pendingFinalImport.claimsName,pendingFinalImport.claimsText,{
+        tag:document.getElementById('libImportFinalTag').value,
+        name:document.getElementById('libImportFinalName').value,
+        type:document.getElementById('libImportFinalType').value
+      });
+    if(!record.name) throw new Error('Give this dossier a subject name.');
+    if(await importDossierRecords([record],true,'The selected TXT and TSV win.')){
+      pendingFinalImport=null; libImportFinalReview.style.display='none';
+      alert('Imported and verified '+record.tag+' from the TXT and claims TSV. It is ready for production.');
+    }
+  }catch(err){ alert(err&&err.message?err.message:'Those final dossier files could not be imported.'); }
 });
 const libImportInput=document.getElementById('libImportInput');
 document.getElementById('libImportPackage').addEventListener('click',()=>libImportInput.click());
@@ -6409,8 +6531,21 @@ align: center`)[0];
       const bad=libraryPackage([one]); bad.dossiers[0].dossierText+='x';
       let rejected=false; try{ recordsFromPackage(bad); }catch(e){ rejected=true; }
       if(!rejected) fails.push('a damaged library package stopped failing its integrity check');
+      const finalHead=FINAL_CLAIM_COLUMNS.join('\t');
+      const finalRow=['C001','LOCKED','OBJECT','MANUAL','SRC-001','2000','2000','SOURCE','NO','01','YES','NO',
+        'Synthetic claim','NOT DOCUMENTED','NOT DOCUMENTED','NOT DOCUMENTED'].join('\t');
+      const finalText='ITC Synthetic final | R7 permanent copy\n00 DOSSIER HEADER\nSTATUS: BLOCKED. Synthetic blocker.\n'+
+        '01 ORIGIN AND DEVELOPMENT\n'+('Synthetic dossier text. '.repeat(24));
+      const imported=finalDossierRecord('ITC_TEST_IMPORT_R7.txt',finalText,
+        'ITC_TEST_IMPORT_R7_CLAIMS.tsv',finalHead+'\n'+finalRow);
+      if(imported.tag!=='TEST_IMPORT' || imported.status!=='BLOCKED' || claimRowCount(imported.claims)!==1)
+        fails.push('the final TXT plus claims TSV importer stopped building a verified dossier record');
+      let pairRejected=false;
+      try{ finalDossierRecord('ITC_TEST_IMPORT_R7.txt',finalText,'ITC_WRONG_R7_CLAIMS.tsv',finalHead+'\n'+finalRow); }
+      catch(e){ pairRejected=true; }
+      if(!pairRejected) fails.push('the final file importer accepted a mismatched TXT and claims TSV pair');
     }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
-    if(APP_VERSION!=='v8.5') fails.push('the v8.5 code is running under a different APP_VERSION');
+    if(APP_VERSION!=='v8.6') fails.push('the v8.6 code is running under a different APP_VERSION');
     if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
   /* filename tokens must actually be substituted, or the AI is told to
