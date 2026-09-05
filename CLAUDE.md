@@ -59,8 +59,8 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is playbook v8.6, two tracks, on both Claude
-  (Opus/Fable) and ChatGPT. The **research track** (R1 scope and
+- The workflow is playbook v8.8, two tracks, on ChatGPT, Gemini, Claude,
+  and other text-capable AI tools. The **research track** (R1 scope and
   coverage plan, R2 deep research, R3 second pass, R4 expansion, R5
   accuracy audit, R6 gap hunt, R7 finalize) builds one permanent
   dossier per part to the fixed schema and shelves it
@@ -70,16 +70,15 @@ have it installed as a home-screen app.
   cards, and P5 upload details from the transcript of the edited video.
   R1 through R4 share one research chat; R5 through R7 share a separate
   blank audit chat. The final script audit should run cold when practical.
-- **Research is file-first.** R1 through R8, including L2 and L3, return
-  downloadable UTF-8 `.txt` artifacts instead of PDFs or long pasted chat
-  replies. R7, L3 and R8B also return a required `.tsv` claims companion.
-  Every Work research checkpoint loads those files with `bsArtifactField()`;
-  the collapsed textarea is only a review and manual fallback surface. Do not
-  restore PDF outputs or require users to copy artifact text out of chat.
-  `artifactContract()` prepends the exact filename, extension, encoding, MIME
-  type, and forbidden formats before the task instructions. Keep the matching
-  delivery instruction at the end as a second guard. R7 and R8B are explicitly
-  self-tested as TXT plus TSV two-file outputs.
+- **Research is artifact-first and cross-AI.** R1 through R8, including L2
+  and L3, return complete UTF-8 `.txt` artifacts instead of PDFs. R7, L3 and
+  R8B also return a required `.tsv` claims companion. A real file and a
+  complete fenced chat block are first-class delivery methods; prompts must
+  never refuse or stop merely because an AI cannot attach files. Every Work
+  checkpoint accepts either through `bsArtifactField()`. `artifactContract()`
+  is the single shared delivery instruction and is appended once by
+  `buildPrompt()`; do not duplicate delivery demands inside individual
+  prompts. Final research prompts are self-tested as TXT plus TSV outputs.
 - **The light spine** (R1, then L2, then L3) is the same research track
   with steps merged, for a subject too small to earn seven prompts. It
   is allowed to shorten by merging and never by dropping: all six
@@ -112,12 +111,15 @@ have it installed as a home-screen app.
   rules back into an individual prompt: that duplication is what the
   v6.2 revision removed, and the load-time self-test now fails if the
   blocks stop attaching.
-- **One visible surface.** Work is the only guided route for research and
-  production. The old Playbook DOM remains hidden as the prompt engine and
-  reference source, with no navigation tab and no `FULL STEP` escape hatch.
-  Work buttons use the builders in `FLOW_BUILD`, which inject saved documents
-  and selected dossiers. If you add a prompt, keep its builder and Work stage
-  together so an unfilled copy can never become a second workflow.
+- **One visible surface.** Work is the only route for research and production.
+  The old Playbook DOM remains hidden as the prompt engine and reference
+  source, with no navigation tab. Work includes both the guided workflows and
+  one permanent manual prompt drawer generated from `MANUAL_PROMPT_GROUPS`.
+  Those buttons use the same prompt sources and `FLOW_BUILD` builders, never
+  duplicate prompt text. The direct script launcher builds P2A, P2B, or P2C
+  from a selected Library dossier plus the user's plain-language story. If you
+  add a prompt, add it to the manual drawer and keep its builder and Work stage
+  together; the load-time self-test checks that every prompt has a button.
 - Coverage and accuracy are different questions. Accuracy asks whether
   the claims are true (R5); coverage asks whether the right questions
   were ever generated (the sweeps, R6). Completeness reports four
@@ -132,7 +134,7 @@ have it installed as a home-screen app.
   X1 bundle carries by default; if you renumber a schema section,
   that constant and the self-test move with it.
 - **The v8 Library is portable and verified.** App version, dossier schema,
-  and package schema are independent (`v8.6`, dossier schema 2, package schema
+  and package schema are independent (`v8.8`, dossier schema 2, package schema
   1). IndexedDB is canonical when available; `file://` and unsupported
   browsers fall back to localStorage. Every migration, import, and save is
   read back and checked. Real `.itc-library.json` packages are private data
@@ -155,9 +157,9 @@ have it installed as a home-screen app.
   it flags an omitted boundary instead of guessing. Do not solve that by
   pasting every dossier on the shelf into P3.
 - R8 is optional and only for a dossier that is already finished. R8A and R8B
-  have permanent direct Copy buttons at the top of Work, even with an active
-  job or empty Library. Those standalone prompts tell the user which TXT files
-  to attach to the AI chat; they do not require pasting the full documents.
+  have permanent direct Copy buttons in Work's all-prompts drawer, even with
+  an active job or empty Library. Those standalone prompts tell the user to
+  attach the TXT files or paste their complete contents.
   The guided route selects an imported or finished dossier, copies R8A with
   the parent attached, accepts the pass, then copies R8B with both documents.
   It never requires R1 through R7. Do not route new subjects through it.
@@ -197,6 +199,13 @@ result of parsing real spec text.
 - P4B generates interesting facts only, `POPUP_PROMPT_STYLES`. The
   renderer and the studio still offer warning and correction by hand;
   the prompt does not write them, and the self-test enforces that.
+- **P4 and P4B have separate format references.** P4 receives
+  `CARD_FULL_SNIPPET` and writes full cards only; P4B receives
+  `P4B_POPUP_SNIPPET` and writes interesting-fact popups only. The Card Generator's prominent
+  `CARD_QUICK_PROMPT` combines both for plain requests in any AI. It requires
+  direct paste-ready text, not files or Markdown fences. `parseSpecs()` still
+  strips accidental opening and closing fences so a compliant card reply is
+  not lost to minor model formatting drift.
 - **Popup shape is `width`, `textsize`, `font`, popup only.** Width sets
   the panel *and* `maxW`, so text reflows rather than crops; the guard
   asserts a narrower popup gets taller. `textsize` scales every font

@@ -302,6 +302,14 @@ button.amber:disabled{opacity:.4;cursor:default}
 
 .quickrow{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
 .quickrow .copybtn{flex:1;min-width:150px;padding:12px}
+.scriptdesk{border-color:rgba(255,140,22,.55);background:linear-gradient(145deg,rgba(255,140,22,.09),rgba(19,25,38,.55))}
+.scriptdesk h2{font-size:20px;line-height:1.25;margin:3px 0 6px;color:#fff}
+.scriptdesk .bs-paste{min-height:96px}
+.promptgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:7px 0 14px}
+.promptgrid .promptcopy{min-height:42px;padding:9px 10px;text-align:left;background:var(--panel);color:var(--txt);border:1px solid var(--line)}
+.promptgrid .promptcopy:hover{border-color:var(--amber);color:#fff}
+.promptgrid .promptcopy.copied{background:var(--green);border-color:var(--green);color:#14100A}
+@media(min-width:700px){.promptgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 /* home: correction log + shared jot form */
 .logform{display:flex;flex-direction:column;gap:8px;margin:8px 0}
@@ -524,7 +532,7 @@ input[type=file]{display:none}
 
   <div class="note" id="setupnote" style="display:none"><b>One-time install:</b> open this page in Chrome (Android) or Safari (iPhone), then use the browser menu and pick <b>Add to Home Screen</b>. It installs like an app, works offline after the first load, and updates itself when a new version is published. <a href="#" id="dismissSetup">Got it, hide this</a></div>
 
-  <div class="kick">Work · one guided step at a time</div>
+  <div class="kick">Work · scripts, prompts, and guided jobs</div>
   <div id="bsWrap"></div>
 
   <details class="pbsec">
@@ -544,7 +552,7 @@ input[type=file]{display:none}
       <h2 style="margin-top:14px">Research the part once, properly. Publish from it forever.</h2>
       <p class="lead">Two tracks. The <b>research track</b> builds one permanent, fully structured dossier per part or topic, deep enough that you stop finding things with a casual search. The <b>production track</b> draws Shorts, long form, and posts out of a finished dossier, as many as the record supports. Research is the asset. Video is what you do with it.</p>
       <div class="kick">The four design laws</div>
-      <div class="card"><div class="k">Law 1</div><h4>Every step is portable</h4><p>Each step's output is a complete standalone deliverable carrying everything the next step needs. Assume the next step runs in a different chat, in a different AI, with zero memory of this one.</p></div>
+      <div class="card"><div class="k">Law 1</div><h4>Every handoff is portable</h4><p>Anything moved to another chat is a complete standalone deliverable. Same-chat delta steps may use that chat's history; cross-chat handoffs must assume a different AI with zero memory.</p></div>
       <div class="card"><div class="k">Law 2</div><h4>Research is the product</h4><p>The dossier is not scoped to a video and never gets thrown away. It is built to a fixed schema so every part reads the same way, and it is finished when the schema is answered, not when you have enough for a script.</p></div>
       <div class="card"><div class="k">Law 3</div><h4>A hole must be visible</h4><p>Every dossier declares its own coverage. A section that could not be filled says so, names the searches that failed, and stays on the open questions list. Silence is not allowed to look like completeness.</p></div>
       <div class="card"><div class="k">Law 4</div><h4>Nothing is fact unless it is LOCKED</h4><p><b>LOCKED</b> = confirmed by a primary or factory grade source that actually covers the part or condition. <b>LIKELY</b> = strong evidence, single or secondary source. <b>UNVERIFIED</b> = lore, forum only, indirect, conflicting, or unconfirmed. Only LOCKED goes in a script or on a card. Every claim carries a tier, a named source, and a claim ID.</p></div>
@@ -553,17 +561,17 @@ input[type=file]{display:none}
       <div class="kick">Style rules</div>
       <p class="lead">No em dashes in any script or card copy. No emojis. Ranges written as "1994 to 1997". Voice: direct, mechanical, short sentences, a little personality, no hype, no filler. Sign off: "Inside The Case." or "Thanks for watching, Inside The Case."</p>
       <div class="kick">How every step replies</div>
-      <p class="lead">Research steps hand back downloadable UTF-8 files only: TXT for every plan, pass, delta and dossier, plus TSV for the final claims companion. Attach those files at the next Work checkpoint; do not copy a PDF or scroll through a second pasted version in chat. Production stays conversational because you revise scripts back and forth: copy the prepared prompt, make adjustments in AI, then bring the settled script back for the audit and cards.</p>
+      <p class="lead">Research steps return complete UTF-8 text artifacts: TXT for plans, passes, deltas and dossiers, plus TSV for the final claims companion. A downloadable file is convenient, but a complete paste-ready code block is equally valid. Load the file or paste the text at the next Work checkpoint. Production stays conversational: copy the prepared prompt, revise normally in any AI, then bring the settled copy back for audit and cards.</p>
       <div class="kick">Which chat, and why</div>
       <p class="lead">Change chats when independence matters. Research stays in one chat through R4, then moves to a blank audit chat for R5 to R7. Script writing can stay conversational in your preferred AI; run the final factual audit in a fresh chat or a different model when practical.</p>
       <table>
         <tr><th>Chat</th><th>Where</th><th>Steps</th></tr>
-        <tr><td>1 · Research</td><td>Your <b>Inside The Case</b> folder</td><td>R1, R2, R3, R4 all in one chat. The plan and every pass stay in context, which is what makes the second pass and the expansion work.</td></tr>
-        <tr><td>2 · Audit</td><td><b>New blank chat, no folder</b>, different model if you have one</td><td>R5, R6, R7. The auditor must meet the dossier cold. The folder carries your standing context, so being outside it is the whole point.</td></tr>
-        <tr><td>3 · Create</td><td>Your preferred AI workspace</td><td>Generate the content plan, choose or combine ideas yourself, then write and revise the script through normal back-and-forth.</td></tr>
+        <tr><td>1 · Research</td><td>Your usual AI project or workspace, if used</td><td>R1, R2, R3, R4 all in one chat. The plan and every pass stay in context, which is what makes the second pass and the expansion work.</td></tr>
+        <tr><td>2 · Audit</td><td><b>New blank chat with no inherited project instructions</b>, different model if you have one</td><td>R5, R6, R7. The auditor must meet the dossier cold.</td></tr>
+        <tr><td>3 · Create</td><td>Your preferred AI</td><td>Generate the content plan, choose or combine ideas yourself, then write and revise the script through normal back-and-forth.</td></tr>
         <tr><td>4 · Check</td><td><b>New blank chat</b>, different model if practical</td><td>Audit the settled script, then generate cards. After editing the video, use its actual transcript for YouTube and Facebook details.</td></tr>
       </table>
-      <p class="lead">If chat 1 gets slow or starts truncating, that is the only good reason to split it: run R4 in its own chat and attach the dossier TXT. Otherwise one chat per column, top to bottom.</p>
+      <p class="lead">If chat 1 gets slow or starts truncating, that is the only good reason to split it: run R4 in its own chat and provide the dossier TXT as a file or pasted text. Otherwise one chat per column, top to bottom.</p>
       <div class="kick">The pipeline</div>
       <div class="pipeline">
         <div class="lbl">Research track · builds the dossier · chat 1 then chat 2</div>
@@ -643,7 +651,7 @@ input[type=file]{display:none}
       </table>
       <div class="kick">Open gaps carry an action type</div>
       <p class="lead">Not every gap is a search problem, and calling one a search problem guarantees it never closes. Every open gap says what would settle it and how it can actually be reached: <b>SEARCHABLE</b>, more or better queries could find it; <b>PHYSICAL ACQUISITION</b>, it exists only in a book or microfiche somebody has to obtain; <b>SCANNING OR PHOTOGRAPHY</b>, the document is in hand but is an image with no readable text; <b>HUMAN READING</b>, it needs a person to read a page and transcribe it; <b>EDITORIAL DECISION</b>, it is a policy question for the operator, not a fact to find.</p>
-      <p class="lead">RECORD and PROVENANCE claims need only ID, tier, type, and source. The full field set is required on OBJECT claims, and spoken forms only on the card-ready ones, so the schema does not five times the length of the dossier for claims nobody will ever narrate.</p>
+      <p class="lead">RECORD and PROVENANCE claims need only ID, tier, type, and source. The full field set is required on OBJECT claims, and spoken forms only on the card-ready ones, so the schema does not make the dossier five times longer for claims nobody will ever narrate.</p>
       <div class="kick">The four coverage axes</div>
       <p class="lead">One completeness number invites being quoted as "we know this much about the subject" when it only ever meant "we answered this much of our own question list". Four axes, reported separately, no blended total.</p>
       <table>
@@ -977,26 +985,26 @@ happened and that the check is visible.</pre>
       <div class="kick">Research track · builds one dossier</div>
       <table>
         <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
-        <tr><td>R1 Scope</td><td>1 · ITC folder</td><td>Coverage plan TXT</td></tr>
-        <tr><td>R2 Research</td><td>1 · same chat</td><td>Dossier v1 TXT</td></tr>
-        <tr><td>R3 Second pass</td><td>1 · same chat</td><td>Delta TXT</td></tr>
-        <tr><td>R4 Expansion</td><td>1 · same chat</td><td>Expanded dossier TXT</td></tr>
-        <tr><td>R5 Accuracy audit</td><td>2 · blank, no folder</td><td>Audit delta TXT</td></tr>
-        <tr><td>R6 Gap hunt</td><td>2 · same chat</td><td>Gap-hunt delta TXT</td></tr>
-        <tr><td>R7 Finalize</td><td>2 · same chat</td><td>Final dossier TXT plus required claims TSV</td></tr>
-        <tr><td>R8 Revise</td><td>blank, no folder</td><td><b>Optional.</b> R8A pass TXT, then R8B returns the revised dossier TXT and claims TSV. For a finished dossier that needs re-attacking, not for a new one.</td></tr>
+        <tr><td>R1 Scope</td><td>1 · normal project/workspace</td><td>Coverage plan TXT file or paste-ready text</td></tr>
+        <tr><td>R2 Research</td><td>1 · same chat</td><td>Dossier v1 TXT file or paste-ready text</td></tr>
+        <tr><td>R3 Second pass</td><td>1 · same chat</td><td>Delta TXT file or paste-ready text</td></tr>
+        <tr><td>R4 Expansion</td><td>1 · same chat</td><td>Expanded dossier TXT file or paste-ready text</td></tr>
+        <tr><td>R5 Accuracy audit</td><td>2 · blank, no inherited context</td><td>Audit delta TXT file or paste-ready text</td></tr>
+        <tr><td>R6 Gap hunt</td><td>2 · same chat</td><td>Gap-hunt delta TXT file or paste-ready text</td></tr>
+        <tr><td>R7 Finalize</td><td>2 · same chat</td><td>Final dossier TXT plus claims TSV, as files or separate paste-ready blocks</td></tr>
+        <tr><td>R8 Revise</td><td>blank, no inherited context</td><td><b>Optional.</b> R8A pass TXT, then R8B returns the revised dossier TXT and claims TSV. For a finished dossier that needs re-attacking, not for a new one.</td></tr>
       </table>
       <div class="kick">Production track · runs any number of times per dossier</div>
       <table>
         <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
-        <tr><td>P1 Content plan</td><td>3 · ITC folder</td><td>Plan PDF, plus the ranked slate text</td></tr>
+        <tr><td>P1 Content plan</td><td>3 · preferred AI</td><td>Complete content plan in chat</td></tr>
         <tr><td>Choose ideas</td><td>You</td><td>One typed idea or a combination chosen from the content plan</td></tr>
         <tr><td>P2 Write + revise</td><td>3 · same chat</td><td>A script you shape through normal back-and-forth until it is settled</td></tr>
         <tr><td>P3 Final audit</td><td>4 · blank chat</td><td>A clean verdict or corrected final script</td></tr>
         <tr><td>P4 Cards</td><td>4 · same chat</td><td>Card blocks plus placement map. P4B writes a run of popups the same way.</td></tr>
         <tr><td>P5 Video details</td><td>After editing</td><td>YouTube and Facebook details built from the finished video's transcript</td></tr>
       </table>
-      <p class="lead">Four chats, and only two of them are about independence: the audit chat and the check chat, both outside any folder so the auditor meets the work cold. The Library tab holds finished dossiers and feeds them into every production prompt automatically.</p>
+      <p class="lead">Four chats, and only two are about independence: the research audit and final-copy check should begin blank, without inherited source or project instructions. The Library holds finished dossiers and feeds them into production prompts automatically.</p>
     </div>
   </details>
 
@@ -1030,7 +1038,7 @@ happened and that the check is visible.</pre>
         <button class="amber" id="rSave">Save rules</button>
         <button class="ghost" id="rReset">Reset to defaults</button>
       </div>
-      <label class="small">What gets attached, right now</label>
+      <label class="small">What every research prompt includes</label>
       <div class="bs-pre" id="rPreview"></div>
     </div>
   </details>
@@ -1050,6 +1058,8 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.8</b> · Work now opens with an unmistakable script and post launcher: select a finished dossier, describe the story, then copy a Short, long-form, or post prompt directly. A permanent manual prompt drawer on the same page provides individual Copy buttons for every R, L, P, and X prompt, while keeping the guided workflows available.</p>
+      <p><b>v8.7</b> · Prompts now work across ChatGPT, Gemini, Claude, and other text AIs. Research output may arrive as exact TXT/TSV files or complete paste-ready code blocks, and no prompt refuses to continue when file attachment is unavailable. Duplicate delivery and voice instructions were consolidated, dossier and claims schemas were aligned, PDF requests were removed, and the Card Generator now puts a simple Copy AI card instructions button before the editor. Fenced AI card replies also paste cleanly.</p>
       <p><b>v8.6</b> · The Library now imports the files the research workflow actually produces. Choose the final R7 TXT and matching R7_CLAIMS TSV together, review the detected tag and subject, and the app saves and verifies both as one dossier. L3 and R8B final pairs work the same way. Whole-Library JSON files remain available as clearly labeled backup and restore tools instead of being presented as the normal dossier import.</p>
       <p><b>v8.5</b> · Every research prompt now opens with a non-negotiable output contract before any task instructions: exact filenames, literal TXT and TSV extensions, UTF-8 encoding, MIME types, and an explicit prohibition on PDF, DOCX, document artifacts, and pasted chat output. The same contract remains at the bottom. R7 and R8B are guarded as two-file outputs at load time so a future edit cannot silently turn either dossier back into a PDF.</p>
       <p><b>v8.4</b> · Research is file-first. R1 through R8 now request downloadable UTF-8 TXT artifacts instead of PDFs and forbid dumping the document into the chat. R7, L3 and R8B return a TXT dossier plus the required TSV claims companion. Every research checkpoint has an Attach file button; the old text boxes remain collapsed as a manual fallback and review surface. This removes PDF page numbers and formatting from the Library and eliminates long pasted replies.</p>
@@ -1109,7 +1119,7 @@ happened and that the check is visible.</pre>
   <div class="nohits" id="nohits">Nothing matches. Try a shorter word.</div>
 
   <details class="pbsec" id="pb-r1" data-owner="hudson">
-    <summary><span class="sn">R1</span><span class="st">Scope and coverage plan</span><span class="chips"><span class="chip tool">Chat 1 · ITC folder</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R1</span><span class="st">Scope and coverage plan</span><span class="chips"><span class="chip tool">Chat 1 · preferred AI</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the part or topic, and what type it is</div>
       <p class="lead">Ten minutes that decide whether the research is thorough or narrow. This writes the question list the whole dossier gets measured against, so "we missed it" becomes visible instead of silent.</p>
@@ -1119,8 +1129,8 @@ happened and that the check is visible.</pre>
           <div class="f"><label>Subject</label><input data-slot="topic" placeholder="the exact part. e.g. E4OD transmission"></div>
           <div class="f"><label>Notes</label><input data-slot="angle" placeholder="optional: era, scope limits, what you already know"></div>
         </div>
-        <pre id="pr1">CHAT: your Inside The Case folder. This same chat runs R1 through R4,
-so do not start a new one until the expansion pass is done.
+        <pre id="pr1">CHAT: use your usual AI. If it supports projects or workspaces, you
+may use your Inside The Case one. Keep R1 through R4 in this chat.
 
 Inside The Case coverage plan. You are not researching yet. You are
 writing the question list that a full research dossier on this
@@ -1135,7 +1145,7 @@ engine, body and cab, brake and wheel end, electrical, or other.
 State the classification and the exact scope, including the year
 range and which vehicle lines are in and out of scope.
 
-Then write the question list. It has two parts.
+Then write the question list. It has three parts.
 
 PART A. The universal questions, one block per dossier section:
 01 ORIGIN AND DEVELOPMENT, 02 YEAR BY YEAR RECORD,
@@ -1188,18 +1198,10 @@ you chose, and add anything the subject specifically needs:
   by year, harness changes, diagnostic protocol, grounds.
 - OTHER: build the deepest sensible list for the subject.
 
-PART C. The component inventory. Work sweep 1 in the attached sweeps
-block and build the full physical inventory for this subject: every
-component and subsystem a person would find if they took it apart,
-whether or not it sounds interesting. Do not shorten the list because
-a part seems unlikely to have changed. The oil pan, the dipstick tube,
-the cooler fittings, and the wiring connector belong on it exactly as
-much as the planetary set does, and they are the ones that get left
-off. Every entry carries the sweep 1 question set.
-
-This inventory is the thing that makes a missing component visible.
-Later passes score coverage against it, so a component that is absent
-from the dossier shows up as an unanswered row rather than as silence.
+PART C. The component inventory. Work sweep 1 in the included sweeps
+block. List every physical component and subsystem a person would find
+if they took the subject apart, including mundane parts. Every entry
+carries the sweep 1 questions so later passes expose anything absent.
 
 For every question in all three parts, mark the expected difficulty:
 EASY if factory literature almost certainly answers it, HARD if it
@@ -1209,20 +1211,12 @@ recoverable at all.
 Finally, define DONE. Write the specific bar this dossier must clear
 to count as complete, on all four coverage axes: which questions must
 be LOCKED, which components must be swept, which breakpoints must be
-exact, and what may honestly remain open. Say plainly that clearing
-this bar means the plan was answered, not that the subject is fully
-known.
+exact, and what may honestly remain open. Clearing this bar means the
+plan was answered, not that the subject is fully known.
 
 OUTPUT sections: SUBJECT AND SCOPE, CLASSIFICATION, COVERAGE PLAN
 (part A by section, part B by type, part C the component inventory),
 DEFINITION OF DONE.
-
-DELIVERY. Create and attach one downloadable UTF-8 plain-text file
-named [[OUT]] containing the complete coverage plan. Do not make a
-PDF. Do not paste the plan into the chat or into a code block. In the
-message itself write only "File attached." If you cannot create a
-downloadable file, stop and say that in one line instead of spilling
-the document into the chat.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
@@ -1235,8 +1229,8 @@ No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       <div class="kick">You provide: the coverage plan from R1</div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R2 <span>·</span> Deep research</div><div class="spacer"></div><button class="copybtn" data-copy="pr2">Copy prompt</button></div>
-        <pre id="pr2">CHAT: the same chat as R1, in your Inside The Case folder. The
-coverage plan is repeated below so this works either way.
+        <pre id="pr2">CHAT: the same chat as R1. The coverage plan is included below so the
+task remains portable.
 
 Inside The Case deep research, pass one. You are building a
 reference dossier, not a summary and not a script. It will be handed
@@ -1247,12 +1241,14 @@ The coverage plan below is the question list you are answering. Work
 it question by question. Do not stop early because you have enough
 for a video. There is no video. There is only the record.
 
-Use web search extensively and in many passes, varying the terms:
-factory literature, service manuals, parts catalogs, supplier
+Use your AI's web search or browsing extensively and in many passes.
+If browsing is unavailable, state that this step is blocked rather
+than simulating searches. When browsing, vary the terms: factory
+literature, service manuals, parts catalogs, supplier
 documentation, technical service bulletins, training material,
 credible archives. Depth over polish.
 
-RULES. The ITC standing rules and the sweeps are attached below this
+RULES. The ITC standing rules and sweeps are included below this
 prompt. Follow them exactly: they define the tiers, the source
 hierarchy, the evidence classes, the claim fields, the ID discipline,
 and the search rules. Where sources disagree, say so, present both,
@@ -1270,32 +1266,9 @@ component in that inventory gets an answer or an explicit declaration
 that it was searched and nothing was found. A component that produces
 no audience facing claim still gets checked, and the check is visible.
 
-OUTPUT. The dossier, in the full schema, in this order and with these
-exact headers:
-00 DOSSIER HEADER
-01 ORIGIN AND DEVELOPMENT
-02 YEAR BY YEAR RECORD
-03 IDENTIFICATION
-04 SPECIFICATIONS
-05 VARIANTS AND CONFIGURATIONS
-06 APPLICATIONS AND FITMENT
-07 MATING COMPONENTS
-08 INTERCHANGE AND SWAPS
-09 SYSTEMS AND INTERNALS
-10 FAILURE MODES AND SERVICE
-11 UPGRADES AND AFTERMARKET
-12 PRODUCTION AND MARKET CONTEXT
-13 MYTHS RUMORS AND LORE
-14 SURPRISES
-15 OPEN QUESTIONS
-16 SOURCE REGISTRY
-17 MASTER CLAIM TABLE
-18 COVERAGE SCORECARD
-19 TERMINOLOGY AND MECHANISM REGISTER
-20 SPECIMEN REGISTER
-21 SEARCH REGISTER
-22 BOUNDARY
-23 CORRECTIONS TO PUBLISHED CONTENT
+OUTPUT. The dossier, in the full current schema, in this order and
+with these exact headers:
+[[DOSSIER_SCHEMA]]
 
 Section 00 states tag, subject, type, dossier version 1, today's
 date, schema version 2, and a one paragraph summary. Section 13 gives
@@ -1307,14 +1280,6 @@ anywhere in the record: if you name it in a claim, define it here or
 put it in open questions. Section 21 logs every query you ran as a
 table. Section 23 is empty on a first build, and that is fine, but the
 header exists.
-
-DELIVERY. Create and attach one downloadable UTF-8 plain-text file
-named [[OUT]] containing the complete dossier. Do not make a PDF. Do
-not paste the dossier into the chat or into a code block. In the
-message itself write only "File attached." If the dossier is not
-complete, do not attach a partial file and call it done. If you cannot
-create a downloadable file, stop and say that in one line instead of
-spilling the dossier into the chat.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -1374,13 +1339,6 @@ context. It is the expansion that restates the whole dossier, because
 the chat after it has nothing else. Continue the S and C numbering
 without gaps.
 
-DELIVERY. Create and attach one downloadable UTF-8 plain-text file
-named [[OUT]] containing the complete delta. Do not make a PDF. Do
-not paste the delta into the chat or into a code block. In the message
-itself write only "File attached." If you cannot create a downloadable
-file, stop and say that in one line instead of spilling the delta into
-the chat.
-
 No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
     </div>
@@ -1407,11 +1365,11 @@ searches anyway. A category you "already did" that returns nothing
 new should say so explicitly, naming the searches you just ran, not
 point back at the existing text.
 
-RULES. The ITC standing rules and the sweeps are attached below this
+RULES. The ITC standing rules and sweeps are included below this
 prompt. Follow them exactly.
 
 RUN THE SWEEPS FIRST. Before the categories below, work sweeps 2
-through 5 in the attached block: the parts catalog and service parts
+through 5 in the included block: the parts catalog and service parts
 test, the exploded view test, the visual identification sweep, and
 the boring parts test. These are where running changes actually hide.
 Bulletins, supersessions, rebuild kits, and parts catalogs surface
@@ -1472,37 +1430,29 @@ what document would lock it and mark the finding UNVERIFIED. A failed
 search is not a locked absence. One brochure cannot prove universal
 absence across a model range.
 
-OUTPUT. The complete dossier with your additions folded into the
-right sections, same nineteen section schema, dossier version 3 in
-section 00, section 18 COVERAGE LEDGER updated. Then append:
-21 EXPANSION LOG: what you added by category, and what you searched
-   but did not find.
+OUTPUT. The complete dossier in the full current 00 through 27 schema,
+with additions folded into the right sections and dossier version 3
+in section 00. Update section 18 COVERAGE SCORECARD, log expansion
+queries and results in section 21 SEARCH REGISTER, and name anything
+not attempted in section 25.
 
 The next step is an independent audit in a blank chat with no memory
 of this one, so the dossier must stand entirely on its own.
 
-DELIVERY. Create and attach one downloadable UTF-8 plain-text file
-named [[OUT]] containing the complete expanded dossier. Do not make a
-PDF. Do not paste the dossier into the chat or into a code block. In
-the message itself write only "File attached." If you cannot create a
-downloadable file, stop and say that in one line instead of spilling
-the dossier into the chat.</pre>
+No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
     </div>
   </details>
 
   <details class="pbsec" id="pb-r5" data-owner="hudson">
-    <summary><span class="sn">R5</span><span class="st">Accuracy audit</span><span class="chips"><span class="chip tool">Chat 2 · blank, no folder</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R5</span><span class="st">Accuracy audit</span><span class="chips"><span class="chip tool">Chat 2 · fresh audit chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: the R4 dossier. Best run in a different model than the one that researched</div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R5 <span>·</span> Accuracy audit</div><div class="spacer"></div><button class="copybtn" data-copy="pr5">Copy prompt</button></div>
-        <pre id="pr5">CHAT: a brand new blank chat, NOT inside any project or folder, and a
-different model than the one that researched if you have one. This is
-the one place in the whole pipeline where the chat actually matters:
-a model that just wrote the dossier will agree with itself, and a
-folder carries the same standing context you are trying to escape.
-R6 and R7 continue in this same chat afterwards.
+        <pre id="pr5">CHAT: a new blank chat with no prior messages, project instructions,
+or inherited source context. Use a different model than the researcher
+if practical. R6 and R7 continue in this chat.
 
 You are auditing an Inside The Case dossier for a channel that lives
 on accuracy. You had no part in writing it and you may be a different
@@ -1546,13 +1496,6 @@ OUTPUT, the delta only:
 6. VERDICT LINE, reading either "ACCURACY CLEARED" or "NOT CLEARED:"
    followed by what blocks it.
 
-DELIVERY. Create and attach one downloadable UTF-8 plain-text file
-named [[OUT]] containing the complete audit delta. Do not make a PDF.
-Do not paste the delta into the chat or into a code block. In the
-message itself write only "File attached." If you cannot create a
-downloadable file, stop and say that in one line instead of spilling
-the audit into the chat.
-
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
 DOSSIER: [PASTE THE COMPLETE R4 DOSSIER]</pre>
@@ -1570,15 +1513,10 @@ DOSSIER: [PASTE THE COMPLETE R4 DOSSIER]</pre>
         <pre id="pr6">CHAT: the same blank chat as R5, where you just corrected this
 dossier. R7 follows here too.
 
-You are running the Gap Hunt on an Inside The Case dossier. You just
-audited it for accuracy. You are not re-auditing it. You are
-answering one question: what is missing?
-
-The corrected dossier is above in this chat. Below is the coverage
-plan, written before any research began. Your job is to hold one
-against the other and close what you can. You did not write the
-dossier, so you have no reason to defend its coverage; check every
-question against the text rather than against your impression of it.
+Run the Gap Hunt on the corrected dossier already in this chat. This
+is not another accuracy audit. Compare it with the pre-research
+coverage plan below, answer what is missing, and close what you can.
+Check every question against the text, not your impression of it.
 
 STEP 1. THE AUDIT OF ABSENCE. Walk the coverage plan question by
 question, every question in parts A, B, and C. For each one, mark:
@@ -1589,11 +1527,9 @@ line. If the dossier answers something the plan never asked, note it
 as an unplanned gain.
 
 Then walk part C, the component inventory, separately and by name.
-For every component, mark COVERED, THIN, or ABSENT. A component that
-appears nowhere in the dossier is not evidence that it never changed:
-it is evidence that nobody looked. Treat every ABSENT row as a
-required search in step 2, and never let an empty section imply an
-unchanged part.
+For every component, mark COVERED, THIN, or ABSENT. A component absent
+from the dossier was not necessarily unchanged. Treat every ABSENT row
+as a required search in step 2.
 
 STEP 2. CLOSE THE GAPS. Now search, hard, for everything marked
 ANSWERED BUT SOFT, PARTIALLY ANSWERED, or NOT ANSWERED. Work in
@@ -1633,23 +1569,16 @@ after those structured attacks should you generate open ended
 questions the plan should have included and did not. Search those too,
 same reporting.
 
-STEP 5. THE SCATTER CHECK. A window of years can look empty while
-being fully covered, because the dated facts were filed under the
-components they belong to instead of under the years. That reads as a
-research gap and is not one, and it will send the next pass hunting
-for evidence the dossier already holds.
-
-Sweep every section for anything carrying a date, a model year, or a
-build breakpoint, wherever it lives, and build one year by year spine
+STEP 5. THE SCATTER CHECK. Sweep every section for anything carrying
+a date, model year, or build breakpoint, wherever it lives, and build
+one year by year spine
 from it. Each row: the year, the claim IDs, the tier, the dated change
 or condition, and the source. Mark plainly which rows are existing
 material being consolidated and which are genuinely new, so the spine
 cannot be mistaken for new evidence.
 
-Then name the years that have nothing dated behind them. A year with
-no dated change is a real finding and belongs in the open questions.
-It is also the difference between a claim a script can make and one it
-cannot.
+Name the years with nothing dated behind them and carry them to open
+questions.
 
 STEP 6. WHAT CAN AND CANNOT BE SAID. Read the spine as an editor. Two
 framings can rest on exactly the same claims while only one is
@@ -1695,15 +1624,6 @@ Do not fabricate to close a gap. An honest STILL OPEN is worth more
 than a soft answer, and it goes in the pinned comment later instead
 of the script.
 
-DELIVERY. Create and attach one downloadable UTF-8 plain-text file
-named [[OUT]] containing the complete ordered coverage audit, gap
-closure log, updated dossier and remaining holes. Do not make a PDF.
-Do not paste the file into the chat or into a code block. In the
-message itself write only "File attached." Keep the updated dossier
-in this chat's context for the finalize step. If you cannot create a
-downloadable file, stop and say that in one line instead of spilling
-the gap hunt into the chat.
-
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
 COVERAGE PLAN: [PASTE THE R1 COVERAGE PLAN]</pre>
@@ -1731,7 +1651,7 @@ library. You are not researching and not re-auditing. You accept the
 tiers as given. You are assembling the clean final copy and declaring
 what it knows.
 
-Do these four things:
+Do these five things:
 
 1. TRIANGULATE. Cross-check the corrections that earlier passes made
 against the claims they touch. Where a claim was downgraded or split,
@@ -1821,26 +1741,16 @@ RESIDUAL CONFLICTS FOR HUMAN REVIEW.
 STATE OF KNOWLEDGE LEDGER: card ready, voiceover or description only,
 pinned comment or exclude.
 NEXT RESEARCH PRIORITIES.
-MACHINE READABLE COMPANION, as TSV, one row per claim, with these
-columns in this order: id, tier, type, evidence_class, source_ids,
-source_year, proven_span, span_basis, span_risk, section, card_ready,
-screen_only, spoken_form, stated_purpose, failure_consequence,
-service_action. Escape any tabs inside fields. The prose dossier stays
+MACHINE READABLE COMPANION, as TSV, one row per claim. Use this exact
+tab-separated header row:
+[[CLAIM_HEADER]]
+Escape any tabs inside fields. The prose dossier stays
 the permanent human record; this companion is what the app and the
 downstream prompts read instead of re-parsing thirty pages.
 
 Do not introduce new factual claims. If a genuinely necessary new
 fact surfaces, put it under NEW CLAIMS FOR REVIEW with a tier and
 named source, outside the dossier body, for human checking.
-
-DELIVERY. Create and attach exactly two downloadable files: the
-complete permanent dossier as UTF-8 plain text named [[OUT]], and the
-machine-readable companion named [[OUT_TSV]]. Do not make a PDF. Do
-not paste either file into the chat or into code blocks. In the
-message itself write only "Files attached." Both files are required;
-never substitute a summary for either one. If you cannot create the
-two downloadable files, stop and say that in one line instead of
-spilling them into the chat.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
@@ -1857,9 +1767,9 @@ No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       <p class="lead"><b>Use the full spine</b> for anything that carries a build history, a year spine worth having, or a part you expect to make several videos from. If a light subject turns out deeper than it looked, the full spine picks up from the dossier L3 produced: run it into R4 and carry on.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt L2 <span>·</span> research and expand</div><div class="spacer"></div><button class="copybtn" data-copy="prl2">Copy prompt</button></div>
-        <pre id="prl2">CHAT: the same chat as R1, in your Inside The Case folder, web search
-on. This is the only research prompt for this subject, so do the work
-of two passes in one reply, in three movements, in order.
+        <pre id="prl2">CHAT: the same chat as R1. Use web search or browsing. If browsing is
+unavailable, state that the research is blocked rather than simulating
+it. Complete three movements, in order.
 
 MOVEMENT ONE, BUILD. Answer the coverage plan question by question and
 work sweep 1, the physical component inventory. Every component named
@@ -1887,21 +1797,13 @@ claim CORE or REFERENCE. Fill section 27, the figures ledger. Fill
 section 18 on all four coverage axes with no blended total. Section 25
 states what you did not attempt and why.
 
-DELIVERY. Create and attach one downloadable UTF-8 plain-text file
-named [[OUT]] containing the complete dossier. Do not make a PDF. Do
-not paste the dossier into the chat or into a code block. In the
-message itself write only "File attached." If you cannot create a
-downloadable file, stop and say that in one line instead of spilling
-the dossier into the chat.
-
 COVERAGE PLAN: [PASTE THE R1 COVERAGE PLAN]</pre>
       </div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt L3 <span>·</span> audit, gap hunt, finalize</div><div class="spacer"></div><button class="copybtn" data-copy="prl3">Copy prompt</button></div>
-        <pre id="prl3">CHAT: a brand new blank chat, NOT inside any folder, and a different
-model than the one that researched if you have one. This separation is
-the one that matters most in the light spine: a model that just wrote
-the dossier will agree with itself.
+        <pre id="prl3">CHAT: a new blank chat with no prior messages, project instructions,
+or inherited source context. Use a different model than the researcher
+if practical so the dossier receives an independent audit.
 
 You have the dossier and the coverage plan it was measured against.
 Three movements, in order, in one reply.
@@ -1941,17 +1843,9 @@ OUTPUT, in this order:
    gaps still open with the action type that would settle each.
 2. THE COMPLETE FINAL DOSSIER in the full schema, marked STATUS:
    LIBRARY READY, or BLOCKED with the reason.
-3. THE MACHINE READABLE COMPANION as TSV, one row per claim, columns:
-   id, tier, type, route, evidence_class, source_ids, source_year,
-   proven_span, span_basis, span_risk, quote, section, card_ready,
-   screen_only, spoken_form, stated_purpose, failure_consequence,
-   service_action.
-
-DELIVERY. Create and attach exactly two downloadable files: the
-complete permanent dossier as UTF-8 plain text named [[OUT]], and the
-machine-readable companion named [[OUT_TSV]]. Do not make a PDF. Do
-not paste either file into the chat or into code blocks. In the
-message itself write only "Files attached." Both files are required.
+3. THE MACHINE READABLE COMPANION as TSV, one row per claim. Use this
+   exact tab-separated header row:
+[[CLAIM_HEADER]]
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -1964,7 +1858,7 @@ DOSSIER: [PASTE THE COMPLETE L2 DOSSIER]</pre>
   </details>
 
   <details class="pbsec" id="pb-r8">
-    <summary><span class="sn">R8</span><span class="st">Revise a finished dossier</span><span class="chips"><span class="chip tool">OPTIONAL · chat 2 style, blank, no folder</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">R8</span><span class="st">Revise a finished dossier</span><span class="chips"><span class="chip tool">OPTIONAL · fresh audit chats</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: a finished dossier, plus anything new that prompted the revision</div>
       <p class="lead"><b>Optional. Not part of a normal build.</b> R1 through R7 produce a finished dossier. R8 exists for when that dossier is already done and something has changed: a gap turned up, a physical part is in front of you, new factory material surfaced, an old dossier needs tightening, or confidence in its completeness has dropped. It keeps every verified claim and attacks the coverage.</p>
@@ -1973,23 +1867,14 @@ DOSSIER: [PASTE THE COMPLETE L2 DOSSIER]</pre>
       <p class="lead">The separation is the point. Merging what a session just found, in the session that found it, leaves nobody to grade the work but the chat that did it, and that is the one check this whole system rests on. It is also why a failed promotion is written down: a claim attacked and left where it is, with its queries recorded, is a real result that stops the next pass paying for the same dead ends.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R8A <span>·</span> re-attack the coverage</div><div class="spacer"></div><button class="copybtn" data-copy="pr8a">Copy prompt</button></div>
-        <pre id="pr8a">CHAT: a brand new blank chat, NOT inside any project or folder, and a
-different model than the one that built the dossier if you have one.
-R8B follows in a different brand new blank chat.
+        <pre id="pr8a">CHAT: a new blank chat with no prior messages, project instructions,
+or inherited source context. Use a different model than the original
+researcher if practical. R8B runs in another new blank chat.
 
-You are re-attacking a finished Inside The Case dossier. Your posture
-is: THIS DOSSIER HAS GAPS. It went through a full multi stage process,
-it looks comprehensive, and that is exactly why it is dangerous. A
-process can be excellent at answering the questions it generated early
-and blind to the ones it never generated, then verify, audit, and
-score completeness against a question universe that was incomplete
-from the start.
-
-Do not congratulate the earlier research. Do not trust its
-completeness score. Do not treat the presence of a detailed section as
-proof that a neighbouring component was ever searched. If the operator
-has named one gap below, treat it as evidence that there are others of
-the same kind, not as the job.
+Assume the finished dossier still has gaps. Build an independent
+question universe before consulting its earlier coverage plan. A
+detailed section does not prove neighboring components were searched,
+and an operator-named gap is one example, not the scope of this pass.
 
 WHAT PROMPTED THIS REVISION: [OPTIONAL. a gap you noticed, a part in
 your hand, new material found, or "general tightening"]
@@ -2124,21 +2009,13 @@ Then, in this order:
     be held until something here resolves, and any content this pass
     unlocks.
 
-DELIVERY. Create and attach one downloadable UTF-8 plain-text file
-named [[OUT]] containing the complete NOT CONSOLIDATED pass document.
-Do not make a PDF. Do not paste the pass into the chat or into a code
-block. In the message itself write only "File attached." If you cannot
-create a downloadable file, stop and say that in one line instead of
-spilling the pass into the chat.</pre>
+No em dashes. No emojis. Ranges written as "1994 to 1997".</pre>
       </div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt R8B <span>·</span> audit the pass, then consolidate</div><div class="spacer"></div><button class="copybtn" data-copy="pr8b">Copy prompt</button></div>
-        <pre id="pr8b">CHAT: ANOTHER brand new blank chat, NOT the one that produced the
-pass document, and not inside any folder. This separation is the
-whole point of the step: the pass has to be graded by something that
-did not write it. Running this in the R8A chat gets you a rewrite
-with no independent check, which is the failure this step exists to
-prevent.
+        <pre id="pr8b">CHAT: a new blank chat, separate from R8A, with no prior messages,
+project instructions, or inherited source context. Independently audit
+the pass before consolidating anything.
 
 You have two documents below: the parent dossier, and a revision pass
 document that has NOT been merged into it. Your job is in two halves,
@@ -2241,20 +2118,13 @@ claim while being defined nowhere in the record.
 version, in the full current schema with the coverage scorecard on
 its four axes. Not a diff.
 
-5. THE MACHINE READABLE COMPANION, as TSV, one row per claim, with
-these columns in this order: id, tier, type, evidence_class,
-source_ids, source_year, proven_span, span_basis, span_risk,
-section, card_ready, screen_only, spoken_form, stated_purpose,
-failure_consequence, service_action. Escape any tabs inside fields.
+5. THE MACHINE READABLE COMPANION, as TSV, one row per claim. Use this
+exact tab-separated header row:
+[[CLAIM_HEADER]]
+Escape any tabs inside fields.
 The prose dossier stays the permanent human record; this companion is
 what the app and the downstream prompts read instead of re-parsing
 thirty pages.
-
-DELIVERY. Create and attach exactly two downloadable files: the
-complete revised dossier as UTF-8 plain text named [[OUT]], and the
-machine-readable companion named [[OUT_TSV]]. Do not make a PDF. Do
-not paste either file into the chat or into code blocks. In the
-message itself write only "Files attached." Both files are required.
 
 PARENT DOSSIER: [PASTE THE COMPLETE DOSSIER]
 
@@ -2264,7 +2134,7 @@ REVISION PASS DOCUMENT: [PASTE THE R8A PASS DOCUMENT]</pre>
   </details>
 
   <details class="pbsec" id="pb-x1">
-    <summary><span class="sn">X1</span><span class="st">Cross-dossier check</span><span class="chips"><span class="chip tool">OPTIONAL · blank chat, no folder</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">X1</span><span class="st">Cross-dossier check</span><span class="chips"><span class="chip tool">OPTIONAL · fresh audit chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: two or more finished dossiers, bundled on the Library tab</div>
       <p class="lead"><b>Optional, and only once the shelf has more than one thing on it.</b> Every dossier is audited against its own sources, and that is exactly why two of them can be individually correct and still disagree with each other. A transmission dossier and a transfer case dossier both describe the same bolt pattern, both from good sources, and only one of them is right about which years it changed.</p>
@@ -2272,7 +2142,9 @@ REVISION PASS DOCUMENT: [PASTE THE R8A PASS DOCUMENT]</pre>
       <p class="lead">Build the bundle on the <b>Library tab</b>, under Across the shelf, Combine. The fitment slice is the default and is usually the right one: it carries the sections that actually interact between parts and leaves out the fourteen that do not.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt X1 <span>·</span> cross-dossier check</div><div class="spacer"></div><button class="copybtn" data-copy="px1">Copy prompt</button></div>
-        <pre id="px1">CHAT: a brand new blank chat, NOT inside any folder, web search on.
+        <pre id="px1">CHAT: a new blank chat with no prior messages or inherited project
+instructions. Use web search or browsing; if unavailable, mark any
+needed external verification blocked rather than simulating it.
 
 You have two or more Inside The Case dossiers below, each finished and
 each audited on its own. Your job is the one question none of those
@@ -2343,13 +2215,14 @@ BUNDLE: [PASTE THE COMBINED BUNDLE]</pre>
   </details>
 
   <details class="pbsec" id="pb-p1">
-    <summary><span class="sn">P1</span><span class="st">Content plan</span><span class="chips"><span class="chip tool">Chat 3 · ITC folder</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">P1</span><span class="st">Content plan</span><span class="chips"><span class="chip tool">Chat 3 · preferred AI</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: a finished dossier from the Library</div>
       <p class="lead">Run once per dossier and keep the result. It walks the whole dossier section by section instead of picking whatever looked interesting, which is what kept producing narrow, thin angles.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P1 <span>·</span> Content plan</div><div class="spacer"></div><button class="copybtn" data-copy="pp1">Copy prompt</button></div>
-        <pre id="pp1">CHAT: your Inside The Case folder. P2 continues in this same chat.
+        <pre id="pp1">CHAT: use your preferred AI. You may use an Inside The Case project
+or workspace if available. P2 continues in this chat.
 
 You are building the content plan for a finished Inside The Case
 dossier. The dossier is below and is the sole factual basis. Do not
@@ -2400,14 +2273,10 @@ dossier are unused, say so plainly. That is either a missed
 opportunity or a sign the research went somewhere the audience does
 not care about, and it is worth knowing which.
 
-DELIVERY. Do not explain the plan back to me. Reply with "Here you
-go", attach the whole plan as one PDF named [[OUT]],
-and put only this in the message: how many stories the slate holds,
-the top three by title, and the percentage of LOCKED claims the slate
-uses. Then, below the message, paste the RANKED SLATE as plain text
-in a single code block with nothing wrapped around it, because the
-app saves that slate with the dossier. The per-section mine and the
-coverage report stay in the PDF only.
+DELIVERY. Reply directly in chat with the complete plan under these
+exact headings: PER-SECTION MINE, RANKED SLATE, SERIES CANDIDATES,
+COVERAGE REPORT. No summary substitutes for the full plan. Do not
+create or attach a PDF.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -2427,7 +2296,7 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
           <div class="f"><label>Story</label><input data-slot="topic" placeholder="the story from the slate, or leave for the AI to pick"></div>
           <div class="f"><label>Angle notes</label><input data-slot="angle" placeholder="optional direction"></div>
         </div>
-        <pre id="pp2a">CHAT: the same chat as P1, in your Inside The Case folder.
+        <pre id="pp2a">CHAT: the same chat as P1.
 
 Write a finished, recordable Short script for Inside The Case Auto.
 The dossier below is provided in this message and is the sole
@@ -2454,23 +2323,6 @@ one exact figure, casting number, date, or breakpoint every twenty
 seconds of runtime. Every one of them LOCKED and traceable to a
 claim ID.
 
-CHANNEL VOICE CARD. This is how Inside The Case sounds:
-- Direct, mechanical, short sentences, a little personality. No
-  hype, no filler, no adjective stacking, no corporate phrasing.
-- Numbers beat adjectives: "14 mm to 12 mm", never "significantly
-  smaller".
-- The proven high-reach shapes are identity confusion and
-  misconception correction: state the common belief plainly, then
-  correct it with the record.
-- Respect the audience. They know trucks. Explain the why, never
-  talk down, never oversell.
-- Honesty is the brand. Own uncertainty out loud ("the record does
-  not show") instead of papering over it.
-- Written for voiceover: say it out loud, and if a line cannot be
-  read cleanly, rewrite it.
-- Sign off: "Inside The Case." or "Thanks for watching, Inside The
-  Case."
-
 HARD RULES:
 - Only LOCKED facts stated as fact. No em dashes. No emojis. Ranges
   written as "1994 to 1997".
@@ -2484,17 +2336,15 @@ NEW CLAIMS: as defined above.
 CLAIM MAP: each script line or beat and the claim ID it rests on.
 RUNTIME: estimated runtime at a natural voiceover pace.
 
-DELIVERY. This step comes back as text, not a file, because the app
-splits it on those exact headers and routes the copy into the Writer.
-No preamble, no commentary between sections, no explaining it back to
-me. Attach a PDF of the same thing as well if you want one for the
-archive.
+DELIVERY. Reply directly in chat under the exact output headers. No
+preamble or commentary between sections. Do not create or attach a
+file; the app splits the pasted text into the Writer.
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P2B <span>·</span> Long form script</div><div class="spacer"></div><button class="copybtn" data-copy="pp2b">Copy prompt</button></div>
-        <pre id="pp2b">CHAT: the same chat as P1, in your Inside The Case folder.
+        <pre id="pp2b">CHAT: the same chat as P1.
 
 Write a finished, recordable long form script for Inside The Case
 Auto. The dossier below is provided in this message and is the sole
@@ -2524,23 +2374,6 @@ chapter carries exact figures, casting or part numbers, dates, or
 breakpoints from the dossier. If a chapter cannot be built from
 LOCKED material, cut the chapter rather than softening the standard.
 
-CHANNEL VOICE CARD. This is how Inside The Case sounds:
-- Direct, mechanical, short sentences, a little personality. No
-  hype, no filler, no adjective stacking, no corporate phrasing.
-- Numbers beat adjectives: "14 mm to 12 mm", never "significantly
-  smaller".
-- The proven high-reach shapes are identity confusion and
-  misconception correction: state the common belief plainly, then
-  correct it with the record.
-- Respect the audience. They know trucks. Explain the why, never
-  talk down, never oversell.
-- Honesty is the brand. Own uncertainty out loud ("the record does
-  not show") instead of papering over it.
-- Written for voiceover: say it out loud, and if a line cannot be
-  read cleanly, rewrite it.
-- Sign off: "Inside The Case." or "Thanks for watching, Inside The
-  Case."
-
 HARD RULES:
 - Only LOCKED facts stated as fact. LIKELY material may appear only
   with its uncertainty spoken ("the record points to, but does not
@@ -2555,17 +2388,15 @@ NEW CLAIMS: as defined above.
 CLAIM MAP: each chapter and the claim IDs it rests on.
 RUNTIME: per chapter and total, against the stated target.
 
-DELIVERY. This step comes back as text, not a file, because the app
-splits it on those exact headers and routes the copy into the Writer.
-No preamble, no commentary between sections, no explaining it back to
-me. Attach a PDF of the same thing as well if you want one for the
-archive.
+DELIVERY. Reply directly in chat under the exact output headers. No
+preamble or commentary between sections. Do not create or attach a
+file; the app splits the pasted text into the Writer.
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P2C <span>·</span> Post write-ups</div><div class="spacer"></div><button class="copybtn" data-copy="pp2c">Copy prompt</button></div>
-        <pre id="pp2c">CHAT: the same chat as P1, in your Inside The Case folder.
+        <pre id="pp2c">CHAT: the same chat as P1.
 
 Write platform post write-ups for Inside The Case Auto: the written
 version of one mechanical story, built for readers, not voiceover.
@@ -2578,21 +2409,6 @@ PICK RULE. If STORY reads "pick from the content plan", choose the
 story that reads better than it watches, usually an identification
 guide, a comparison table, or a year by year breakdown, and state
 your choice on the first line.
-
-CHANNEL VOICE CARD. This is how Inside The Case sounds:
-- Direct, mechanical, short sentences, a little personality. No
-  hype, no filler, no adjective stacking, no corporate phrasing.
-- Numbers beat adjectives: "14 mm to 12 mm", never "significantly
-  smaller".
-- The proven high-reach shapes are identity confusion and
-  misconception correction: state the common belief plainly, then
-  correct it with the record.
-- Respect the audience. They know trucks. Explain the why, never
-  talk down, never oversell.
-- Honesty is the brand. Own uncertainty out loud instead of papering
-  over it.
-- Written to be scanned fast: short paragraphs of one or two
-  sentences, line breaks between them, strongest fact early.
 
 PLATFORM LIMITS, verified August 2026. What matters is not the
 maximum, it is the fold: the point where the platform hides the rest.
@@ -2624,11 +2440,9 @@ If there are none, write "None, all claims from the dossier."
 A post is published copy, so it gets the same fact check a script
 gets. Run these through P3 before posting.
 
-DELIVERY. This step comes back as text, not a file, because the app
-splits it on those exact headers and routes the copy into the Writer.
-No preamble, no commentary between sections, no explaining it back to
-me. Attach a PDF of the same thing as well if you want one for the
-archive.
+DELIVERY. Reply directly in chat under the exact output headers. No
+preamble or commentary between sections. Do not create or attach a
+file; the app splits the pasted text into the Writer.
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
@@ -2636,16 +2450,15 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
   </details>
 
   <details class="pbsec" id="pb-p3">
-    <summary><span class="sn">P3</span><span class="st">Copy audit</span><span class="chips"><span class="chip tool">Chat 4 · blank, no folder</span></span><span class="arrow">›</span></summary>
+    <summary><span class="sn">P3</span><span class="st">Copy audit</span><span class="chips"><span class="chip tool">Chat 4 · fresh audit chat</span></span><span class="arrow">›</span></summary>
     <div class="secbody">
       <div class="kick">You provide: your rewritten final copy, plus the dossier</div>
       <p class="lead">Runs on anything about to be published: a Short script, a long form script, or the P2C posts. Nothing reaches an audience without this pass.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P3 <span>·</span> Copy audit</div><div class="spacer"></div><button class="copybtn" data-copy="pp3">Copy prompt</button></div>
-        <pre id="pp3">CHAT: a brand new blank chat, NOT inside any project or folder, and a
-different model than the one that wrote the copy if you have one. A
-chat that just wrote the script will defend it. P4 and P5 continue in
-this same chat afterwards.
+        <pre id="pp3">CHAT: a new blank chat with no prior messages, project instructions,
+or inherited source context. Use a different model than the writer if
+practical. P4 and P5 may continue in this chat afterwards.
 
 Audit this copy line by line against the dossier below. Both are in
 this message. The copy is a video script or a written post, and
@@ -2680,12 +2493,10 @@ OUTPUT, in this order:
    every fix applied. Restate it completely; it will be used
    directly.
 
-DELIVERY. Do not explain the audit back to me. Reply with "Here you
-go", attach the audit table and required fixes as one PDF named
-[[OUT]], and put only the severity one and two counts
-in the message. The CORRECTED COPY does not go in the PDF: paste it
-as plain text in a single code block with nothing wrapped around it,
-because it goes straight back into the Writer.
+DELIVERY. Reply directly in chat. Give the audit table and required
+fixes as plain text, then put the complete CORRECTED COPY in one fenced
+plain-text block for clean copying into the Writer. Do not create or
+attach a PDF or other file. No preamble and no summary substitute.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
 
@@ -2702,22 +2513,15 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       <div class="kick">You provide: the final script and the dossier, both in this one prompt</div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P4 <span>·</span> Cards</div><div class="spacer"></div><button class="copybtn" data-copy="pp4">Copy prompt</button></div>
-        <pre id="pp4">CHAT: the same blank chat as P3, where the copy was just audited.
+        <pre id="pp4">CHAT: the same chat as P3, where the copy was just audited.
 
 Write the on-screen info cards for this video in the ITC HQ Card
 Generator machine format. The script and the dossier are both below.
 Output card blocks ready to paste into the generator with zero edits.
 
-WHY CARDS EXIST. Cards carry the detail the script does not have time
-to say. If the voiceover says "there were three versions", the card
-breaks down all three. Cards are not subtitles and they are not
-decoration. They are the depth layer running alongside the footage.
-Read the script, find every place a claim is compressed, glossed, or
-listed without detail, and turn those moments into cards.
-
-The dossier is deeper than any script can be, and that surplus is
-exactly what belongs on the cards: casting numbers, year by year
-breakpoints, spline counts, ratios, application tables.
+Cards are the depth layer, not subtitles. Use them where the script
+compresses or skips useful LOCKED detail such as casting numbers,
+breakpoints, spline counts, ratios, or application tables.
 
 HARD RULES:
 - Pull card content from the dossier, not from the script wording.
@@ -2727,25 +2531,16 @@ HARD RULES:
 - Every card must match the moment in the script it lands on.
 - 3 to 5 cards for a Short. Long form: one card per major beat,
   roughly one per 60 to 90 seconds of runtime.
-- Card types are exactly spec, timeline, table, compare, and popup. No
-  other types exist. Add a source credit line to every card you can.
-- popup is the aside. It is a small notification block laid over the
-  footage, not a full card, and it carries one fact worth knowing that
-  does not deserve its own card: a piece of trivia, a caution, or a
-  correction to something people commonly believe. Use style: did you
-  know, tip, warning, or correction, then one or two sentences of
-  text. Suggest 1 to 3 popups alongside the cards for a Short, more
-  for long form, and place them on lines where the voiceover moves on
-  quickly but the detail is worth a beat on screen.
+- Card types are exactly spec, timeline, table, and compare. P4B makes
+  popups separately. Add a source credit line wherever supported.
 - No em dashes, no emojis, ranges written as "1994 to 1997".
 
-The full machine format reference and a worked example are attached
+The full-card machine format reference and a worked example are included
 below this prompt.
 
 OUTPUT, in this order:
-1. The card blocks, one after another, no commentary between them,
-   popups included in the same list.
-2. PLACEMENT MAP: one line per card and per popup, quoting the script
+1. The card blocks, one after another, no commentary between them.
+2. PLACEMENT MAP: one line per card, quoting the script
    line each one supports, with the claim IDs behind it.
 
 SCRIPT: [PASTE THE FINAL SCRIPT]
@@ -2761,17 +2556,9 @@ Write a run of on-screen popups in the ITC HQ Card Generator machine
 format. Output popup blocks ready to paste into the generator with
 zero edits. No commentary before, between, or after them.
 
-THIS PROMPT PRODUCES INTERESTING FACTS AND NOTHING ELSE. Did you know,
-and the occasional genuinely useful tip. Not corrections, not
-warnings, not housekeeping. Those are real things that sometimes need
-saying, but they are not what this is for, and mixing them in is what
-turns a run of popups into a chore to read. If a fact's only value is
-that somebody got it wrong, it does not belong here.
-
-WHAT A POPUP IS. A small notification block laid over the footage,
-not a full card. It carries one fact worth knowing that does not
-deserve a card of its own, and it is read in about two seconds while
-the video keeps moving.
+Produce interesting facts only: DID YOU KNOW, plus an occasional
+actionable TIP. No corrections, warnings, or housekeeping. A popup is
+a short overlay for one worthwhile fact that does not need a full card.
 
 WHERE THEY COME FROM. The dossier holds far more than any script can
 say, and that surplus is exactly what popups are for. Work from the
@@ -2786,14 +2573,9 @@ Also good:
 - a supplier or origin detail that is interesting but off the spine
 - a piece of production or market context that reframes the part
 
-THE ONLY TEST THAT MATTERS. Would somebody who already knows this
-subject stop and go "huh, I didn't know that"? If the answer is no, it
-is not a popup, however true it is. A number nobody would repeat, a
-detail that only matters to the person rebuilding one this afternoon,
-a fact that is really just the previous fact restated: cut all of it.
-Being accurate is the floor here, not the bar. Never restate what the
-voiceover already says in full, because a popup that echoes the
-narration is wasted screen time.
+TEST. Would someone who knows the subject still stop and say “I didn't
+know that”? Reject echoes of the voiceover, trivial minutiae, and facts
+that need setup before the point lands.
 
 HOW MANY. 6 to 10 for a Short, so there is something to cut from.
 Long form scales up, roughly one every 30 to 45 seconds. Over-produce
@@ -2812,7 +2594,7 @@ HARD RULES:
 - Keep the text to one or two short sentences.
 - No em dashes, no emojis, ranges written as "1994 to 1997".
 
-The full machine format and a worked example are attached below.
+The popup machine format and a worked example are included below.
 
 OUTPUT, in this order:
 1. The popup blocks, one after another.
@@ -2941,6 +2723,11 @@ FINAL VIDEO TRANSCRIPT:
 <!-- ================================================================ CARDS -->
 <section class="view cardsview" id="view-cards">
   <div class="c-edit">
+  <div class="shelf" style="margin:0 0 12px">
+    <div class="kick" style="margin-top:0">Make cards with any AI</div>
+    <p class="lead" style="font-size:12px;margin:0 0 9px">Copy the instructions, paste them into ChatGPT, Gemini, Claude, or another AI, then add a plain request such as “Make me four cards comparing a Ford 9-inch and a Dana 60.” Paste its reply into <b>Spec text</b> and tap Render.</p>
+    <button class="amber" id="copysnip" type="button" style="width:100%;min-height:44px">Copy AI card instructions</button>
+  </div>
   <div class="c-tabs">
     <button class="ctab on" id="tabStudio" type="button">Studio</button>
     <button class="ctab" id="tabText" type="button">Spec text</button>
@@ -3054,9 +2841,9 @@ FINAL VIDEO TRANSCRIPT:
   </details>
 
   <details>
-    <summary>Spec format + prompt snippet for Step 4</summary>
+    <summary>Machine format reference + example</summary>
     <pre id="fmt">=== CARD 01
-type: spec            <span class="k">spec, timeline, or table</span>
+type: spec            <span class="k">spec, timeline, table, or compare</span>
 accent: amber         <span class="k">amber, red, green, blue, or a hex like #FF8C16</span>
 kicker: 5.9 CUMMINS · BLOCK ID
 counter: 02 / 05      <span class="k">leave out to auto-number</span>
@@ -3085,7 +2872,6 @@ alignheadline: center             <span class="k">per line: alignkicker/headline
 headline: STILL A C6 INSIDE       <span class="k">optional short bold line</span>
 text: One or two sentences, read in a couple of seconds.
 source: Ford workshop manual      <span class="k">optional small credit</span></pre>
-    <div class="row"><button class="ghost" id="copysnip">Copy prompt snippet</button></div>
   </details>
   </div>
 </section>
@@ -3200,7 +2986,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v8.6';
+const APP_VERSION = 'v8.8';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3266,6 +3052,7 @@ document.querySelectorAll('.fillins input').forEach(inp=>{
    CARD_TYPES mirrors the parser: it must equal the keys of RENDERERS in the
    [CARDS] section. The load-time self-test fails loudly if they drift. */
 const CARD_TYPES = ['spec','timeline','table','compare','popup'];
+const FULL_CARD_TYPES = ['spec','timeline','table','compare'];
 const CARD_EXAMPLE = `=== CARD 01
 type: spec
 accent: amber
@@ -3322,56 +3109,82 @@ style: did you know
 headline: STILL A C6 INSIDE
 text: The overdrive section bolts to a gearset Ford had already been building for twenty years.
 source: Ford workshop manual`;
-const CARD_SNIPPET = `
+const CARD_EXAMPLE_SPLIT = '\n\n=== POPUP';
+const CARD_FULL_EXAMPLE = CARD_EXAMPLE.split(CARD_EXAMPLE_SPLIT)[0];
+const CARD_POPUP_EXAMPLE = '=== POPUP' + CARD_EXAMPLE.split(CARD_EXAMPLE_SPLIT)[1];
+const CARD_FULL_SNIPPET = `
 
-Output the CARD SPECS in exactly the machine format below, ready to
-paste into the generator with zero edits. One block per card. No
-commentary before the first block, between blocks, or after the last.
+FULL-CARD MACHINE FORMAT
+Return blocks ready to paste into ITC HQ with no commentary between
+them. Each begins "=== CARD 01". type is exactly
+${FULL_CARD_TYPES.join(', ')}. Unknown types are invalid.
 
-CONTENT INTENT: cards are the deep layer. The script has under two
-minutes; the cards are where the technical detail lives for viewers
-who pause to read. Pack them with real, LOCKED data (exact figures,
-units, part-level specifics), not restatements of the script.
+- accent: amber, red, green, blue, or a hex color.
+- kicker: small topic line. headline: 1 to 3 words. subhead: short.
+- rows by type: spec "LABEL | value"; timeline "YEAR | event"; table
+  "COL | COL | COL" with headers first; compare "LABEL | left | right"
+  with its two panel names in the first row.
+- highlight is an optional bottom callout. source is an optional credit.
+- Leave counter and footer out to use the generator defaults.
+- A "> text" line adds a sub-line below a spec row. *text* adds accent
+  color in spec values or sub-lines.
+- Keep tables near 5 rows and 3 columns. Keep compare cards near 6 rows.
+- No em dashes, en dashes, or emojis. Write ranges as "1994 to 1997".
 
-FORMAT RULES:
-- Every card starts with a "=== CARD 01" line.
-- type must be exactly ${CARD_TYPES.join(', ')} (lowercase). No
-  other types exist. Anything else silently renders as spec.
-- accent: amber, red, green, or blue. A hex like #FF8C16 also works.
-- Key lines: kicker (PLATFORM · TOPIC), headline (1 to 3 words),
-  subhead (short accent line), rows, highlight (optional callout
-  pinned to the card bottom), source (optional credit line above the
-  footer, e.g. "Ford dimension chart", strongly encouraged).
-- Leave counter out (cards auto-number) and footer out (defaults to
-  "INSIDE THE CASE · AUTO").
-- Rows by type: spec "LABEL | value", timeline "YEAR | event",
-  table "COL | COL | COL" with the first row as the headers,
-  compare "LABEL | left | right" with the first row naming the two
-  panels (e.g. "SPEC | CHEVY 350 | FORD 351W").
-- popup is different: it has no rows at all. It is a small
-  notification block that gets laid over the footage, so it uses
-  "style:" plus "text:" and an optional short "headline:". Style is
-  one of: did you know, tip, warning, correction. The style sets the
-  label and the colour, so accent is not needed unless you want to
-  override it. Keep the text to one or two sentences, because the
-  block is read in a couple of seconds while the video keeps moving.
-  Use popups for an aside that is worth knowing and does not deserve
-  a full card: a piece of trivia, a caution, a correction to a
-  common belief.
-- "> text" under a spec row draws a smaller sub-line. Spec rows only.
-  Any rows line without a "|" is treated the same way.
-- *asterisks* color that text in the accent. Spec values and spec
-  sub-lines only.
-- spec, timeline, and compare shrink to fit: up to about 8 plain spec
-  rows, 5 spec rows with sub-lines, or 6 compare rows. table does not
-  shrink, so keep tables to about 5 rows and 3 columns. popup grows to
-  fit its own text and never overflows.
-- No em dashes, no en dashes, no emojis. Ranges written as
+FULL-CARD EXAMPLE:
+
+${CARD_FULL_EXAMPLE}`;
+const CARD_POPUP_SNIPPET = `
+
+POPUP MACHINE FORMAT
+Return blocks ready to paste into ITC HQ with no commentary between
+them. Each begins "=== POPUP 01" and contains type: popup.
+
+- style: did you know, tip, warning, or correction.
+- text: one idea in one or two short sentences.
+- headline and source are optional. Omit kicker to use the style label;
+  include an empty "kicker:" line to hide the label.
+- Optional: width 520 to 1600, textsize 60 to 160, font poppins or mono,
+  and align left, center, or right.
+- No rows. No em dashes, en dashes, or emojis. Write ranges as
   "1994 to 1997".
 
-WORKED EXAMPLE, every type once:
+POPUP EXAMPLE:
 
-${CARD_EXAMPLE}`;
+${CARD_POPUP_EXAMPLE}`;
+const P4B_POPUP_SNIPPET = CARD_POPUP_SNIPPET.replace(
+  '- style: did you know, tip, warning, or correction.',
+  '- style: did you know or tip only for this prompt.'
+);
+const CARD_SNIPPET = CARD_FULL_SNIPPET + '\n\n' + CARD_POPUP_SNIPPET;
+const CARD_QUICK_PROMPT = `You create card-spec text for the ITC HQ
+Card Generator. Follow the plain-language request after these
+instructions. Prefer full cards; make popups only when requested.
+
+Use only facts I supply or facts you can verify from reliable sources.
+If you cannot verify a number, date, fitment, or source, omit it or ask
+me for source material. Never invent a source credit.
+
+Reply directly in chat as plain text. Do not create or attach a file.
+Do not use Markdown fences. Return only generator blocks beginning
+"=== CARD 01" or "=== POPUP 01". The examples teach syntax only; do
+not copy their subject matter.
+
+${CARD_SNIPPET}
+
+MY REQUEST: `;
+
+const VOICE_CARD = `CHANNEL VOICE CARD
+- Direct, mechanical, short sentences, a little personality. No hype,
+  filler, adjective stacking, or corporate phrasing.
+- Numbers beat adjectives: "14 mm to 12 mm", not "significantly smaller".
+- State a common belief plainly, then correct it with the record.
+- Respect an audience that knows trucks. Explain why without talking down.
+- Own uncertainty: say "the record does not show" instead of hiding it.
+- Voiceover must read cleanly aloud. Posts use short paragraphs and put
+  the strongest fact early.
+- Scripts end with "Inside The Case." or "Thanks for watching, Inside
+  The Case." Posts do not add a sign-off unless requested.`;
 
 /* Shared blocks are written once in the playbook and attached at copy
    time, so a cold chat still receives the whole standard while the rules
@@ -3390,6 +3203,9 @@ const TEXT_ARTIFACT_PROMPTS = new Set([
   'pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3'
 ]);
 const TWO_FILE_ARTIFACT_PROMPTS = new Set(['pr7','pr8b','prl3']);
+const FINAL_CLAIM_COLUMNS = ['id','tier','type','evidence_class','source_ids','source_year','proven_span',
+  'span_basis','span_risk','section','card_ready','screen_only','spoken_form','stated_purpose',
+  'failure_consequence','service_action'];
 
 /* tags become filenames, so strip only what a filename genuinely cannot
    carry. Hyphens, digits and underscores are fine and people use them. */
@@ -3412,39 +3228,50 @@ function fillTokens(id, text){
   const step = STEP_OF[id];
   const out = step? stepFile(tag, step, runs) : 'ITC_'+tag;
   const prevStep = PREV_OF[id];
-  const artifactExt = TEXT_ARTIFACT_PROMPTS.has(id)? '.txt' : '.pdf';
+  const artifactExt = '.txt';
   return text
     .replace(/\[\[OUT_TSV\]\]/g, out + '_CLAIMS.tsv')
     .replace(/\[\[OUT\]\]/g, out + artifactExt)
     .replace(/\[\[PREV\]\]/g, prevStep? stepFile(tag, prevStep, runs) + artifactExt : 'the previous step')
+    .replace(/\[\[CLAIM_HEADER\]\]/g, FINAL_CLAIM_COLUMNS.join('\t'))
+    .replace(/\[\[DOSSIER_SCHEMA\]\]/g, dossierSchemaText())
     .replace(/\[\[TAG\]\]/g, tag);
 }
+function dossierSchemaText(){
+  return Array.from(document.querySelectorAll('#pb-schema table tr')).map(row=>{
+    const cells = row.querySelectorAll('td');
+    return cells.length && /^\d{2}$/.test(cells[0].textContent.trim())
+      ? cells[0].textContent.trim() + ' ' + cells[1].textContent.trim()
+      : '';
+  }).filter(Boolean).join('\n');
+}
 function withBlocks(id, text){
-  /* both card prompts carry the machine format and the worked example,
-     so the syntax never has to be typed by hand */
-  if(id==='pp4' || id==='pp4b') text += CARD_SNIPPET;
+  if(['pp2a','pp2b','pp2c'].includes(id)) text += '\n\n' + VOICE_CARD;
+  if(id==='pp4') text += CARD_FULL_SNIPPET;
+  if(id==='pp4b') text += P4B_POPUP_SNIPPET;
   if(RULES_PROMPTS.includes(id))  text += '\n\n' + rulesBlock();
   if(SWEEPS_PROMPTS.includes(id)) text += '\n\n' + document.getElementById('sweeps').textContent;
-  return fillTokens(id, text);
+  return text;
 }
 function artifactContract(id){
   if(!TEXT_ARTIFACT_PROMPTS.has(id)) return '';
   const two = TWO_FILE_ARTIFACT_PROMPTS.has(id);
-  return 'NON-NEGOTIABLE OUTPUT FILE CONTRACT. READ THIS BEFORE THE TASK.\n'+
-    'Create a real downloadable file. The filename and extension are literal.\n'+
-    'FILE 1: [[OUT]]\n'+
-    '- Format: UTF-8 plain text. MIME type: text/plain; charset=utf-8.\n'+
-    '- The filename MUST end in .txt. It must not be PDF or DOCX.\n'+
-    (two? 'FILE 2: [[OUT_TSV]]\n'+
-      '- Format: UTF-8 tab-separated values. MIME type: text/tab-separated-values; charset=utf-8.\n'+
-      '- The filename MUST end in .tsv. It must not be PDF, XLSX, or CSV.\n' : '')+
-    'FORBIDDEN: PDF output, a document/canvas artifact that exports as PDF, '+
-    'pasting the artifact into chat, or wrapping it in a code block.\n'+
-    'If the platform defaults to PDF, override that default and create the '+
-    'literal TXT'+(two? ' and TSV files':' file')+' instead.\n'+
-    'The visible chat reply must contain only "'+(two? 'Files':'File')+' attached."\n\n';
+  return '\n\nOUTPUT DELIVERY\n'+
+    'Return the complete artifact. A summary or partial artifact is not a substitute.\n\n'+
+    'ARTIFACT 1\n- Name: [[OUT]]\n- Format: UTF-8 plain text.\n'+
+    (two? '\nARTIFACT 2\n- Name: [[OUT_TSV]]\n- Format: UTF-8 tab-separated values. Use literal tabs, not a Markdown table or CSV.\n' : '')+
+    '\nUse either method your current AI supports:\n'+
+    '1. FILE: create and attach the artifact'+(two? 's':'')+' with the exact name'+(two? 's':'')+'.\n'+
+    '2. CHAT FALLBACK: write FILE: [[OUT]], then its complete contents in a fenced text block.\n'+
+    (two? 'Then write FILE: [[OUT_TSV]], followed by its complete contents in a separate fenced tsv block.\n' : '')+
+    '\n'+
+    'Both methods are valid. If file creation is unavailable, use the chat fallback. Do not refuse or stop because you cannot attach a file. Do not substitute PDF, DOCX, XLSX, or CSV. Put no preamble or summary outside the artifact'+(two? 's':'')+'.\n'+
+    'If a response limit is reached, stop on a line boundary, write CONTINUE REQUIRED: [filename], and continue the remainder when asked. Never summarize to fit.';
 }
-function promptText(id){ return withBlocks(id, artifactContract(id) + document.getElementById(id).textContent); }
+function buildPrompt(id, text){
+  return fillTokens(id, withBlocks(id, text) + artifactContract(id));
+}
+function promptText(id){ return buildPrompt(id, document.getElementById(id).textContent); }
 
 /* House style is yours to set; the tier system, source hierarchy, and
    evidence classes are not, because a typo there quietly changes what
@@ -3895,9 +3722,6 @@ document.getElementById('libAdd').addEventListener('click', ()=>{
   libOpen = tag; renderLibrary();
 });
 
-const FINAL_CLAIM_COLUMNS = ['id','tier','type','evidence_class','source_ids','source_year','proven_span',
-  'span_basis','span_risk','section','card_ready','screen_only','spoken_form','stated_purpose',
-  'failure_consequence','service_action'];
 function finalArtifactName(filename, claims){
   const re = claims
     ? /^ITC_(.+)_(R7(?:\.\d+)?|L3(?:\.\d+)?|R8B(?:\.\d+)?)_CLAIMS\.tsv$/i
@@ -3920,7 +3744,7 @@ function finalDossierStatus(text){
 }
 function finalDossierRecord(dossierName, dossierText, claimsName, claimsText, fields){
   const dossierFile=finalArtifactName(dossierName,false), claimsFile=finalArtifactName(claimsName,true);
-  if(!dossierFile) throw new Error('The dossier must be the downloadable ITC_[TAG]_R7.txt file. L3 and R8B final TXT files also work.');
+  if(!dossierFile) throw new Error('The dossier file must be named ITC_[TAG]_R7.txt. L3 and R8B final TXT files also work.');
   if(!claimsFile) throw new Error('The claims file must be the matching ITC_[TAG]_R7_CLAIMS.tsv file.');
   if(dossierFile.tag!==claimsFile.tag || dossierFile.step!==claimsFile.step)
     throw new Error('Those files are not a matching pair. Select the TXT and claims TSV from the same final step.');
@@ -4415,6 +4239,7 @@ const bsWrap = document.getElementById('bsWrap');
 let bsView = null;
 let bsHistOpen = false;
 let bsSetOpen = false;
+let bsPromptOpen = true;
 
 /* The tag, subject and direction are set once and carried by every
    prompt after. Editable here so a typo or a sharpened scope does not
@@ -4592,8 +4417,8 @@ function bsWirePaste(ta, st, s, key){
   return meta;
 }
 
-/* Research artifacts stay plain and portable. TXT preserves the dossier's
-   headings without PDF page furniture; TSV preserves claim columns exactly. */
+/* Research artifacts stay plain and portable. A user can load a file or paste
+   the complete fallback block returned by an AI that cannot create files. */
 function bsArtifactField(st, s, opt){
   const holder = bsEl('<div class="bs-artifact"></div>');
   const row = bsEl('<div class="bs-row"></div>');
@@ -4603,11 +4428,11 @@ function bsArtifactField(st, s, opt){
   const button = bsEl('<button type="button" class="amber" style="flex:1;min-height:46px"></button>');
   button.textContent = opt.label;
   const state = bsEl('<span class="bs-count"></span>');
-  state.textContent = s[opt.key+'FileName'] || (s[opt.key]? 'Saved text loaded' : 'No file attached');
+  state.textContent = s[opt.key+'FileName'] || (s[opt.key]? 'Saved text loaded' : 'No result loaded');
   button.addEventListener('click', ()=>input.click());
   row.appendChild(button); row.appendChild(input); holder.appendChild(row); holder.appendChild(state);
 
-  const review = bsEl('<details class="pbsec"><summary><span class="sn">·</span><span class="st">Review text or paste manually</span><span class="arrow">›</span></summary><div class="secbody"></div></details>');
+  const review = bsEl('<details class="pbsec"><summary><span class="sn">·</span><span class="st">No file? Paste the AI output</span><span class="arrow">›</span></summary><div class="secbody"></div></details>');
   const ta = bsEl('<textarea class="bs-paste"></textarea>');
   ta.placeholder = opt.placeholder;
   review.querySelector('.secbody').appendChild(ta);
@@ -4619,7 +4444,7 @@ function bsArtifactField(st, s, opt){
     if(!f) return;
     const valid = isTsv? /\.(tsv|txt)$/i.test(f.name) : /\.(txt|md)$/i.test(f.name);
     if(!valid){
-      alert(isTsv? 'Attach the claims companion as a .tsv file.' : 'Attach a .txt or .md file. PDF is deliberately excluded because page numbers and layout marks corrupt the dossier text.');
+      alert(isTsv? 'Load the claims companion as a .tsv file.' : 'Load a .txt or .md file. PDF is deliberately excluded because page numbers and layout marks corrupt the dossier text.');
       return;
     }
     const reader = new FileReader();
@@ -4633,7 +4458,7 @@ function bsArtifactField(st, s, opt){
       s[opt.key+'FileName'] = f.name;
       s.updated = Date.now();
       bsSave(st);
-      state.textContent = 'Attached · ' + f.name + ' · ' + f.size.toLocaleString() + ' bytes';
+      state.textContent = 'Loaded · ' + f.name + ' · ' + f.size.toLocaleString() + ' bytes';
       review.open = false;
     };
     reader.readAsText(f);
@@ -4676,7 +4501,7 @@ function bsFill(preId, s, topic, note){
     if(sp.dataset.for==='topic') sp.textContent = topic;
     if(sp.dataset.for==='angle') sp.textContent = note || 'none';
   });
-  return withBlocks(preId, pre.textContent);
+  return buildPrompt(preId, pre.textContent);
 }
 function bsDossierText(s){ const d = getDossier(s.dossierTag); return d? (d.text||'') : ''; }
 function bsProductionText(s){ return productionBundle(selectedDossierTags(s)); }
@@ -4736,7 +4561,7 @@ function prR8b(s){ return promptText('pr8b')
   .replace(P_DOSSIER_MARK, '\n' + bsDossierText(s))
   .replace('[PASTE THE R8A PASS DOCUMENT]', '\n' + (s.findings||'')); }
 
-function ppP1(s){ return withDossier(document.getElementById('pp1').textContent, s); }
+function ppP1(s){ return withDossier(promptText('pp1'), s); }
 function ppP2(id, s){
   const story = s.autoPick? 'pick from the content plan' : (s.story || 'pick from the content plan');
   return withDossier(bsFill(id, s, story, s.angle), s);
@@ -4765,7 +4590,7 @@ function ppP3(s){
     .replace('SCRIPT OR POST: [PASTE THE FINAL COPY]',
              ppSiblingCheck(s) + 'SCRIPT OR POST: [PASTE THE FINAL COPY]')
     .replace('[PASTE THE FINAL COPY]', '\n' + bsScriptText(s));
-  return withDossier(raw, s);
+  return withDossier(buildPrompt('pp3', raw), s);
 }
 function ppP4(s){ return withDossier(promptText('pp4')
   .replace('[PASTE THE FINAL SCRIPT]', '\n' + bsScriptText(s)), s); }
@@ -4799,12 +4624,12 @@ function livePrompt(id){
    importing a Library package. The guided route replaces the markers with
    the saved parent dossier; the direct route leaves them for manual paste. */
 function standaloneR8a(){
-  return promptText('pr8a') + '\n\nDOSSIER: [ATTACH THE COMPLETE DOSSIER TXT TO THIS CHAT]';
+  return promptText('pr8a') + '\n\nDOSSIER: [ATTACH THE DOSSIER TXT OR PASTE ITS COMPLETE CONTENTS]';
 }
 function standaloneR8b(){
   return promptText('pr8b')
-    .replace('[PASTE THE COMPLETE DOSSIER]', '[ATTACH THE COMPLETE PARENT DOSSIER TXT TO THIS CHAT]')
-    .replace('[PASTE THE R8A PASS DOCUMENT]', '[ATTACH THE R8A PASS TXT TO THIS CHAT]');
+    .replace('[PASTE THE COMPLETE DOSSIER]', '[ATTACH THE PARENT DOSSIER TXT OR PASTE ITS COMPLETE CONTENTS]')
+    .replace('[PASTE THE R8A PASS DOCUMENT]', '[ATTACH THE R8A PASS TXT OR PASTE ITS COMPLETE CONTENTS]');
 }
 
 /* ---- the write-stage reply splits on its four output headers ---- */
@@ -4885,7 +4710,7 @@ function bsStepper(st, s){
   });
   return wrap;
 }
-/* one file-first shape for every research checkpoint */
+/* one file-or-paste shape for every research checkpoint */
 function bsDocStage(st, s, opt){
   const p = bsEl('<div class="bs-stage"></div>');
   p.appendChild(bsEl('<p class="bs-note">'+opt.note+'</p>'));
@@ -4898,7 +4723,7 @@ function bsDocStage(st, s, opt){
   });
   p.appendChild(row1);
   const artifact = bsArtifactField(st, s, {
-    key:opt.field, label:opt.fileLabel || 'Attach the TXT file',
+    key:opt.field, label:opt.fileLabel || 'Load the TXT file',
     placeholder:opt.placeholder, kind:'text'
   });
   const ta = artifact.textarea;
@@ -4920,43 +4745,43 @@ function bsDocStage(st, s, opt){
 /* ---- research track panels ---- */
 function bsPanelScope(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Chat 1, in your Inside The Case folder.</b> R1 writes the question list this dossier gets measured against. It returns one downloadable TXT file and nothing long in the chat. Download it, then attach it here.',
+    note: '<b>Chat 1, in your usual AI.</b> Use an Inside The Case project or workspace if your AI supports one. R1 writes the question list this dossier gets measured against. Load its TXT file below, or paste the complete chat fallback.',
     copies: [{ label:'Copy R1 · scope and coverage plan', build: prR1 }],
     placeholder: 'R1 OUTPUT goes here. Paste the coverage plan text it returns: scope, classification, the question list, and the definition of done.',
-    field: 'plan', fileLabel:'Attach R1 coverage-plan TXT', next: 'Plan captured · start the research', from: 'scope',
+    field: 'plan', fileLabel:'Load R1 coverage-plan TXT', next: 'Plan captured · start the research', from: 'scope',
     to: s.light? 'lresearch' : 'deep',
-    needs: 'Attach the R1 coverage-plan TXT first.'
+    needs: 'Load or paste the R1 coverage plan first.'
   });
 }
 /* ---- light spine panels ---- */
 function bsPanelLResearch(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Same chat 1, web search on.</b> One prompt does what R2, R3 and R4 do in the full spine. It returns one downloadable dossier TXT. Download it, then attach it here for the independent audit.',
+    note: '<b>Same chat 1, with web search or browsing.</b> One prompt does what R2, R3 and R4 do in the full spine. Load its dossier TXT below, or paste the complete chat fallback for the independent audit.',
     copies: [{ label:'Copy L2 · research and expand', build: prL2 }],
     placeholder: 'Paste the L2 dossier text here, all sections.',
-    field: 'r4doc', fileLabel:'Attach L2 dossier TXT', next: 'Dossier captured · on to the audit', from: 'lresearch', to: 'lfinal',
-    needs: 'Attach the L2 dossier TXT first.'
+    field: 'r4doc', fileLabel:'Load L2 dossier TXT', next: 'Dossier captured · on to the audit', from: 'lresearch', to: 'lfinal',
+    needs: 'Load or paste the L2 dossier first.'
   });
 }
 function bsPanelLFinal(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note"><b>Chat 2: a brand new blank chat, no folder</b>, different model if you have one, web search on. L3 returns exactly two downloadable files: the final dossier TXT and the claims TSV. Download both, attach both below, then shelve them under tag <b>'+esc(s.tag)+'</b>.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Chat 2: a new blank chat with no inherited project instructions</b>, using a different model if practical and web search or browsing. L3 returns the final dossier TXT and claims TSV as files or separate chat blocks. Load or paste both below, then shelve them under tag <b>'+esc(s.tag)+'</b>.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
   const c = bsEl('<button type="button" class="copybtn">Copy L3 · audit, gap hunt, finalize</button>');
   c.addEventListener('click', function(){ copyText(prL3(s), this); });
   row1.appendChild(c); p.appendChild(row1);
   p.appendChild(bsEl('<div class="kick" style="margin-top:10px">Final dossier</div>'));
-  const dossierFile = bsArtifactField(st, s, {key:'finalDoc', label:'Attach L3 final-dossier TXT', kind:'text', placeholder:'Manual fallback: paste the complete final dossier text here.'});
+  const dossierFile = bsArtifactField(st, s, {key:'finalDoc', label:'Load L3 final-dossier TXT', kind:'text', placeholder:'Paste the complete final dossier contents here, without the code fences.'});
   const ta = dossierFile.textarea; p.appendChild(dossierFile.node);
   p.appendChild(bsEl('<div class="kick">Required companion file · claims TSV</div>'));
-  const claimsFile = bsArtifactField(st, s, {key:'claimsTsv', label:'Attach L3 claims TSV', kind:'tsv', placeholder:'Manual fallback: paste the complete claims TSV here.'});
+  const claimsFile = bsArtifactField(st, s, {key:'claimsTsv', label:'Load L3 claims TSV', kind:'tsv', placeholder:'Paste the complete claims TSV contents here, without the code fences.'});
   const tb = claimsFile.textarea; p.appendChild(claimsFile.node);
   if(s.status==='lfinal'){
     const row = bsEl('<div class="bs-row"></div>');
     const b = bsEl('<button type="button" class="amber">Shelve it in the Library</button>');
     b.addEventListener('click', async ()=>{
-      if(!ta.value.trim()){ alert('Attach the final dossier TXT first.'); return; }
-      if(!tb.value.trim()){ alert('Attach the required claims TSV first.'); return; }
+      if(!ta.value.trim()){ alert('Load or paste the final dossier first.'); return; }
+      if(!tb.value.trim()){ alert('Load or paste the required claims TSV first.'); return; }
       const all = dossiers();
       all[s.tag] = Object.assign(all[s.tag] || { tag:s.tag, created:Date.now() }, {
         tag:s.tag, name:s.name||s.tag, type:s.type||'other', text:ta.value.trim(),
@@ -4974,53 +4799,53 @@ function bsPanelLFinal(st, s){
 }
 function bsPanelDeep(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Step R2. Stay in chat 1 and turn web search on.</b> The prompt already carries the R1 coverage plan. R2 returns one downloadable dossier TXT. Download it, then attach it here.',
+    note: '<b>Step R2. Stay in chat 1 and use web search or browsing.</b> The prompt carries the R1 plan. Load the returned dossier TXT below, or paste the complete chat fallback.',
     copies: [{ label:'Copy R2 · deep research', build: prR2 }],
     placeholder: 'Paste the complete R2 dossier text here.',
-    field: 'r2doc', fileLabel:'Attach R2 dossier TXT', next: 'R2 captured · continue to R3', from: 'deep', to: 'second',
-    needs: 'Attach the R2 dossier TXT first.'
+    field: 'r2doc', fileLabel:'Load R2 dossier TXT', next: 'R2 captured · continue to R3', from: 'deep', to: 'second',
+    needs: 'Load or paste the R2 dossier first.'
   });
 }
 function bsPanelSecond(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Step R3. Stay in the same research chat.</b> R3 attacks the first pass while its searches and assumptions are still in context. It returns one downloadable delta TXT. Download it, then attach it here.',
+    note: '<b>Step R3. Stay in the same research chat.</b> R3 attacks the first pass while its searches and assumptions are still in context. Load its delta TXT below, or paste the complete chat fallback.',
     copies: [{ label:'Copy R3 · second pass', build: prR3 }],
     placeholder: 'Paste the complete R3 delta text here.',
-    field: 'r3doc', fileLabel:'Attach R3 delta TXT', next: 'R3 captured · continue to R4', from: 'second', to: 'expand',
-    needs: 'Attach the R3 delta TXT first.'
+    field: 'r3doc', fileLabel:'Load R3 delta TXT', next: 'R3 captured · continue to R4', from: 'second', to: 'expand',
+    needs: 'Load or paste the R3 delta first.'
   });
 }
 function bsPanelExpand(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Step R4. Stay in the same research chat.</b> R4 expands the dossier with the full sweeps and returns one downloadable dossier TXT. Download it, then attach it here for the independent audit.',
+    note: '<b>Step R4. Stay in the same research chat.</b> R4 expands the dossier with the full sweeps. Load its dossier TXT below, or paste the complete chat fallback for the independent audit.',
     copies: [{ label:'Copy R4 · expansion', build: prR4 }],
     placeholder: 'Paste the complete R4 dossier text here, all sections.',
-    field: 'r4doc', fileLabel:'Attach R4 expanded-dossier TXT', next: 'R4 captured · start the independent audit', from: 'expand', to: 'accuracy',
-    needs: 'Attach the R4 dossier TXT first.'
+    field: 'r4doc', fileLabel:'Load R4 expanded-dossier TXT', next: 'R4 captured · start the independent audit', from: 'expand', to: 'accuracy',
+    needs: 'Load or paste the R4 dossier first.'
   });
 }
 function bsPanelAccuracy(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Step R5. Open a brand new blank chat, outside the folder</b>, and use a different model if you have one. The copied prompt carries the R4 dossier. R5 returns one downloadable audit-delta TXT. Download it, then attach it here.',
+    note: '<b>Step R5. Open a new blank chat with no inherited project instructions</b>, using a different model if practical. The prompt carries the R4 dossier. Load its audit-delta TXT below, or paste the complete chat fallback.',
     copies: [{ label:'Copy R5 · accuracy audit, dossier attached', build: prR5 }],
     placeholder: 'Paste the complete R5 audit delta text here.',
-    field: 'r5doc', fileLabel:'Attach R5 audit-delta TXT', next: 'R5 captured · continue to R6', from: 'accuracy', to: 'gap',
-    needs: 'Attach the R5 audit-delta TXT first.'
+    field: 'r5doc', fileLabel:'Load R5 audit-delta TXT', next: 'R5 captured · continue to R6', from: 'accuracy', to: 'gap',
+    needs: 'Load or paste the R5 audit delta first.'
   });
 }
 function bsPanelGap(st, s){
   return bsDocStage(st, s, {
-    note: '<b>Step R6. Stay in the audit chat.</b> R6 compares the work against the original R1 plan and returns one downloadable gap-hunt TXT. Download it, then attach it here. R7 assembles the permanent files next.',
+    note: '<b>Step R6. Stay in the audit chat.</b> R6 compares the work against the original R1 plan. Load its gap-hunt TXT below, or paste the complete chat fallback. R7 assembles the permanent artifacts next.',
     copies: [{ label:'Copy R6 · gap hunt, plan attached', build: prR6 }],
     placeholder: 'Paste the complete R6 gap-hunt delta text here.',
-    field: 'r6doc', fileLabel:'Attach R6 gap-hunt TXT', next: 'R6 captured · continue to R7', from: 'gap', to: 'finalize',
-    needs: 'Attach the R6 gap-hunt TXT first.'
+    field: 'r6doc', fileLabel:'Load R6 gap-hunt TXT', next: 'R6 captured · continue to R7', from: 'gap', to: 'finalize',
+    needs: 'Load or paste the R6 gap hunt first.'
   });
 }
 /* ---- R8 revision panels ---- */
 function bsPanelAttack(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note"><b>Optional pass. Brand new blank chat, no folder</b>, different model if you have one. R8A re-attacks the <b>'+esc(s.dossierTag)+'</b> dossier assuming it has gaps: it rebuilds the question universe from scratch, runs every sweep, hunts undefined terms, and audits applicability spans. The copy below carries the dossier and the list of your other shelved dossiers so it can flag cross-dossier contradictions.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Optional pass. New blank chat with no inherited project instructions</b>, using a different model if practical. R8A re-attacks the <b>'+esc(s.dossierTag)+'</b> dossier, rebuilds its question universe, runs every sweep, hunts undefined terms, and audits applicability spans. The copy carries the dossier and sibling tag list.</p>'));
   const form = bsEl('<div class="logform"><div class="r"><input class="i-reason" placeholder="What prompted this? a gap, a part in hand, new material, or leave blank"></div></div>');
   const ri = form.querySelector('.i-reason');
   ri.value = s.reason || '';
@@ -5030,12 +4855,12 @@ function bsPanelAttack(st, s){
   const c = bsEl('<button type="button" class="copybtn">Copy R8A · re-attack, dossier attached</button>');
   c.addEventListener('click', function(){ copyText(prR8a(s), this); });
   row1.appendChild(c); p.appendChild(row1);
-  const passFile = bsArtifactField(st, s, {key:'findings', label:'Attach R8A pass TXT', kind:'text', placeholder:'Manual fallback: paste the complete R8A pass here.'});
+  const passFile = bsArtifactField(st, s, {key:'findings', label:'Load R8A pass TXT', kind:'text', placeholder:'Paste the complete R8A pass contents here, without the code fences.'});
   const ta = passFile.textarea; p.appendChild(passFile.node);
   const row = bsEl('<div class="bs-row"></div>');
   const go = bsEl('<button type="button" class="amber">Pass captured · on to the audit</button>');
   go.addEventListener('click', ()=>{
-    if(!ta.value.trim()){ alert('Attach the R8A pass TXT first.'); return; }
+    if(!ta.value.trim()){ alert('Load or paste the R8A pass first.'); return; }
     s.findings = ta.value.trim(); bsAdvance(st, 'rebuild');
   });
   row.appendChild(go); p.appendChild(row);
@@ -5043,23 +4868,23 @@ function bsPanelAttack(st, s){
 }
 function bsPanelRebuild(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note"><b>Another brand new blank chat, not the one that ran R8A.</b> R8B returns exactly two downloadable files: the revised dossier TXT and claims TSV. Download both, attach both below, then replace the <b>'+esc(s.dossierTag)+'</b> shelf record.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Another new blank chat, separate from R8A.</b> R8B returns the revised dossier TXT and claims TSV as files or separate chat blocks. Load or paste both below, then replace the <b>'+esc(s.dossierTag)+'</b> shelf record.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
   const c = bsEl('<button type="button" class="copybtn">Copy R8B · audit and consolidate</button>');
   c.addEventListener('click', function(){ copyText(prR8b(s), this); });
   row1.appendChild(c); p.appendChild(row1);
   p.appendChild(bsEl('<div class="kick" style="margin-top:10px">Revised dossier</div>'));
-  const dossierFile = bsArtifactField(st, s, {key:'finalDoc', label:'Attach R8B revised-dossier TXT', kind:'text', placeholder:'Manual fallback: paste the complete revised dossier here.'});
+  const dossierFile = bsArtifactField(st, s, {key:'finalDoc', label:'Load R8B revised-dossier TXT', kind:'text', placeholder:'Paste the complete revised dossier contents here, without the code fences.'});
   const ta = dossierFile.textarea; p.appendChild(dossierFile.node);
   p.appendChild(bsEl('<div class="kick">Required companion file · claims TSV</div>'));
-  const claimsFile = bsArtifactField(st, s, {key:'claimsTsv', label:'Attach R8B claims TSV', kind:'tsv', placeholder:'Manual fallback: paste the complete claims TSV here.'});
+  const claimsFile = bsArtifactField(st, s, {key:'claimsTsv', label:'Load R8B claims TSV', kind:'tsv', placeholder:'Paste the complete claims TSV contents here, without the code fences.'});
   const tb = claimsFile.textarea; p.appendChild(claimsFile.node);
   if(s.status==='rebuild'){
     const row = bsEl('<div class="bs-row"></div>');
     const b = bsEl('<button type="button" class="amber">Replace the shelved dossier</button>');
     b.addEventListener('click', async ()=>{
-      if(!ta.value.trim()){ alert('Attach the revised dossier TXT first.'); return; }
-      if(!tb.value.trim()){ alert('Attach the required claims TSV first.'); return; }
+      if(!ta.value.trim()){ alert('Load or paste the revised dossier first.'); return; }
+      if(!tb.value.trim()){ alert('Load or paste the required claims TSV first.'); return; }
       const all = dossiers();
       if(!all[s.dossierTag]){ alert('That dossier is no longer in the Library.'); return; }
       all[s.dossierTag].text = ta.value.trim();
@@ -5079,24 +4904,23 @@ function bsPanelRebuild(st, s){
 
 function bsPanelFinalize(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note"><b>Same chat 2.</b> R7 assembles the permanent copy and returns exactly two downloadable files: the final dossier TXT and the required claims TSV. Download both, attach both below, then shelve them under tag <b>'+esc(s.tag)+'</b>. No PDF and no copy-and-paste required.</p>'));
-  p.appendChild(bsEl('<div class="emptymsg">Already received the old PDF-style R7 reply? In that same chat ask: <b>Re-export the exact final dossier as a downloadable UTF-8 TXT file and the claims companion as TSV. Files only. Do not paste either file into the chat.</b></div>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Same chat 2.</b> R7 assembles the final dossier TXT and claims TSV. Your AI may return files or separate chat blocks. Load or paste both below, then shelve them under tag <b>'+esc(s.tag)+'</b>.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
   const c = bsEl('<button type="button" class="copybtn">Copy R7 · finalize</button>');
   c.addEventListener('click', function(){ copyText(prR7(), this); });
   row1.appendChild(c); p.appendChild(row1);
   p.appendChild(bsEl('<div class="kick" style="margin-top:10px">Final dossier</div>'));
-  const dossierFile = bsArtifactField(st, s, {key:'finalDoc', label:'Attach R7 final-dossier TXT', kind:'text', placeholder:'Manual fallback: paste the complete final dossier here.'});
+  const dossierFile = bsArtifactField(st, s, {key:'finalDoc', label:'Load R7 final-dossier TXT', kind:'text', placeholder:'Paste the complete final dossier contents here, without the code fences.'});
   const ta = dossierFile.textarea; p.appendChild(dossierFile.node);
   p.appendChild(bsEl('<div class="kick">Required companion file · claims TSV</div>'));
-  const claimsFile = bsArtifactField(st, s, {key:'claimsTsv', label:'Attach R7 claims TSV', kind:'tsv', placeholder:'Manual fallback: paste the complete claims TSV here.'});
+  const claimsFile = bsArtifactField(st, s, {key:'claimsTsv', label:'Load R7 claims TSV', kind:'tsv', placeholder:'Paste the complete claims TSV contents here, without the code fences.'});
   const tb = claimsFile.textarea; p.appendChild(claimsFile.node);
   if(s.status==='finalize'){
     const row = bsEl('<div class="bs-row"></div>');
     const b = bsEl('<button type="button" class="amber">Shelve it in the Library</button>');
     b.addEventListener('click', async ()=>{
-      if(!ta.value.trim()){ alert('Attach the final dossier TXT first.'); return; }
-      if(!tb.value.trim()){ alert('Attach the required claims TSV first.'); return; }
+      if(!ta.value.trim()){ alert('Load or paste the final dossier first.'); return; }
+      if(!tb.value.trim()){ alert('Load or paste the required claims TSV first.'); return; }
       const all = dossiers();
       all[s.tag] = Object.assign(all[s.tag] || { tag:s.tag, created:Date.now() }, {
         tag:s.tag, name:s.name||s.tag, type:s.type||'other', text:ta.value.trim(),
@@ -5118,7 +4942,7 @@ function bsPanelPlan(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   const d = getDossier(s.dossierTag);
   const used=selectedDossierTags(s);
-  p.appendChild(bsEl('<p class="bs-note"><b>Chat 3, in your Inside The Case folder.</b> Reading the production bundle for <b>'+used.map(esc).join(', ')+'</b>. P1 mines the selected shelf together, so a story can cross a vehicle, engine, transmission, axle, or mating component without losing the facts established in its companion dossiers. Change the selection in Job settings at any stage.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Chat 3, in your preferred AI.</b> P1 reads the production bundle for <b>'+used.map(esc).join(', ')+'</b> and mines the selected shelf together. Paste its complete content plan below. Change the dossier selection in Job settings at any stage.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
   const c = bsEl('<button type="button" class="copybtn">Copy P1 · content plan, knowledge bundle attached</button>');
   c.addEventListener('click', function(){ copyText(ppP1(s), this); });
@@ -5337,6 +5161,23 @@ function bsPanelProductionAudit(st, s){
   }
   return p;
 }
+function cardReplyParts(text){
+  const blocks=[], notes=[];
+  let block=[], inNotes=false;
+  const flush=()=>{ if(block.length){ blocks.push(block.join('\n').trim()); block=[]; } };
+  String(text||'').split(/\r?\n/).forEach(line=>{
+    if(/^\s*===/.test(line)){
+      flush(); block=[line]; inNotes=false; return;
+    }
+    if(/^\s*(PLACEMENT MAP|CUT LIST)\b/i.test(line)){
+      flush(); inNotes=true; notes.push(line); return;
+    }
+    if(block.length) block.push(line);
+    else if(inNotes) notes.push(line);
+  });
+  flush();
+  return { specs:blocks.filter(Boolean).join('\n\n'), notes:notes.join('\n').trim() };
+}
 function bsPanelCards(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
   p.appendChild(bsEl('<p class="bs-note"><b>Generate the cards after the script is accurate.</b> P4 and P4B carry the audited final script, the selected knowledge bundle, and the card format. Paste the reply below to route the blocks into the Cards tab. If this video needs no cards, continue to the transcript step.</p>'));
@@ -5355,18 +5196,18 @@ function bsPanelCards(st, s){
   route.addEventListener('click', ()=>{
     const txt = ta.value;
     if(!txt.trim()){ alert('Paste the P4 reply first.'); return; }
-    const cut = txt.search(/^\s*PLACEMENT MAP/mi);
-    const specs = (cut>=0? txt.slice(0,cut) : txt).trim();
+    const parts = cardReplyParts(txt);
+    const specs = parts.specs;
     if(specs.indexOf('===')===-1){ alert('No blocks found. The paste needs the === CARD or === POPUP lines from P4 or P4B.'); return; }
     specEl.value = specs; specEl.dispatchEvent(new Event('input'));
     tagEl.value = s.dossierTag; tagEl.dispatchEvent(new Event('input'));
     s.sections = s.sections || {};
-    s.sections['PLACEMENT MAP'] = (cut>=0)? txt.slice(cut).trim() : '';
+    s.sections['PLACEMENT MAP'] = parts.notes;
     s.updated = Date.now(); bsSave(st); renderShort();
   });
   row0.appendChild(route); p.appendChild(row0);
   if(s.sections && s.sections['PLACEMENT MAP']){
-    p.appendChild(bsEl('<div class="kick" style="margin-top:12px">Placement map · where each card lands</div>'));
+    p.appendChild(bsEl('<div class="kick" style="margin-top:12px">Placement and cut notes</div>'));
     const pre = bsEl('<div class="bs-pre"></div>');
     pre.textContent = s.sections['PLACEMENT MAP'];
     p.appendChild(pre);
@@ -5417,39 +5258,152 @@ function bsPanelPublish(st, s){
   return p;
 }
 
-/* ---- permanent R8 desk, start panel, and history ---- */
-function bsR8Desk(st){
-  const box = bsEl('<div class="bs-box"></div>');
-  box.appendChild(bsEl('<div class="kick" style="margin-top:0">R8A + R8B PROMPTS · COPY HERE</div>'));
-  box.appendChild(bsEl('<p class="bs-note" style="margin-top:0"><b>These are always available.</b> They do not run R1 through R7 and you do not need to start a job. Copy R8A into chat A. Copy R8B into a different blank chat after R8A is finished.</p>'));
-  const copyRow = bsEl('<div class="bs-row"></div>');
-  const a = bsEl('<button type="button" class="copybtn amber" style="flex:1;min-height:48px">COPY R8A PROMPT</button>');
-  a.addEventListener('click', function(){ copyText(standaloneR8a(), this); });
-  const b = bsEl('<button type="button" class="copybtn" style="flex:1;min-height:48px">COPY R8B PROMPT</button>');
-  b.addEventListener('click', function(){ copyText(standaloneR8b(), this); });
-  copyRow.appendChild(a); copyRow.appendChild(b); box.appendChild(copyRow);
-  box.appendChild(bsEl('<p class="bs-note" style="margin:4px 0 0">The direct copies use file markers. Attach the old dossier TXT to R8A; then attach the old dossier TXT and the R8A pass TXT to R8B.</p>'));
+/* ---- front-page script launcher, manual prompt desk, start panel, and history ---- */
+const MANUAL_PROMPT_GROUPS = [
+  { title:'Research · full spine', prompts:[
+    ['R1 · Scope','pr1'], ['R2 · Deep research','pr2'], ['R3 · Second pass','pr3'],
+    ['R4 · Expansion','pr4'], ['R5 · Accuracy audit','pr5'], ['R6 · Gap hunt','pr6'],
+    ['R7 · Finalize','pr7']
+  ]},
+  { title:'Research · light and revision', prompts:[
+    ['L2 · Research + expand','prl2'], ['L3 · Audit + finalize','prl3'],
+    ['R8A · Re-attack','pr8a'], ['R8B · Audit + merge','pr8b']
+  ]},
+  { title:'Production · scripts, cards, and publishing', prompts:[
+    ['P1 · Content plan','pp1'], ['P2A · Short script','pp2a'],
+    ['P2B · Long script','pp2b'], ['P2C · Posts','pp2c'],
+    ['P3 · Final audit','pp3'], ['P4 · Full cards','pp4'],
+    ['P4B · Popups','pp4b'], ['P5 · Upload details','pp5']
+  ]},
+  { title:'Across the shelf', prompts:[['X1 · Cross-dossier check','px1']] }
+];
 
+function manualPromptText(id){
+  const s = bsState().active;
+  if(id==='pr8a' && (!s || s.kind!=='revise')) return standaloneR8a();
+  if(id==='pr8b' && (!s || s.kind!=='revise' || !String(s.findings||'').trim())) return standaloneR8b();
+  if(!s) return promptText(id);
+  try{
+    if(s.kind==='research'){
+      if(id==='pr1') return prR1(s);
+      if(id==='pr2' && String(s.plan||'').trim()) return prR2(s);
+      if(id==='pr5' && String(s.r4doc||'').trim()) return prR5(s);
+      if(id==='pr6' && String(s.plan||'').trim()) return prR6(s);
+      if(id==='prl2' && String(s.plan||'').trim()) return prL2(s);
+      if(id==='prl3' && String(s.plan||'').trim() && String(s.r4doc||'').trim()) return prL3(s);
+    }
+    if(s.kind==='revise'){
+      if(id==='pr8a') return prR8a(s);
+      if(id==='pr8b') return prR8b(s);
+    }
+    if(s.kind==='production' && selectedDossierTags(s).length){
+      if(id==='pp1') return ppP1(s);
+      if(['pp2a','pp2b','pp2c'].includes(id)) return ppP2(id,s);
+      if(['pp3','pp4','pp4b'].includes(id) && String(s.finalScript||'').trim())
+        return id==='pp3'? ppP3(s) : id==='pp4'? ppP4(s) : ppP4b(s);
+      if(id==='pp5' && String(s.transcript||'').trim()) return ppP5(s);
+    }
+  }catch(e){}
+  return promptText(id);
+}
+
+function bsScriptDesk(st){
+  const box = bsEl('<div class="bs-box scriptdesk"></div>');
+  box.appendChild(bsEl('<div class="kick" style="margin-top:0">WRITE A SCRIPT OR CREATE A POST</div>'));
+  box.appendChild(bsEl('<h2>Create a Short, long-form script, or post.</h2>'));
+  box.appendChild(bsEl('<p class="bs-note" style="margin-top:0">Pick a dossier, describe the story in plain language, and copy the format you want. This skips the content-plan step and creates a ready-to-paste AI prompt immediately. The dossier supplies the facts.</p>'));
   const ready = dossierList().filter(dossierReady);
-  box.appendChild(bsEl('<div class="kick">Or attach a Library dossier automatically</div>'));
+  if(!ready.length){
+    box.appendChild(bsEl('<div class="emptymsg">Add a finished dossier to the Library first. Script prompts need a verified factual source.</div>'));
+    const row = bsEl('<div class="bs-row"></div>');
+    const lib = bsEl('<button type="button" class="amber">Open Library · add a dossier</button>');
+    lib.addEventListener('click', ()=>showView('library'));
+    row.appendChild(lib); box.appendChild(row);
+    return box;
+  }
+  const form = bsEl('<div class="logform"><div class="r"><select class="i-script-doss" aria-label="Dossier for the script" style="flex:1"></select></div></div>');
+  const sel = form.querySelector('.i-script-doss');
+  ready.forEach(d=>{
+    const o = document.createElement('option');
+    o.value = d.tag; o.textContent = d.tag + (d.name? ' · '+d.name : '');
+    sel.appendChild(o);
+  });
+  box.appendChild(form);
+  const idea = bsEl('<textarea class="bs-paste" placeholder="Type a simple instruction, for example: Explain how to identify an early E4OD and why the connector changed. Include anything that must be covered or avoided."></textarea>');
+  box.appendChild(idea);
+  const row = bsEl('<div class="bs-row"></div>');
+  let chosenFormat = 'pp2a';
+  [['Copy Short prompt','pp2a'],['Copy long-form prompt','pp2b'],['Copy post prompt','pp2c']].forEach(pair=>{
+    const b = bsEl('<button type="button" class="copybtn"></button>');
+    b.textContent = pair[0];
+    b.addEventListener('click', function(){
+      const story = idea.value.trim();
+      if(!story){ alert('Type what you want the AI to write first.'); idea.focus(); return; }
+      chosenFormat = pair[1];
+      const d = getDossier(sel.value);
+      if(!dossierReady(d)){ alert('That dossier is no longer available. Choose another one.'); return; }
+      const draft = { kind:'production', dossierTag:d.tag, dossierTags:[d.tag], tag:d.tag,
+        name:d.name||d.tag, story, angle:'none', autoPick:false, format:pair[1] };
+      copyText(ppP2(pair[1], draft), this);
+    });
+    row.appendChild(b);
+  });
+  box.appendChild(row);
+  box.appendChild(bsEl('<p class="bs-note">Paste the copied prompt into ChatGPT, Gemini, Claude, or another AI. Revise there normally. When the writing is settled, paste it into the Case Writer or start the guided workflow for audit, cards, and publishing.</p>'));
+  const actions = bsEl('<div class="bs-row"></div>');
+  const writer = bsEl('<button type="button" class="ghost">Open Case Writer</button>');
+  writer.addEventListener('click', ()=>showView('writer'));
+  const guided = bsEl('<button type="button" class="ghost">Continue this as a guided job</button>');
+  guided.addEventListener('click', ()=>{
+    const story = idea.value.trim();
+    if(!story){ alert('Type what you want to write first.'); idea.focus(); return; }
+    if(st.active && !confirm('Park the current job and start a production job from this dossier?')) return;
+    bsStartProduction(sel.value, { story, format:chosenFormat, status:'script' });
+  });
+  actions.appendChild(writer); actions.appendChild(guided); box.appendChild(actions);
+  return box;
+}
+
+function bsPromptDesk(st){
+  const det = bsEl('<details class="pbsec"><summary><span class="sn">ALL</span><span class="st">Copy every prompt manually · R, L, P, and X</span><span class="arrow">›</span></summary><div class="secbody"></div></details>');
+  det.open = bsPromptOpen;
+  det.addEventListener('toggle', ()=>{ bsPromptOpen = det.open; });
+  const body = det.querySelector('.secbody');
+  body.appendChild(bsEl('<p class="bs-note"><b>Every prompt is here.</b> A matching active job fills in whatever the app already has. Otherwise the copied prompt keeps clear markers showing what you need to attach or paste.</p>'));
+  MANUAL_PROMPT_GROUPS.forEach(group=>{
+    body.appendChild(bsEl('<div class="kick">'+esc(group.title)+'</div>'));
+    const grid = bsEl('<div class="promptgrid"></div>');
+    group.prompts.forEach(pair=>{
+      const b = bsEl('<button type="button" class="copybtn promptcopy"></button>');
+      b.textContent = pair[0]; b.dataset.manualPrompt = pair[1];
+      b.addEventListener('click', function(){ copyText(manualPromptText(pair[1]), this); });
+      grid.appendChild(b);
+    });
+    body.appendChild(grid);
+  });
+  const ready = dossierList().filter(dossierReady);
+  body.appendChild(bsEl('<div class="kick">Guided R8 revision</div>'));
   if(!ready.length){
     const row = bsEl('<div class="bs-row"></div>');
     const lib = bsEl('<button type="button" class="ghost">Import a dossier in Library</button>');
     lib.addEventListener('click', ()=>showView('library'));
-    row.appendChild(lib); box.appendChild(row);
+    row.appendChild(lib); body.appendChild(row);
   } else {
     const pick = bsEl('<div class="logform"><div class="r"><select class="i-r8-doss" style="flex:1"></select>'+
-      '<button type="button" class="amber i-r8-go">OPEN GUIDED R8A</button></div></div>');
+      '<button type="button" class="amber i-r8-go">Open guided R8A</button></div></div>');
     const sel = pick.querySelector('.i-r8-doss');
     ready.forEach(d=>{
       const o = document.createElement('option');
       o.value = d.tag; o.textContent = d.tag + (d.name? ' · '+d.name : '');
       sel.appendChild(o);
     });
-    pick.querySelector('.i-r8-go').addEventListener('click', ()=>bsStartRevision(sel.value));
-    box.appendChild(pick);
+    pick.querySelector('.i-r8-go').addEventListener('click', ()=>{
+      if(st.active && !confirm('Park the current job and open guided R8A for this dossier?')) return;
+      bsStartRevision(sel.value);
+    });
+    body.appendChild(pick);
   }
-  return box;
+  return det;
 }
 
 function bsStartRevision(dossierTag){
@@ -5463,20 +5417,21 @@ function bsStartRevision(dossierTag){
   st.history = st.history.slice(0,20);
   bsView = null; bsSave(st); renderShort(); showView('home');
 }
-function bsStartProduction(dossierTag){
+function bsStartProduction(dossierTag, setup){
   const st = bsState();
   const d = getDossier(dossierTag);
   if(!d){ alert('That dossier is not in the Library.'); return; }
+  const cfg = setup || {};
   if(st.active) st.history.unshift(st.active);
   st.active = { id:Date.now(), kind:'production', dossierTag, dossierTags:[dossierTag], tag:dossierTag, name:d.name||dossierTag,
-    story:'', angle:'', autoPick:false, format:'pp2a', status:'plan', created:Date.now(), updated:Date.now(),
+    story:cfg.story||'', angle:cfg.angle||'', autoPick:false, format:cfg.format||'pp2a', status:cfg.status||'plan', created:Date.now(), updated:Date.now(),
     contentPlan: d.plan||'', sections:{}, claims:[], claimsNone:false, claimsMissing:false };
   st.history = st.history.slice(0,20);
   bsView = null; bsSave(st); renderShort(); showView('home');
 }
 function bsStartPanel(st){
   const box = bsEl('<div class="bs-box"></div>');
-  box.appendChild(bsEl('<p class="bs-note">Nothing running. <b>Research a part</b> builds a new permanent dossier. <b>Revise with R8</b> opens only R8A and R8B for a dossier already in the Library. <b>Make something</b> draws a Short, long video, or post from finished dossiers.</p>'));
+  box.appendChild(bsEl('<p class="bs-note">Nothing running. <b>Research a part</b> builds a permanent dossier. <b>Create a script or post</b> draws from a finished dossier. The quick writer above copies a script prompt immediately; the guided route below adds idea planning, factual audit, cards, and publishing details.</p>'));
   box.appendChild(bsEl('<div class="kick" style="margin-top:6px">Research a part</div>'));
   const form = bsEl('<div class="logform">'+
     '<div class="r"><input class="i-tag" placeholder="TAG · e.g. E4OD" maxlength="32" style="max-width:150px">'+
@@ -5513,12 +5468,12 @@ function bsStartPanel(st){
   });
   box.appendChild(form);
   const ready = dossierList().filter(dossierReady);
-  box.appendChild(bsEl('<div class="kick">Make something from a dossier</div>'));
+  box.appendChild(bsEl('<div class="kick">Create a script or post · guided workflow</div>'));
   if(!ready.length){
     box.appendChild(bsEl('<div class="emptymsg">No finished dossiers yet. Research one first, or add it by hand on the Library tab.</div>'));
   } else {
     const pick = bsEl('<div class="logform"><div class="r"><select class="i-doss" style="flex:1"></select>'+
-      '<button type="button" class="ghost i-go">Start</button></div></div>');
+      '<button type="button" class="amber i-go">Start writing workflow</button></div></div>');
     const sel = pick.querySelector('.i-doss');
     ready.forEach(d=>{
       const o = document.createElement('option');
@@ -5582,7 +5537,7 @@ const BS_PANELS = { scope:bsPanelScope, deep:bsPanelDeep, second:bsPanelSecond, 
 function renderShort(){
   const st = bsState();
   bsWrap.innerHTML = '';
-  bsWrap.appendChild(bsR8Desk(st));
+  bsWrap.appendChild(bsScriptDesk(st));
   if(!st.active){
     bsWrap.appendChild(bsStartPanel(st));
   } else {
@@ -5619,6 +5574,7 @@ function renderShort(){
     box.appendChild((BS_PANELS[viewKey] || bsPanelScope)(st, s));
     bsWrap.appendChild(box);
   }
+  bsWrap.appendChild(bsPromptDesk(st));
   bsWrap.appendChild(bsHistory(st));
   refreshPlaybook();   /* the tag and every filename follow the active job */
 }
@@ -5739,12 +5695,13 @@ function popupScale(){
   const n = parseInt(store.get('popupscale', '3'), 10);
   return POPUP_SCALES.includes(n)? n : 3;
 }
-/* one renderer per accepted card type; unknown types fall back to spec.
-   The self-test checks these keys against CARD_TYPES in the prompt. */
+/* one renderer per accepted card type; unknown types warn and fall back to
+   spec so an old draft remains visible instead of disappearing. */
 const RENDERERS = { spec: renderSpec, timeline: renderTimeline, table: renderTable,
   compare: renderCompare, popup: renderPopup };
 
 function parseSpecs(text){
+  text = String(text||'').replace(/^\s*```[a-z0-9_-]*\s*$/gmi, '');
   const cards = [];
   const blocks = text.split(/^\s*===.*$/m).map(b=>b.trim()).filter(Boolean);
   for(const block of blocks){
@@ -6334,12 +6291,11 @@ document.getElementById("share1").addEventListener('click', async function(){
     setTimeout(()=>{this.textContent='Share this card';},1800);
   }
 });
-document.getElementById("copysnip").addEventListener('click', function(){ copyText(CARD_SNIPPET.trim(), this); });
+document.getElementById("copysnip").addEventListener('click', function(){ copyText(CARD_QUICK_PROMPT, this); });
 
 /* ---------------- [CARDS] self-test: prompt vs parser drift guard ----------------
-   Runs once at load. Fails loudly (console + Home banner) if the card types
-   documented in Prompt 9 / CARD_SNIPPET ever drift from what the parser and
-   renderers actually accept, or if the worked example stops parsing clean. */
+   Runs once at load. Fails loudly if prompt delivery, schemas, card syntax,
+   parser behavior, or renderers drift apart. */
 (function selfTest(){
   const fails = [];
   const rendererTypes = Object.keys(RENDERERS).sort().join(',');
@@ -6350,11 +6306,15 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
     if(c.length!==1 || c[0].type!==t || !RENDERERS[c[0].type])
       fails.push('parser or renderer no longer accepts type "'+t+'"');
   });
-  const p4txt = document.getElementById('pp4').textContent;
+  const p4txt = promptText('pp4');
+  FULL_CARD_TYPES.forEach(t=>{
+    if(!p4txt.includes(t)) fails.push('Prompt P4 no longer names full-card type "'+t+'"');
+  });
   CARD_TYPES.forEach(t=>{
-    if(!p4txt.includes(t)) fails.push('Prompt P4 no longer names card type "'+t+'"');
     if(!CARD_SNIPPET.includes(t)) fails.push('CARD_SNIPPET no longer names card type "'+t+'"');
   });
+  if(/type: popup|=== POPUP/.test(p4txt))
+    fails.push('Prompt P4 started requesting popups instead of leaving them to P4B');
   /* the popup prompt must carry the style names and the machine format,
      or the syntax ends up being typed by hand again */
   const p4b = promptText('pp4b');
@@ -6364,7 +6324,15 @@ document.getElementById("copysnip").addEventListener('click', function(){ copyTe
   });
   if(!/Style is one of: did you know, tip\./.test(p4b))
     fails.push('Prompt P4B stopped restricting itself to interesting facts');
+  if(/^- style:.*(?:warning|correction)/mi.test(p4b))
+    fails.push('Prompt P4B format reference offers non-interesting popup styles');
   if(!p4b.includes('=== POPUP')) fails.push('Prompt P4B lost the popup worked example');
+  if(/FULL-CARD MACHINE FORMAT/.test(p4b))
+    fails.push('Prompt P4B started carrying the full-card format');
+  if(!/MY REQUEST:\s*$/.test(CARD_QUICK_PROMPT))
+    fails.push('the quick card prompt lost its plain-language request slot');
+  if(!/Do not create or attach a file/.test(CARD_QUICK_PROMPT) || !/Reply directly in chat/.test(CARD_QUICK_PROMPT))
+    fails.push('the quick card prompt stopped requesting portable chat output');
   /* width has to drive the wrap, not just the panel: a narrower popup
      must reflow into more lines and get taller, never crop. And the text
      scale has to move the rhythm with the type, or lines collide. */
@@ -6462,12 +6430,12 @@ align: center`)[0];
       fails.push('alignment on a full card stopped warning that it does nothing');
   })();
   if(!p4b.includes('type: popup')) fails.push('Prompt P4B lost the popup machine format');
-  /* the three writing prompts each carry the voice card and house rules */
+  /* the three writing prompts receive one shared voice card */
   ['pp2a','pp2b','pp2c'].forEach(id=>{
-    const t = document.getElementById(id).textContent;
+    const t = promptText(id);
     if(!t.includes('CHANNEL VOICE CARD')) fails.push(id+' lost the channel voice card');
     if(!t.includes('No em dashes')) fails.push(id+' lost the em dash rule');
-    if(id!=='pp2c' && !t.includes('Inside The Case."')) fails.push(id+' lost the sign off');
+    if(!t.includes('Inside The Case."')) fails.push(id+' lost the sign off rule');
   });
   /* every step prompt must exist and every stage must map to a real section */
   ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3','px1','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp4b','pp5'].forEach(id=>{
@@ -6545,14 +6513,23 @@ align: center`)[0];
       catch(e){ pairRejected=true; }
       if(!pairRejected) fails.push('the final file importer accepted a mismatched TXT and claims TSV pair');
     }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
-    if(APP_VERSION!=='v8.6') fails.push('the v8.6 code is running under a different APP_VERSION');
+    if(APP_VERSION!=='v8.8') fails.push('the v8.8 code is running under a different APP_VERSION');
     if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
-  /* filename tokens must actually be substituted, or the AI is told to
-     save a file with a literal [[OUT]] in its name. The tag being the
-     placeholder TAG is fine: that just means no job is running yet. */
-  if(/\[\[[A-Z_]+\]\]/.test(promptText('pr2')))
-    fails.push('filename tokens stopped resolving in the prompts');
+  /* copy-time tokens must always resolve */
+  const everyPrompt = ['pr1','pr2','pr3','pr4','pr5','pr6','pr7','pr8a','pr8b','prl2','prl3',
+    'px1','pp1','pp2a','pp2b','pp2c','pp3','pp4','pp4b','pp5'];
+  const manualPromptIds = MANUAL_PROMPT_GROUPS.flatMap(group=>group.prompts.map(pair=>pair[1]));
+  const manualButtons = Array.from(document.querySelectorAll('[data-manual-prompt]'))
+    .map(button=>button.dataset.manualPrompt);
+  if(manualPromptIds.length!==everyPrompt.length || new Set(manualPromptIds).size!==everyPrompt.length ||
+     everyPrompt.some(id=>!manualPromptIds.includes(id)))
+    fails.push('the manual prompt drawer no longer lists every prompt exactly once');
+  if(manualButtons.length!==everyPrompt.length || everyPrompt.some(id=>!manualButtons.includes(id)))
+    fails.push('the Work page no longer renders a manual Copy button for every prompt');
+  everyPrompt.forEach(id=>{
+    if(/\[\[[A-Z_]+\]\]/.test(promptText(id))) fails.push(id+' contains an unresolved copy-time token');
+  });
   /* shape check, not a re-implementation. Deliberately permissive about
      what a tag contains: hyphens and digits are perfectly good in a
      filename, and this guard has no business rejecting them. */
@@ -6564,20 +6541,30 @@ align: center`)[0];
     fails.push('R7 stopped naming its final TXT and required TSV files, got "'+f7+'"');
   TEXT_ARTIFACT_PROMPTS.forEach(id=>{
     const t = promptText(id);
-    if(!/downloadable/.test(t) || !/Do not make a\s+PDF/.test(t))
-      fails.push(id+' lost the file-only TXT delivery contract');
+    if((t.match(/OUTPUT DELIVERY/g)||[]).length!==1)
+      fails.push(id+' does not have exactly one shared output contract');
+    if(!/ARTIFACT 1\n- Name: ITC_.+\.txt/.test(t))
+      fails.push(id+' lost its exact TXT artifact name');
+    if(!/CHAT FALLBACK/.test(t) || !/Both methods are valid/.test(t) ||
+       !/Do not refuse or stop because you cannot attach a file/.test(t))
+      fails.push(id+' lost the cross-AI chat fallback');
+    if(/NON-NEGOTIABLE OUTPUT FILE CONTRACT|If you cannot create a downloadable file, stop/i.test(t))
+      fails.push(id+' brought back a file-only refusal instruction');
   });
   ['pr7','prl3','pr8b'].forEach(id=>{
-    if(!/_CLAIMS\.tsv/.test(promptText(id))) fails.push(id+' lost the required claims TSV output');
-  });
-  ['pr7','pr8b'].forEach(id=>{
     const t=promptText(id);
-    if(!t.startsWith('NON-NEGOTIABLE OUTPUT FILE CONTRACT.')) fails.push(id+' lost its top-of-prompt file contract');
-    if(!/FILE 1: ITC_.+\.txt/.test(t) || !/FILE 2: ITC_.+_CLAIMS\.tsv/.test(t))
-      fails.push(id+' no longer opens with exact TXT and TSV filenames');
-    if(!/MIME type: text\/plain; charset=utf-8/.test(t) || !/MIME type: text\/tab-separated-values; charset=utf-8/.test(t))
-      fails.push(id+' lost its TXT or TSV MIME requirement');
+    if(!/ARTIFACT 2\n- Name: ITC_.+_CLAIMS\.tsv/.test(t))
+      fails.push(id+' lost the required claims TSV artifact');
+    if(!t.includes(FINAL_CLAIM_COLUMNS.join('\t')))
+      fails.push(id+' no longer carries the importer-compatible TSV header');
   });
+  ['pp1','pp2a','pp2b','pp2c','pp3'].forEach(id=>{
+    if(/attach the whole plan as one PDF|attach the audit table|Attach a PDF of the same thing/i.test(promptText(id)))
+      fails.push(id+' brought back a PDF delivery request');
+  });
+  const schemaLines=dossierSchemaText().split('\n');
+  if(schemaLines.length!==28 || !/^00 DOSSIER HEADER$/.test(schemaLines[0]) || !/^27 FIGURES LEDGER$/.test(schemaLines[27]))
+    fails.push('the prompt schema stopped matching the 00 through 27 schema table');
   Object.keys(SECTION_PROMPTS).forEach(sec=>{
     if(!document.getElementById(sec)) fails.push('playbook section "'+sec+'" is missing');
   });
@@ -6596,6 +6583,21 @@ align: center`)[0];
   if(demo.length!==CARD_TYPES.length || CARD_TYPES.some(t=>!demo.find(c=>c.type===t)))
     fails.push('the worked example no longer covers every card type exactly once');
   demo.forEach(c=>{ if(c.warnings.length) fails.push('the worked example trips house rules: '+c.warnings.join(' ')); });
+  if(CARD_QUICK_PROMPT.includes('```')) fails.push('the quick card prompt contains a Markdown fence');
+  const fenced = parseSpecs('```text\n'+CARD_EXAMPLE+'\n```');
+  if(fenced.length!==demo.length || fenced.some(c=>c.warnings.some(w=>/```/.test(w))))
+    fails.push('Markdown fences around an AI card reply no longer strip cleanly');
+  const mixedReply = cardReplyParts(
+    '=== CARD 01\ntype: spec\nheadline: FULL CARD\nrows:\nA | B\n'+
+    'PLACEMENT MAP:\nCARD 01 after the opening.\n'+
+    '=== POPUP 01\ntype: popup\nstyle: tip\nheadline: POPUP\ntext: Short fact.\n'+
+    'CUT LIST:\nKeep POPUP 01.'
+  );
+  const mixedCards = parseSpecs(mixedReply.specs);
+  if(mixedCards.length!==2 || !mixedCards.find(c=>c.type==='spec') || !mixedCards.find(c=>c.type==='popup'))
+    fails.push('a combined P4 and P4B reply no longer routes every card block');
+  if(!/PLACEMENT MAP:/i.test(mixedReply.notes) || !/CUT LIST:/i.test(mixedReply.notes))
+    fails.push('a combined P4 and P4B reply no longer preserves its placement and cut notes');
   const canary = parseSpecs('=== CARD 01\nheadline: X\nrows:\nYEARS | 1994—1997');
   if(!canary.length || !canary[0].warnings.length)
     fails.push('the house-rule dash warning stopped firing');
