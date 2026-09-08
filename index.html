@@ -1058,6 +1058,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.9</b> · Full cards now have a Card size control in Studio: portrait 9:16 (1080 by 1920), square 1:1 (1080 by 1080), or landscape 16:9 (1920 by 1080). Text reflows into the selected frame, and previews, saved PNGs, and card packages use each card's size. Existing cards default to portrait.</p>
       <p><b>v8.8</b> · Work now opens with an unmistakable script and post launcher: select a finished dossier, describe the story, then copy a Short, long-form, or post prompt directly. A permanent manual prompt drawer on the same page provides individual Copy buttons for every R, L, P, and X prompt, while keeping the guided workflows available.</p>
       <p><b>v8.7</b> · Prompts now work across ChatGPT, Gemini, Claude, and other text AIs. Research output may arrive as exact TXT/TSV files or complete paste-ready code blocks, and no prompt refuses to continue when file attachment is unavailable. Duplicate delivery and voice instructions were consolidated, dossier and claims schemas were aligned, PDF requests were removed, and the Card Generator now puts a simple Copy AI card instructions button before the editor. Fenced AI card replies also paste cleanly.</p>
       <p><b>v8.6</b> · The Library now imports the files the research workflow actually produces. Choose the final R7 TXT and matching R7_CLAIMS TSV together, review the detected tag and subject, and the app saves and verifies both as one dossier. L3 and R8B final pairs work the same way. Whole-Library JSON files remain available as clearly labeled backup and restore tools instead of being presented as the normal dossier import.</p>
@@ -2807,6 +2808,7 @@ FINAL VIDEO TRANSCRIPT:
       <div class="div"></div>
       <div class="grp">
         <h4>Lines you can set</h4>
+        <div class="item"><code>format</code><div class="d">Full cards only. <code>portrait</code> is 9:16 at 1080 by 1920 (default), <code>square</code> is 1:1 at 1080 by 1080, and <code>landscape</code> is 16:9 at 1920 by 1080. Choose Card size in Studio or add this line to a card block.</div></div>
         <div class="item"><code>kicker</code><div class="d">Small uppercase line up top. e.g. <b>PLATFORM · TOPIC</b></div></div>
         <div class="item"><code>headline</code><div class="d">The big title. 1 to 3 words reads best.</div></div>
         <div class="item"><code>subhead</code><div class="d">Accent line under the headline.</div></div>
@@ -2986,7 +2988,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v8.8';
+const APP_VERSION = 'v8.9';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3120,6 +3122,8 @@ them. Each begins "=== CARD 01". type is exactly
 ${FULL_CARD_TYPES.join(', ')}. Unknown types are invalid.
 
 - accent: amber, red, green, blue, or a hex color.
+- format: portrait (9:16, default), square (1:1), or landscape (16:9).
+  Use the requested format. Shorter frames have less room for rows.
 - kicker: small topic line. headline: 1 to 3 words. subhead: short.
 - rows by type: spec "LABEL | value"; timeline "YEAR | event"; table
   "COL | COL | COL" with headers first; compare "LABEL | left | right"
@@ -5627,8 +5631,17 @@ restoreInput.addEventListener('change', ()=>{
 const ACCENTS = { amber:"#FF8C16", red:"#E8604C", green:"#6FCF8F", blue:"#7EA6D9" };
 const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer","source","text","style",
   "align","alignkicker","alignheadline","aligntext","alignsource","alignfooter",
-  "width","textsize","font"];
-/* Alignment is a popup-only control. The full 1080x1920 layouts hang
+  "width","textsize","font","format"];
+const CARD_FORMATS = {
+  portrait: { label:'Portrait', ratio:'9:16', width:1080, height:1920, scale:1 },
+  square: { label:'Square', ratio:'1:1', width:1080, height:1080, scale:0.75 },
+  landscape: { label:'Landscape', ratio:'16:9', width:1920, height:1080, scale:0.75 }
+};
+function cardFormat(c){
+  const key = String(c.format || '').trim().toLowerCase();
+  return Object.hasOwn(CARD_FORMATS, key)? key : 'portrait';
+}
+/* Alignment is a popup-only control. The full-card layouts hang
    text off fixed geometry, the accent rule down the left, the underline
    bar, the row dots, so moving the text away from that geometry breaks
    the card rather than restyling it. A popup has no such furniture
@@ -5672,7 +5685,7 @@ const POPUP_W = 960;
    edit. Everything in a popup is drawn, not pasted, so multiplying the
    canvas and the transform together gives genuinely more pixels rather
    than a bigger blurry one. The layout numbers below never change. */
-/* A popup is the one card that does not have to be a fixed size: it sits
+/* A popup sizes to its content instead of a frame preset: it sits
    over footage rather than filling a frame. Width drives the wrap, so
    text reflows into whatever column you give it, and the text scale
    moves the type and the line spacing together so nothing collides. */
@@ -5709,7 +5722,7 @@ function parseSpecs(text){
                 subhead:"", rows:[], highlight:"", footer:"INSIDE THE CASE · AUTO", source:"",
                 text:"", style:"", align:"", alignkicker:"", alignheadline:"",
                 aligntext:"", alignsource:"", alignfooter:"", width:"", textsize:"",
-                font:"", setKeys:[], warnings:[] };
+                font:"", format:"", setKeys:[], warnings:[] };
     let inRows = false;
     for(const raw of block.split(/\r?\n/)){
       const line = raw.trimEnd();
@@ -5746,11 +5759,14 @@ function parseSpecs(text){
     });
     if(c.type!=="popup" && (c.setKeys||[]).some(k=>k==='align' || k.indexOf('align')===0))
       c.warnings.push('Alignment only applies to popup cards. This '+c.type+' card keeps its fixed layout.');
-    /* width, text size and typeface are popup shape, and a full card is
-       1080 by 1920 by definition */
+    if(c.format && !Object.hasOwn(CARD_FORMATS, c.format.toLowerCase()))
+      c.warnings.push('Unknown format "'+c.format+'". Use portrait, square, or landscape. Rendered as portrait.');
+    if(c.type==='popup' && c.setKeys.includes('format'))
+      c.warnings.push('Format only applies to full cards. Popups size to their text and width.');
+    /* width, text size and typeface belong to popup shape */
     ['width','textsize','font'].forEach(k=>{
       if(c.type!=="popup" && (c.setKeys||[]).includes(k))
-        c.warnings.push('"'+k+'" only applies to popup cards. Full cards are always 1080 by 1920.');
+        c.warnings.push('"'+k+'" only applies to popup cards. Use format to resize full cards.');
     });
     if((c.setKeys||[]).includes('width')){
       const w = popupNum(c.width, 0, POPUP_W_RANGE[0], POPUP_W_RANGE[1]);
@@ -5812,7 +5828,7 @@ function drawRich(ctx,text,x,y,f,maxW,lineH,base,accent,measureOnly){
   }
   return lines;
 }
-function bg(ctx){
+function bg(ctx,W=1080,H=1920){
   const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,C_BG1); g.addColorStop(1,C_BG2);
   ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
   ctx.fillStyle="rgba(255,255,255,0.022)";
@@ -5954,22 +5970,30 @@ function renderPopup(ctx,c,scale){
 
 function renderCard(ctx,c){
   if(c.type==="popup"){ renderPopup(ctx,c); return; }
-  /* every other type draws the full 1080x1920 frame, so restore the
-     canvas if the previous card was a popup */
-  if(ctx.canvas.width!==W || ctx.canvas.height!==H){ ctx.canvas.width=W; ctx.canvas.height=H; }
+  const fmt = CARD_FORMATS[cardFormat(c)], S=fmt.scale;
+  /* Shorter formats use a wider layout column and tighter top spacing.
+     One uniform transform keeps fonts proportional at the output size.
+     The portrait values deliberately reproduce the original geometry. */
+  const frameW=fmt.width/S, frameH=fmt.height/S, right=frameW-84;
+  const compact=cardFormat(c)!=='portrait', top=compact? 80 : 0;
+  const textW=right-MX-2, bottom=frameH-H;
+  if(ctx.canvas.width!==fmt.width || ctx.canvas.height!==fmt.height){
+    ctx.canvas.width=fmt.width; ctx.canvas.height=fmt.height;
+  }
+  ctx.setTransform(S,0,0,S,0,0);
   const accent = ACCENTS[c.accent] || (/^#/.test(c.accent)? c.accent : ACCENTS.amber);
-  bg(ctx);
+  bg(ctx,frameW,frameH);
   ctx.textAlign="left"; ctx.textBaseline="alphabetic";
-  ctx.fillStyle=accent; rr(ctx,84,178,7,1580,3.5); ctx.fill();
+  ctx.fillStyle=accent; rr(ctx,84,178-top,7,1580+bottom+top,3.5); ctx.fill();
   /* brand tick ahead of the kicker, echoes the app header */
-  rr(ctx,MX,205,14,14,3); ctx.fill();
+  rr(ctx,MX,205-top,14,14,3); ctx.fill();
   setF(ctx,font(27,600,false,7)); ctx.fillStyle=accent;
-  ctx.fillText(c.kicker.toUpperCase(), MX+32, 224);
+  ctx.fillText(c.kicker.toUpperCase(), MX+32, 224-top);
   setF(ctx,font(30,700,true,2)); ctx.fillStyle="#8FA3BC"; ctx.textAlign="right";
-  ctx.fillText(c.counter, RX, 224); ctx.textAlign="left";
+  ctx.fillText(c.counter, right, 224-top); ctx.textAlign="left";
   const hf=font(100,800,false,0);
-  const hLines = wrap(ctx,c.headline.toUpperCase(),hf,868);
-  let y=396;
+  const hLines = wrap(ctx,c.headline.toUpperCase(),hf,textW);
+  let y=compact? 288 : 396;
   ctx.fillStyle="#F4F6F9";
   for(const ln of hLines){ setF(ctx,hf); ctx.fillText(ln,MX,y); y+=112; }
   y-=112;
@@ -5978,32 +6002,34 @@ function renderCard(ctx,c){
   if(c.subhead){
     y+=78;
     const shf=font(42,500,false,0);
-    const shLines = wrap(ctx,c.subhead,shf,868);
+    const shLines = wrap(ctx,c.subhead,shf,textW);
     setF(ctx,shf); ctx.fillStyle=accent;
     for(const ln of shLines){ ctx.fillText(ln,MX,y); y+=54; }
     y-=54;
   }
-  let cy = y+96;
-  let hlTop = 1760, hlLines=null;
+  let cy = y+(compact? 72 : 96);
+  let hlTop = 1760+bottom, hlLines=null;
   if(c.highlight){
-    hlLines = wrap(ctx,c.highlight,font(36,400,false,0),796);
-    hlTop = 1738 - (hlLines.length*50+66);
+    hlLines = wrap(ctx,c.highlight,font(36,400,false,0),textW-72);
+    hlTop = 1738+bottom - (hlLines.length*50+66);
   }
-  (RENDERERS[c.type] || RENDERERS.spec)(ctx,c,cy,accent,hlTop);
+  if(cy+24>hlTop) warnOverflow();
+  (RENDERERS[c.type] || RENDERERS.spec)(ctx,c,cy,accent,hlTop,right);
   if(c.highlight){
     const hlH = hlLines.length*50+66;
     ctx.strokeStyle=accent; ctx.lineWidth=2; ctx.fillStyle="#161C26";
-    rr(ctx,MX-22,hlTop,914,hlH,22); ctx.fill(); ctx.stroke();
+    rr(ctx,MX-22,hlTop,textW+46,hlH,22); ctx.fill(); ctx.stroke();
     setF(ctx,font(36,400,false,0)); ctx.fillStyle="#E4E9F0";
     let ty=hlTop+56;
     for(const ln of hlLines){ ctx.fillText(ln,MX+16,ty); ty+=50; }
   }
   if(c.source){
     setF(ctx,font(23,600,true,2)); ctx.fillStyle=C_LABEL;
-    ctx.fillText("SOURCE · "+c.source.toUpperCase(), MX, 1788);
+    ctx.fillText("SOURCE · "+c.source.toUpperCase(), MX, 1788+bottom);
   }
   setF(ctx,font(26,600,false,6)); ctx.fillStyle=C_STEEL;
-  ctx.fillText(c.footer.toUpperCase(), MX, 1836);
+  ctx.fillText(c.footer.toUpperCase(), MX, 1836+bottom);
+  ctx.setTransform(1,0,0,1,0,0);
 }
 /* exact spec-card content height: same wrapping code as the painter */
 function specHeight(ctx,c,maxW){
@@ -6020,16 +6046,16 @@ function specHeight(ctx,c,maxW){
    measured content fits above the highlight. Below the 0.8 floor the card
    is broken by definition: warn and let showCard/export block it. */
 const FIT_STEPS = [1, 0.95, 0.9, 0.85, 0.8];
-function renderSpec(ctx,c,cy0,accent,limit){
+function renderSpec(ctx,c,cy0,accent,limit,right=RX){
   /* fit against the real text bottom: measured height minus the trailing
      row gap (74), plus 24px breathing room above the highlight/footer */
   const avail=limit-cy0;
   let s = FIT_STEPS[FIT_STEPS.length-1], fitted = false;
   for(const t of FIT_STEPS){
-    if((specHeight(ctx,c,828/t)-74)*t + 24 <= avail){ s=t; fitted=true; break; }
+    if((specHeight(ctx,c,(right-MX-42)/t)-74)*t + 24 <= avail){ s=t; fitted=true; break; }
   }
   if(!fitted) warnOverflow();
-  const maxW=828/s;
+  const maxW=(right-MX-42)/s;
   ctx.save(); ctx.translate(MX,cy0); ctx.scale(s,s);
   let cy=0;
   for(const r of c.rows){
@@ -6060,7 +6086,7 @@ function timelineHeight(ctx,c,txtW){
   }
   return h;
 }
-function renderTimeline(ctx,c,cy0,accent,limit){
+function renderTimeline(ctx,c,cy0,accent,limit,RX=996){
   const avail=limit-cy0;
   /* the year column sizes to the widest year on the card, so ranges
      like "1980 to 1986" never run into the event text */
@@ -6105,7 +6131,7 @@ function compareHeight(ctx,c,txtW){
   }
   return h;
 }
-function renderCompare(ctx,c,cy0,accent,limit){
+function renderCompare(ctx,c,cy0,accent,limit,RX=996){
   if(c.rows.length<2) return;
   const avail=limit-cy0;
   const header=c.rows[0].cells, body=c.rows.slice(1);
@@ -6145,7 +6171,7 @@ function renderCompare(ctx,c,cy0,accent,limit){
   }
   ctx.restore();
 }
-function renderTable(ctx,c,cy,accent,limit){
+function renderTable(ctx,c,cy,accent,limit,RX=996){
   if(!c.rows.length) return;
   const header=c.rows[0].cells, body=c.rows.slice(1);
   const n=header.length, tw=RX-MX;
@@ -6513,7 +6539,7 @@ align: center`)[0];
       catch(e){ pairRejected=true; }
       if(!pairRejected) fails.push('the final file importer accepted a mismatched TXT and claims TSV pair');
     }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
-    if(APP_VERSION!=='v8.8') fails.push('the v8.8 code is running under a different APP_VERSION');
+    if(APP_VERSION!=='v8.9') fails.push('the v8.9 code is running under a different APP_VERSION');
     if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
   /* copy-time tokens must always resolve */
@@ -6721,7 +6747,7 @@ function cloneCard(c){
     setWidth:c.setKeys.includes('width'), setTextsize:c.setKeys.includes('textsize'),
     setFont:c.setKeys.includes('font') };
   return { type:c.type, accent:accent, setAccent:setAccent, style:c.style, kicker:c.kicker,
-    setKicker:setKicker, shape:shape,
+    setKicker:setKicker, shape:shape, format:c.format, setFormat:c.setKeys.includes('format'),
     align:String(c.align||'').trim().toLowerCase(), al:al,
     counter:c.counter, autoCounter:!c.setKeys.includes('counter'),
     headline:c.headline, subhead:c.subhead, text:c.text, highlight:c.highlight,
@@ -6731,6 +6757,7 @@ function cloneCard(c){
 function workToBlock(w){
   const out = ['type: ' + w.type];
   const put = (k,v)=>{ if(String(v==null? '' : v).trim()!=='') out.push(k+': '+v); };
+  if(w.setFormat) out.push('format: '+w.format);
   if(w.setAccent) put('accent', w.accent);
   if(w.type==='popup'){
     put('style', w.style);
@@ -6834,6 +6861,23 @@ function studioBuild(){
     tc.appendChild(b);
   });
   tg.appendChild(tc); studioEl.appendChild(tg);
+
+  if(!isPop){
+    const g=sGroup('Card size'), choices=sEl('<div class="schips"></div>');
+    Object.entries(CARD_FORMATS).forEach(([key,fmt])=>{
+      const b=sBtn(fmt.label+' '+fmt.ratio);
+      b.className='schip'+(cardFormat(work)===key? ' on' : '');
+      b.setAttribute('aria-pressed', String(cardFormat(work)===key));
+      b.addEventListener('click', ()=>{
+        work.format=key; work.setFormat=true; studioCommit(true);
+      });
+      choices.appendChild(b);
+    });
+    g.appendChild(choices);
+    const fmt=CARD_FORMATS[cardFormat(work)], note=sEl('<p class="shint"></p>');
+    note.textContent='Exports at '+fmt.width+' by '+fmt.height+' pixels. Applies to this card. Text reflows to fit the frame; shorten copy if an overflow warning appears.';
+    g.appendChild(note); studioEl.appendChild(g);
+  }
 
   /* popup style */
   if(isPop){

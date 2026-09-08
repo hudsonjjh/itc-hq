@@ -173,7 +173,13 @@ have it installed as a home-screen app.
 The canvas renderer (parseSpecs/renderCard and friends) began as a port
 of the standalone Card Generator v1.1 and was extended in v4.0 with the
 compare card type, the source credit line, kicker tick, and spec row
-separators. It draws true 1080x1920 PNGs. Changes to its layout
+separators. Full cards use a per-card `format`: `portrait` (default,
+1080x1920), `square` (1080x1080), or `landscape` (1920x1080).
+The Studio writes this key only when explicitly set, and preserves it
+through type changes. Preview and all exports use the same renderer.
+Portrait geometry is preserved; square and landscape use a shorter layout
+with wider wrapping columns and uniform scaling, never stretched text.
+Popup sizing remains independent. Changes to its layout
 constants change every card the channel exports, so treat visual edits
 there as high-risk and describe the effect before making them. The
 accepted card types live in CARD_TYPES/RENDERERS and are guarded by the
@@ -227,7 +233,7 @@ result of parsing real spec text.
   way because `localStorage` is unavailable under `data:` and a guard
   that needs writable storage fails on a perfectly healthy app.
 - **Alignment is popup only** (`ALIGNS`, `ALIGN_FIELDS`,
-  `ALIGN_DEFAULT`, resolved by `alignOf()`). The 1080x1920 layouts hang
+  `ALIGN_DEFAULT`, resolved by `alignOf()`). Full-card layouts hang
   text off fixed geometry, the accent rule, the underline bar, the row
   dots, so alignment there would break the card rather than restyle it,
   and a full card that sets it gets a warning instead of silence. All
