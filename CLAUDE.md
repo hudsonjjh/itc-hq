@@ -176,10 +176,43 @@ compare card type, the source credit line, kicker tick, and spec row
 separators. Full cards use a per-card `format`: `portrait` (default,
 1080x1920), `square` (1080x1080), or `landscape` (1920x1080).
 The Studio writes this key only when explicitly set, and preserves it
-through type changes. Preview and all exports use the same renderer.
-Portrait geometry is preserved; square and landscape use a shorter layout
-with wider wrapping columns and uniform scaling, never stretched text.
-Popup sizing remains independent. Changes to its layout
+through type changes. A missing format still means portrait for existing
+spec text. New manually added cards use the remembered `itc_newcardformat`
+setting (square by default). Deck size applies to all full cards, and
+per-card size buttons override one card. Popup sizing remains independent.
+
+**v8.10 adaptive layout.** Full cards default to `layout: auto` without
+serializing that default. `stacked` and `columns` choose one or two columns
+for spec cards, read across then down. Other types keep their own layout.
+`classic` retains the v8.9 renderer, including its original portrait pixels.
+The adaptive renderer works in actual output pixels, measures and wraps
+all text (including long identifiers, labels, table headers and credits),
+reserves space for the callout and footer, and fits body typography above a
+24px floor. Auto prefers one column on portrait and two on shorter frames
+with four or more spec rows, choosing the alternative if it fits larger text.
+`spacing: compact|balanced|airy`, `padding: narrow|normal|wide`,
+`textsize: 60..160`, and `font: poppins|mono` tune adaptive full cards.
+Classic deliberately ignores these controls and warns if they are present.
+The full-card textsize is a preferred body scale subject to fitting; it
+does not scale the headline, credits or callout. Popup textsize still
+scales the entire popup rhythm. Text stays proportional in every format.
+Preview, expanded preview (with an actual-pixel view), and every PNG export
+share the same renderer. The full-width final tile in an odd two-column
+spec grid uses the space its empty neighbour would otherwise leave behind.
+Overflow still blocks export; clipped draft body text never paints over
+the reserved callout or credits.
+
+Bulk size/design actions patch only their selected spec keys, preserving
+popup blocks, unrecognized lines and other card content. Their one-step undo
+restores the exact prior text and expires after another spec edit, so it
+cannot erase subsequent work. The selected new-card size remains a separate
+preference. New design defaults must not be emitted by a no-op Studio round
+trip. Keep `CARD_FULL_SNIPPET`, the legend and tests aligned with new keys.
+Test `tests/card-formats.cjs` and `tests/card-studio.cjs` on isolated synthetic
+data, including 400px mobile, enlarged desktop preview, mixed decks, undo,
+persistence, wrapping, overflow, and Classic/popup pixel compatibility.
+
+Changes to layout
 constants change every card the channel exports, so treat visual edits
 there as high-risk and describe the effect before making them. The
 accepted card types live in CARD_TYPES/RENDERERS and are guarded by the

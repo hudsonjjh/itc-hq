@@ -114,7 +114,7 @@ const { execFileSync } = require('node:child_process');
     const snapshots=async p=>p.evaluate(async()=>{
       await fontsReady();
       const ctx=document.createElement('canvas').getContext('2d');
-      return parseSpecs(CARD_EXAMPLE).map(c=>{ renderCard(ctx,c); return ctx.canvas.toDataURL(); });
+      return parseSpecs(CARD_EXAMPLE).map(c=>{ c.layout='classic'; renderCard(ctx,c); return ctx.canvas.toDataURL(); });
     });
     assert.deepEqual(await snapshots(page),await snapshots(base),'Existing card pixels changed');
     assert.deepEqual(errors,[],'Browser errors or app self-test failure');

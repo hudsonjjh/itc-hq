@@ -353,6 +353,9 @@ button.amber:disabled{opacity:.4;cursor:default}
 .c-pane{display:none}
 .c-pane.on{display:block}
 .cardstrip{display:flex;gap:6px;overflow-x:auto;padding:10px 2px 4px;margin:0 -2px}
+.studio-nav{display:flex;gap:10px;align-items:center;position:sticky;top:48px;z-index:5;background:var(--ink);padding-bottom:6px}
+.studio-nav .cardstrip{flex:1;min-width:0}
+.studio-nav>.ghost{flex:none;min-height:44px}
 .cchip{flex:none;min-width:52px;min-height:44px;background:var(--panel);border:1px solid var(--line);
   border-radius:8px;color:var(--dim);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 7px}
@@ -394,7 +397,7 @@ button.amber:disabled{opacity:.4;cursor:default}
 .srow .sub{display:flex;gap:6px;margin-top:5px;padding-left:14px;position:relative}
 .srow .sub::before{content:"›";position:absolute;left:2px;top:9px;color:var(--steel);font-size:13px}
 .srow .acts{display:flex;gap:6px;margin-top:6px}
-.sbtn{min-height:34px;background:transparent;border:1px solid var(--line);border-radius:7px;color:var(--dim);
+.sbtn{min-height:36px;background:transparent;border:1px solid var(--line);border-radius:7px;color:var(--dim);
   padding:6px 10px;font-size:11px;cursor:pointer;font-family:inherit}
 .sbtn:hover{border-color:var(--steel);color:var(--txt)}
 .sbtn.danger:hover{border-color:var(--red);color:var(--red)}
@@ -414,7 +417,34 @@ button.amber:disabled{opacity:.4;cursor:default}
 label.small{display:block;color:var(--dim);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin:10px 0 5px}
 .pager{display:flex;align-items:center;gap:12px;justify-content:center;margin:10px 0}
 .pager .pg{font-family:'JetBrains Mono',monospace;color:var(--dim);font-size:12px;min-width:66px;text-align:center}
-#cv{border:1px solid var(--line);border-radius:12px;background:#000;width:min(100%,400px);height:auto;display:block;margin:0 auto}
+#cv{border:1px solid var(--line);border-radius:12px;background:#000;width:100%;height:auto;display:block;margin:0 auto}
+.c-edit,.c-help,.c-preview{min-width:0}
+.preview-stage{display:flex;justify-content:center;align-items:flex-start;padding:12px;background:#080C12;border:1px solid var(--line);border-radius:14px}
+.preview-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 8px;color:var(--dim);font-size:11px}
+.deck-tools{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;margin:12px 0}
+.deck-tools .row{margin:6px 0}
+.deck-tools label{font-size:12px;font-weight:600}
+.deck-tools select{flex:1;min-width:130px;max-width:100%}
+.deck-tools .shint{margin:6px 0 0}
+.cardsview .studio textarea{min-height:64px;height:64px;padding:9px 10px;line-height:1.5}
+.srow .cells textarea{flex:1 1 160px;min-width:0}
+.srow .sub textarea{flex:1;min-width:0}
+.srow .sub .sbtn{align-self:flex-start}
+.design-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.design-grid .sgrp{margin:0}
+.design-grid select{width:100%;min-width:0}
+.design-grid label{font-size:11px;letter-spacing:0;text-transform:none}
+.cardsview .design-panel{margin:14px 0;padding:14px}
+.design-panel summary{margin-bottom:12px}
+.preview-dialog{background:var(--ink);color:var(--txt);border:1px solid var(--line);border-radius:14px;padding:16px;width:min(96vw,1500px);max-width:96vw;max-height:96vh}
+.preview-dialog::backdrop{background:rgba(0,0,0,.85)}
+.preview-dialog .pager{margin:0 0 12px;flex-wrap:wrap}
+.preview-dialog .preview-image-frame{max-height:calc(96vh - 132px);overflow:auto;overscroll-behavior:contain}
+.preview-dialog img{display:block;max-width:100%;max-height:calc(96vh - 132px);width:auto;height:auto;margin:auto}
+.preview-dialog .preview-image-frame.actual img{max-width:none;max-height:none}
+.preview-dialog .pg{min-width:66px}
+.preview-dialog .ghost{min-height:36px}
+.preview-dialog .preview-note{text-align:center;color:var(--dim);font-size:12px;margin-top:10px}
 .warn{background:#241A10;border:1px solid #6B4A1C;border-left:3px solid var(--amber);
   border-radius:7px;padding:10px 12px;color:#F2C48D;font-size:12px;line-height:1.5;display:none;white-space:pre-wrap;margin:10px 0}
 .cardsview details{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 14px;margin:12px 0}
@@ -507,12 +537,13 @@ input[type=file]{display:none}
   .view{max-width:980px;padding:20px 36px 56px}
   .writerview{max-width:none}
   /* cards: editor left, live preview right, reference below the editor */
-  .cardsview{max-width:1320px;grid-template-columns:minmax(430px,1fr) 430px;column-gap:32px;
+  .cardsview{max-width:1900px;padding:20px 28px 56px;grid-template-columns:minmax(360px,1fr) minmax(380px,1.1fr);column-gap:28px;
     grid-template-areas:"edit preview" "help preview";align-items:start}
   .cardsview.on{display:grid}
   .c-edit{grid-area:edit}
   .c-help{grid-area:help}
   .c-preview{grid-area:preview;position:sticky;top:72px}
+  #cv{max-width:calc((100vh - 220px) * var(--card-ratio,1));min-width:0}
   .cardsview textarea{min-height:58vh}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
@@ -1058,6 +1089,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.10</b> · A larger card studio with an expanded preview, deck-wide sizing and undo, and a remembered size for new cards. Adaptive layouts use more of each frame, with text size, font, spacing, margins, stacked or two-column spec rows, and a Classic option. Wrapped text fields make long copy easier to edit. Preview and PNG exports share the same layout and overflow checks.</p>
       <p><b>v8.9</b> · Full cards now have a Card size control in Studio: portrait 9:16 (1080 by 1920), square 1:1 (1080 by 1080), or landscape 16:9 (1920 by 1080). Text reflows into the selected frame, and previews, saved PNGs, and card packages use each card's size. Existing cards default to portrait.</p>
       <p><b>v8.8</b> · Work now opens with an unmistakable script and post launcher: select a finished dossier, describe the story, then copy a Short, long-form, or post prompt directly. A permanent manual prompt drawer on the same page provides individual Copy buttons for every R, L, P, and X prompt, while keeping the guided workflows available.</p>
       <p><b>v8.7</b> · Prompts now work across ChatGPT, Gemini, Claude, and other text AIs. Research output may arrive as exact TXT/TSV files or complete paste-ready code blocks, and no prompt refuses to continue when file attachment is unavailable. Duplicate delivery and voice instructions were consolidated, dossier and claims schemas were aligned, PDF requests were removed, and the Card Generator now puts a simple Copy AI card instructions button before the editor. Fenced AI card replies also paste cleanly.</p>
@@ -2729,12 +2761,26 @@ FINAL VIDEO TRANSCRIPT:
     <p class="lead" style="font-size:12px;margin:0 0 9px">Copy the instructions, paste them into ChatGPT, Gemini, Claude, or another AI, then add a plain request such as “Make me four cards comparing a Ford 9-inch and a Dana 60.” Paste its reply into <b>Spec text</b> and tap Render.</p>
     <button class="amber" id="copysnip" type="button" style="width:100%;min-height:44px">Copy AI card instructions</button>
   </div>
+  <div class="deck-tools">
+    <label for="deckFormat">Deck size</label>
+    <div class="row">
+      <select id="deckFormat" aria-label="Deck size">
+        <option value="square">Square 1:1</option>
+        <option value="portrait">Portrait 9:16</option>
+        <option value="landscape">Landscape 16:9</option>
+      </select>
+      <button class="amber" id="applyDeckFormat" type="button">Apply to all cards</button>
+      <button class="ghost" id="undoDeckFormat" type="button" disabled>Undo deck change</button>
+    </div>
+    <p class="shint" id="deckSizeNote" aria-live="polite"></p>
+    <p class="shint">Your selection is remembered for new cards. Apply to all updates existing full cards; popups keep their own size. Override any card below.</p>
+  </div>
   <div class="c-tabs">
     <button class="ctab on" id="tabStudio" type="button">Studio</button>
     <button class="ctab" id="tabText" type="button">Spec text</button>
   </div>
   <div class="c-pane on" id="pane-studio">
-    <div class="cardstrip" id="cardstrip"></div>
+    <div class="studio-nav"><div class="cardstrip" id="cardstrip"></div><button class="ghost" id="quickPreview" type="button">Preview</button></div>
     <div class="studio" id="studio"></div>
   </div>
   <div class="c-pane" id="pane-text">
@@ -2760,7 +2806,8 @@ FINAL VIDEO TRANSCRIPT:
     <div class="pg" id="pg">– / –</div>
     <button class="ghost" id="next">Next ›</button>
   </div>
-  <canvas id="cv" width="1080" height="1920"></canvas>
+  <div class="preview-meta"><span id="previewSize">Live preview</span><button class="ghost" id="expandPreview" type="button">Expand preview</button></div>
+  <div class="preview-stage"><canvas id="cv" width="1080" height="1920" aria-label="Current card preview"></canvas></div>
   <div class="warn" id="warn"></div>
   <div class="row">
     <button class="amber" id="share1" style="flex:1">Share this card</button>
@@ -2779,10 +2826,10 @@ FINAL VIDEO TRANSCRIPT:
     <div class="legend">
       <div class="grp">
         <h4>Card types · the "type:" line</h4>
-        <div class="item"><code>spec</code><div class="d"><b>Label + value grid.</b> Rows read <code>LABEL | value</code>. Bullet dot on each. Values wrap, take <code>*accent*</code> coloring, and can stack <code>&gt;</code> sub-lines. Auto-shrinks to fit.</div></div>
+        <div class="item"><code>spec</code><div class="d"><b>Label + value grid.</b> Rows read <code>LABEL | value</code>. Values wrap, take <code>*accent*</code> coloring, and can stack <code>&gt;</code> sub-lines. Auto fits one or two columns; an unpaired final tile uses the full width. Choose Stacked rows or Two columns to set the layout yourself.</div></div>
         <div class="item"><code>timeline</code><div class="d"><b>Year + event.</b> Rows read <code>YEAR | event</code>. Dots down a connecting line. Auto-shrinks to fit.</div></div>
-        <div class="item"><code>table</code><div class="d"><b>Multi-column grid.</b> First row is the header. Rows read <code>COL | COL | COL</code>. The third column auto-colors in the accent. Does not shrink, so it warns if content overflows.</div></div>
-        <div class="item"><code>compare</code><div class="d"><b>Two panel versus.</b> Rows read <code>LABEL | left | right</code>. The first row names the two panels, e.g. <code>SPEC | CHEVY 350 | FORD 351W</code>. Center divider, VS mark, auto-shrinks to fit.</div></div>
+        <div class="item"><code>table</code><div class="d"><b>Multi-column grid.</b> First row is the header. Rows read <code>COL | COL | COL</code>. Adaptive tables wrap headers and size columns to their content, with alternating row backgrounds and automatic text fitting. Classic keeps its original fixed table typography.</div></div>
+        <div class="item"><code>compare</code><div class="d"><b>Two panel versus.</b> Rows read <code>LABEL | left | right</code>. The first row names the two panels, e.g. <code>SPEC | CHEVY 350 | FORD 351W</code>. Wrapped panel headings, a center divider, and automatic text fitting keep both sides readable.</div></div>
         <div class="item"><code>popup</code><div class="d"><b>Notification block for laying over footage.</b> No rows. Uses <code>style:</code> and <code>text:</code> with an optional short <code>headline:</code>. Exports as a tight-cropped PNG on a <b>transparent background</b>, sized to its own text, so it drops straight onto the timeline above your clip. Built to read at the top of frame.</div></div>
       </div>
       <div class="div"></div>
@@ -2809,6 +2856,9 @@ FINAL VIDEO TRANSCRIPT:
       <div class="grp">
         <h4>Lines you can set</h4>
         <div class="item"><code>format</code><div class="d">Full cards only. <code>portrait</code> is 9:16 at 1080 by 1920 (default), <code>square</code> is 1:1 at 1080 by 1080, and <code>landscape</code> is 16:9 at 1920 by 1080. Choose Card size in Studio or add this line to a card block.</div></div>
+        <div class="item"><code>layout</code><div class="d">Full cards: <code>auto</code> (default) fits the type to the available space; <code>stacked</code> and <code>columns</code> choose one or two columns for spec rows. <code>classic</code> restores the original renderer. Adaptive layouts are used unless Classic is selected.</div></div>
+        <div class="item"><code>spacing</code><div class="d">Adaptive full cards: <code>compact</code>, <code>balanced</code> (default), or <code>airy</code> controls the space between rows.</div></div>
+        <div class="item"><code>padding</code><div class="d">Adaptive full cards: <code>narrow</code> uses more of the frame, <code>normal</code> is the default, and <code>wide</code> leaves larger margins.</div></div>
         <div class="item"><code>kicker</code><div class="d">Small uppercase line up top. e.g. <b>PLATFORM · TOPIC</b></div></div>
         <div class="item"><code>headline</code><div class="d">The big title. 1 to 3 words reads best.</div></div>
         <div class="item"><code>subhead</code><div class="d">Accent line under the headline.</div></div>
@@ -2832,8 +2882,9 @@ FINAL VIDEO TRANSCRIPT:
         <h4>Good to know</h4>
         <div class="item"><code>=== CARD 01</code><div class="d">Any line starting with <code>===</code> begins a new card.</div></div>
         <div class="item"><code>width</code><div class="d">Popups only. Panel width in pixels, 520 to 1600, default 960. <b>The text wraps to it</b>, so a narrower popup reflows rather than clipping. Slider on the Studio tab.</div></div>
-        <div class="item"><code>textsize</code><div class="d">Popups only. A percentage, 60 to 160, default 100. Moves the type and the line spacing together so nothing collides.</div></div>
-        <div class="item"><code>font</code><div class="d">Popups only. <code>poppins</code> or <code>mono</code>. Those are the two typefaces built into this file, and nothing is fetched from the web.</div></div>
+        <div class="item"><code>textsize</code><div class="d">A percentage, 60 to 160, default 100. On adaptive full cards this sets the preferred body text size, subject to fitting. On popups it scales all text and line spacing together. Classic retains its original sizes.</div></div>
+        <div class="item"><code>font</code><div class="d"><code>poppins</code> or <code>mono</code> for adaptive full-card body text or popup text. Both typefaces are built into this file for offline use.</div></div>
+        <div class="item"><code>deck controls</code><div class="d">Deck size applies a format to all full cards, with one-step undo. The size selection is remembered for new manually added cards, starting at square 1:1. Apply design to all cards copies the current layout and typography. Popups keep their own settings. Undo expires after another edit.</div></div>
         <div class="item"><code>popup size</code><div class="d">Popups are drawn, not pasted, so the export multiplier next to the file tag gives real pixels. 3x is the default and leaves plenty of room to scale one up over footage. The layout never changes, only how finely it is drawn.</div></div>
         <div class="item"><code>auto-fit</code><div class="d">spec and timeline shrink to fit. table does not, so trim rows if you see an overflow warning.</div></div>
         <div class="item"><code>house rules</code><div class="d">Auto-flagged in the warning box: em or en dashes, emojis, and hyphenated ranges. Write ranges as "1994 to 1997".</div></div>
@@ -2988,7 +3039,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v8.9';
+const APP_VERSION = 'v8.10';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3122,8 +3173,14 @@ them. Each begins "=== CARD 01". type is exactly
 ${FULL_CARD_TYPES.join(', ')}. Unknown types are invalid.
 
 - accent: amber, red, green, blue, or a hex color.
-- format: portrait (9:16, default), square (1:1), or landscape (16:9).
-  Use the requested format. Shorter frames have less room for rows.
+- format: portrait (9:16 when omitted), square (1:1), or landscape (16:9).
+  Use the requested format on every card. Shorter frames have less room for rows.
+- Optional design: layout auto (default), stacked, columns, or classic.
+  Stacked and columns are spec layouts; timeline, table, and compare use
+  their own layouts. Classic preserves the original renderer.
+- Optional: spacing compact, balanced (default), or airy; padding narrow,
+  normal (default), or wide; textsize 60 to 160 (100 default); font poppins
+  (default) or mono. These design controls apply to adaptive layouts.
 - kicker: small topic line. headline: 1 to 3 words. subhead: short.
 - rows by type: spec "LABEL | value"; timeline "YEAR | event"; table
   "COL | COL | COL" with headers first; compare "LABEL | left | right"
@@ -3131,7 +3188,7 @@ ${FULL_CARD_TYPES.join(', ')}. Unknown types are invalid.
 - highlight is an optional bottom callout. source is an optional credit.
 - Leave counter and footer out to use the generator defaults.
 - A "> text" line adds a sub-line below a spec row. *text* adds accent
-  color in spec values or sub-lines.
+  color in adaptive card text and in Classic spec values or sub-lines.
 - Keep tables near 5 rows and 3 columns. Keep compare cards near 6 rows.
 - No em dashes, en dashes, or emojis. Write ranges as "1994 to 1997".
 
@@ -5631,7 +5688,7 @@ restoreInput.addEventListener('change', ()=>{
 const ACCENTS = { amber:"#FF8C16", red:"#E8604C", green:"#6FCF8F", blue:"#7EA6D9" };
 const KEYS = ["type","accent","kicker","counter","headline","subhead","highlight","footer","source","text","style",
   "align","alignkicker","alignheadline","aligntext","alignsource","alignfooter",
-  "width","textsize","font","format"];
+  "width","textsize","font","format","layout","spacing","padding"];
 const CARD_FORMATS = {
   portrait: { label:'Portrait', ratio:'9:16', width:1080, height:1920, scale:1 },
   square: { label:'Square', ratio:'1:1', width:1080, height:1080, scale:0.75 },
@@ -5641,6 +5698,11 @@ function cardFormat(c){
   const key = String(c.format || '').trim().toLowerCase();
   return Object.hasOwn(CARD_FORMATS, key)? key : 'portrait';
 }
+const CARD_LAYOUTS = { auto:'Auto layout', stacked:'Stacked rows', columns:'Two columns', classic:'Classic' };
+const CARD_SPACING = { compact:0.65, balanced:1, airy:1.45 };
+const CARD_PADDING = { narrow:48, normal:64, wide:88 };
+function fullChoice(c,key,choices,fallback){ return Object.hasOwn(choices,c[key])? c[key] : fallback; }
+function fullLayout(c){ return fullChoice(c,'layout',CARD_LAYOUTS,'auto'); }
 /* Alignment is a popup-only control. The full-card layouts hang
    text off fixed geometry, the accent rule down the left, the underline
    bar, the row dots, so moving the text away from that geometry breaks
@@ -5722,7 +5784,7 @@ function parseSpecs(text){
                 subhead:"", rows:[], highlight:"", footer:"INSIDE THE CASE · AUTO", source:"",
                 text:"", style:"", align:"", alignkicker:"", alignheadline:"",
                 aligntext:"", alignsource:"", alignfooter:"", width:"", textsize:"",
-                font:"", format:"", setKeys:[], warnings:[] };
+                font:"", format:"", layout:"", spacing:"", padding:"", setKeys:[], warnings:[] };
     let inRows = false;
     for(const raw of block.split(/\r?\n/)){
       const line = raw.trimEnd();
@@ -5763,11 +5825,21 @@ function parseSpecs(text){
       c.warnings.push('Unknown format "'+c.format+'". Use portrait, square, or landscape. Rendered as portrait.');
     if(c.type==='popup' && c.setKeys.includes('format'))
       c.warnings.push('Format only applies to full cards. Popups size to their text and width.');
-    /* width, text size and typeface belong to popup shape */
-    ['width','textsize','font'].forEach(k=>{
+    /* Width stays popup-only; font and text size also shape adaptive full cards. */
+    ['width'].forEach(k=>{
       if(c.type!=="popup" && (c.setKeys||[]).includes(k))
         c.warnings.push('"'+k+'" only applies to popup cards. Use format to resize full cards.');
     });
+    for(const [key,choices] of Object.entries({layout:CARD_LAYOUTS,spacing:CARD_SPACING,padding:CARD_PADDING})){
+      c[key]=String(c[key]||'').toLowerCase();
+      if(c.setKeys.includes(key) && !Object.hasOwn(choices,c[key]))
+        c.warnings.push('Unknown '+key+' "'+c[key]+'". Use '+Object.keys(choices).join(', ')+'.');
+      if(c.type==='popup' && c.setKeys.includes(key)) c.warnings.push(key+' only applies to full cards.');
+    }
+    if(c.type!=='spec' && ['columns','stacked'].includes(c.layout))
+      c.warnings.push('Stacked rows and Two columns apply to spec cards. This card uses its type layout.');
+    if(c.type!=='popup' && fullLayout(c)==='classic' && ['textsize','font','spacing','padding'].some(k=>c.setKeys.includes(k)))
+      c.warnings.push('Classic keeps the original typography and spacing. Choose Auto layout to use design controls.');
     if((c.setKeys||[]).includes('width')){
       const w = popupNum(c.width, 0, POPUP_W_RANGE[0], POPUP_W_RANGE[1]);
       if(!w) c.warnings.push('Could not read width "'+c.width+'". Give it a number of pixels, '+POPUP_W_RANGE[0]+' to '+POPUP_W_RANGE[1]+'.');
@@ -5790,6 +5862,7 @@ function parseSpecs(text){
     if(/[\u2014\u2013]/.test(allText)) c.warnings.push("Em or en dash found in card copy. House rule: none in copy, visual styling only.");
     if(/(\d{4})\s*[-\u2013\u2014]\s*('?\d{2,4})/.test(allText)) c.warnings.push("Hyphenated range found. House rule: write ranges as \"1994 to 1997\".");
     if(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(allText)) c.warnings.push("Emoji found. House rule: no emojis.");
+    c.rawBlock=block;
     cards.push(c);
   }
   cards.forEach((c,i)=>{ if(!c.counter) c.counter = String(i+1).padStart(2,"0")+" / "+String(cards.length).padStart(2,"0"); });
@@ -5968,8 +6041,170 @@ function renderPopup(ctx,c,scale){
   ctx.setTransform(1,0,0,1,0,0);
 }
 
+/* Adaptive full cards are laid out in output pixels. Measurement and painting
+   share the same text blocks, including rich text and unbroken identifiers. */
+function cardText(ctx,text,f,width,color,accent){
+  width=Math.max(1,width); setF(ctx,f);
+  const lines=[[]]; let used=0;
+  const newline=()=>{ lines.push([]); used=0; };
+  String(text||'').split('*').forEach((part,pi)=>{
+    for(const token of part.split(/(\s+)/).filter(Boolean)){
+      const space=/^\s+$/.test(token), word=space?' ':token;
+      const tw=ctx.measureText(word).width;
+      if(space){
+        if(used && used+tw<=width){ lines.at(-1).push({text:word,width:tw,color:pi%2?accent:color}); used+=tw; }
+        continue;
+      }
+      if(used && used+tw>width) newline();
+      // Break a long identifier too, so it cannot paint outside a column.
+      const chunks=tw>width? Array.from(word) : [word];
+      for(const chunk of chunks){
+        const cw=ctx.measureText(chunk).width;
+        if(used && used+cw>width) newline();
+        lines.at(-1).push({text:chunk,width:cw,color:pi%2?accent:color}); used+=cw;
+      }
+    }
+  });
+  const lh=f.px*1.36, height=String(text||'').trim()?lines.length*lh:0;
+  return {height,lines:lines.length,draw(x,y){
+    setF(ctx,f); ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    lines.forEach((line,li)=>{ let xx=x;
+      line.forEach(run=>{ ctx.fillStyle=run.color; ctx.fillText(run.text,xx,y+f.px+li*lh); xx+=run.width; });
+    });
+  }};
+}
+function adaptiveBody(ctx,c,width,px,accent,columns){
+  const mono=popupFam(c), spacing=CARD_SPACING[fullChoice(c,'spacing',CARD_SPACING,'balanced')];
+  const gap=px*.75*spacing, inset=14, gutter=28, groups=[];
+  const body=(text,w,scale=1,color=C_TXT,weight=400)=>cardText(ctx,text,font(px*scale,weight,mono),w,color,accent);
+  const label=(text,w)=>cardText(ctx,String(text||'').toUpperCase(),font(Math.max(17,px*.57),700,false),w,accent,accent);
+  const rule=(y)=>{ ctx.strokeStyle=C_LINEC; ctx.lineWidth=1.5; ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(width,y);ctx.stroke(); };
+  const specItem=(r,w)=>{
+    const l=label(r.cells[0],w), v=body(r.cells.slice(1).join(' · '),w);
+    const subs=r.subs.map(s=>body(s,w,.8,C_SUB));
+    const height=l.height+(l.height?10:0)+v.height+subs.reduce((h,t)=>h+8+t.height,0);
+    return {height,draw(x,y){ l.draw(x,y); y+=l.height+(l.height?10:0); v.draw(x,y);y+=v.height;
+      subs.forEach(s=>{ y+=8;s.draw(x,y);y+=s.height; }); }};
+  };
+  if(c.type==='table'){
+    const n=Math.max(1,...c.rows.map(r=>r.cells.length));
+    // Give descriptive columns more room, while keeping every column usable.
+    const weights=Array.from({length:n},(_,i)=>{
+      setF(ctx,font(px,400,mono));
+      return Math.sqrt(Math.max(100,...c.rows.map(r=>Math.min(650,ctx.measureText((r.cells[i]||'').replaceAll('*','')).width))));
+    });
+    const sum=weights.reduce((a,b)=>a+b,0), widths=weights.map(w=>width*w/sum);
+    c.rows.forEach((r,ri)=>{
+      const cells=widths.map((w,i)=>ri===0?label(r.cells[i],w-inset*2):body(r.cells[i],w-inset*2,1,i===0?'#F4F6F9':C_TXT,i===0?700:400));
+      const height=Math.max(...cells.map(t=>t.height))+inset*2;
+      groups.push({height,draw(y){
+        ctx.fillStyle=ri===0?'#202938':ri%2?C_PANEL:'rgba(255,255,255,.018)'; rr(ctx,0,y,width,height,10);ctx.fill();
+        let x=0;cells.forEach((t,i)=>{ t.draw(x+inset,y+inset);x+=widths[i]; });
+      }});
+    });
+  } else if(c.type==='compare'){
+    const cellW=(width-gutter)/2, header=c.rows[0];
+    if(header){
+      const left=body(header.cells[1],cellW-inset*2,1,accent,700), right=body(header.cells[2],cellW-inset*2,1,accent,700);
+      const height=Math.max(left.height,right.height)+inset*2;
+      groups.push({height,draw(y){
+        [0,cellW+gutter].forEach(x=>{ctx.fillStyle='#202938';rr(ctx,x,y,cellW,height,10);ctx.fill();});
+        left.draw(inset,y+inset);right.draw(cellW+gutter+inset,y+inset);
+      }});
+    }
+    c.rows.slice(1).forEach(r=>{
+      const l=label(r.cells[0],width), a=body(r.cells[1],cellW-inset*2), b=body(r.cells[2],cellW-inset*2);
+      const height=l.height+12+Math.max(a.height,b.height)+inset;
+      groups.push({height,draw(y){ l.draw(inset,y);a.draw(inset,y+l.height+12);b.draw(cellW+gutter+inset,y+l.height+12);
+        ctx.strokeStyle=C_LINEC;ctx.beginPath();ctx.moveTo(width/2,y+l.height+12);ctx.lineTo(width/2,y+height);ctx.stroke();
+      }});
+    });
+  } else if(c.type==='timeline'){
+    const labelW=Math.min(width*.3,Math.max(140,px*5)), valueW=width-labelW-52;
+    c.rows.forEach(r=>{
+      const a=body(r.cells[0],labelW,.85,accent,700),b=body(r.cells.slice(1).join(' · '),valueW);
+      const height=Math.max(a.height,b.height);
+      groups.push({height,draw(y){ctx.fillStyle=accent;ctx.beginPath();ctx.arc(7,y+px*.55,6,0,7);ctx.fill();a.draw(28,y);b.draw(labelW+52,y);}});
+    });
+  } else {
+    const cellW=(width-(columns-1)*gutter)/columns;
+    for(let i=0;i<c.rows.length;i+=columns){
+      const row=c.rows.slice(i,i+columns),itemW=row.length===1?width:cellW;
+      const items=row.map(r=>specItem(r,itemW-inset*2));
+      const height=Math.max(...items.map(t=>t.height))+inset*2;
+      groups.push({height,draw(y){items.forEach((item,j)=>{
+        const x=j*(cellW+gutter);
+        if(columns===2){ctx.fillStyle=C_PANEL;rr(ctx,x,y,itemW,height,12);ctx.fill();}
+        item.draw(x+inset,y+inset);
+      });}});
+    }
+  }
+  const height=groups.reduce((n,g)=>n+g.height,0)+Math.max(0,groups.length-1)*gap;
+  return {height,groups:groups.length,draw(x,y,available){
+    // Share modest extra room between rows instead of leaving a large dead area.
+    const extra=groups.length>1?Math.min(px*spacing,Math.max(0,available-height)/(groups.length-1)):0;
+    ctx.save();ctx.translate(x,y);let cy=0;
+    groups.forEach((g,i)=>{if(i && columns===1 && c.type!=='table')rule(cy-(gap+extra)/2);g.draw(cy);cy+=g.height+gap+extra;});
+    ctx.restore();
+  }};
+}
+function renderAdaptiveCard(ctx,c){
+  const fmt=CARD_FORMATS[cardFormat(c)],w=fmt.width,h=fmt.height;
+  if(ctx.canvas.width!==w || ctx.canvas.height!==h){ctx.canvas.width=w;ctx.canvas.height=h;}
+  ctx.setTransform(1,0,0,1,0,0);ctx.textAlign='left';ctx.textBaseline='alphabetic';
+  const accent=ACCENTS[c.accent] || (/^#/.test(c.accent)?c.accent:ACCENTS.amber);
+  const pad=CARD_PADDING[fullChoice(c,'padding',CARD_PADDING,'normal')],x=pad+16,tw=w-x-pad;
+  const portrait=h>w, preferred=popupTextScale(c), base=(portrait?43:w>1400?54:34)*preferred;
+  bg(ctx,w,h);
+  ctx.fillStyle=accent;rr(ctx,pad-12,pad,5,h-pad*2,2);ctx.fill();
+  const text=(t,size,width=tw,color=C_TXT,weight=400,mono=false)=>cardText(ctx,t,font(size,weight,mono),width,color,accent);
+  const counter=text(c.counter,20,150,C_LABEL,700,true);
+  const kicker=text(c.kicker.toUpperCase(),18,tw-175,accent,700);
+  kicker.draw(x,pad);counter.draw(w-pad-150,pad);
+  let y=pad+Math.max(kicker.height,counter.height)+28;
+  let titleSize=portrait?90:w>1400?100:76,title;
+  do { title=text(c.headline.toUpperCase(),titleSize,tw,'#F4F6F9',800); if(title.height<=h*.23)break;titleSize-=4; } while(titleSize>=40);
+  title.draw(x,y);y+=title.height+14;
+  ctx.fillStyle=accent;rr(ctx,x,y,Math.min(150,tw*.18),6,3);ctx.fill();y+=24;
+  if(c.subhead){const sub=text(c.subhead,portrait?32:28,tw,accent,500);sub.draw(x,y);y+=sub.height+22;}
+  const footer=text(c.footer.toUpperCase(),17,tw,C_STEEL,600);
+  const source=text(c.source?'SOURCE · '+c.source.toUpperCase():'',17,tw,C_LABEL,400,true);
+  let bottom=h-pad-footer.height;
+  footer.draw(x,bottom);
+  if(source.height){bottom-=source.height+10;source.draw(x,bottom);}
+  bottom-=24;
+  let highlight=null,hlTop=bottom;
+  if(c.highlight){highlight=text(c.highlight,portrait?32:28,tw-40,'#E4E9F0');hlTop=bottom-highlight.height-36;bottom=hlTop-24;}
+  const available=bottom-y;
+  const layout=fullLayout(c), canColumns=c.type==='spec' || !CARD_TYPES.includes(c.type);
+  let options=[1];
+  if(canColumns && layout==='columns')options=[2];
+  else if(canColumns && layout==='auto' && c.rows.length>=4)options=portrait?[1,2]:[2,1];
+  let best=null;
+  for(const columns of options){
+    for(let step=125;step>=70;step-=5){
+      const px=Math.max(24,Math.min(88,base*step/100)),body=adaptiveBody(ctx,c,tw,px,accent,columns);
+      const fitted=body.height<=available;
+      if(!best || (fitted && (!best.fitted || px>best.px)) || (!fitted && !best.fitted && body.height<best.body.height))
+        best={body,px,columns,fitted};
+      if(fitted)break;
+    }
+  }
+  if(!best.fitted || available<0)warnOverflow();
+  // Keep overflowing draft content out of the headline, callout and credits.
+  ctx.save();ctx.beginPath();ctx.rect(x,y,tw,Math.max(0,available));ctx.clip();best.body.draw(x,y,available);ctx.restore();
+  if(highlight){
+    if(hlTop<y)warnOverflow();
+    ctx.fillStyle='#19212D';ctx.strokeStyle=accent;ctx.lineWidth=1.5;
+    rr(ctx,x,hlTop,tw,highlight.height+36,14);ctx.fill();ctx.stroke();highlight.draw(x+20,hlTop+18);
+  }
+  ctx.canvas._cardLayout={bodySize:best.px,columns:best.columns,bodyHeight:best.body.height,available,fitted:best.fitted};
+  ctx.setTransform(1,0,0,1,0,0);
+}
+
 function renderCard(ctx,c){
   if(c.type==="popup"){ renderPopup(ctx,c); return; }
+  if(fullLayout(c)!=='classic'){ renderAdaptiveCard(ctx,c); return; }
   const fmt = CARD_FORMATS[cardFormat(c)], S=fmt.scale;
   /* Shorter formats use a wider layout column and tighter top spacing.
      One uniform transform keeps fonts proportional at the output size.
@@ -6207,16 +6442,54 @@ const warnEl=document.getElementById("warn"), pgEl=document.getElementById("pg")
 const specEl=document.getElementById("spec"), tagEl=document.getElementById("tag");
 function warnOverflow(){ overflow=true; }
 function showCard(){
-  if(!cards.length){ pgEl.textContent='– / –'; return; }
+  document.getElementById('prev').disabled=!cards.length || idx<=0;
+  document.getElementById('next').disabled=!cards.length || idx>=cards.length-1;
+  ['share1','dl1','dlall','sharePack','expandPreview','quickPreview'].forEach(id=>document.getElementById(id).disabled=!cards.length);
+  if(!cards.length){ pgEl.textContent='– / –'; cctx.clearRect(0,0,cv.width,cv.height);warnEl.style.display='none';document.getElementById('previewSize').textContent='Add a card to preview';return; }
   idx=Math.max(0,Math.min(idx,cards.length-1));
   overflow=false;
   renderCard(cctx,cards[idx]);
+  cv.style.setProperty('--card-ratio',cv.width/cv.height);
+  document.getElementById('previewSize').textContent=cv.width+' × '+cv.height+' px · '+(cards[idx].type==='popup'?'Popup':CARD_FORMATS[cardFormat(cards[idx])].ratio);
   pgEl.textContent=(idx+1)+" / "+cards.length;
   const w=[...cards[idx].warnings];
-  if(overflow) w.push("Content overflows the card. Trim rows or shorten values.");
+  if(overflow) w.push("Content does not fit. Try compact spacing, smaller text, two columns for spec rows, or a taller card. Shorten copy or split rows if needed. Export is blocked until it fits.");
   warnEl.style.display = w.length? "block":"none";
   warnEl.textContent = w.map(s=>"• "+s).join("\n");
+  syncExpandedPreview();
 }
+const previewDialog=document.createElement('dialog');
+previewDialog.className='preview-dialog';
+previewDialog.setAttribute('aria-label','Expanded card preview');
+previewDialog.innerHTML='<div class="pager"><button class="ghost" type="button" data-preview="prev">‹ Prev</button><span class="pg"></span><button class="ghost" type="button" data-preview="next">Next ›</button><button class="ghost" type="button" data-preview="zoom" aria-pressed="false">Actual pixels</button><button class="ghost" type="button" data-preview="close">Close preview</button></div><div class="preview-image-frame"><img alt="Expanded current card"></div><div class="preview-note"></div>';
+document.body.appendChild(previewDialog);
+function syncExpandedPreview(){
+  if(!previewDialog.open || !cards.length)return;
+  previewDialog.querySelector('img').src=cv.toDataURL();
+  previewDialog.querySelector('.pg').textContent=(idx+1)+' / '+cards.length;
+  previewDialog.querySelector('.preview-note').textContent=overflow?'Content does not fit. Close preview to adjust the layout.':document.getElementById('previewSize').textContent;
+  previewDialog.querySelector('[data-preview="prev"]').disabled=idx===0;
+  previewDialog.querySelector('[data-preview="next"]').disabled=idx===cards.length-1;
+}
+document.getElementById('expandPreview').addEventListener('click',()=>{
+  if(typeof previewDialog.showModal==='function')previewDialog.showModal();else previewDialog.setAttribute('open','');
+  syncExpandedPreview();
+});
+document.getElementById('quickPreview').addEventListener('click',()=>document.getElementById('expandPreview').click());
+previewDialog.addEventListener('click',e=>{
+  const action=e.target.dataset.preview;
+  if(action==='close'){if(previewDialog.close)previewDialog.close();else previewDialog.removeAttribute('open');}
+  if(action==='prev' && idx>0){idx--;showCard();}
+  if(action==='next' && idx<cards.length-1){idx++;showCard();}
+  if(action==='zoom'){
+    const actual=previewDialog.querySelector('.preview-image-frame').classList.toggle('actual');
+    e.target.textContent=actual?'Fit preview':'Actual pixels';e.target.setAttribute('aria-pressed',String(actual));
+  }
+});
+previewDialog.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft' && idx>0){e.preventDefault();idx--;showCard();}
+  if(e.key==='ArrowRight' && idx<cards.length-1){e.preventDefault();idx++;showCard();}
+});
 async function fontsReady(){
   await document.fonts.load('800 100px Poppins');
   await document.fonts.load('600 27px Poppins');
@@ -6227,7 +6500,7 @@ async function fontsReady(){
 }
 document.getElementById("render").addEventListener('click', async ()=>{
   await fontsReady();
-  cards=parseSpecs(specEl.value); idx=0; showCard();
+  clearTimeout(specTimer);cards=parseSpecs(specEl.value); idx=0; studioIdx=-1;showCard();
 });
 document.getElementById("prev").addEventListener('click', ()=>{ idx--; showCard(); });
 document.getElementById("next").addEventListener('click', ()=>{ idx++; showCard(); });
@@ -6539,7 +6812,7 @@ align: center`)[0];
       catch(e){ pairRejected=true; }
       if(!pairRejected) fails.push('the final file importer accepted a mismatched TXT and claims TSV pair');
     }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
-    if(APP_VERSION!=='v8.9') fails.push('the v8.9 code is running under a different APP_VERSION');
+    if(APP_VERSION!=='v8.10') fails.push('the v8.10 code is running under a different APP_VERSION');
     if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
   /* copy-time tokens must always resolve */
@@ -6730,6 +7003,52 @@ function partsText(parts){
 }
 function setSpec(t){ specEl.value = t; store.set('cardspecs', t); }
 
+/* Bulk edits patch only the requested keys. Preserve custom text, comments,
+   whitespace, popup blocks and headers instead of serializing the deck. */
+function patchCardKeys(body,settings){
+  for(const [key,value] of Object.entries(settings)){
+    const re=new RegExp('^'+key+'\\s*:[^\\r\\n]*(?:\\r?\\n|$)','gmi');
+    const nl=body.includes('\r\n')?'\r\n':'\n';
+    const had=re.test(body);re.lastIndex=0;
+    if(value===null)body=body.replace(re,'');
+    else if(had)body=body.replace(re,()=>key+': '+value+nl);
+    else body=body+(body.endsWith('\n')?'':nl)+key+': '+value+nl;
+  }
+  return body;
+}
+const deckFormatEl=document.getElementById('deckFormat'),undoDeckEl=document.getElementById('undoDeckFormat');
+let deckUndo=null;
+function newCardFormat(){const value=store.get('newcardformat','square');return Object.hasOwn(CARD_FORMATS,value)?value:'square';}
+deckFormatEl.value=newCardFormat();
+deckFormatEl.addEventListener('change',()=>{store.set('newcardformat',deckFormatEl.value);syncDeckTools();});
+function syncDeckTools(message){
+  const full=cards.filter(c=>c.type!=='popup'),counts={};full.forEach(c=>{const key=cardFormat(c);counts[key]=(counts[key]||0)+1;});
+  document.getElementById('deckSizeNote').textContent=(message?message+'. ':'')+(full.length?Object.entries(counts).map(([key,n])=>n+' '+CARD_FORMATS[key].label.toLowerCase()).join(' · '):'No full cards yet')+'. New cards: '+CARD_FORMATS[newCardFormat()].label+' '+CARD_FORMATS[newCardFormat()].ratio+'.';
+  document.getElementById('applyDeckFormat').disabled=!full.length;
+  if(deckUndo && specEl.value!==deckUndo.after)deckUndo=null;
+  undoDeckEl.disabled=!deckUndo;
+}
+function applyDeckSettings(settings,message){
+  clearTimeout(specTimer);
+  const before=specEl.value;
+  const after=before.split(/(^\s*===.*$)/m).map(part=>{
+    if(/^\s*===/.test(part) || !part.trim())return part;
+    const card=parseSpecs(part)[0];if(!card || card.type==='popup')return part;
+    const values={...settings};
+    if(card.type!=='spec' && ['columns','stacked'].includes(values.layout))values.layout='auto';
+    return patchCardKeys(part,values);
+  }).join('');
+  if(after!==before){setSpec(after);deckUndo={before,after};}
+  cards=parseSpecs(specEl.value);studioIdx=-1;showCard();syncDeckTools(message);
+}
+document.getElementById('applyDeckFormat').addEventListener('click',()=>{
+  store.set('newcardformat',deckFormatEl.value);applyDeckSettings({format:deckFormatEl.value},'Size applied');
+});
+undoDeckEl.addEventListener('click',()=>{
+  if(!deckUndo || specEl.value!==deckUndo.after)return;
+  const before=deckUndo.before;deckUndo=null;setSpec(before);cards=parseSpecs(before);studioIdx=-1;showCard();syncDeckTools('Deck change undone');
+});
+
 /* ---- the working copy, and how it serializes back ---- */
 function cloneCard(c){
   /* A popup with no accent line takes its colour from its style, so the
@@ -6746,19 +7065,30 @@ function cloneCard(c){
     font:(popupFam(c)? 'mono' : 'poppins'),
     setWidth:c.setKeys.includes('width'), setTextsize:c.setKeys.includes('textsize'),
     setFont:c.setKeys.includes('font') };
-  return { type:c.type, accent:accent, setAccent:setAccent, style:c.style, kicker:c.kicker,
+  const result={ type:c.type, accent:accent, setAccent:setAccent, style:c.style, kicker:c.kicker,
     setKicker:setKicker, shape:shape, format:c.format, setFormat:c.setKeys.includes('format'),
     align:String(c.align||'').trim().toLowerCase(), al:al,
     counter:c.counter, autoCounter:!c.setKeys.includes('counter'),
     headline:c.headline, subhead:c.subhead, text:c.text, highlight:c.highlight,
     source:c.source, footer:c.setKeys.includes('footer')? c.footer : '',
+    design:Object.fromEntries(['layout','spacing','padding'].map(k=>[k,c[k]||''])),
     rows:c.rows.map(r=>({ cells:r.cells.slice(), subs:r.subs.slice() })) };
+  result.originalBlock=c.rawBlock;
+  result.initialState=JSON.stringify(result);
+  return result;
 }
 function workToBlock(w){
+  if(w.originalBlock && JSON.stringify({...w,initialState:undefined})===w.initialState)return w.originalBlock;
   const out = ['type: ' + w.type];
   const put = (k,v)=>{ if(String(v==null? '' : v).trim()!=='') out.push(k+': '+v); };
   if(w.setFormat) out.push('format: '+w.format);
   if(w.setAccent) put('accent', w.accent);
+  Object.entries(w.design||{}).forEach(([k,v])=>put(k,v));
+  if(w.type!=='popup'){
+    const sh=w.shape||{};
+    if(sh.setTextsize)put('textsize',sh.textsize);
+    if(sh.setFont)put('font',sh.font);
+  }
   if(w.type==='popup'){
     put('style', w.style);
     /* only write an alignment that was actually chosen, so a popup left
@@ -6808,11 +7138,16 @@ function studioCommit(rebuild){
 
 /* ---- the card strip ---- */
 function studioStrip(){
+  const left=stripEl.scrollLeft;
+  const previous=stripEl.querySelector('.cchip.on .n')?.textContent;
   stripEl.innerHTML = '';
   cards.forEach((c,i)=>{
     const b = sEl('<button type="button" class="cchip"><span class="n"></span><span class="k"></span></button>');
     b.querySelector('.n').textContent = String(i+1).padStart(2,'0');
-    b.querySelector('.k').textContent = CARD_KINDS[c.type] || 'Spec';
+    b.querySelector('.k').textContent = (CARD_KINDS[c.type] || 'Spec')+(c.type==='popup'?'':' · '+CARD_FORMATS[cardFormat(c)].ratio);
+    b.title='Card '+(i+1)+': '+(c.headline||CARD_KINDS[c.type]);
+    b.setAttribute('aria-label',b.title);
+    b.setAttribute('aria-pressed',String(i===idx));
     if(i===idx) b.classList.add('on');
     b.addEventListener('click', ()=>{ idx=i; showCard(); });
     stripEl.appendChild(b);
@@ -6820,12 +7155,18 @@ function studioStrip(){
   const add = sEl('<button type="button" class="cchip add" title="Add a card">+</button>');
   add.addEventListener('click', ()=>{
     const parts = specParts(specEl.value);
-    parts.push({ head:null, body:'type: spec\naccent: amber\nheadline: NEW CARD\nrows:\nLABEL | value' });
+    parts.push({ head:null, body:'type: spec\nformat: '+newCardFormat()+'\naccent: amber\nheadline: NEW CARD\nrows:\nLABEL | value' });
     setSpec(partsText(parts));
     cards = parseSpecs(specEl.value);
     idx = cards.length-1; studioIdx = -1; showCard();
   });
   stripEl.appendChild(add);
+  stripEl.scrollLeft=left;
+  const selected=stripEl.querySelector('.cchip.on');
+  if(selected && previous!==selected.querySelector('.n').textContent){
+    if(selected.offsetLeft<stripEl.scrollLeft)stripEl.scrollLeft=selected.offsetLeft;
+    else if(selected.offsetLeft+selected.offsetWidth>stripEl.scrollLeft+stripEl.clientWidth)stripEl.scrollLeft=selected.offsetLeft+selected.offsetWidth-stripEl.clientWidth;
+  }
 }
 
 /* ---- the form ---- */
@@ -6856,6 +7197,7 @@ function studioBuild(){
          !confirm('Popups have no rows. Drop the '+work.rows.length+' row'+(work.rows.length>1?'s':'')+' on this card?')) return;
       if(t==='popup'){ work.rows = []; if(!work.style) work.style = 'did you know'; }
       else fitRows(t);
+      if(t!=='spec' && ['columns','stacked'].includes(work.design.layout))work.design.layout='auto';
       work.type = t; studioCommit(true);
     });
     tc.appendChild(b);
@@ -6875,8 +7217,35 @@ function studioBuild(){
     });
     g.appendChild(choices);
     const fmt=CARD_FORMATS[cardFormat(work)], note=sEl('<p class="shint"></p>');
-    note.textContent='Exports at '+fmt.width+' by '+fmt.height+' pixels. Applies to this card. Text reflows to fit the frame; shorten copy if an overflow warning appears.';
+    note.textContent='Exports at '+fmt.width+' by '+fmt.height+' pixels. Changes this card only. Use Deck size above to resize the whole set.';
     g.appendChild(note); studioEl.appendChild(g);
+    const panel=sEl('<details class="design-panel" open><summary>Layout &amp; typography</summary></details>');
+    const grid=sEl('<div class="design-grid"></div>');
+    const pick=(key,label,values,current,onChange)=>{
+      const g=sGroup(label),select=document.createElement('select');select.setAttribute('aria-label',label);
+      Object.entries(values).forEach(([value,name])=>{const option=document.createElement('option');option.value=value;option.textContent=name;select.appendChild(option);});
+      select.value=current;select.addEventListener('change',()=>{onChange(select.value);studioCommit(true);});g.appendChild(select);grid.appendChild(g);
+    };
+    pick('layout','Layout',work.type==='spec'?CARD_LAYOUTS:{auto:'Auto layout',classic:'Classic'},fullLayout(work.design),v=>work.design.layout=v);
+    if(fullLayout(work.design)!=='classic'){
+      pick('font','Body font',{poppins:'Poppins · clean',mono:'Mono · technical'},work.shape.font,v=>{work.shape.font=v;work.shape.setFont=true;});
+      pick('spacing','Row spacing',{compact:'Compact',balanced:'Balanced',airy:'Airy'},work.design.spacing||'balanced',v=>work.design.spacing=v);
+      pick('padding','Margins',{narrow:'Narrow · more room',normal:'Standard',wide:'Wide'},work.design.padding||'normal',v=>work.design.padding=v);
+      const tg=sGroup('Text size'),line=sEl('<div class="sline"></div>'),range=sEl('<input type="range" min="60" max="160" step="5" aria-label="Card text size">'),readout=sEl('<span class="shint"></span>');
+      range.value=work.shape.textsize;readout.textContent=range.value+'%';
+      range.addEventListener('input',()=>{work.shape.textsize=+range.value;work.shape.setTextsize=true;readout.textContent=range.value+'%';studioCommit(false);});
+      line.append(range,readout);tg.appendChild(line);grid.appendChild(tg);
+    }
+    panel.appendChild(grid);
+    panel.appendChild(sEl('<p class="shint">Auto fits the text and shares spare space between rows. Two columns reads across, then down. Classic restores the original card appearance.</p>'));
+    const actions=sEl('<div class="sacts"></div>'),all=sBtn('Apply design to all cards'),reset=sBtn('Reset design');
+    all.addEventListener('click',()=>{
+      const current=cards[idx],settings={};
+      ['layout','spacing','padding','textsize','font'].forEach(k=>settings[k]=current.setKeys.includes(k)?current[k]:null);
+      applyDeckSettings(settings,'Design applied');
+    });
+    reset.addEventListener('click',()=>{work.design={layout:'',spacing:'',padding:''};work.shape.textsize=100;work.shape.setTextsize=false;work.shape.font='poppins';work.shape.setFont=false;studioCommit(true);});
+    actions.append(all,reset);panel.appendChild(actions);studioEl.appendChild(panel);
   }
 
   /* popup style */
@@ -7009,10 +7378,11 @@ function studioBuild(){
   /* text fields */
   const field = (key, label)=>{
     const g = sGroup(label);
-    const i = sEl('<input type="text">');
+    const i = ['headline','subhead','text','highlight'].includes(key)?sEl('<textarea rows="2"></textarea>'):sEl('<input type="text">');
+    i.setAttribute('aria-label',label);
     i.value = work[key] || '';
     i.placeholder = FIELD_HELP[key] || '';
-    i.addEventListener('input', ()=>{ work[key] = i.value; studioCommit(false); });
+    i.addEventListener('input', ()=>{ work[key] = i.value.replace(/\r?\n/g,' '); studioCommit(false); });
     g.appendChild(i); studioEl.appendChild(g);
   };
   if(isPop){
@@ -7153,18 +7523,20 @@ function rowsEditor(){
     const box = sEl('<div class="srow"></div>');
     const cells = sEl('<div class="cells"></div>');
     r.cells.forEach((cell,ci)=>{
-      const i = sEl('<input type="text">');
+      const i = sEl('<textarea rows="2"></textarea>');
+      i.setAttribute('aria-label','Row '+(ri+1)+' '+((CELL_HINT[work.type]||[])[ci]||'column '+(ci+1)));
       i.value = cell;
       i.placeholder = (CELL_HINT[work.type]||[])[ci] || 'text';
-      i.addEventListener('input', ()=>{ r.cells[ci]=i.value; studioCommit(false); });
+      i.addEventListener('input', ()=>{ r.cells[ci]=i.value.replace(/\r?\n/g,' '); studioCommit(false); });
       cells.appendChild(i);
     });
     box.appendChild(cells);
     r.subs.forEach((s,si)=>{
       const sub = sEl('<div class="sub"></div>');
-      const i = sEl('<input type="text" placeholder="smaller line under the row">');
+      const i = sEl('<textarea rows="2" placeholder="smaller line under the row"></textarea>');
+      i.setAttribute('aria-label','Row '+(ri+1)+' note '+(si+1));
       i.value = s;
-      i.addEventListener('input', ()=>{ r.subs[si]=i.value; studioCommit(false); });
+      i.addEventListener('input', ()=>{ r.subs[si]=i.value.replace(/\r?\n/g,' '); studioCommit(false); });
       const x = sBtn('×');
       x.addEventListener('click', ()=>{ r.subs.splice(si,1); studioCommit(true); });
       sub.appendChild(i); sub.appendChild(x);
@@ -7215,6 +7587,7 @@ function rowsEditor(){
 const showCardBase = showCard;
 showCard = function(){
   showCardBase();
+  syncDeckTools();
   studioStrip();
   if(idx !== studioIdx) studioBuild();
 };
