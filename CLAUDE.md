@@ -19,6 +19,18 @@ files, scripts, sources, backup JSON, or other private knowledge-base data.
 Keep those outside the repo and design explicit local import/export paths.
 Work on feature branches because every push to `main` deploys the live app.
 
+## Release policy
+
+The user gave standing authorization on September 15, 2026: requests to
+make app updates include publishing the finished result. Implement on a
+feature branch, run appropriate checks, commit and push the changes,
+merge into `main`, and verify that GitHub Pages serves the new app and
+cache versions. Do not stop at uploading a feature branch or ask for a
+separate upload/deployment instruction. Respect any later task-specific
+request to keep work local, unmerged, or in draft. Preserve unrelated
+changes, never force-push over others' work, and report an actual release
+failure instead of claiming the update is live.
+
 This repo is a single-file PWA: `index.html` is the entire app (guided Work
 surface, Library, Card Generator, and Case Writer for the Inside The Case Auto
 YouTube channel). It deploys automatically via GitHub Pages on every push

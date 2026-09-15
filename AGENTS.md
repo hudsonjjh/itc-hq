@@ -19,6 +19,5 @@ The GitHub repository is public. Never commit dossier text, claims TSV files, sc
 - Put lasting product decisions in `CLAUDE.md` or another committed document referenced by both instruction files.
 - Inspect current changes before editing and preserve work created by the other tool.
 - Work on a feature branch. `main` deploys the live GitHub Pages app.
-- Do not push, open a pull request, merge, or deploy unless the user explicitly asks.
+- Standing user authorization: requests to make app updates include publishing the completed update. After appropriate checks pass, commit, push, merge into `main`, and verify the live GitHub Pages deployment without asking for a separate upload or deployment instruction. Follow any task-specific request to keep work local or in draft. See `CLAUDE.md` for the shared release policy.
 - An `index.html` change must also update `APP_VERSION`, `CACHE_VERSION` in `sw.js`, and the in-app changelog as required by `CLAUDE.md`.
-
