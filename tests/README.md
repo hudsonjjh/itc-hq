@@ -3,6 +3,14 @@
 Everything in this directory is public-safe synthetic data. Never replace it
 with a real Inside The Case dossier or backup.
 
+`script-workflow.cjs` checks the v8.11 script-first route with an empty
+Library, two core steps, external verification instructions, source-note
+handoff, immediate edits, reload persistence, optional card prompts, legacy
+job compatibility, removable references, and 400px mobile layout. Run
+`node tests/script-workflow.cjs` with the same Playwright/browser settings
+as the card tests. `SCRIPT_TEST_SCREENSHOT` optionally saves a review image
+outside the repository. It uses an isolated browser profile and synthetic text.
+
 `library-v1.itc-library.json` exercises two records, namespaced claims,
 Markdown and plain section headers, metadata, and a cross-dossier relationship.
 The in-app load-time self-test covers the pure parsers and bundle rules; this

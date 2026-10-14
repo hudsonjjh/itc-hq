@@ -305,6 +305,8 @@ button.amber:disabled{opacity:.4;cursor:default}
 .scriptdesk{border-color:rgba(255,140,22,.55);background:linear-gradient(145deg,rgba(255,140,22,.09),rgba(19,25,38,.55))}
 .scriptdesk h2{font-size:20px;line-height:1.25;margin:3px 0 6px;color:#fff}
 .scriptdesk .bs-paste{min-height:96px}
+.scriptdesk select,.bs-stage>select{width:100%;min-width:0;min-height:38px;background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:7px;padding:9px 10px;font:12px Poppins,sans-serif;margin:8px 0}
+.scriptdesk summary{min-height:38px;display:flex;align-items:center;cursor:pointer}
 .promptgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:7px 0 14px}
 .promptgrid .promptcopy{min-height:42px;padding:9px 10px;text-align:left;background:var(--panel);color:var(--txt);border:1px solid var(--line)}
 .promptgrid .promptcopy:hover{border-color:var(--amber);color:#fff}
@@ -566,6 +568,9 @@ input[type=file]{display:none}
   <div class="kick">Work · scripts, prompts, and guided jobs</div>
   <div id="bsWrap"></div>
 
+  <details class="pbsec" id="workReference">
+    <summary><span class="sn">?</span><span class="st">Reference, dossier help, and house rules</span><span class="arrow">›</span></summary>
+    <div class="secbody">
   <details class="pbsec">
     <summary><span class="sn">?</span><span class="st">Existing dossiers and library packages</span><span class="arrow">›</span></summary>
     <div class="secbody">
@@ -580,11 +585,11 @@ input[type=file]{display:none}
   <details class="pbsec" id="pb-start">
     <summary><span class="sn">·</span><span class="st">How This Works</span><span class="arrow">›</span></summary>
     <div class="secbody">
-      <h2 style="margin-top:14px">Research the part once, properly. Publish from it forever.</h2>
-      <p class="lead">Two tracks. The <b>research track</b> builds one permanent, fully structured dossier per part or topic, deep enough that you stop finding things with a casual search. The <b>production track</b> draws Shorts, long form, and posts out of a finished dossier, as many as the record supports. Research is the asset. Video is what you do with it.</p>
+      <h2 style="margin-top:14px">Start with the script you want to make.</h2>
+      <p class="lead">Describe your story. Research and draft it in one browsing-capable AI chat, revise normally, then independently check every factual claim in a fresh chat. Dossiers are optional references. Cards and upload details come afterwards if you need them.</p>
       <div class="kick">The four design laws</div>
       <div class="card"><div class="k">Law 1</div><h4>Every handoff is portable</h4><p>Anything moved to another chat is a complete standalone deliverable. Same-chat delta steps may use that chat's history; cross-chat handoffs must assume a different AI with zero memory.</p></div>
-      <div class="card"><div class="k">Law 2</div><h4>Research is the product</h4><p>The dossier is not scoped to a video and never gets thrown away. It is built to a fixed schema so every part reads the same way, and it is finished when the schema is answered, not when you have enough for a script.</p></div>
+      <div class="card"><div class="k">Law 2</div><h4>Research serves the story</h4><p>Research the questions needed for this script, including context that could change its meaning. Keep compact source notes. Build a permanent dossier only when you want one.</p></div>
       <div class="card"><div class="k">Law 3</div><h4>A hole must be visible</h4><p>Every dossier declares its own coverage. A section that could not be filled says so, names the searches that failed, and stays on the open questions list. Silence is not allowed to look like completeness.</p></div>
       <div class="card"><div class="k">Law 4</div><h4>Nothing is fact unless it is LOCKED</h4><p><b>LOCKED</b> = confirmed by a primary or factory grade source that actually covers the part or condition. <b>LIKELY</b> = strong evidence, single or secondary source. <b>UNVERIFIED</b> = lore, forum only, indirect, conflicting, or unconfirmed. Only LOCKED goes in a script or on a card. Every claim carries a tier, a named source, and a claim ID.</p></div>
       <div class="kick">Source hierarchy</div>
@@ -704,7 +709,7 @@ input[type=file]{display:none}
         <div class="phead"><div class="pt">Standing rules <span>·</span> the ITC research standard</div><div class="spacer"></div><button class="copybtn" data-copy="rules">Copy block</button></div>
         <pre id="rules">ITC STANDING RULES. These govern every research step.
 
-TIERS. Every claim carries a tier.
+<span id="evidenceRules">TIERS. Every claim carries a tier.
 LOCKED = confirmed by a primary or factory grade source that actually
 covers the part, application, or condition in question.
 LIKELY = strong evidence but a single or secondary source, or the
@@ -768,7 +773,7 @@ DEAD, the URL does not resolve.
 NOT ATTEMPTED, nobody tried this pass.
 Only OPENED AND EXTRACTED may back a LOCKED claim without a note
 explaining why not.
-
+</span>
 WHAT YOU DID NOT DO. Every pass ends by listing what it did not
 attempt, plainly, rather than leaving silence to imply the work
 happened. An unattempted check recorded honestly is worth more than
@@ -1025,17 +1030,13 @@ happened and that the check is visible.</pre>
         <tr><td>R7 Finalize</td><td>2 · same chat</td><td>Final dossier TXT plus claims TSV, as files or separate paste-ready blocks</td></tr>
         <tr><td>R8 Revise</td><td>blank, no inherited context</td><td><b>Optional.</b> R8A pass TXT, then R8B returns the revised dossier TXT and claims TSV. For a finished dossier that needs re-attacking, not for a new one.</td></tr>
       </table>
-      <div class="kick">Production track · runs any number of times per dossier</div>
-      <table>
-        <tr><th>Step</th><th>Chat</th><th>Comes back as</th></tr>
-        <tr><td>P1 Content plan</td><td>3 · preferred AI</td><td>Complete content plan in chat</td></tr>
-        <tr><td>Choose ideas</td><td>You</td><td>One typed idea or a combination chosen from the content plan</td></tr>
-        <tr><td>P2 Write + revise</td><td>3 · same chat</td><td>A script you shape through normal back-and-forth until it is settled</td></tr>
-        <tr><td>P3 Final audit</td><td>4 · blank chat</td><td>A clean verdict or corrected final script</td></tr>
-        <tr><td>P4 Cards</td><td>4 · same chat</td><td>Card blocks plus placement map. P4B writes a run of popups the same way.</td></tr>
-        <tr><td>P5 Video details</td><td>After editing</td><td>YouTube and Facebook details built from the finished video's transcript</td></tr>
+      <div class="kick">Default script workflow</div>
+      <table><tr><th>Step</th><th>What you do</th></tr>
+        <tr><td>1 · Research + write</td><td>Describe the story, copy the prompt, research and revise in one AI chat.</td></tr>
+        <tr><td>2 · Independent check</td><td>Bring back the script, copy the fact-check prompt into a fresh browsing chat, resolve the findings.</td></tr>
+        <tr><td>Optional extras</td><td>Cards from verified evidence, then upload details from the edited video transcript.</td></tr>
       </table>
-      <p class="lead">Four chats, and only two are about independence: the research audit and final-copy check should begin blank, without inherited source or project instructions. The Library holds finished dossiers and feeds them into production prompts automatically.</p>
+      <p class="lead">The research track above is optional for building a reusable Library. Every writing and script-audit prompt may research outside that Library.</p>
     </div>
   </details>
 
@@ -1052,7 +1053,7 @@ happened and that the check is visible.</pre>
           <input id="rLong" placeholder="Long form target" style="max-width:190px">
         </div>
         <div class="r">
-          <input id="rDensity" placeholder="Seconds per figure" style="max-width:150px">
+          <input id="rDensity" type="hidden" aria-label="Legacy density preference">
           <input id="rHashtags" placeholder="Hashtag count" style="max-width:150px">
           <input id="rRange" placeholder="Range wording">
         </div>
@@ -1074,6 +1075,9 @@ happened and that the check is visible.</pre>
     </div>
   </details>
 
+    </div>
+  </details>
+
   <div class="kick">This app</div>
   <div class="card">
     <div class="k">Version</div>
@@ -1089,6 +1093,7 @@ happened and that the check is visible.</pre>
 
   <details class="pbsec"><summary><span class="sn">·</span><span class="st">Changelog</span><span class="arrow">›</span></summary>
     <div class="secbody">
+      <p><b>v8.11</b> · Script first: describe your story, research and draft in one AI chat, then independently check every factual claim against outside sources. No dossier required. Dossiers are optional references, source notes travel with the script, and cards and upload details are optional. The dossier tools are tucked away and the forced fact-density quota is removed.</p>
       <p><b>v8.10</b> · A larger card studio with an expanded preview, deck-wide sizing and undo, and a remembered size for new cards. Adaptive layouts use more of each frame, with text size, font, spacing, margins, stacked or two-column spec rows, and a Classic option. Wrapped text fields make long copy easier to edit. Preview and PNG exports share the same layout and overflow checks.</p>
       <p><b>v8.9</b> · Full cards now have a Card size control in Studio: portrait 9:16 (1080 by 1920), square 1:1 (1080 by 1080), or landscape 16:9 (1920 by 1080). Text reflows into the selected frame, and previews, saved PNGs, and card packages use each card's size. Existing cards default to portrait.</p>
       <p><b>v8.8</b> · Work now opens with an unmistakable script and post launcher: select a finished dossier, describe the story, then copy a Short, long-form, or post prompt directly. A permanent manual prompt drawer on the same page provides individual Copy buttons for every R, L, P, and X prompt, while keeping the guided workflows available.</p>
@@ -2329,153 +2334,153 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
           <div class="f"><label>Story</label><input data-slot="topic" placeholder="the story from the slate, or leave for the AI to pick"></div>
           <div class="f"><label>Angle notes</label><input data-slot="angle" placeholder="optional direction"></div>
         </div>
-        <pre id="pp2a">CHAT: the same chat as P1.
+        <pre id="pp2a">CHAT: use a browsing-capable AI. Research and write in this same
+chat, then revise conversationally until the script sounds right.
 
-Write a finished, recordable Short script for Inside The Case Auto.
-The dossier below is provided in this message and is the sole
-factual basis. No outside facts, no memory facts, no reasoning a
-spec into existence.
+Research the specific story below and write it for Inside The Case
+Auto. No dossier, coverage plan, or research-file pipeline is required.
 
-STORY: <span class="slot" data-for="topic">[FILL IN, or write "pick from the content plan"]</span>
-NOTES: <span class="slot" data-for="angle">[FILL IN, or "none"]</span>
-TARGET RUNTIME: 1 to 3 minutes. Use the room. A Short that lands in
-2:30 with four real facts beats a 45 second one with one.
+STORY: <span class="slot" data-for="topic">[DESCRIBE THE STORY YOU WANT]</span>
+NOTES: <span class="slot" data-for="angle">[OPTIONAL DIRECTION, LENGTH, OR LIMITS]</span>
 
-PICK RULE. If STORY reads "pick from the content plan", choose the
-strongest story the dossier supports, preferring identity confusion
-and misconception corrections built entirely on LOCKED claims, and
-state your choice on the first line of the reply, before the SCRIPT
-header.
+Work only on questions needed to explain this story and catch a
+misleading omission. Check the premise before committing to a hook;
+correct it if the evidence disagrees. Research before drafting.
+Actively search outside any supplied notes or dossiers. Open the
+actual sources, check their applicable years and configurations,
+and look for contradictory evidence. Supplied claim IDs and LOCKED
+labels are leads to recheck, not proof. Do not infer factory fitment
+from service replacement listings, or spread one year across a run.
+Do not invent a fact, citation, quote, or completed check from memory.
+If browsing is unavailable, say so and use only supplied primary
+source excerpts you can inspect; mark everything else as unresolved.
 
-SCRIPT SHAPE. Hook, setup, mechanical truth, one strong retention
-beat, payoff, sign off. The hook is the first line and it earns the
-next fifteen seconds or the viewer is gone.
+Only evidence meeting the attached LOCKED standard belongs in the
+script as fact. Leave softer claims out and name any missing answer
+that changes the story. Do not add facts to fill a quota or runtime.
+Prefer a shorter useful script over padding. For exact figures and
+identifiers, preserve the source wording and check units and digits.
+Recheck added factual claims during conversational revisions too.
 
-DENSITY. This channel's audience came for the detail. Carry at least
-one exact figure, casting number, date, or breakpoint every twenty
-seconds of runtime. Every one of them LOCKED and traceable to a
-claim ID.
+FORMAT: a Short, normally 1 to 3 minutes unless NOTES say otherwise.
+Hook, setup, mechanical explanation, payoff, sign off. Let the story
+choose its length. Explain why the detail matters to the viewer.
 
-HARD RULES:
-- Only LOCKED facts stated as fact. No em dashes. No emojis. Ranges
-  written as "1994 to 1997".
-- Any claim you introduce that is not in the dossier goes in NEW
-  CLAIMS with a tier and named source, never buried in the script.
-  If there are none, write "None, all claims from the dossier."
+Reply directly in chat under these headings:
+SCRIPT: complete copy, clean and ready to record or post.
+EVIDENCE: compact list covering every factual claim in the script.
+Give each a local ID, tier, exact claim, source title/publisher, URL,
+page or section, and the years/configuration actually supported.
+Quote the source text for numbers, dates, identifiers, and fitment.
+Reuse a source entry across claims; no giant dossier or TSV required.
+OPEN QUESTIONS: unresolved points, conflicting evidence, and checks
+you could not complete. Say when a missing answer changes the premise.
+RUNTIME: estimate, or character counts for posts.
 
-OUTPUT, plain text under these exact headers, in this order:
-SCRIPT: the finished script, recordable as written.
-NEW CLAIMS: as defined above.
-CLAIM MAP: each script line or beat and the claim ID it rests on.
-RUNTIME: estimated runtime at a natural voiceover pace.
-
-DELIVERY. Reply directly in chat under the exact output headers. No
-preamble or commentary between sections. Do not create or attach a
-file; the app splits the pasted text into the Writer.
+No em dashes. No emojis. Ranges written as "1994 to 1997".
+Keep evidence outside the spoken copy. No files required.
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P2B <span>·</span> Long form script</div><div class="spacer"></div><button class="copybtn" data-copy="pp2b">Copy prompt</button></div>
-        <pre id="pp2b">CHAT: the same chat as P1.
+        <pre id="pp2b">CHAT: use a browsing-capable AI. Research and write in this same
+chat, then revise conversationally until the script sounds right.
 
-Write a finished, recordable long form script for Inside The Case
-Auto. The dossier below is provided in this message and is the sole
-factual basis. No outside facts, no memory facts.
+Research the specific story below and write it for Inside The Case
+Auto. No dossier, coverage plan, or research-file pipeline is required.
 
-STORY: <span class="slot" data-for="topic">[FILL IN, or write "pick from the content plan"]</span>
-NOTES: <span class="slot" data-for="angle">[FILL IN, or "none"]</span>
-TARGET RUNTIME: [state it, e.g. 8 to 12 minutes. The script scales
-to this target, not the other way around]
+STORY: <span class="slot" data-for="topic">[DESCRIBE THE STORY YOU WANT]</span>
+NOTES: <span class="slot" data-for="angle">[OPTIONAL DIRECTION, LENGTH, OR LIMITS]</span>
 
-PICK RULE. If STORY reads "pick from the content plan", choose the
-story with the most LOCKED material to carry the runtime, and state
-your choice on the first line, before the SCRIPT header.
+Work only on questions needed to explain this story and catch a
+misleading omission. Check the premise before committing to a hook;
+correct it if the evidence disagrees. Research before drafting.
+Actively search outside any supplied notes or dossiers. Open the
+actual sources, check their applicable years and configurations,
+and look for contradictory evidence. Supplied claim IDs and LOCKED
+labels are leads to recheck, not proof. Do not infer factory fitment
+from service replacement listings, or spread one year across a run.
+Do not invent a fact, citation, quote, or completed check from memory.
+If browsing is unavailable, say so and use only supplied primary
+source excerpts you can inspect; mark everything else as unresolved.
 
-SCRIPT SHAPE. Cold open hook in the first fifteen seconds fronting
-the best mechanical truth or identity confusion the dossier holds.
-Then setup, then the story in chapters. Each chapter is one
-mechanical idea, opened with its own mini hook and closed with a
-payoff. One real retention beat every 60 to 90 seconds: a surprise,
-a correction, a number that lands, or the part nobody checks.
-Transitions are one sentence. Biggest payoff near the end, then a
-short honest wrap and the sign off. Label each chapter with a short
-bracketed title line, usable later for YouTube chapters.
+Only evidence meeting the attached LOCKED standard belongs in the
+script as fact. Leave softer claims out and name any missing answer
+that changes the story. Do not add facts to fill a quota or runtime.
+Prefer a shorter useful script over padding. For exact figures and
+identifiers, preserve the source wording and check units and digits.
+Recheck added factual claims during conversational revisions too.
 
-DENSITY. Long form earns its length with detail, not padding. Every
-chapter carries exact figures, casting or part numbers, dates, or
-breakpoints from the dossier. If a chapter cannot be built from
-LOCKED material, cut the chapter rather than softening the standard.
+FORMAT: a long video, normally 8 to 12 minutes unless NOTES say
+otherwise. Strong opening, clear progression, useful mechanical
+explanations, payoff, sign off. Use short chapter headings where
+helpful. If the evidence cannot carry the target, shorten it.
 
-HARD RULES:
-- Only LOCKED facts stated as fact. LIKELY material may appear only
-  with its uncertainty spoken ("the record points to, but does not
-  confirm"). No em dashes. No emojis. Ranges as "1994 to 1997".
-- Any claim not in the dossier goes in NEW CLAIMS with tier and
-  named source. If there are none, write "None, all claims from the
-  dossier."
+Reply directly in chat under these headings:
+SCRIPT: complete copy, clean and ready to record or post.
+EVIDENCE: compact list covering every factual claim in the script.
+Give each a local ID, tier, exact claim, source title/publisher, URL,
+page or section, and the years/configuration actually supported.
+Quote the source text for numbers, dates, identifiers, and fitment.
+Reuse a source entry across claims; no giant dossier or TSV required.
+OPEN QUESTIONS: unresolved points, conflicting evidence, and checks
+you could not complete. Say when a missing answer changes the premise.
+RUNTIME: estimate, or character counts for posts.
 
-OUTPUT, plain text under these exact headers, in this order:
-SCRIPT: the finished script, chapters labeled.
-NEW CLAIMS: as defined above.
-CLAIM MAP: each chapter and the claim IDs it rests on.
-RUNTIME: per chapter and total, against the stated target.
-
-DELIVERY. Reply directly in chat under the exact output headers. No
-preamble or commentary between sections. Do not create or attach a
-file; the app splits the pasted text into the Writer.
+No em dashes. No emojis. Ranges written as "1994 to 1997".
+Keep evidence outside the spoken copy. No files required.
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P2C <span>·</span> Post write-ups</div><div class="spacer"></div><button class="copybtn" data-copy="pp2c">Copy prompt</button></div>
-        <pre id="pp2c">CHAT: the same chat as P1.
+        <pre id="pp2c">CHAT: use a browsing-capable AI. Research and write in this same
+chat, then revise conversationally until the script sounds right.
 
-Write platform post write-ups for Inside The Case Auto: the written
-version of one mechanical story, built for readers, not voiceover.
-The dossier below is the sole factual basis.
+Research the specific story below and write it for Inside The Case
+Auto. No dossier, coverage plan, or research-file pipeline is required.
 
-STORY: <span class="slot" data-for="topic">[FILL IN, or write "pick from the content plan"]</span>
-NOTES: <span class="slot" data-for="angle">[FILL IN, or "none"]</span>
+STORY: <span class="slot" data-for="topic">[DESCRIBE THE STORY YOU WANT]</span>
+NOTES: <span class="slot" data-for="angle">[OPTIONAL DIRECTION, LENGTH, OR LIMITS]</span>
 
-PICK RULE. If STORY reads "pick from the content plan", choose the
-story that reads better than it watches, usually an identification
-guide, a comparison table, or a year by year breakdown, and state
-your choice on the first line.
+Work only on questions needed to explain this story and catch a
+misleading omission. Check the premise before committing to a hook;
+correct it if the evidence disagrees. Research before drafting.
+Actively search outside any supplied notes or dossiers. Open the
+actual sources, check their applicable years and configurations,
+and look for contradictory evidence. Supplied claim IDs and LOCKED
+labels are leads to recheck, not proof. Do not infer factory fitment
+from service replacement listings, or spread one year across a run.
+Do not invent a fact, citation, quote, or completed check from memory.
+If browsing is unavailable, say so and use only supplied primary
+source excerpts you can inspect; mark everything else as unresolved.
 
-PLATFORM LIMITS, verified August 2026. What matters is not the
-maximum, it is the fold: the point where the platform hides the rest.
-- FACEBOOK POST. Maximum 63,206 characters, far more than you need.
-  The fold is not fixed: Facebook collapses behind "See more" based
-  on how many lines fit, and reported cutoffs run from about 125
-  characters on mobile to about 477 on desktop. Land the hook and the
-  tension inside the first 125 characters, never later than 250. Full
-  post 600 to 1,200 characters. Up to 3 relevant hashtags, or none.
-  Links go in the first comment, not the body.
-- YOUTUBE COMMUNITY POST. The maximum runs into the thousands and is
-  not the constraint. Only the first 288 characters show before "Read
-  more". Put the correction or the surprise inside those 288. Full
-  post 800 to 1,500 characters.
+Only evidence meeting the attached LOCKED standard belongs in the
+script as fact. Leave softer claims out and name any missing answer
+that changes the story. Do not add facts to fill a quota or runtime.
+Prefer a shorter useful script over padding. For exact figures and
+identifiers, preserve the source wording and check units and digits.
+Recheck added factual claims during conversational revisions too.
 
-BOTH POSTS:
-- Only LOCKED facts stated as fact. No em dashes. No emojis in the
-  body. Ranges written as "1994 to 1997".
-- An honest question closer is allowed to invite comments ("which one
-  would you run"), never bait.
-- State the character count after each post.
+FORMAT: Facebook and YouTube Community posts. Write two versions
+of this story under FACEBOOK POST and YOUTUBE COMMUNITY POST within
+SCRIPT. Put the point early, use short paragraphs, and give character
+counts. Do not pad to a platform limit or add a script sign off.
 
-OUTPUT, plain text under these exact headers, in this order:
-FACEBOOK POST: the post, then its character count.
-YOUTUBE COMMUNITY POST: the post, then its character count.
-NEW CLAIMS: any claim not in the dossier, with tier and named source.
-If there are none, write "None, all claims from the dossier."
+Reply directly in chat under these headings:
+SCRIPT: complete copy, clean and ready to record or post.
+EVIDENCE: compact list covering every factual claim in the script.
+Give each a local ID, tier, exact claim, source title/publisher, URL,
+page or section, and the years/configuration actually supported.
+Quote the source text for numbers, dates, identifiers, and fitment.
+Reuse a source entry across claims; no giant dossier or TSV required.
+OPEN QUESTIONS: unresolved points, conflicting evidence, and checks
+you could not complete. Say when a missing answer changes the premise.
+RUNTIME: estimate, or character counts for posts.
 
-A post is published copy, so it gets the same fact check a script
-gets. Run these through P3 before posting.
-
-DELIVERY. Reply directly in chat under the exact output headers. No
-preamble or commentary between sections. Do not create or attach a
-file; the app splits the pasted text into the Writer.
+No em dashes. No emojis. Ranges written as "1994 to 1997".
+Keep evidence outside the spoken copy. No files required.
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
@@ -2489,51 +2494,49 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       <p class="lead">Runs on anything about to be published: a Short script, a long form script, or the P2C posts. Nothing reaches an audience without this pass.</p>
       <div class="promptbox">
         <div class="phead"><div class="pt">Prompt P3 <span>·</span> Copy audit</div><div class="spacer"></div><button class="copybtn" data-copy="pp3">Copy prompt</button></div>
-        <pre id="pp3">CHAT: a new blank chat with no prior messages, project instructions,
-or inherited source context. Use a different model than the writer if
-practical. P4 and P5 may continue in this chat afterwards.
+        <pre id="pp3">CHAT: a new blank chat with a browsing-capable AI, with no inherited
+research conversation. Use a different model if practical.
 
-Audit this copy line by line against the dossier below. Both are in
-this message. The copy is a video script or a written post, and
-either way it is about to be published. Assume it has errors and find
-them.
+Independently fact-check this script or post before publication.
+Verify every factual claim against actual outside sources, including
+claims supplied notes or dossiers label LOCKED. Agreement with a
+dossier or the writer's evidence list is not independent verification.
+Open original sources, test the premise and broad implications, and
+search for contradictions, exceptions, and omitted qualifications.
+Use the evidence standard attached below. Never invent a source,
+quote, or claim of having checked something you could not inspect.
+If browsing is unavailable, explicitly report the limitation and
+do not return a clean verdict for claims you could not verify.
 
-Check, one at a time:
-- Every factual claim in the copy against the dossier: CONFIRMED with
-  its claim ID, CONTRADICTED, or NOT FOUND.
-- Any claim not in the dossier: independently verify by web search,
-  tier it, and flag it as a new claim.
-- Any claim below LOCKED stated as fact. That is a stop and fix.
-- Numbers, years, casting numbers, and part numbers, individually,
-  digit by digit.
-- Voice and style: em dashes, emojis, range formatting (must read
-  "1994 to 1997"), sentence length, hype language, filler.
-- If it is a script: runtime against target, and structure, meaning
-  is the hook strong, is there a real retention beat, does the payoff
-  land. Also density: at least one exact figure, number, or date
-  every twenty seconds of runtime.
-- If it is a post: character count against the platform fold, and
-  whether the hook lands before it. Facebook hides past about 125
-  characters on mobile, YouTube community past 288.
+Check every number, unit, date, identifier, year range, application,
+fitment, causal explanation, and use of words such as all or never.
+Separate original equipment from replacement/service compatibility.
+Check that the hook and payoff do not overstate narrower evidence.
+Check voice, clarity, runtime, and style after factual accuracy.
+Do not impose a number or fact-density quota.
 
-OUTPUT, in this order:
-1. AUDIT TABLE: each line or beat, its verdict, the claim ID, and the
-   evidence.
-2. REQUIRED FIXES ranked by severity. One is a factual error that
-   must not be published. Two is a tier or sourcing problem. Three is
-   voice, style, structure, or density.
-3. CORRECTED COPY: the full script or post, clean and ready, with
-   every fix applied. Restate it completely; it will be used
-   directly.
-
-DELIVERY. Reply directly in chat. Give the audit table and required
-fixes as plain text, then put the complete CORRECTED COPY in one fenced
-plain-text block for clean copying into the Writer. Do not create or
-attach a PDF or other file. No preamble and no summary substitute.
+OUTPUT:
+VERDICT: CLEAN only when every retained factual claim was checked
+and meets LOCKED. Otherwise NEEDS FIXES or UNRESOLVED. A corrected
+version may earn CLEAN only after its retained claims are verified.
+CHECKS: each factual claim, VERIFIED / CONTRADICTED / UNRESOLVED,
+source title/publisher, URL, page or section, actual applicability,
+and supporting excerpt for figures, identifiers, years, and fitment.
+REQUIRED FIXES: factual corrections and anything still unresolved.
+CORRECTED COPY: complete clean copy in one plain-text fenced block.
+Remove or narrow unsupported claims; do not silently replace them
+with new unchecked facts. Preserve the user's intended story and voice.
+EVIDENCE: compact updated source notes for the retained final claims,
+including any change made during this check, ready to carry to cards.
+LIMITS: sources you could not open and checks you could not complete.
+Say explicitly if removing an unresolved claim leaves no usable story.
 
 No em dashes. No emojis. Ranges written as "1994 to 1997".
+Reply in chat. No files required.
 
 SCRIPT OR POST: [PASTE THE FINAL COPY]
+
+SOURCE NOTES: [PASTE SOURCE NOTES IF AVAILABLE]
 
 DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
       </div>
@@ -2549,7 +2552,7 @@ DOSSIER: [PASTE THE COMPLETE DOSSIER]</pre>
         <pre id="pp4">CHAT: the same chat as P3, where the copy was just audited.
 
 Write the on-screen info cards for this video in the ITC HQ Card
-Generator machine format. The script and the dossier are both below.
+Generator machine format. The audited script and available evidence are below.
 Output card blocks ready to paste into the generator with zero edits.
 
 Cards are the depth layer, not subtitles. Use them where the script
@@ -2557,7 +2560,7 @@ compresses or skips useful LOCKED detail such as casting numbers,
 breakpoints, spline counts, ratios, or application tables.
 
 HARD RULES:
-- Pull card content from the dossier, not from the script wording.
+- Pull card content from verified evidence, not from script wording.
   Cards add, they never echo what the voiceover already says in full.
 - Only LOCKED facts on cards. LIKELY and UNVERIFIED can go in a
   pinned comment, never on a card.
@@ -2593,13 +2596,10 @@ Produce interesting facts only: DID YOU KNOW, plus an occasional
 actionable TIP. No corrections, warnings, or housekeeping. A popup is
 a short overlay for one worthwhile fact that does not need a full card.
 
-WHERE THEY COME FROM. The dossier holds far more than any script can
-say, and that surplus is exactly what popups are for. Work from the
-CORE claims, not from the script's wording. The richest seams are
-section 14 SURPRISES, the myths section 13 settled as CONFIRMED or
-HALF TRUE, and the figures ledger in section 27, because a specific
-number is almost always more interesting than the sentence around it.
-Also good:
+WHERE THEY COME FROM. Use the audited source notes and any optional
+Library references. Research additional useful details only when you
+can open the source and verify them. Never invent a fact or credit
+to reach a target count. Fewer supported popups are fine. Also good:
 - a number the script rounds, skips, or generalises
 - a casting number, part number, date code, or spline count
 - an identification tell someone could use on a real part
@@ -2611,9 +2611,8 @@ know that”? Reject echoes of the voiceover, trivial minutiae, and facts
 that need setup before the point lands.
 
 HOW MANY. 6 to 10 for a Short, so there is something to cut from.
-Long form scales up, roughly one every 30 to 45 seconds. Over-produce
-deliberately: dropping a weak popup at edit time is easy, inventing a
-good one at edit time is not.
+Long form scales up, roughly one every 30 to 45 seconds. These are optional upper targets. Return fewer when the evidence
+does not support more.
 
 HARD RULES:
 - Only LOCKED facts. LIKELY and UNVERIFIED belong in the pinned
@@ -3039,7 +3038,7 @@ source: Ford workshop manual      <span class="k">optional small credit</span></
    To modify: hand this repository to Claude Code or Codex and describe the change.
    ================================================================ */
 'use strict';
-const APP_VERSION = 'v8.10';
+const APP_VERSION = 'v8.11';
 document.getElementById('vtag').textContent = APP_VERSION;
 document.getElementById('verline').textContent = 'ITC HQ ' + APP_VERSION;
 
@@ -3307,6 +3306,7 @@ function dossierSchemaText(){
   }).filter(Boolean).join('\n');
 }
 function withBlocks(id, text){
+  if(['pp2a','pp2b','pp2c','pp3','pp4','pp4b'].includes(id)) text += '\n\n' + document.getElementById('evidenceRules').textContent;
   if(['pp2a','pp2b','pp2c'].includes(id)) text += '\n\n' + VOICE_CARD;
   if(id==='pp4') text += CARD_FULL_SNIPPET;
   if(id==='pp4b') text += P4B_POPUP_SNIPPET;
@@ -3354,8 +3354,7 @@ function styleBlock(over){
     'Ranges written as "' + r.range + '".\n' +
     'Sign off: "' + r.signoff + '" or "' + r.signoffAlt + '".\n' +
     'Runtime targets: a Short runs ' + r.shortTarget + ', long form ' + r.longTarget +
-    '. Carry at least one exact figure, date, or breakpoint every ' + r.density +
-    ' seconds of runtime.\n' +
+    '. Use exact detail when it serves the story; never add facts to meet a quota.\n' +
     'Hashtags: ' + r.hashtags + ' focused tags, never a stack.';
   if(r.extras && r.extras.trim()) t += '\n\nHOUSE RULES.\n' + r.extras.trim();
   return t;
@@ -4124,7 +4123,7 @@ function productionBundle(tags){
   (tags||[]).forEach(tag=>{ const d=getDossier(tag); if(d&&dossierReady(d)&&!chosen.some(x=>x.tag===d.tag)) chosen.push(d); });
   const parts=['ITC PRODUCTION KNOWLEDGE BUNDLE',
     'DOSSIERS USED: '+chosen.map(d=>d.tag).join(', '),
-    'Claim IDs are namespaced TAG:C123. Treat LIBRARY READY as canonical; honor every blocker and open question. If dossiers conflict, flag CROSS-CHECK NEEDED and do not guess.',
+    'Claim IDs are namespaced TAG:C123. Recheck relevant claims against original sources, including LIBRARY READY material; honor every blocker and open question. Research outside the bundle to resolve conflicts and gaps. Do not guess.',
     'Sections included: '+PRODUCTION_SECTIONS.join(', ')+'. Source registries and the full master tables stay in the stored library to keep this prompt bounded.',''];
   chosen.forEach(d=>{
     const status=String(d.status||'ready').toUpperCase();
@@ -4254,6 +4253,11 @@ renderShelf();
    final audit, cards, and transcript-based video details.
    ---------------------------------------------------------------- */
 const BS_TRACKS = {
+  script_first: [
+    { key:'script', label:'Research + write', n:'1' },
+    { key:'audit', label:'Independent check', n:'2' },
+    { key:'filed', label:'Done', n:'✓' }
+  ],
   research: [
     { key:'scope',    label:'Scope',           n:'R1' },
     { key:'deep',     label:'Deep research',   n:'R2' },
@@ -4300,7 +4304,7 @@ const bsWrap = document.getElementById('bsWrap');
 let bsView = null;
 let bsHistOpen = false;
 let bsSetOpen = false;
-let bsPromptOpen = true;
+let bsPromptOpen = false;
 
 /* The tag, subject and direction are set once and carried by every
    prompt after. Editable here so a typo or a sharpened scope does not
@@ -4311,12 +4315,12 @@ function bsSettings(st, s){
   box.appendChild(bsEl('<label>Tag</label>'));
   const tagIn = bsEl('<input maxlength="32">');
   tagIn.value = s.tag || s.dossierTag || '';
-  tagIn.disabled = !isResearch;
+  tagIn.disabled = !isResearch && !s.scriptFirst;
   box.appendChild(tagIn);
   box.appendChild(bsEl('<p class="bs-note" style="margin:6px 0 0">'+
     (isResearch
       ? 'Names every file this job produces, the Writer doc, and the card exports. Changing it renames what comes next, not what you already saved.'
-      : 'Locked to the dossier this job draws from, so the two cannot drift apart.')+'</p>'));
+      : 'Names this script and its exports. Library references are optional and can be changed below.')+'</p>'));
   if(s.kind==='production') box.appendChild(bsDossierPicker(st,s));
   box.appendChild(bsEl('<label>Subject</label>'));
   const nameIn = bsEl('<input placeholder="What this is, in plain words">');
@@ -4352,7 +4356,7 @@ function bsSettings(st, s){
   const save = ()=>{
     clearTimeout(timer);
     timer = setTimeout(()=>{
-      if(isResearch){
+      if(isResearch || s.scriptFirst){
         const t = cleanTag(tagIn.value);
         if(t) s.tag = t;
       }
@@ -4372,7 +4376,7 @@ function bsSettings(st, s){
 }
 
 function selectedDossierTags(s){
-  const primary=s.dossierTag||s.tag, out=[];
+  const primary=s.scriptFirst? s.dossierTag : (s.dossierTag||s.tag), out=[];
   [primary].concat(Array.isArray(s.dossierTags)?s.dossierTags:[]).forEach(tag=>{
     if(tag && getDossier(tag) && dossierReady(getDossier(tag)) && !out.includes(tag)) out.push(tag);
   });
@@ -4380,7 +4384,7 @@ function selectedDossierTags(s){
 }
 function bsDossierPicker(st,s){
   const wrap=bsEl('<div></div>');
-  wrap.appendChild(bsEl('<label>Dossiers used by every production prompt</label>'));
+  wrap.appendChild(bsEl('<label>Optional Library references</label>'));
   const pick=bsEl('<div class="shpick"></div>'), selected=selectedDossierTags(s);
   const primary=s.dossierTag||s.tag, main=getDossier(primary);
   const related=main&&Array.isArray(main.relatedTags)?main.relatedTags:[];
@@ -4392,11 +4396,12 @@ function bsDossierPicker(st,s){
     const b=bsEl('<button type="button"></button>');
     b.textContent=d.tag+(related.includes(d.tag)?' · related':'');
     if(selected.includes(d.tag)) b.classList.add('on');
-    if(d.tag===primary) b.disabled=true;
+    if(d.tag===primary && !s.scriptFirst) b.disabled=true;
     b.addEventListener('click',()=>{
       const now=selectedDossierTags(s), i=now.indexOf(d.tag);
       if(i>=0) now.splice(i,1); else now.push(d.tag);
-      s.dossierTags=[primary].concat(now.filter(t=>t!==primary));
+      s.dossierTags=s.scriptFirst? now : [primary].concat(now.filter(t=>t!==primary));
+      if(s.scriptFirst) s.dossierTag='';
       s.updated=Date.now(); bsSave(st); renderShort(); refreshPlaybook();
     });
     pick.appendChild(b);
@@ -4404,7 +4409,7 @@ function bsDossierPicker(st,s){
   wrap.appendChild(pick);
   const bundle=productionBundle(selected);
   const words=(bundle.match(/\S+/g)||[]).length;
-  wrap.appendChild(bsEl('<p class="bs-note" style="margin:6px 0 0">Primary stays selected. Add every dossier that overlaps the story, years, vehicle, engine, transmission, axle, transfer case, or mating component. Current bundle: <b>'+selected.map(esc).join(', ')+'</b> · '+words.toLocaleString()+' words.</p>'));
+  wrap.appendChild(bsEl('<p class="bs-note" style="margin:6px 0 0">Select only relevant references. Writing and audit still research outside them. Current bundle: <b>'+selected.map(esc).join(', ')+'</b> · '+words.toLocaleString()+' words.</p>'));
   return wrap;
 }
 
@@ -4433,7 +4438,7 @@ function bsNorm(s){
   if(s.kind==='research' && BS_RESEARCH_MIGRATE[s.status]) s.status = BS_RESEARCH_MIGRATE[s.status];
   if(s.kind==='production'){
     if(BS_PRODUCTION_MIGRATE[s.status]) s.status = BS_PRODUCTION_MIGRATE[s.status];
-    const primary=s.dossierTag||s.tag, tags=[];
+    const primary=s.scriptFirst? s.dossierTag : (s.dossierTag||s.tag), tags=[];
     [primary].concat(Array.isArray(s.dossierTags)?s.dossierTags:[]).forEach(tag=>{
       if(tag && !tags.includes(tag)) tags.push(tag);
     });
@@ -4454,6 +4459,7 @@ function bsSave(st){ store.set('shorts', st); }
    kind of job, so everything that asks "is this research" keeps working
    and only the stage list changes */
 function bsTrack(s){
+  if(s && s.kind==='production' && s.scriptFirst && !s.extras) return BS_TRACKS.script_first;
   if(s && s.kind==='research' && s.light) return BS_TRACKS.research_light;
   return (s && BS_TRACKS[s.kind]) || BS_TRACKS.research;
 }
@@ -4473,6 +4479,7 @@ function bsWirePaste(ta, st, s, key){
   ta.addEventListener('input', ()=>{
     upd();
     clearTimeout(timer);
+    if(s.scriptFirst){ s[key]=ta.value; bsSave(st); return; }
     timer = setTimeout(()=>{ s[key] = ta.value; bsSave(st); }, 600);
   });
   return meta;
@@ -4551,7 +4558,7 @@ function bsFile(st){
   }
   s.status = (s.kind==='production')? 'filed' : 'shelved';
   s.updated = Date.now();
-  st.history.unshift(s); st.history = st.history.slice(0,20); st.active = null;
+  st.history.unshift(s); st.active = null;
   bsView = null; bsSave(st); renderShort();
 }
 
@@ -4565,25 +4572,17 @@ function bsFill(preId, s, topic, note){
   return buildPrompt(preId, pre.textContent);
 }
 function bsDossierText(s){ const d = getDossier(s.dossierTag); return d? (d.text||'') : ''; }
-function bsProductionText(s){ return productionBundle(selectedDossierTags(s)); }
+function bsProductionText(s){ const tags=selectedDossierTags(s); return tags.length? productionBundle(tags) : ''; }
 const P_DOSSIER_MARK = '[PASTE THE COMPLETE DOSSIER]';
-/* A finished dossier holds far more than any video needs, which is how
-   scripts end up clinging to detail nobody asked for. R7 routes every
-   claim CORE or REFERENCE; the production prompts are told to write from
-   CORE and leave the rest as background. Attached here rather than
-   written into seven prompts, so it stays in one place. */
-const CORE_NOTE =
-'HOW TO READ THE DOSSIER. Every claim is routed CORE or REFERENCE. Write\n'+
-'from the CORE claims. REFERENCE claims exist so the record is complete\n'+
-'and were never meant for an audience: read them for context, do not\n'+
-'build a line, a card or a beat on one, and do not let them pull the\n'+
-'writing toward detail nobody needs. If a REFERENCE claim genuinely\n'+
-'belongs on screen, say so in one line and name it rather than quietly\n'+
-'promoting it. A dossier with no routing predates this rule, so treat\n'+
-'every claim in it as CORE.\n';
+/* Optional shelf material supplies research leads, never a factual boundary.
+   Both writing and audit prompts still require outside verification. */
+const CORE_NOTE = 'OPTIONAL LIBRARY REFERENCES. CORE and REFERENCE are relevance labels, not truth.\n'+
+  'Use any relevant material as a lead and verify it against original sources.\n'+
+  'Research outside this bundle wherever the story needs it.\n';
 function withDossier(text, s){
+  const bundle = bsProductionText(s);
   return text.replace('DOSSIER: ' + P_DOSSIER_MARK,
-    CORE_NOTE + '\n' + bsProductionText(s));
+    bundle? CORE_NOTE + '\n' + bundle : 'OPTIONAL LIBRARY REFERENCES: none supplied. Research the story directly.');
 }
 
 function prR1(s){ return bsFill('pr1', s, s.name || s.tag, s.angle); }
@@ -4624,39 +4623,24 @@ function prR8b(s){ return promptText('pr8b')
 
 function ppP1(s){ return withDossier(promptText('pp1'), s); }
 function ppP2(id, s){
-  const story = s.autoPick? 'pick from the content plan' : (s.story || 'pick from the content plan');
+  const story = s.autoPick? 'pick from the content plan' : (s.story || s.name || '[DESCRIBE THE STORY YOU WANT]');
   return withDossier(bsFill(id, s, story, s.angle), s);
-}
-/* The copy audit reads the selected production bundle. Unselected shelf
-   subjects still travel as a tag list so P3 can flag a boundary the user
-   may have missed without silently attaching the whole library. */
-function ppSiblingCheck(s){
-  const used=selectedDossierTags(s);
-  const others = dossierList().filter(d=>!used.includes(d.tag) && dossierReady(d));
-  if(!others.length) return '';
-  return 'CROSS-DOSSIER CHECK. These other dossiers are finished and on\n'+
-    'the shelf: ' + others.map(d=>d.tag + (d.name? ' ('+d.name+')' : '')).join(', ') + '.\n'+
-    'You do not have their text. Read the copy for any claim that reaches\n'+
-    'into one of those subjects, or that would have to agree with one, and\n'+
-    'list it under CROSS-CHECK NEEDED with the dossier that would settle\n'+
-    'it. Do not guess what those dossiers say and do not assume they\n'+
-    'agree. If nothing in the copy touches them, write CROSS-CHECK NEEDED:\n'+
-    'none, which is a real result.\n\n';
 }
 function bsScriptText(s){
   return ((s && s.finalScript) || '').trim() || writerText();
 }
 function ppP3(s){
   const raw = document.getElementById('pp3').textContent
-    .replace('SCRIPT OR POST: [PASTE THE FINAL COPY]',
-             ppSiblingCheck(s) + 'SCRIPT OR POST: [PASTE THE FINAL COPY]')
-    .replace('[PASTE THE FINAL COPY]', '\n' + bsScriptText(s));
+    .replace('[PASTE THE FINAL COPY]', '\n' + bsScriptText(s))
+    .replace('[PASTE SOURCE NOTES IF AVAILABLE]', (s.evidence||'').trim() || 'None supplied. Verify directly from outside sources.');
   return withDossier(buildPrompt('pp3', raw), s);
 }
 function ppP4(s){ return withDossier(promptText('pp4')
-  .replace('[PASTE THE FINAL SCRIPT]', '\n' + bsScriptText(s)), s); }
+  .replace('[PASTE THE FINAL SCRIPT]', '\n' + bsScriptText(s)), s)
+  + '\n\nAUDITED SOURCE NOTES:\n' + (s.evidence||'None supplied. Open and verify sources for every added card fact.'); }
 function ppP4b(s){ return withDossier(promptText('pp4b')
-  .replace('[PASTE THE FINAL SCRIPT]', '\n' + bsScriptText(s)), s); }
+  .replace('[PASTE THE FINAL SCRIPT]', '\n' + bsScriptText(s)), s)
+  + '\n\nAUDITED SOURCE NOTES:\n' + (s.evidence||'None supplied. Open and verify sources for every added popup fact.'); }
 function ppP5(s){
   const format = (s && s.videoFormat) || ((s && s.format)==='pp2b'? 'Long form' : 'Short');
   return promptText('pp5')
@@ -5058,8 +5042,24 @@ function bsPanelIdea(st, s){
   row.appendChild(go); p.appendChild(row);
   return p;
 }
+function bsEvidenceField(st,s){
+  const box=bsEl('<details class="pbsec"><summary><span class="sn">+</span><span class="st">Source notes · optional handoff</span><span class="arrow">›</span></summary><div class="secbody"></div></details>');
+  const body=box.querySelector('.secbody');
+  body.appendChild(bsEl('<p class="bs-note">Paste EVIDENCE from the writer, then replace it with the updated evidence after the independent check. This travels with audit and card prompts. No file or dossier required.</p>'));
+  const ta=bsEl('<textarea class="bs-paste" aria-label="Source notes" placeholder="Compact claim-to-source notes, URLs, excerpts, and limits"></textarea>');
+  ta.value=s.evidence||'';
+  ta.addEventListener('input',()=>{s.evidence=ta.value;bsSave(st);});
+  body.appendChild(ta);return box;
+}
+
 function bsPanelScript(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
+  if(s.scriptFirst){
+    p.appendChild(bsEl('<label class="small">Your story and direction</label>'));
+    const brief=bsEl('<textarea class="bs-paste" aria-label="Story and direction"></textarea>');
+    p.appendChild(brief); p.appendChild(bsWirePaste(brief,st,s,'story'));
+    brief.addEventListener('input',()=>{s.story=brief.value;bsSave(st);});
+  }
   p.appendChild(bsEl('<p class="bs-note"><b>Copy the prompt into your AI chat and work back and forth normally.</b> Ask for changes, rewrite sections, combine versions, and keep going until the script sounds right. When it is settled, paste only the final script below. The audit and card prompts will use that saved copy.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
   [['Copy Short script prompt','pp2a'],['Copy long-video script prompt','pp2b'],['Copy post prompt','pp2c']].forEach(pair=>{
@@ -5073,8 +5073,9 @@ function bsPanelScript(st, s){
   p.appendChild(bsEl('<label class="small">Final script after your revisions</label>'));
   const ta=bsEl('<textarea class="bs-paste" style="min-height:250px" placeholder="Paste the final script here after you finish the back-and-forth in AI."></textarea>');
   p.appendChild(ta); p.appendChild(bsWirePaste(ta,st,s,'finalScript'));
+  p.appendChild(bsEvidenceField(st,s));
   const row=bsEl('<div class="bs-row"></div>');
-  const go=bsEl('<button type="button" class="amber">Save final script · audit it</button>');
+  const go=bsEl('<button type="button" class="amber">Save script · independent check</button>');
   go.addEventListener('click',()=>{
     if(!ta.value.trim()){ alert('Paste the final script first.'); return; }
     s.finalScript=ta.value.trim(); bsSetScript(s,s.finalScript); bsAdvance(st,'audit');
@@ -5201,15 +5202,30 @@ function bsPanelClaims(st, s){
 }
 function bsPanelProductionAudit(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note"><b>Now check the script for mistakes.</b> Use a new blank chat and a different model if practical. The audit prompt carries the final script plus every selected dossier. You can also ask the AI plainly to check the script, then use this prompt for the formal factual pass. Paste back the corrected script, or continue if it came back clean.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Check every factual claim against outside sources.</b> Use a fresh browsing-capable AI chat, preferably a different model. The prompt carries your script, source notes, and optional references. A dossier agreement alone cannot earn a clean verdict. Bring back the corrected copy and updated evidence. Resolve any remaining factual issues in that chat before finishing.</p>'));
   const row1 = bsEl('<div class="bs-row"></div>');
-  const c3 = bsEl('<button type="button" class="copybtn">Copy P3 · copy + knowledge bundle attached</button>');
+  const c3 = bsEl('<button type="button" class="copybtn">Copy independent fact-check prompt</button>');
   c3.addEventListener('click', function(){ copyText(ppP3(s), this); });
   row1.appendChild(c3); p.appendChild(row1);
   const ta = bsEl('<textarea class="bs-paste" style="min-height:220px" placeholder="Paste the corrected final script here. Leave this blank if the audit came back clean."></textarea>');
   p.appendChild(ta);
   p.appendChild(bsWirePaste(ta, st, s, 'auditDraft'));
-  if(s.status==='audit'){
+  p.appendChild(bsEvidenceField(st,s));
+  if(s.status==='audit' && s.scriptFirst){
+    const row=bsEl('<div class="bs-row"></div>');
+    const finish=(extras)=>{
+      s.auditDraft=ta.value.trim();
+      if(s.auditDraft){s.finalScript=s.auditDraft;bsSetScript(s,s.finalScript);s.auditDraft='';}
+      s.auditConfirmed=true;
+      if(extras){s.extras=true;bsAdvance(st,'cards');} else bsFile(st);
+    };
+    const done=bsEl('<button type="button" class="amber">Check resolved · finish script</button>');
+    done.addEventListener('click',()=>finish(false));
+    const extras=bsEl('<button type="button" class="ghost">Check resolved · optional cards + upload details</button>');
+    extras.addEventListener('click',()=>finish(true));
+    row.appendChild(done);row.appendChild(extras);p.appendChild(row);
+    p.appendChild(bsEl('<p class="bs-note">Finish only when the audit confirms the retained claims are verified. Source notes stay with this job for cards or later review.</p>'));
+  } else if(s.status==='audit'){
     const row = bsEl('<div class="bs-row"></div>');
     const apply = bsEl('<button type="button" class="amber">Apply corrected copy · on to Cards</button>');
     apply.addEventListener('click', ()=>{
@@ -5241,7 +5257,7 @@ function cardReplyParts(text){
 }
 function bsPanelCards(st, s){
   const p = bsEl('<div class="bs-stage"></div>');
-  p.appendChild(bsEl('<p class="bs-note"><b>Generate the cards after the script is accurate.</b> P4 and P4B carry the audited final script, the selected knowledge bundle, and the card format. Paste the reply below to route the blocks into the Cards tab. If this video needs no cards, continue to the transcript step.</p>'));
+  p.appendChild(bsEl('<p class="bs-note"><b>Generate the cards after the script is accurate.</b> P4 and P4B carry the audited final script, source notes, optional Library references, and the card format. Paste the reply below to route the blocks into the Cards tab. If this video needs no cards, continue to the transcript step.</p>'));
   const rowC = bsEl('<div class="bs-row"></div>');
   const copyBtn = bsEl('<button type="button" class="copybtn">Copy P4 · cards</button>');
   copyBtn.addEventListener('click', function(){ copyText(ppP4(s), this); });
@@ -5261,7 +5277,7 @@ function bsPanelCards(st, s){
     const specs = parts.specs;
     if(specs.indexOf('===')===-1){ alert('No blocks found. The paste needs the === CARD or === POPUP lines from P4 or P4B.'); return; }
     specEl.value = specs; specEl.dispatchEvent(new Event('input'));
-    tagEl.value = s.dossierTag; tagEl.dispatchEvent(new Event('input'));
+    tagEl.value = s.tag || s.dossierTag; tagEl.dispatchEvent(new Event('input'));
     s.sections = s.sections || {};
     s.sections['PLACEMENT MAP'] = parts.notes;
     s.updated = Date.now(); bsSave(st); renderShort();
@@ -5343,7 +5359,11 @@ function manualPromptText(id){
   const s = bsState().active;
   if(id==='pr8a' && (!s || s.kind!=='revise')) return standaloneR8a();
   if(id==='pr8b' && (!s || s.kind!=='revise' || !String(s.findings||'').trim())) return standaloneR8b();
-  if(!s) return promptText(id);
+  if(!s){
+    if(['pp2a','pp2b','pp2c','pp3','pp4','pp4b'].includes(id))
+      return withDossier(promptText(id), {dossierTags:[]});
+    return promptText(id);
+  }
   try{
     if(s.kind==='research'){
       if(id==='pr1') return prR1(s);
@@ -5357,7 +5377,7 @@ function manualPromptText(id){
       if(id==='pr8a') return prR8a(s);
       if(id==='pr8b') return prR8b(s);
     }
-    if(s.kind==='production' && selectedDossierTags(s).length){
+    if(s.kind==='production'){
       if(id==='pp1') return ppP1(s);
       if(['pp2a','pp2b','pp2c'].includes(id)) return ppP2(id,s);
       if(['pp3','pp4','pp4b'].includes(id) && String(s.finalScript||'').trim())
@@ -5370,63 +5390,34 @@ function manualPromptText(id){
 
 function bsScriptDesk(st){
   const box = bsEl('<div class="bs-box scriptdesk"></div>');
-  box.appendChild(bsEl('<div class="kick" style="margin-top:0">WRITE A SCRIPT OR CREATE A POST</div>'));
-  box.appendChild(bsEl('<h2>Create a Short, long-form script, or post.</h2>'));
-  box.appendChild(bsEl('<p class="bs-note" style="margin-top:0">Pick a dossier, describe the story in plain language, and copy the format you want. This skips the content-plan step and creates a ready-to-paste AI prompt immediately. The dossier supplies the facts.</p>'));
-  const ready = dossierList().filter(dossierReady);
-  if(!ready.length){
-    box.appendChild(bsEl('<div class="emptymsg">Add a finished dossier to the Library first. Script prompts need a verified factual source.</div>'));
-    const row = bsEl('<div class="bs-row"></div>');
-    const lib = bsEl('<button type="button" class="amber">Open Library · add a dossier</button>');
-    lib.addEventListener('click', ()=>showView('library'));
-    row.appendChild(lib); box.appendChild(row);
-    return box;
-  }
-  const form = bsEl('<div class="logform"><div class="r"><select class="i-script-doss" aria-label="Dossier for the script" style="flex:1"></select></div></div>');
-  const sel = form.querySelector('.i-script-doss');
-  ready.forEach(d=>{
-    const o = document.createElement('option');
-    o.value = d.tag; o.textContent = d.tag + (d.name? ' · '+d.name : '');
-    sel.appendChild(o);
+  box.appendChild(bsEl('<div><div class="kick" style="margin-top:0">SCRIPT FIRST</div><h2>What story do you want to tell?</h2><p class="bs-note">1. Research and write in one AI chat. 2. Independently check the script in a fresh chat. No dossier required.</p></div>'));
+  const draft=store.get('script_brief',{});
+  const idea=bsEl('<textarea class="bs-paste" aria-label="Script idea" placeholder="Describe the script you have in mind. Include the angle, what needs explaining, and any length or limits."></textarea>');
+  idea.value=draft.story||''; box.appendChild(idea);
+  const format=bsEl('<select aria-label="Script format"><option value="pp2a">Short video</option><option value="pp2b">Long video</option><option value="pp2c">Facebook and YouTube posts</option></select>');
+  format.value=draft.format||'pp2a'; box.appendChild(format);
+  const refs=bsEl('<details><summary style="min-height:36px;cursor:pointer">Optional Library reference</summary></details>');
+  const sel=bsEl('<select aria-label="Optional Library reference"><option value="">None · research this story directly</option></select>');
+  shelfReady().forEach(d=>{ const o=document.createElement('option'); o.value=d.tag; o.textContent=d.tag+(d.name?' · '+d.name:''); sel.appendChild(o); });
+  sel.value=draft.dossierTag||''; refs.appendChild(sel); box.appendChild(refs);
+  const save=()=>store.set('script_brief',{story:idea.value,format:format.value,dossierTag:sel.value});
+  [idea,format,sel].forEach(el=>el.addEventListener('input',save));
+  const row=bsEl('<div class="bs-row"></div>');
+  const start=bsEl('<button type="button" class="amber">Start script · copy research + writing prompt</button>');
+  start.addEventListener('click',function(){
+    const story=idea.value.trim();
+    if(!story){ alert('Describe the story you want first.'); idea.focus(); return; }
+    save();
+    const s=bsStartProduction(sel.value,{story,format:format.value,scriptFirst:true,status:'script'});
+    const visible=bsWrap.querySelector('.bs-stage .copybtn.amber');
+    copyText(ppP2(s.format,s),visible||this);
   });
-  box.appendChild(form);
-  const idea = bsEl('<textarea class="bs-paste" placeholder="Type a simple instruction, for example: Explain how to identify an early E4OD and why the connector changed. Include anything that must be covered or avoided."></textarea>');
-  box.appendChild(idea);
-  const row = bsEl('<div class="bs-row"></div>');
-  let chosenFormat = 'pp2a';
-  [['Copy Short prompt','pp2a'],['Copy long-form prompt','pp2b'],['Copy post prompt','pp2c']].forEach(pair=>{
-    const b = bsEl('<button type="button" class="copybtn"></button>');
-    b.textContent = pair[0];
-    b.addEventListener('click', function(){
-      const story = idea.value.trim();
-      if(!story){ alert('Type what you want the AI to write first.'); idea.focus(); return; }
-      chosenFormat = pair[1];
-      const d = getDossier(sel.value);
-      if(!dossierReady(d)){ alert('That dossier is no longer available. Choose another one.'); return; }
-      const draft = { kind:'production', dossierTag:d.tag, dossierTags:[d.tag], tag:d.tag,
-        name:d.name||d.tag, story, angle:'none', autoPick:false, format:pair[1] };
-      copyText(ppP2(pair[1], draft), this);
-    });
-    row.appendChild(b);
-  });
-  box.appendChild(row);
-  box.appendChild(bsEl('<p class="bs-note">Paste the copied prompt into ChatGPT, Gemini, Claude, or another AI. Revise there normally. When the writing is settled, paste it into the Case Writer or start the guided workflow for audit, cards, and publishing.</p>'));
-  const actions = bsEl('<div class="bs-row"></div>');
-  const writer = bsEl('<button type="button" class="ghost">Open Case Writer</button>');
-  writer.addEventListener('click', ()=>showView('writer'));
-  const guided = bsEl('<button type="button" class="ghost">Continue this as a guided job</button>');
-  guided.addEventListener('click', ()=>{
-    const story = idea.value.trim();
-    if(!story){ alert('Type what you want to write first.'); idea.focus(); return; }
-    if(st.active && !confirm('Park the current job and start a production job from this dossier?')) return;
-    bsStartProduction(sel.value, { story, format:chosenFormat, status:'script' });
-  });
-  actions.appendChild(writer); actions.appendChild(guided); box.appendChild(actions);
+  row.appendChild(start); box.appendChild(row);
+  box.appendChild(bsEl('<p class="bs-note">Paste the prompt into an AI with web research. Work back and forth there, then bring the settled script here. Source notes are useful; a full research document is optional.</p>'));
   return box;
 }
-
 function bsPromptDesk(st){
-  const det = bsEl('<details class="pbsec"><summary><span class="sn">ALL</span><span class="st">Copy every prompt manually · R, L, P, and X</span><span class="arrow">›</span></summary><div class="secbody"></div></details>');
+  const det = bsEl('<details class="pbsec"><summary><span class="sn">ALL</span><span class="st">All prompts · optional tools</span><span class="arrow">›</span></summary><div class="secbody"></div></details>');
   det.open = bsPromptOpen;
   det.addEventListener('toggle', ()=>{ bsPromptOpen = det.open; });
   const body = det.querySelector('.secbody');
@@ -5475,24 +5466,25 @@ function bsStartRevision(dossierTag){
   st.active = { id:Date.now(), kind:'revise', dossierTag, tag:dossierTag, name:d.name||dossierTag,
     reason:'', findings:'', finalDoc:'', claimsTsv:'', status:'attack',
     created:Date.now(), updated:Date.now() };
-  st.history = st.history.slice(0,20);
   bsView = null; bsSave(st); renderShort(); showView('home');
 }
 function bsStartProduction(dossierTag, setup){
-  const st = bsState();
-  const d = getDossier(dossierTag);
-  if(!d){ alert('That dossier is not in the Library.'); return; }
-  const cfg = setup || {};
+  const st=bsState(), cfg=setup||{}, d=dossierTag?getDossier(dossierTag):null;
+  if(dossierTag && !d){ alert('That dossier is not in the Library.'); return; }
   if(st.active) st.history.unshift(st.active);
-  st.active = { id:Date.now(), kind:'production', dossierTag, dossierTags:[dossierTag], tag:dossierTag, name:d.name||dossierTag,
-    story:cfg.story||'', angle:cfg.angle||'', autoPick:false, format:cfg.format||'pp2a', status:cfg.status||'plan', created:Date.now(), updated:Date.now(),
-    contentPlan: d.plan||'', sections:{}, claims:[], claimsNone:false, claimsMissing:false };
-  st.history = st.history.slice(0,20);
-  bsView = null; bsSave(st); renderShort(); showView('home');
+  const tag=cfg.scriptFirst? 'SCRIPT_'+Date.now() : dossierTag;
+  st.active={id:Date.now(),kind:'production',scriptFirst:!!cfg.scriptFirst,
+    dossierTag:dossierTag||'',dossierTags:dossierTag?[dossierTag]:[],tag,
+    name:cfg.scriptFirst?cfg.story:(d.name||dossierTag),story:cfg.story||'',
+    angle:cfg.angle||'',autoPick:false,format:cfg.format||'pp2a',
+    status:cfg.status||'plan',created:Date.now(),updated:Date.now(),
+    contentPlan:d?d.plan||'':'',evidence:'',sections:{},claims:[],claimsNone:false,claimsMissing:false};
+  bsView=null; bsSetOpen=false; bsSave(st); renderShort(); showView('home');
+  return st.active;
 }
 function bsStartPanel(st){
   const box = bsEl('<div class="bs-box"></div>');
-  box.appendChild(bsEl('<p class="bs-note">Nothing running. <b>Research a part</b> builds a permanent dossier. <b>Create a script or post</b> draws from a finished dossier. The quick writer above copies a script prompt immediately; the guided route below adds idea planning, factual audit, cards, and publishing details.</p>'));
+  box.appendChild(bsEl('<p class="bs-note">Use these tools when you want a reusable research library or content ideas from an existing dossier. The script workflow above works without them.</p>'));
   box.appendChild(bsEl('<div class="kick" style="margin-top:6px">Research a part</div>'));
   const form = bsEl('<div class="logform">'+
     '<div class="r"><input class="i-tag" placeholder="TAG · e.g. E4OD" maxlength="32" style="max-width:150px">'+
@@ -5531,7 +5523,7 @@ function bsStartPanel(st){
   const ready = dossierList().filter(dossierReady);
   box.appendChild(bsEl('<div class="kick">Create a script or post · guided workflow</div>'));
   if(!ready.length){
-    box.appendChild(bsEl('<div class="emptymsg">No finished dossiers yet. Research one first, or add it by hand on the Library tab.</div>'));
+    box.appendChild(bsEl('<div class="emptymsg">No finished dossiers yet. The script workflow works without one; add a dossier only if you want a reusable reference.</div>'));
   } else {
     const pick = bsEl('<div class="logform"><div class="r"><select class="i-doss" style="flex:1"></select>'+
       '<button type="button" class="amber i-go">Start writing workflow</button></div></div>');
@@ -5554,7 +5546,7 @@ function bsHistory(st){
   if(st.active){
     const park = bsEl('<button type="button" class="ghost" style="width:100%;margin:10px 0 4px;min-height:38px">Park this job and start another</button>');
     park.addEventListener('click', ()=>{
-      st.history.unshift(st.active); st.history = st.history.slice(0,20); st.active = null;
+      st.history.unshift(st.active); st.active = null;
       bsView = null; bsSave(st); renderShort();
     });
     body.appendChild(park);
@@ -5584,6 +5576,22 @@ function bsHistory(st){
     });
     btns.appendChild(d);
     body.appendChild(el);
+    if(h.kind==='production' && h.finalScript){
+      const review=bsEl('<details class="pbsec"><summary><span class="sn">+</span><span class="st">Review saved script and sources</span><span class="arrow">›</span></summary><div class="secbody"></div></details>');
+      const content=review.querySelector('.secbody');
+      const script=bsEl('<div class="bs-pre"></div>'); script.textContent=h.finalScript;content.appendChild(script);
+      const row=bsEl('<div class="bs-row"></div>');
+      const copy=bsEl('<button type="button" class="copybtn">Copy saved script</button>');
+      copy.addEventListener('click',function(){copyText(h.finalScript,this);});row.appendChild(copy);
+      const open=bsEl('<button type="button" class="ghost">Open saved script in Writer</button>');
+      open.addEventListener('click',()=>{bsSetScript(h,h.finalScript);showView('writer');});row.appendChild(open);
+      if(h.evidence){
+        const evidence=bsEl('<div class="bs-pre"></div>');evidence.textContent=h.evidence;content.appendChild(evidence);
+        const sources=bsEl('<button type="button" class="copybtn">Copy saved sources</button>');
+        sources.addEventListener('click',function(){copyText(h.evidence,this);});row.appendChild(sources);
+      }
+      content.appendChild(row);body.appendChild(review);
+    }
   });
   return det;
 }
@@ -5598,9 +5606,11 @@ const BS_PANELS = { scope:bsPanelScope, deep:bsPanelDeep, second:bsPanelSecond, 
 function renderShort(){
   const st = bsState();
   bsWrap.innerHTML = '';
-  bsWrap.appendChild(bsScriptDesk(st));
+  if(!st.active) bsWrap.appendChild(bsScriptDesk(st));
   if(!st.active){
-    bsWrap.appendChild(bsStartPanel(st));
+    const advanced=bsEl('<details class="pbsec"><summary><span class="sn">+</span><span class="st">Optional dossier workflows</span><span class="arrow">›</span></summary><div class="secbody"></div></details>');
+    advanced.querySelector('.secbody').appendChild(bsStartPanel(st));
+    bsWrap.appendChild(advanced);
   } else {
     const s = st.active;
     const box = bsEl('<div class="bs-box"></div>');
@@ -5611,7 +5621,7 @@ function renderShort(){
     head.querySelector('.tag').textContent = s.tag || s.dossierTag;
     head.querySelector('.b-new').addEventListener('click', ()=>{
       if(!confirm('Start something new? This job gets parked in the jobs list, not deleted, so you can pick it back up.')) return;
-      st.history.unshift(st.active); st.history = st.history.slice(0,20); st.active = null;
+      st.history.unshift(st.active); st.active = null;
       bsView = null; bsSave(st); renderShort();
     });
     box.appendChild(head);
@@ -6812,7 +6822,7 @@ align: center`)[0];
       catch(e){ pairRejected=true; }
       if(!pairRejected) fails.push('the final file importer accepted a mismatched TXT and claims TSV pair');
     }catch(e){ fails.push('the v8 package or bundle guard threw: '+e.message); }
-    if(APP_VERSION!=='v8.10') fails.push('the v8.10 code is running under a different APP_VERSION');
+    if(APP_VERSION!=='v8.11') fails.push('the v8.11 code is running under a different APP_VERSION');
     if(LIBRARY_PACKAGE_SCHEMA!==1 || SCHEMA_VERSION!==2) fails.push('app, package, and dossier version boundaries drifted');
   })();
   /* copy-time tokens must always resolve */

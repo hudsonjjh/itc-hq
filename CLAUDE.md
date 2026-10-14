@@ -71,12 +71,25 @@ have it installed as a home-screen app.
 - Ranges written as "1994 to 1997".
 - Facts carry tiers: LOCKED / LIKELY / UNVERIFIED. Only LOCKED goes on
   cards or in scripts.
-- The workflow is playbook v8.8, two tracks, on ChatGPT, Gemini, Claude,
-  and other text-capable AI tools. The **research track** (R1 scope and
+- The default workflow is playbook v8.11: the user describes a specific
+  story, P2A/B/C researches and drafts it in one browsing-capable AI chat,
+  then P3 independently checks every factual claim against outside sources
+  in a fresh chat. No dossier, P1 plan, research files, or TSV is required.
+  Compact `evidence` notes travel with the script into audit and cards.
+  Only verified LOCKED claims are stated as fact. Numbers, identifiers,
+  fitment and year claims carry supporting excerpts and applicability.
+  Browsing limitations and unresolved checks must be explicit; agreement
+  with a dossier cannot earn a clean verdict. Do not add a forced fact-density
+  quota. Cards and transcript-based upload details are optional extras.
+  New jobs remain `kind:'production'` with `scriptFirst:true`; existing
+  production and research jobs retain their saved fields and stage routes.
+  Completed script text and evidence remain reviewable and copyable from
+  Jobs. Job history no longer silently drops older work at 20 records.
+- The **optional research track** (R1 scope and
   coverage plan, R2 deep research, R3 second pass, R4 expansion, R5
   accuracy audit, R6 gap hunt, R7 finalize) builds one permanent
   dossier per part to the fixed schema and shelves it
-  in the Library. The **production track** follows the channel's real work:
+  in the Library. The **optional dossier production track** offers:
   P1 content plan, a user-written choice or combination of ideas, P2A/B/C
   writing with unrestricted conversational revision, P3 final audit, P4
   cards, and P5 upload details from the transcript of the edited video.
@@ -103,16 +116,16 @@ have it installed as a home-screen app.
   last step in a chat restates the whole dossier, which is why R7
   assembles the R4 base plus the R5 and R6 deltas. Do not "fix" a
   delta pass by asking it to restate the dossier again.
-- **CORE and REFERENCE.** Every claim is routed. Production prompts
-  receive `CORE_NOTE` via `withDossier()` and write from CORE only;
-  REFERENCE is background. R8 deliberately does not get that note,
-  because a revision pass has to re-attack everything. Keep the note
-  in one place, not copied into the seven P prompts.
+- **CORE and REFERENCE are relevance labels, not factual boundaries.**
+  Production prompts receive `CORE_NOTE` via `withDossier()` when optional
+  Library material is selected. Both routes can use relevant reference
+  material and must research outside it. Even a LOCKED dossier claim needs
+  independent source verification in P3. Keep the note in one place.
 - Every claim carrying a figure carries a verbatim QUOTE, and section
   27 gathers every figure in the dossier into one ledger. Both exist
   for the same reason: a wrong digit is invisible in prose and obvious
   next to the words it came from.
-- Research is the product. A dossier is never scoped to one video, and
+- In the optional permanent-research track, a dossier is never scoped to one video, and
   R1's question list plus R6's gap hunt exist so a missing answer is
   visible rather than silent. Do not collapse those two steps, and do
   not let R7 mine angles again: that split is what fixed narrow,
@@ -123,13 +136,17 @@ have it installed as a home-screen app.
   rules back into an individual prompt: that duplication is what the
   v6.2 revision removed, and the load-time self-test now fails if the
   blocks stop attaching.
+  P2A/B/C, P3, and P4/P4B append only the authoritative `evidenceRules` span inside
+  `rules`, retaining the same tier/source standard without the dossier
+  schema, sweep inventories, or research-register overhead.
 - **One visible surface.** Work is the only route for research and production.
   The old Playbook DOM remains hidden as the prompt engine and reference
   source, with no navigation tab. Work includes both the guided workflows and
   one permanent manual prompt drawer generated from `MANUAL_PROMPT_GROUPS`.
   Those buttons use the same prompt sources and `FLOW_BUILD` builders, never
-  duplicate prompt text. The direct script launcher builds P2A, P2B, or P2C
-  from a selected Library dossier plus the user's plain-language story. If you
+  duplicate prompt text. The manual drawer starts collapsed, as do optional
+  dossier workflows. The direct script launcher builds P2A, P2B, or P2C
+  from the user's plain-language story with an optional Library reference. If you
   add a prompt, add it to the manual drawer and keep its builder and Work stage
   together; the load-time self-test checks that every prompt has a button.
 - Coverage and accuracy are different questions. Accuracy asks whether
@@ -146,7 +163,7 @@ have it installed as a home-screen app.
   X1 bundle carries by default; if you renumber a schema section,
   that constant and the self-test move with it.
 - **The v8 Library is portable and verified.** App version, dossier schema,
-  and package schema are independent (`v8.8`, dossier schema 2, package schema
+  and package schema are independent (`v8.11`, dossier schema 2, package schema
   1). IndexedDB is canonical when available; `file://` and unsupported
   browsers fall back to localStorage. Every migration, import, and save is
   read back and checked. Real `.itc-library.json` packages are private data
@@ -157,17 +174,17 @@ have it installed as a home-screen app.
   confirm the tag and subject, then saves and verifies one dossier. JSON
   library packages remain whole-shelf backup and restore files. Do not make a
   user build JSON merely to add one completed dossier.
-- **Production can use multiple dossiers.** A job keeps a primary
-  `dossierTag` for compatibility and a `dossierTags` array for the full
+- **Production can use zero or multiple dossiers.** Legacy jobs keep a primary
+  `dossierTag` for compatibility and all jobs use a `dossierTags` array for the full
   selection. `productionBundle()` carries sections 00 to 15, 26 and 27 plus
   the claims companion, and namespaces every claim as `TAG:C123`. Do not
   replace that bounded retrieval with the complete shelf. R8 still receives
   the complete single parent dossier.
-- **X1 is optional and needs two or more finished dossiers.** It is
-  the pass that can answer a `CROSS-CHECK NEEDED` item. P3 receives every
-  dossier the user selected for production and only a tag list for the rest;
-  it flags an omitted boundary instead of guessing. Do not solve that by
-  pasting every dossier on the shelf into P3.
+- **X1 is optional and needs two or more finished dossiers.** Use it to
+  reconcile stored records. P3 independently verifies the script with outside
+  sources and the selected optional references; neither X1 nor a complete
+  shelf paste is a prerequisite for checking a script. A source conflict
+  must be resolved or the affected claim cut or narrowed.
 - R8 is optional and only for a dossier that is already finished. R8A and R8B
   have permanent direct Copy buttons in Work's all-prompts drawer, even with
   an active job or empty Library. Those standalone prompts tell the user to
